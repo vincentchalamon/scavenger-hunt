@@ -1,6 +1,6 @@
-# Treasure hunt PWA to visit Lille
+# Scavenger Hunt
 
-This repository contains a PWA version of my treasure hunt card game to visit Lille.
+This repository contains a scavenger hunt game to visit [Lille](https://maps.app.goo.gl/Q5U1ihYpF3hDB7uq9).
 
 ## License
 

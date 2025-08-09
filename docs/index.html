@@ -1,15 +1,742 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treasure Hunt in Lille</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Scavenger hunt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="main.css" rel="stylesheet" crossorigin="anonymous">
 </head>
-<body>
-<h1>Treasure Hunt in Lille</h1>
-<p>This page is under construction, please come back later.</p>
-<hr/>
-<h1>Le Trésor du Vieux-Lille</h1>
-<p>Cette page est en construction, merci de revenir plus tard.</p>
+<body class="bg-secondary-subtle">
+<div class="container py-3">
+    <main class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mb-3 text-center">
+        <div class="col">
+            <div class="card mb-4 rounded-4 border-0 shadow-sm text-white position-relative" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0P7cfW_9-LiGF5RidNkMW02qi6mnwxhSZNQ&s'); background-repeat: no-repeat; background-position-y: -50px; background-size: cover; background-color: rgba(0, 0, 0, 0.3); background-blend-mode: darken">
+                <div class="card-body p-4 bg-blur fw-bolder">
+                    <h5 class="card-title fs-4 mb-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#le-tresor-du-vieux-lille" class="stretched-link text-white text-decoration-none">
+                            The Treasure of Old Lille
+                        </a>
+                    </h5>
+                    <p>Discover the biggest treasure of Lille through a scavenger game in the Old Lille!</p>
+                    <div class="small d-flex justify-content-center w-100">
+                        <span><i class="bi bi-bar-chart-fill me-2"></i> Easy</span>
+                        <span class="ms-5"><i class="bi bi-hourglass-split me-1"></i> 3-4h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="le-tresor-du-vieux-lille" tabindex="-1" aria-labelledby="le-tresor-du-vieux-lille-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-dismiss="modal" aria-label="Close" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-tresor-du-vieux-lille-label">The Treasure of Old Lille</h1>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: justify">
+                        Discover the history of Old Lille, its
+                        secrets, its monuments, and its
+                        famous places.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        You can use a geolocation
+                        application (Google Maps, Plans,
+                        etc.).
+                        Take your time: visit, discover,
+                        taste...
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Find the solution on the back of
+                        each card, with the story of the
+                        place, and the next riddle.
+                    </p>
+                    <hr/>
+                    <p class="mt-3" style="text-align: justify">
+                        A certain "Fred" is said to have
+                        hidden a priceless treasure in Old
+                        Lille. This treasure is said to be
+                        revealed in a secret parchment.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        To find it, he leaves you a strange
+                        first clue: a <strong>golden arm</strong>.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        But where could it be?
+                    </p>
+                    <img src="bras-d-or.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-bras-d-or" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-bras-d-or" tabindex="-1" aria-labelledby="le-bras-d-or-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-tresor-du-vieux-lille" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-bras-d-or-label">The Golden Arm</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="bras-d-or.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 1 rue de la Grande Chaussée</p>
+                    <p class="mt-4" style="text-align: justify">
+                        This 17th-century sculpture is a
+                        long mystery of Lille: is it the
+                        former insignia of a fencing
+                        master? The sign of a glove
+                        maker's shop? An indication of the
+                        direction of Rue de la Monnaie?
+                    </p>
+                    <a href="https://lillesecret.com/secrets-bras-dor/" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        Hanging from this mysterious
+                        golden arm, you find an <strong>excerpt
+                        from a newspaper article</strong>. It
+                        appears
+                        to
+                        contain
+                        letters
+                        surrounded by circles.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Could a
+                        secret message be hidden within?
+                    </p>
+                    <img src="journal.png" alt="L'Hospice Comtesse" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#l-hospice-comtesse" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="l-hospice-comtesse" tabindex="-1" aria-labelledby="l-hospice-comtesse-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-bras-d-or" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="l-hospice-comtesse-label">The Hospice Comtesse</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="hospice-comtesse.jpg" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 32 rue de la Monnaie</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Founded in 1237 by Joan of
+                        Constantinople,
+                        this
+                        Historic
+                        Monument, listed in 1923, is today
+                        a museum exhibiting paintings of
+                        the history of Lille in the 17th and
+                        18th centuries.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Hospice_Comtesse" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        At the reception desk of this old
+                        hospice, you're told that this
+                        "Fred" is none other than "<strong>Fred
+                        the
+                        Marvelous</strong>",
+                        someone
+                        particularly well-known in Lille for
+                        his pastries.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Where could he be?
+                    </p>
+                    <img src="aux-merveilleux-de-fred.png" alt="Aux Merveilleux de Fred" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#aux-merveilleux-de-fred" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="aux-merveilleux-de-fred" tabindex="-1" aria-labelledby="aux-merveilleux-de-fred-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#l-hospice-comtesse" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="aux-merveilleux-de-fred-label">Aux Merveilleux de Fred</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="aux-merveilleux-de-fred.png" alt="Aux Merveilleux de Fred" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 67 rue de la Monnaie</p>
+                    <p class="mt-4" style="text-align: justify">
+                        In the 1980s, Frédéric Vaucamps, a
+                        pastry chef from the North of
+                        France, revisited his favorite cake.
+                        In 1997, he named his shop in Lille
+                        after his cake.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Aux_Merveilleux_de_Fred" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        The pastry shop is in disarray, and
+                        there's no sign of Fred. Amidst all
+                        this chaos, one detail surprises
+                        you: a <strong>basket of onions</strong>. Weird for
+                        a pastry shop...
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Could it be a reference to a place
+                        of the same name?
+                    </p>
+                    <img src="onions-basket.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-place-aux-oignons" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="la-place-aux-oignons" tabindex="-1" aria-labelledby="la-place-aux-oignons-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#aux-merveilleux-de-fred" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="la-place-aux-oignons-label">The Onion Place</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="Place_aux_oignons.jpg" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Place aux Oignons</p>
+                    <p class="mt-4" style="text-align: justify">
+                        The name of this place is said to be
+                        a deformation of the Latin
+                        “dominium”
+                        (dungeon),
+                        then
+                        “dominion”, before a final
+                        deformation giving it its current
+                        name.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Place_aux_Oignons" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        You find Fred on the ground.
+                        Before passing out, he hands you a
+                        photo he snatched from his
+                        attacker: an <strong>icon of the Virgin
+                        Mary</strong>.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Where could his attacker have fled
+                        to?
+                    </p>
+                    <img src="icon.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#notre-dame-de-la-treille" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="notre-dame-de-la-treille" tabindex="-1" aria-labelledby="notre-dame-de-la-treille-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-place-aux-oignons" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="notre-dame-de-la-treille-label">Notre-Dame de la Treille</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="notre-dame-de-la-treille.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Place Gilleson</p>
+                    <p class="mt-4" style="text-align: justify">
+                        The construction of this religious
+                        site was often interrupted, notably
+                        by the First World War. Its façade,
+                        completed in the late 1990s,
+                        stands out from the rest of the
+                        monument.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Notre-Dame-de-la-Treille" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        The cathedral is empty. Near the
+                        altar, you find a Bible on the
+                        ground. It contains a <strong>letter</strong>
+                        addressed to the abbot. Strange,
+                        the address has been changed...
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Where was this letter supposed to
+                        be addressed?
+                    </p>
+                    <img src="postcard.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-jardin-de-l-abbaye-de-loos" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-jardin-de-l-abbaye-de-loos" tabindex="-1" aria-labelledby="le-jardin-de-l-abbaye-de-loos-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#notre-dame-de-la-treille" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-jardin-de-l-abbaye-de-loos-label">The Loos Abbey Garden</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="jardin-de-l-abbaye-de-loos.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 9-11 rue des 3 Molettes</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Donated by the Lord of Roubaix to
+                        the monks of Loos Abbey, this
+                        refuge became the town house of
+                        the monks of Loos. Its facades
+                        were listed as Historic Monuments
+                        in 1980.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Abbaye_Notre-Dame_de_Loos" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        You catch the priest burning a
+                        piece of paper before fleeing. You
+                        manage to save the paper: it's an
+                        old <strong>Illustration</strong>.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Did he try to burn the paper so no
+                        one would find out where he was
+                        going?
+                    </p>
+                    <img src="illustration.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-bar-l-illustration" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-bar-l-illustration" tabindex="-1" aria-labelledby="le-bar-l-illustration-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-jardin-de-l-abbaye-de-loos" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-bar-l-illustration-label">The Illustration Bar</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="illustration-bar.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 18 rue Royale</p>
+                    <p class="mt-4" style="text-align: justify">
+                        This bar is located on a street
+                        known to young people in Lille as
+                        one of the “thirst streets”, in
+                        addition to Solférino and Masséna
+                        streets, which are popular for their
+                        bars and nightclubs.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Rue_Royale_(Lille)" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        You find the alb abandoned on the
+                        ground; it was clearly a fake priest.
+                        A man at the bar claims to have
+                        recognized him: he used to fish
+                        with him at the "<strong>Quai du Haut</strong>".
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Hmmm, that name doesn't ring a
+                        bell. Did he pronounce it wrong?
+                    </p>
+                    <img src="haut-quay.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-quai-du-wault" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-quai-du-wault" tabindex="-1" aria-labelledby="le-quai-du-wault-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-bar-l-illustration" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-quai-du-wault-label">The Wault Quay</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="quai-du-wault.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Quai du Wault</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Formerly located at the place
+                        called “Wault” during the 13th
+                        century, it is one of the two old
+                        ports of Lille opening onto the
+                        Haute-Deûle, located at the time
+                        inside the fortified walls.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Quai_du_Wault" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        In the mist, you hear a <strong>lullaby with
+                        strange lyrics</strong> that seems to come
+                        from a <strong>statue of a woman cradling
+                        her child</strong>.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Is it a mirage? How can a statue
+                        sing a lullaby? You must go check it
+                        out!
+                    </p>
+                    <img src="p-tit-quinquin.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-p-tit-quinquin" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-p-tit-quinquin" tabindex="-1" aria-labelledby="le-p-tit-quinquin-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-quai-du-wault" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-p-tit-quinquin-label">The P'tit Quinquin</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="p-tit-quinquin.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Rue Nationale</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Written in 1853 in Ch'ti, this lullaby
+                        illustrates the life of working-class
+                        families in the North in the 19th
+                        century. Its statue, created in 1902
+                        by Eugène Deplechin, represents a
+                        lacemaker.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/P%27tit_Quinquin_(chanson)" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        Hidden behind the statue, you find
+                        an <strong>elegant box</strong>, richly decorated. It
+                        contains <strong>filled waffles</strong>.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Has our fugitive been feeling
+                        peckish? It's certainly a clue to
+                        finding him!
+                    </p>
+                    <img src="gauffres.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-patisserie-meert" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="la-patisserie-meert" tabindex="-1" aria-labelledby="la-patisserie-meert-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-p-tit-quinquin" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="la-patisserie-meert-label">The Méert Pastry Shop</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="meert.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 25-27 rue Esquermoise</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Founded in 1761, this is the oldest
+                        pastry shop in the world! This
+                        Historic Monument has seen
+                        famous figures such as Napoleon,
+                        Winston Churchill, and General de
+                        Gaulle.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Maison_M%C3%A9ert" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        You find the fugitive! He narrowly
+                        escapes, but you manage to snatch
+                        something from his pocket: an <strong>Old
+                        Purse</strong> overflowing with ancient
+                        coins.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        He can't be far away, this purse
+                        must have been useful to him.
+                    </p>
+                    <img src="purse.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-vieille-bourse" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="la-vieille-bourse" tabindex="-1" aria-labelledby="la-vieille-bourse-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-patisserie-meert" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="la-vieille-bourse-label">The Old Exchange/Purse</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="vieille-bourse.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Place du Général de Gaulle</p>
+                    <p class="mt-4" style="text-align: justify">
+                        Built in 1653 under Spanish
+                        sovereignty,
+                        this
+                        Historic
+                        Monument welcomes booksellers,
+                        chess players and even tango
+                        dancers on summer Sundays.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Vieille_Bourse" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        The fugitive found the parchment
+                        before you did, and burned it so no
+                        one else could read it! But a <strong>black
+                        and white engraving</strong> miraculously
+                        escaped the flames.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        What cultural landmark does this
+                        engraving remind you of?
+                    </p>
+                    <img src="gravure.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#l-opera" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="l-opera" tabindex="-1" aria-labelledby="l-opera-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-vieille-bourse" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="l-opera-label">The Opera</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="opera.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Place du Théâtre</p>
+                    <p class="mt-4" style="text-align: justify">
+                        The construction of this cultural
+                        monument, at the beginning of the
+                        20th century, was won thanks to a
+                        bluff by its architect Louis-Marie
+                        Cordonnier.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Op%C3%A9ra_de_Lille" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        You finally catch the fugitive, but
+                        he's confused. When you question
+                        him about the parchment, his
+                        speech is incoherent: he talks
+                        about a "promise", a <strong>gold mill</strong>,
+                        corsets, and cannonballs...
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        What could he possibly have meant?
+                    </p>
+                    <img src="golden-mill.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-moulin-d-or" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="le-moulin-d-or" tabindex="-1" aria-labelledby="le-moulin-d-or-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#l-opera" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="le-moulin-d-or-label">The Gold Mill</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="moulin-d-or.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> 31 Place du Théâtre</p>
+                    <p class="mt-4" style="text-align: justify">
+                        From a corsetry and hosiery shop,
+                        this boutique became a café in
+                        2003, named after its owner. The
+                        cannonballs
+                        on
+                        its
+                        facade
+                        commemorate the victory over
+                        Prussian troops.
+                    </p>
+                    <a href="https://lilleculture.fr/le-moulin-dor-ou-lhistoire-dune-bonneterie-transformee-en-cafe/" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4" style="text-align: justify">
+                        A man at the café whispers to you:
+                        "THEY'RE watching us! The
+                        treasure isn't what you think, it's
+                        much more precious! Go see the
+                        <strong>Goddess</strong>, she knows where...or
+                        rather, WHAT the treasure is!"
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        Which <strong>Goddess</strong> could he have
+                        been talking about?
+                    </p>
+                    <img src="goddess.png" alt="Le Bras d'Or" class="img-fluid rounded-4 mb-4"/>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#la-colonne-de-la-deesse" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        I found it!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="la-colonne-de-la-deesse" tabindex="-1" aria-labelledby="la-colonne-de-la-deesse-label" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#le-moulin-d-or" class="text-black py-1 px-2 me-3 rounded-pill">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <h1 class="modal-title fs-5" id="la-colonne-de-la-deesse-label">The Goddess Column</h1>
+                </div>
+                <div class="modal-body">
+                    <img src="goddess.png" alt="Le Bras d'Or" class="img-fluid rounded-4"/>
+                    <p class="mt-4"><i class="bi bi-geo-alt-fill"></i> Place du Général de Gaulle</p>
+                    <p class="mt-4" style="text-align: justify">
+                        In 1792, Lille was attacked by the
+                        Prussian army, but emerged
+                        victorious.
+                        This
+                        statue
+                        commemorates this victory and
+                        recalls the promise of the people
+                        of Lille facing invaders.
+                    </p>
+                    <a href="https://fr.wikipedia.org/wiki/Colonne_de_la_D%C3%A9esse" target="_blank" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                        Discover its history
+                    </a>
+                    <hr/>
+                    <p class="mt-4 fw-bolder">Congratulations!</p>
+                    <p class="mt-4" style="text-align: justify">
+                        You've found the treasure of Old
+                        Lille: a historic promise! A priceless
+                        treasure for the people of Lille.
+                    </p>
+                    <p class="mt-3" style="text-align: justify">
+                        But one last mystery remains: who
+                        are "THEY" that the man at the
+                        café was so suspicious of?
+                    </p>
+                    <a href="#" data-bs-dismiss="modal" aria-label="Close" class="text-black py-1 px-2 me-3 rounded-pill">
+                        Close
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </body>
 </html>
