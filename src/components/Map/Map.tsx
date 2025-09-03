@@ -1,6 +1,5 @@
 "use client";
 
-import {Container} from "react-bootstrap";
 import {FunctionComponent, useEffect, useState} from "react";
 import {APIProvider, Map as GoogleMap} from "@vis.gl/react-google-maps";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
@@ -13,7 +12,7 @@ export const Map: FunctionComponent = () => {
     navigator.geolocation.getCurrentPosition(({coords}) => {
       setOrigin({lat: coords.latitude, lng: coords.longitude});
     })
-  }, []);
+  }, [navigator.geolocation]);
 
   const [selectedPlace, setSelectedPlace] = useState<google.maps.places.Place | null>(null);
 
@@ -25,33 +24,30 @@ export const Map: FunctionComponent = () => {
   };
 
   return (
-    <Container className="px-0 pt-1 py-2">
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
-        <GoogleMap
-          mapId="map-id"
-          defaultCenter={origin}
-          defaultZoom={16}
-          style={{height: `${window.innerHeight - 120}px`}}
-          fullscreenControl={false}
-          gestureHandling={'greedy'}
-          zoomControl={true}
-          mapTypeControl={false}
-          streetViewControl={false}
-          cameraControl={false}
-        >
-          <AutocompleteControl onPlaceSelect={setSelectedPlace}/>
-          {selectedPlace && selectedPlace.location && (
-            <>
-              <Route
-                apiClient={apiClient}
-                origin={origin}
-                destination={selectedPlace.location.toJSON()}
-                routeOptions={routeOptions}
-              />
-            </>
-          )}
-        </GoogleMap>
-      </APIProvider>
-    </Container>
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
+      <GoogleMap
+        mapId="map-id"
+        defaultCenter={origin}
+        defaultZoom={16}
+        fullscreenControl={false}
+        gestureHandling={'greedy'}
+        zoomControl={true}
+        mapTypeControl={false}
+        streetViewControl={false}
+        cameraControl={false}
+      >
+        <AutocompleteControl onPlaceSelect={setSelectedPlace} onClear={() => setSelectedPlace(null)}/>
+        {selectedPlace && selectedPlace.location && (
+          <>
+            <Route
+              apiClient={apiClient}
+              origin={origin}
+              destination={selectedPlace.location.toJSON()}
+              routeOptions={routeOptions}
+            />
+          </>
+        )}
+      </GoogleMap>
+    </APIProvider>
   )
 }

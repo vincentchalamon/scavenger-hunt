@@ -1,19 +1,24 @@
 "use client";
 
-import {Container, Form, ListGroup} from "react-bootstrap";
-import {FormEvent, FunctionComponent, useCallback, useState} from "react";
+import {Button, Container, Form, ListGroup} from "react-bootstrap";
+import React, {FormEvent, FunctionComponent, useCallback, useState} from "react";
 import {ControlPosition, MapControl, useMapsLibrary} from "@vis.gl/react-google-maps";
 import {useAutocompleteSuggestions} from "@/hooks/use-autocomplete-suggestions";
 
 interface AutocompleteControlProps {
   onPlaceSelect: (place: google.maps.places.Place | null) => void;
+  onClear: () => void;
 }
 
-export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = ({onPlaceSelect}) => {
+export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = ({onPlaceSelect, onClear}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
   }, []);
+  const clearInput = useCallback(async () => {
+    setInputValue('');
+    onClear();
+  }, [inputValue]);
 
   const places = useMapsLibrary('places');
   const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue);
@@ -36,7 +41,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
 
       resetSession();
       onPlaceSelect(place);
-    }, [places, onPlaceSelect]);
+    }, [places]);
 
   const inputStyle = {
     boxSizing: 'border-box',
@@ -46,7 +51,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
     color: '#1f1f1f',
     height: '40px',
     lineHeight: '40px',
-    padding: '15px 20px',
+    padding: '15px 40px 15px 20px',
     borderRadius: suggestions.length ? '15px 15px 0 0' : '30px',
     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
     fontSize: '15px',
@@ -56,7 +61,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
 
   return (
     <MapControl position={ControlPosition.TOP_CENTER}>
-      <Container className="mt-3 p-0" style={{width: '252px'}}>
+      <Container className="mt-3 p-0 position-relative" style={{width: '280px'}}>
         <Form.Control
           type="search"
           placeholder="Rechercher dans Google Maps"
@@ -65,12 +70,18 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
           onInput={(event) => handleInput(event)}
           // @ts-ignore
           style={inputStyle}/>
+        <Button
+          type="button"
+          className="btn-close position-absolute"
+          style={{top: '8px', right: '10px'}}
+          onClick={clearInput}
+        />
         {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}}>
           {suggestions.map((suggestion, index) => (
             <ListGroup.Item
               key={index}
               action
-              style={{fontSize: '14px', borderRadius: index === suggestions.length-1 ? '0 0 15px 15px' : 0}}
+              style={{fontSize: '14px', borderRadius: index === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
               onClick={() => handleSuggestionClick(suggestion)}
             >
               <i className="bi bi-geo-alt-fill me-1"></i> {suggestion.placePrediction?.text.text}
