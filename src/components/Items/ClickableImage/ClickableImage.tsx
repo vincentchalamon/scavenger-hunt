@@ -2,9 +2,14 @@
 
 import {Item} from "@/components/Items/Item";
 import {ReactNode} from "react";
+import {Button} from "react-bootstrap";
 
 export class ClickableImage extends Item {
-  icon(): ReactNode {
-    return <div className="border bg-light text-dark p-1">Clickable image</div>;
+  icon(onClick: () => void): ReactNode {
+    return <Button variant="primary" onClick={onClick}>Clickable image</Button>;
+  }
+
+  render(): ReactNode {
+    return <p>This is a ClickableImage</p>
   }
 }

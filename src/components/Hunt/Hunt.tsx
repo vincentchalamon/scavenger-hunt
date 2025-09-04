@@ -19,7 +19,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (typeof window !== "undefined") {
     useEffect(() => {
       // Total height - bottom navbar - top navbar
-      const timeout = setTimeout(() => {setHeight(window.innerHeight - 40 - 58)}, 500);
+      const timeout = setTimeout(() => {setHeight(window.innerHeight - 40 - 59)}, 500);
 
       return () => clearTimeout(timeout);
     }, [window]);
@@ -50,8 +50,10 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
       )}
       <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
         <Container>
-          <Navbar.Brand>{hunt.name}</Navbar.Brand>
-          <Navbar.Text><Button type="button" className="btn-close" href="/"/></Navbar.Text>
+          <Navbar.Brand>
+            <Button type="button" size="lg" className="py-0 me-2 bg-transparent border-0 text-dark fs-1 lh-1" href="/">&#8249;</Button>
+            {hunt.name}
+          </Navbar.Brand>
         </Container>
       </Navbar>
       <div className="px-0 d-flex bg-danger" style={{
