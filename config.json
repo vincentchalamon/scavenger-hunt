@@ -7,7 +7,12 @@
       {
         "name": "Boussole",
         "type": "compass",
-        "options": {}
+        "options": {
+          "coordinates": {
+            "latitude": 50.6381036,
+            "longitude": 3.0638525
+          }
+        }
       },
       {
         "name": "Bras d'Or",
@@ -16,8 +21,13 @@
       },
       {
         "name": "Trousse médicale",
-        "type": "compass",
-        "options": {}
+        "type": "clickable-image",
+        "options": {
+          "coordinates": {
+            "latitude": 50.6381036,
+            "longitude": 3.0638525
+          }
+        }
       },
       {
         "name": "Boîte gaufres Fred",

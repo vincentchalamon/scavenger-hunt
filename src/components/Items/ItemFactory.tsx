@@ -22,10 +22,10 @@ export enum ItemType {
 }
 
 export class ItemFactory {
-  static create(params: { name: string, type: string, options: any }): Item {
+  static create(params: { name: string, type: string, options?: any }): Item {
     switch (params.type) {
       case ItemType.COMPASS:
-        return new Compass();
+        return new Compass(params.options);
       case ItemType.CLICKABLE_IMAGE:
         return new ClickableImage();
       case ItemType.SCRATCH_CARD:

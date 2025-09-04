@@ -4,7 +4,18 @@ import {Item} from "@/components/Items/Item";
 import {ReactNode, useEffect, useState} from "react";
 import {Button, Container} from "react-bootstrap";
 
+interface CompassProps {
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
 export class Compass extends Item {
+  constructor(private options: CompassProps) {
+    super();
+  }
+
   icon(onClick: () => void): ReactNode {
     return <Button variant="primary" onClick={onClick}>Compass</Button>;
   }
@@ -13,13 +24,8 @@ export class Compass extends Item {
     const [pointDegree, setPointDegree] = useState<number>(0);
     useEffect(() => {
       navigator.geolocation.getCurrentPosition(({coords}) => {
-        const point = {
-          lat: 50.6381036,
-          lng: 3.0638525,
-        };
-
-        const phiK = (point.lat * Math.PI) / 180.0;
-        const lambdaK = (point.lng * Math.PI) / 180.0;
+        const phiK = (this.options.coordinates.latitude * Math.PI) / 180.0;
+        const lambdaK = (this.options.coordinates.longitude * Math.PI) / 180.0;
         const phi = (coords.latitude * Math.PI) / 180.0;
         const lambda = (coords.longitude * Math.PI) / 180.0;
         const psi = (180.0 / Math.PI) * Math.atan2(
