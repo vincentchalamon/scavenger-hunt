@@ -5,7 +5,6 @@
     "manuscript": "Lorem ipsum dolor sit amet",
     "items": [
       {
-        "name": "Boussole",
         "type": "compass",
         "options": {
           "coordinates": {
@@ -15,59 +14,33 @@
         }
       },
       {
-        "name": "Bras d'Or",
-        "type": "clickable-image",
-        "options": {}
-      },
-      {
-        "name": "Trousse médicale",
         "type": "clickable-image",
         "options": {
-          "coordinates": {
-            "latitude": 50.6381036,
-            "longitude": 3.0638525
-          }
+          "image": "/assets/bras-d-or.png",
+          "clickableAreas": [
+            {
+              "top": "45%",
+              "right": "15%",
+              "width": "10%",
+              "height": "20%",
+              "action": {
+                "type": "image",
+                "options": {
+                  "image": "/assets/bras-d-or.png"
+                }
+              }
+            },
+            {
+              "bottom": "15%",
+              "left": "15%",
+              "width": "12%",
+              "height": "20%",
+              "action": {
+                "type": "keyword"
+              }
+            }
+          ]
         }
-      },
-      {
-        "name": "Boîte gaufres Fred",
-        "type": "scratch-card",
-        "options": {}
-      },
-      {
-        "name": "Panier d'oignons",
-        "type": "card-flip",
-        "options": {}
-      },
-      {
-        "name": "Bible",
-        "type": "clickable-image",
-        "options": {}
-      },
-      {
-        "name": "Boîte gaufres Méert",
-        "type": "three-fiber",
-        "options": {}
-      },
-      {
-        "name": "Vieux livres",
-        "type": "page-flip",
-        "options": {}
-      },
-      {
-        "name": "Pièce d'opéra",
-        "type": "magnifier",
-        "options": {}
-      },
-      {
-        "name": "Moulin d'or",
-        "type": "windmill-spinner",
-        "options": {}
-      },
-      {
-        "name": "Couronne & sceptre",
-        "type": "clickable-image",
-        "options": {}
       }
     ]
   }

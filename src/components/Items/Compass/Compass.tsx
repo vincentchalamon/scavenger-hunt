@@ -1,8 +1,9 @@
 "use client";
 
 import {Item} from "@/components/Items/Item";
-import {ReactNode, useEffect, useState} from "react";
-import {Button, Container} from "react-bootstrap";
+import React, {ReactNode, useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
+import {ModalItem} from "@/components/Items";
 
 interface CompassProps {
   coordinates: {
@@ -14,10 +15,6 @@ interface CompassProps {
 export class Compass extends Item {
   constructor(private options: CompassProps) {
     super();
-  }
-
-  icon(onClick: () => void): ReactNode {
-    return <Button variant="primary" onClick={onClick}>Compass</Button>;
   }
 
   render(): ReactNode {
@@ -44,6 +41,7 @@ export class Compass extends Item {
     }, [navigator.geolocation]);
 
     const [angle, setAngle] = useState<number>(0);
+    // @ts-ignore
     const isIOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     useEffect(() => {
@@ -51,14 +49,17 @@ export class Compass extends Item {
         return;
       }
 
+      // @ts-ignore
       const handler = (e) => {
         const compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
         setAngle(compass);
       };
 
       const startCompassIOS = async () => {
+        // @ts-ignore
         if (typeof DeviceOrientationEvent.requestPermission === "function") {
           try {
+            // @ts-ignore
             const response = await DeviceOrientationEvent.requestPermission();
             if (response === "granted") {
               window.addEventListener("deviceorientation", handler, true);
@@ -87,7 +88,7 @@ export class Compass extends Item {
     }, []);
 
     return (
-      <Container className="d-flex flex-column justify-content-center align-items-center h-100 w-100 p-0">
+      <ModalItem button={<Button variant="primary">Compass</Button>}>
         <div className="position-relative w-100 rounded-5 m-0" style={{
           maxWidth: '95%',
           height: '350px',
@@ -109,7 +110,7 @@ export class Compass extends Item {
             background: 'rgb(8, 223, 69)',
           }}/>
         </div>
-      </Container>
+      </ModalItem>
     );
   }
 }

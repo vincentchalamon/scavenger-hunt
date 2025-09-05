@@ -16,13 +16,20 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   const [height, setHeight] = useState<number | undefined>(undefined);
   const [opacity, setOpacity] = useState<number>(1);
 
-  if (typeof window !== "undefined") {
+  if (typeof screen !== "undefined") {
     useEffect(() => {
       // Total height - bottom navbar - top navbar
-      const timeout = setTimeout(() => {setHeight(window.innerHeight - 40 - 59)}, 500);
+      const timeout = setTimeout(() => {setHeight(screen.height - 40 - 59)}, 500);
 
       return () => clearTimeout(timeout);
-    }, [window]);
+    }, [screen]);
+
+    useEffect(() => {
+      const handler = () => setHeight(screen.height - 40 - 59);
+      screen.orientation.addEventListener('change', handler, true);
+
+      return () => screen.orientation.removeEventListener('change', handler, true);
+    }, [screen.orientation]);
 
     useEffect(() => {
       if (opacity === 0 || typeof height === "undefined") {
@@ -56,14 +63,19 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           </Navbar.Brand>
         </Container>
       </Navbar>
-      <div className="px-0 d-flex bg-danger" style={{
+      <div className="px-0 d-flex" style={{
         paddingTop: '58px',
         minHeight: '100vh',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        backgroundImage: 'url(/assets/manuscript.png)',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        backgroundBlendMode: 'lighten',
       }}>
         <Tab.Container defaultActiveKey="manuscript">
-          <Tab.Content className="bg-success" style={{height: `${height}px`}}>
+          <Tab.Content style={{height: `${height}px`}}>
             <Tab.Pane eventKey="manuscript" className="h-100">
               <Manuscript manuscript={hunt.manuscript}/>
             </Tab.Pane>
