@@ -16,11 +16,11 @@ export class Magnifier extends Item {
     super();
   }
 
-  render(): ReactNode {
+  render(buttonStyle = {}): ReactNode {
     return (
       <ModalItem button={
-        <Button variant="link" className="h-100">
-          <Img src={this.options.image} className="w-100 mh-100"/>
+        <Button variant="link" className="p-0 h-100 w-100" style={buttonStyle}>
+          <Img src={this.options.image} className="w-100 h-100"/>
         </Button>
       }>
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">

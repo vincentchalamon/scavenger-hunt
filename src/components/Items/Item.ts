@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
 
 export abstract class Item {
-  abstract render(): ReactNode;
+  abstract render(buttonStyle: object): ReactNode;
 }

@@ -17,7 +17,7 @@ export class Compass extends Item {
     super();
   }
 
-  render(): ReactNode {
+  render(buttonStyle = {}): ReactNode {
     const [pointDegree, setPointDegree] = useState<number>(0);
     useEffect(() => {
       navigator.geolocation.getCurrentPosition(({coords}) => {
@@ -100,7 +100,7 @@ export class Compass extends Item {
 
     return (
       <ModalItem button={
-        <Button variant="link" className="h-100">
+        <Button variant="link" className="h-100" style={buttonStyle}>
           <Img src="/assets/compass.png" className="w-100 mh-100"/>
         </Button>
       }>

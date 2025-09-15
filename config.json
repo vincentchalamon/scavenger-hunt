@@ -17,7 +17,8 @@
       {
         "type": "clickable-image",
         "options": {
-          "image": "/assets/bras-d-or.png",
+          "icon": "/assets/bras-d-or/icon.png",
+          "image": "/assets/bras-d-or/bras-d-or.png",
           "clickableAreas": [
             {
               "top": "45%",
@@ -25,9 +26,9 @@
               "width": "10%",
               "height": "20%",
               "action": {
-                "type": "image",
+                "type": "magnifier",
                 "options": {
-                  "image": "/assets/bras-d-or.png"
+                  "image": "/assets/bras-d-or/press.png"
                 }
               }
             },
@@ -35,7 +36,7 @@
               "bottom": "15%",
               "left": "15%",
               "width": "12%",
-              "height": "20%",
+              "height": "15%",
               "action": {
                 "type": "keyword",
                 "options": {
@@ -47,9 +48,36 @@
         }
       },
       {
-        "type": "magnifier",
+        "type": "clickable-image",
         "options": {
-          "image": "/assets/magnifier-pic.jpg"
+          "icon": "/assets/hospice-comtesse/icon.png",
+          "image": "/assets/hospice-comtesse/medical-bag.png",
+          "clickableAreas": [
+            {
+              "top": "58%",
+              "left": "38%",
+              "width": "15%",
+              "height": "10%",
+              "action": {
+                "type": "image",
+                "options": {
+                  "image": "/assets/hospice-comtesse/code.png"
+                }
+              }
+            },
+            {
+              "top": "28%",
+              "left": "38%",
+              "width": "15%",
+              "height": "15%",
+              "action": {
+                "type": "keyword",
+                "options": {
+                  "keyword": "de"
+                }
+              }
+            }
+          ]
         }
       }
     ]
