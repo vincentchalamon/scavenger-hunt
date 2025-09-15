@@ -79,6 +79,30 @@
             }
           ]
         }
+      },
+      {
+        "type": "scratch-card",
+        "options": {
+          "icon": "/assets/aux-merveilleux-de-fred/icon.png",
+          "image": "/assets/aux-merveilleux-de-fred/box.png",
+          "scratchableAreas": [
+            {
+              "top": "45%",
+              "right": "15%",
+              "width": "10%",
+              "height": "20%",
+              "text": "Lorem ipsum dolor sit amet"
+            },
+            {
+              "bottom": "15%",
+              "left": "15%",
+              "width": "12%",
+              "height": "15%",
+              "text": "Colonne",
+              "keyword": true
+            }
+          ]
+        }
       }
     ]
   }

@@ -3,9 +3,8 @@
 import {Item as ItemType} from "@/types/Item";
 import React, {ReactNode} from "react";
 import {Button, Image as Img, Image} from "react-bootstrap";
-import {ItemFactory, ItemType as ItemTypeEnum} from "@/components/Items/ItemFactory";
+import {ItemFactory} from "@/components/Items/ItemFactory";
 import {Item, ModalItem} from "@/components/Items";
-import {hasKeyword} from "@/contexts/PhraseContext";
 
 interface ClickableAreaProps {
   top?: string,
@@ -37,17 +36,11 @@ export class ClickableImage extends Item {
       }>
         <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
           <Image src={this.options.image} className="mh-100 mw-100"/>
-          {this.options.clickableAreas.map((clickableArea, i) => {
-            if (clickableArea.action.type === ItemTypeEnum.KEYWORD && hasKeyword(clickableArea.action.options?.keyword as string)) {
-              return;
-            }
-
-            return (
-              <div key={i} className="position-absolute" style={clickableArea}>
-                {ItemFactory.create(clickableArea.action).render({display: 'none'})}
-              </div>
-            );
-          })}
+          {this.options.clickableAreas.map((clickableArea, i) => (
+            <div key={i} className="position-absolute" style={clickableArea}>
+              {ItemFactory.create(clickableArea.action).render({display: 'none'})}
+            </div>
+          ))}
         </div>
       </ModalItem>
     );

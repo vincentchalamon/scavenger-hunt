@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useState} from "react";
+import {createContext, ReactNode, useState} from "react";
 
 export const PhraseContext = createContext({
   keywords: [],
@@ -13,10 +13,4 @@ export function PhraseProvider({ children }: { children: ReactNode }) {
       {children}
     </PhraseContext.Provider>
   );
-}
-
-export function hasKeyword(keyword: string) {
-  const {keywords} = useContext(PhraseContext);
-
-  return keywords.includes(keyword);
 }

@@ -35,7 +35,7 @@ export class ItemFactory {
       case ItemType.IMAGE:
         return new Image(params.options);
       case ItemType.SCRATCH_CARD:
-        return new ScratchCard();
+        return new ScratchCard(params.options);
       case ItemType.CARD_FLIP:
         return new CardFlip();
       case ItemType.PAGE_FLIP:

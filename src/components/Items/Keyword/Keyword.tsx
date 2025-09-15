@@ -19,11 +19,11 @@ export class Keyword extends Item {
     const {keywords, setKeywords} = useContext(PhraseContext);
     const {setToast} = useContext(ToastContext);
 
-    const onClick = () => {
-      setKeywords([...keywords, this.options.keyword].filter((value, index, self) => self.indexOf(value) === index));
-      setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
-    };
-
-    return <Button className="h-100 w-100" onClick={onClick}/>;
+    return <Button className="h-100 w-100" onClick={() => {
+      if (!keywords.includes(this.options.keyword)) {
+        setKeywords([...keywords, this.options.keyword].filter((value, index, self) => self.indexOf(value) === index));
+        setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+      }
+    }}/>;
   }
 }
