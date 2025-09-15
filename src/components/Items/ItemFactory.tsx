@@ -39,7 +39,7 @@ export class ItemFactory {
       case ItemType.CARD_FLIP:
         return new CardFlip();
       case ItemType.PAGE_FLIP:
-        return new PageFlip();
+        return new PageFlip(params.options);
       case ItemType.THREE_FIBER:
         return new ThreeFiber();
       case ItemType.MAGNIFIER:

@@ -6,6 +6,7 @@ import {Button, Image as Img} from "react-bootstrap";
 import {ModalItem} from "@/components/Items";
 
 interface CompassProps {
+  icon: string;
   coordinates: {
     latitude: number;
     longitude: number;
@@ -101,7 +102,7 @@ export class Compass extends Item {
     return (
       <ModalItem button={
         <Button variant="link" className="h-100" style={buttonStyle}>
-          <Img src="/assets/compass.png" className="w-100 mh-100"/>
+          <Img src={this.options.icon} className="w-100 mh-100"/>
         </Button>
       }>
         <div className="position-relative w-100" style={{

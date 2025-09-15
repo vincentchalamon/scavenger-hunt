@@ -8,6 +8,7 @@
       {
         "type": "compass",
         "options": {
+          "icon": "/assets/compass.png",
           "coordinates": {
             "latitude": 50.6381036,
             "longitude": 3.0638525
@@ -100,6 +101,47 @@
               "height": "15%",
               "text": "Colonne",
               "keyword": true
+            }
+          ]
+        }
+      },
+      {
+        "type": "clickable-image",
+        "options": {
+          "icon": "/assets/place-aux-oignons/icon.png",
+          "image": "/assets/place-aux-oignons/basket.png",
+          "clickableAreas": [
+            {
+              "top": "45%",
+              "right": "15%",
+              "width": "10%",
+              "height": "20%",
+              "action": {
+                "type": "page-flip",
+                "options": {
+                  "front": "/assets/place-aux-oignons/treille-front.png",
+                  "back": {
+                    "type": "clickable-image",
+                    "options": {
+                      "image": "/assets/place-aux-oignons/treille-back.png",
+                      "clickableAreas": [
+                        {
+                          "bottom": "45%",
+                          "left": "20%",
+                          "width": "12%",
+                          "height": "15%",
+                          "action": {
+                            "type": "keyword",
+                            "options": {
+                              "keyword": "Le"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
             }
           ]
         }
