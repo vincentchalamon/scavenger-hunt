@@ -15,12 +15,17 @@ export class Keyword extends Item {
     super();
   }
 
+  renderButton(): React.ReactNode {
+    throw new Error('Keyword cannot be rendered in the items list.');
+  }
+
   render(): ReactNode {
     const {keywords, setKeywords} = useContext(PhraseContext);
     const {setToast} = useContext(ToastContext);
 
     return (
       <Button className="h-100 w-100" onClick={() => {
+        // @ts-ignore
         if (!keywords.includes(this.options.keyword)) {
           setKeywords([...keywords, this.options.keyword].filter((value, index, self) => self.indexOf(value) === index));
           setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');

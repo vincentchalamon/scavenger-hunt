@@ -11,8 +11,14 @@ interface ManuscriptProps {
 
 export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase}) => (
   <Container className="py-3 text-dark">
-    <div dangerouslySetInnerHTML={{ __html: manuscript.split('{phrase}').shift() }}/>
+    <div dangerouslySetInnerHTML={{
+      // @ts-ignore
+      __html: manuscript.split('{phrase}').shift(),
+    }}/>
     <Phrase phrase={phrase}/>
-    <div dangerouslySetInnerHTML={{ __html: manuscript.split('{phrase}').pop() }}/>
+    <div dangerouslySetInnerHTML={{
+      // @ts-ignore
+      __html: manuscript.split('{phrase}').pop(),
+    }}/>
   </Container>
 )

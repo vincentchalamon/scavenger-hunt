@@ -4,6 +4,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
 import {ItemFactory} from "@/components/Items/ItemFactory";
 import {Item} from "@/types/Item";
+import {ModalItem} from "@/components/Items";
 
 interface ItemsListProps {
   items: Item[];
@@ -17,7 +18,9 @@ export const ItemsList: React.FC<ItemsListProps> = ({items}) => (
 
         return (
           <Col className="col-4" key={i}>
-            {itemComponent.render()}
+            <ModalItem button={itemComponent.renderButton()}>
+              {itemComponent.render()}
+            </ModalItem>
           </Col>
         );
       })}

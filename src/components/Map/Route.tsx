@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  AdvancedMarker,
-  useMap
-} from '@vis.gl/react-google-maps';
+import {AdvancedMarker, useMap} from '@vis.gl/react-google-maps';
 
 import {RoutesApi} from "@/components/Map/RoutesApi";
 import {Polyline} from "@/components/Map/Polyline";

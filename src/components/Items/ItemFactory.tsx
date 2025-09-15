@@ -3,13 +3,13 @@ import {
   CardFlip,
   ClickableImage,
   Compass,
+  Image,
+  Keyword,
   Magnifier,
   PageFlip,
   ScratchCard,
   ThreeFiber,
   WindmillSpinner,
-  Keyword,
-  Image,
 } from "@/components/Items";
 
 export enum ItemType {

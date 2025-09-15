@@ -9,6 +9,7 @@ export function PhraseProvider({ children }: { children: ReactNode }) {
   const [keywords, setKeywords] = useState([]);
 
   return (
+    // @ts-ignore
     <PhraseContext.Provider value={{keywords, setKeywords}}>
       {children}
     </PhraseContext.Provider>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useMap, useMapsLibrary} from "@vis.gl/react-google-maps";
 
 type PolylineCustomProps = {

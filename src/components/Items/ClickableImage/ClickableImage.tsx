@@ -4,7 +4,7 @@ import {Item as ItemType} from "@/types/Item";
 import React, {ReactNode} from "react";
 import {Button, Image as Img, Image} from "react-bootstrap";
 import {ItemFactory} from "@/components/Items/ItemFactory";
-import {Item, ModalItem} from "@/components/Items";
+import {Item} from "@/components/Items";
 
 interface ClickableAreaProps {
   top?: string,
@@ -17,8 +17,8 @@ interface ClickableAreaProps {
 }
 
 interface ClickableImageProps {
-  image: string,
   icon: string,
+  image: string,
   clickableAreas: ClickableAreaProps[],
 }
 
@@ -27,22 +27,24 @@ export class ClickableImage extends Item {
     super();
   }
 
+  renderButton(): React.ReactNode {
+    return (
+      <Button variant="link" className="h-100">
+        <Img src={this.options.icon} className="w-100 mh-100"/>
+      </Button>
+    );
+  }
+
   render(): ReactNode {
     return (
-      <ModalItem button={
-        <Button variant="link" className="h-100">
-          <Img src={this.options.icon} className="w-100 mh-100"/>
-        </Button>
-      }>
-        <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
-          <Image src={this.options.image} className="mh-100 mw-100"/>
-          {this.options.clickableAreas.map((clickableArea, i) => (
-            <div key={i} className="position-absolute" style={clickableArea}>
-              {ItemFactory.create(clickableArea.action).render({display: 'none'})}
-            </div>
-          ))}
-        </div>
-      </ModalItem>
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+        <Image src={this.options.image} className="mh-100 mw-100"/>
+        {this.options.clickableAreas.map((clickableArea, i) => (
+          <div key={i} className="position-absolute" style={clickableArea}>
+            {ItemFactory.create(clickableArea.action).render()}
+          </div>
+        ))}
+      </div>
     );
   }
 }

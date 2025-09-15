@@ -3,7 +3,6 @@
 import {Item} from "@/components/Items/Item";
 import React, {ReactNode, useEffect, useState} from "react";
 import {Button, Image as Img} from "react-bootstrap";
-import {ModalItem} from "@/components/Items";
 
 interface CompassProps {
   icon: string;
@@ -18,7 +17,15 @@ export class Compass extends Item {
     super();
   }
 
-  render(buttonStyle = {}): ReactNode {
+  renderButton(): React.ReactNode {
+    return (
+      <Button variant="link" className="h-100">
+        <Img src={this.options.icon} className="w-100 mh-100"/>
+      </Button>
+    );
+  }
+
+  render(): ReactNode {
     const [pointDegree, setPointDegree] = useState<number>(0);
     useEffect(() => {
       navigator.geolocation.getCurrentPosition(({coords}) => {
@@ -100,11 +107,7 @@ export class Compass extends Item {
     }
 
     return (
-      <ModalItem button={
-        <Button variant="link" className="h-100" style={buttonStyle}>
-          <Img src={this.options.icon} className="w-100 mh-100"/>
-        </Button>
-      }>
+      <>
         <div className="position-relative w-100" style={{
           maxWidth: '95%',
           maxHeight: `${height}px`,
@@ -128,7 +131,7 @@ export class Compass extends Item {
             background: 'rgb(8, 223, 69)',
           }}/>
         </div>
-      </ModalItem>
+      </>
     );
   }
 }

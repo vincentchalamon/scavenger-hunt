@@ -5,7 +5,6 @@ import React, {ReactNode, useContext, useEffect, useState} from "react";
 import {Button, Image as Img} from "react-bootstrap";
 // @ts-ignore
 import ReactScratchCard from 'react-scratchcard-v4';
-import {ModalItem} from "@/components/Items";
 import {PhraseContext} from "@/contexts/PhraseContext";
 import {ToastContext} from "@/contexts/ToastContext";
 
@@ -42,7 +41,15 @@ export class ScratchCard extends Item {
     this.keyword = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text;
   }
 
-  render(buttonStyle = {}): ReactNode {
+  renderButton(): React.ReactNode {
+    return (
+      <Button variant="link" className="h-100">
+        <Img src={this.options.icon} className="w-100 mh-100"/>
+      </Button>
+    );
+  }
+
+  render(): ReactNode {
     const [height, setHeight] = useState<number | undefined>(undefined);
     const [width, setWidth] = useState<number | undefined>(undefined);
     const {keywords, setKeywords} = useContext(PhraseContext);
@@ -56,34 +63,33 @@ export class ScratchCard extends Item {
     }
 
     return (
-      <ModalItem button={
-        <Button variant="link" className="h-100" style={buttonStyle}>
-          <Img src={this.options.icon} className="w-100 mh-100"/>
-        </Button>
-      }>
-        <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
-          <ReactScratchCard
-            width={width}
-            height={height}
-            image={this.options.image}
-            finishPercent={80}
-            fadeOutOnComplete={false}
-            customCheckZone={{x: 0, y: height/2, width: width, height: 15}}
-            onComplete={() => {
-              if (!keywords.includes(this.keyword)) {
-                setKeywords([...keywords, this.keyword].filter((value, index, self) => self.indexOf(value) === index));
-                setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
-              }
-            }}
-          >
-            <div className="align-items-center justify-content-center w-100 h-100 d-flex">
-              {this.options.scratchableAreas.map((scratchableArea, i) => (
-                <h1 className="m-3" key={i}>{scratchableArea.text}</h1>
-              ))}
-            </div>
-          </ReactScratchCard>
-        </div>
-      </ModalItem>
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+        <ReactScratchCard
+          // @ts-ignore
+          width={width}
+          // @ts-ignore
+          height={height}
+          image={this.options.image}
+          finishPercent={80}
+          fadeOutOnComplete={false}
+          // @ts-ignore
+          customCheckZone={{x: 0, y: height/2, width: width, height: 15}}
+          onComplete={() => {
+            // @ts-ignore
+            if (!keywords.includes(this.keyword)) {
+              // @ts-ignore
+              setKeywords([...keywords, this.keyword].filter((value, index, self) => self.indexOf(value) === index));
+              setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+            }
+          }}
+        >
+          <div className="align-items-center justify-content-center w-100 h-100 d-flex">
+            {this.options.scratchableAreas.map((scratchableArea, i) => (
+              <h1 className="m-3" key={i}>{scratchableArea.text}</h1>
+            ))}
+          </div>
+        </ReactScratchCard>
+      </div>
     );
   }
 }
