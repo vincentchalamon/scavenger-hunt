@@ -2,7 +2,7 @@
   {
     "name": "Le Trésor du Vieux-Lille",
     "lang": "fr",
-    "manuscript": "Lorem ipsum dolor sit amet",
+    "manuscript": "J'ai découvert le plus grand trésor du Vieux-Lille !<br/><br/>Mais des gens malveillants souhaitent le voler, c'est pourquoi je l'ai caché.<br/><br/>Ce parchemin et ces objets devraient vous aider à le retrouver avant eux !<br/><br/>{phrase}<br/><br/>Fred.<br/><br/>PS : ma boussole m'a toujours indiqué le premier pas vers une aventure !",
     "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
     "items": [
       {

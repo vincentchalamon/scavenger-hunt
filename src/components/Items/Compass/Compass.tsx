@@ -2,7 +2,7 @@
 
 import {Item} from "@/components/Items/Item";
 import React, {ReactNode, useEffect, useState} from "react";
-import {Button} from "react-bootstrap";
+import {Button, Image as Img} from "react-bootstrap";
 import {ModalItem} from "@/components/Items";
 
 interface CompassProps {
@@ -99,7 +99,11 @@ export class Compass extends Item {
     }
 
     return (
-      <ModalItem button={<Button variant="primary">Compass</Button>}>
+      <ModalItem button={
+        <Button variant="link" className="h-100">
+          <Img src="/assets/compass.png" className="w-100 mh-100"/>
+        </Button>
+      }>
         <div className="position-relative w-100" style={{
           maxWidth: '95%',
           maxHeight: `${height}px`,

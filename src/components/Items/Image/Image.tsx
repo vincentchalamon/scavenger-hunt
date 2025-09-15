@@ -14,8 +14,6 @@ export class Image extends Item {
   }
 
   render(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
+    return <Img src={this.options.image} className="w-100 mh-100"/>;
   }
 }
