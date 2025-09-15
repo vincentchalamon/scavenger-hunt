@@ -43,11 +43,11 @@ export class ItemFactory {
       case ItemType.THREE_FIBER:
         return new ThreeFiber();
       case ItemType.MAGNIFIER:
-        return new Magnifier();
+        return new Magnifier(params.options);
       case ItemType.WINDMILL_SPINNER:
         return new WindmillSpinner();
       case ItemType.KEYWORD:
-        return new Keyword();
+        return new Keyword(params.options);
       default:
         throw new Error(`Item type ${params.type} not implemented`);
     }

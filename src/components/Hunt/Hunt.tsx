@@ -7,6 +7,7 @@ import {ItemsList as ItemsList} from "@/components/ItemsList/ItemsList";
 import React, {useEffect, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
 import {ClipLoader} from "react-spinners";
+import {PhraseProvider} from "@/contexts/PhraseContext";
 
 interface HuntProps {
   hunt: HuntType;
@@ -47,7 +48,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   return (
-    <>
+    <PhraseProvider>
       {opacity > 0 && (
         <Container
           className="z-3 vh-100 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center"
@@ -77,7 +78,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
         <Tab.Container defaultActiveKey="manuscript">
           <Tab.Content style={{height: `${height}px`}}>
             <Tab.Pane eventKey="manuscript" className="h-100">
-              <Manuscript manuscript={hunt.manuscript}/>
+              <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
             </Tab.Pane>
             <Tab.Pane eventKey="items" className="h-100">
               <ItemsList items={hunt.items}/>
@@ -109,6 +110,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           </Nav>
         </Tab.Container>
       </div>
-    </>
+    </PhraseProvider>
   )
 }

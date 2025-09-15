@@ -5,6 +5,7 @@ import React, {ReactNode} from "react";
 import {Button, Image} from "react-bootstrap";
 import {ItemFactory, ItemType as ItemTypeEnum} from "@/components/Items/ItemFactory";
 import {Item, ModalItem} from "@/components/Items";
+import {hasKeyword} from "@/contexts/PhraseContext";
 
 interface ClickableAreaProps {
   top?: string,
@@ -34,8 +35,8 @@ export class ClickableImage extends Item {
   render(): ReactNode {
     return (
       <ModalItem button={<Button variant="primary">Clickable image</Button>}>
-        <div className="position-relative">
-          <Image src={this.options.image} className="w-100 mh-100"/>
+        <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+          <Image src={this.options.image} className="mh-100 mw-100"/>
           {this.options.clickableAreas.map((clickableArea, i) => {
             if (clickableArea.action.type === ItemTypeEnum.IMAGE) {
               return (
@@ -43,6 +44,10 @@ export class ClickableImage extends Item {
                   {ItemFactory.create(clickableArea.action).render()}
                 </ModalItem>
               );
+            }
+
+            if (clickableArea.action.type === ItemTypeEnum.KEYWORD && hasKeyword(clickableArea.action.options?.keyword as string)) {
+              return;
             }
 
             return (

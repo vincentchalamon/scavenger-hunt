@@ -87,20 +87,33 @@ export class Compass extends Item {
       };
     }, []);
 
+    const [height, setHeight] = useState<number | undefined>(undefined);
+    if (typeof screen !== "undefined") {
+      useEffect(() => setHeight(screen.height - 60), [screen]);
+      useEffect(() => {
+        const handler = () => setHeight(screen.height - 60);
+        screen.orientation.addEventListener('change', handler, true);
+
+        return () => screen.orientation.removeEventListener('change', handler, true);
+      }, [screen.orientation]);
+    }
+
     return (
       <ModalItem button={<Button variant="primary">Compass</Button>}>
-        <div className="position-relative w-100 rounded-5 m-0" style={{
+        <div className="position-relative w-100" style={{
           maxWidth: '95%',
+          maxHeight: `${height}px`,
           height: '350px',
         }}>
           <div className="position-absolute w-0 h-0 start-50 z-1" style={{
-            top: '-35px',
+            top: '-20px',
             transform: 'translateX(-50%)',
             borderStyle: 'solid',
             borderWidth: '30px 20px 0 20px',
             borderColor: 'red transparent transparent transparent',
           }}/>
-          <div className="position-absolute w-100 h-100 top-50 start-50" style={{
+          <div className="position-absolute w-100 h-100 start-50" style={{
+            top: '55%',
             transform: `translate(-50%, -50%) rotate(${angle}deg)`,
             background: 'url(/assets/compass.png) center no-repeat',
             backgroundSize: 'contain',

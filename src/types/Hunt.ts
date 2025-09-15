@@ -4,6 +4,7 @@ export interface Hunt {
   name: string;
   lang: string;
   manuscript: string;
+  phrase: string;
   items: Item[];
   slug: string;
   url: string;

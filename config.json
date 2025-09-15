@@ -3,6 +3,7 @@
     "name": "Le Trésor du Vieux-Lille",
     "lang": "fr",
     "manuscript": "Lorem ipsum dolor sit amet",
+    "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
     "items": [
       {
         "type": "compass",
@@ -36,10 +37,19 @@
               "width": "12%",
               "height": "20%",
               "action": {
-                "type": "keyword"
+                "type": "keyword",
+                "options": {
+                  "keyword": "se"
+                }
               }
             }
           ]
+        }
+      },
+      {
+        "type": "magnifier",
+        "options": {
+          "image": "/assets/magnifier-pic.jpg"
         }
       }
     ]

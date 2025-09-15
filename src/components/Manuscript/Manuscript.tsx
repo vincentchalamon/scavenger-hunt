@@ -1,8 +1,17 @@
 "use client";
 
 import {Container} from "react-bootstrap";
-import {FunctionComponent} from "react";
+import React from "react";
+import {Phrase} from "@/components/Manuscript/Phrase";
 
-export const Manuscript: FunctionComponent<{ manuscript: string }> = ({manuscript}) => (
-  <Container className="py-3 text-dark">{manuscript}</Container>
+interface ManuscriptProps {
+  manuscript: string;
+  phrase: string;
+}
+
+export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase}) => (
+  <Container className="py-3 text-dark">
+    {manuscript}
+    <Phrase phrase={phrase}/>
+  </Container>
 )
