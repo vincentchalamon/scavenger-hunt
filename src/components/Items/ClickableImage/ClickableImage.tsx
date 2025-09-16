@@ -28,12 +28,18 @@ export class ClickableImage extends Item {
     super();
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     return (
       <Button variant="link" className="h-100">
         <Img src={this.options.icon} className="w-100 mh-100"/>
       </Button>
     );
+  }
+
+  onHide(): void {
+  }
+
+  onShow(): void {
   }
 
   render(): ReactNode {
@@ -46,7 +52,7 @@ export class ClickableImage extends Item {
           return (
             <div key={i} className="position-absolute" style={clickableArea}>
               {clickableArea.action.type === ItemTypeInterface.KEYWORD && itemComponent.render() || (
-                <ModalItem button={<Button className="h-100 w-100"/>}>
+                <ModalItem button={<Button className="h-100 w-100"/>} onHide={itemComponent.onHide} onShow={itemComponent.onShow}>
                   {itemComponent.render()}
                 </ModalItem>
               )}

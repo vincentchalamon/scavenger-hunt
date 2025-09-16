@@ -5,6 +5,7 @@ import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {headers} from "next/headers";
 import {Container} from "react-bootstrap";
+import {ReactNode} from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   description: "Scavenger Hunt App",
 };
 
-export default async function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {
   if (!/android.+mobile|ip(hone|[oa]d)/i.test((await headers()).get('user-agent') || '')) {
     return (
       <html lang="en">

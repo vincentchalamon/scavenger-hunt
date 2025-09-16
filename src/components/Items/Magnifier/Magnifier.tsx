@@ -15,12 +15,18 @@ export class Magnifier extends Item {
     super();
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     return (
       <Button variant="link" className="p-0 h-100 w-100">
         <Img src={this.options.image} className="w-100 h-100"/>
       </Button>
     );
+  }
+
+  onHide(): void {
+  }
+
+  onShow(): void {
   }
 
   render(): ReactNode {

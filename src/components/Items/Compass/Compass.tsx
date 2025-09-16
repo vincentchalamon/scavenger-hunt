@@ -17,12 +17,18 @@ export class Compass extends Item {
     super();
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     return (
       <Button variant="link" className="h-100">
         <Img src={this.options.icon} className="w-100 mh-100"/>
       </Button>
     );
+  }
+
+  onHide(): void {
+  }
+
+  onShow(): void {
   }
 
   render(): ReactNode {

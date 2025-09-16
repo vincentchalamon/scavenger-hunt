@@ -41,12 +41,18 @@ export class ScratchCard extends Item {
     this.keyword = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text;
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     return (
       <Button variant="link" className="h-100">
         <Img src={this.options.icon} className="w-100 mh-100"/>
       </Button>
     );
+  }
+
+  onHide(): void {
+  }
+
+  onShow(): void {
   }
 
   render(): ReactNode {

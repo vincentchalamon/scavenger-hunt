@@ -18,7 +18,7 @@ export const ItemsList: React.FC<ItemsListProps> = ({items}) => (
 
         return (
           <Col className="col-4" key={i}>
-            <ModalItem button={itemComponent.renderButton()}>
+            <ModalItem button={itemComponent.renderButton()} onHide={itemComponent.onHide} onShow={itemComponent.onShow}>
               {itemComponent.render()}
             </ModalItem>
           </Col>

@@ -18,7 +18,7 @@ export class PageFlip extends Item {
     super();
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     return (
       <Button variant="link" className="p-0 h-100 w-100">
         <Img src={this.options.icon} className="w-100 h-100"/>
@@ -26,9 +26,15 @@ export class PageFlip extends Item {
     );
   }
 
+  onHide(): void {
+    // todo setFlipped(false)
+  }
+
+  onShow(): void {
+  }
+
   render(): ReactNode {
     const [flipped, setFlipped] = useState(false);
-    // onHide={() => setFlipped(false)}
 
     return (
       <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">

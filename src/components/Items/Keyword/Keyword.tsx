@@ -15,8 +15,14 @@ export class Keyword extends Item {
     super();
   }
 
-  renderButton(): React.ReactNode {
+  renderButton(): ReactNode {
     throw new Error('Keyword cannot be rendered in the items list.');
+  }
+
+  onHide(): void {
+  }
+
+  onShow(): void {
   }
 
   render(): ReactNode {
