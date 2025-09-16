@@ -1,10 +1,11 @@
 "use client";
 
 import {Item as ItemType} from "@/types/Item";
+import {ItemType as ItemTypeInterface} from "@/components/Items/ItemFactory";
 import React, {ReactNode} from "react";
 import {Button, Image as Img, Image} from "react-bootstrap";
 import {ItemFactory} from "@/components/Items/ItemFactory";
-import {Item} from "@/components/Items";
+import {Item, ModalItem} from "@/components/Items";
 
 interface ClickableAreaProps {
   top?: string,
@@ -39,11 +40,19 @@ export class ClickableImage extends Item {
     return (
       <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
         <Image src={this.options.image} className="mh-100 mw-100"/>
-        {this.options.clickableAreas.map((clickableArea, i) => (
-          <div key={i} className="position-absolute" style={clickableArea}>
-            {ItemFactory.create(clickableArea.action).render()}
-          </div>
-        ))}
+        {this.options.clickableAreas.map((clickableArea, i) => {
+          const itemComponent = ItemFactory.create(clickableArea.action);
+
+          return (
+            <div key={i} className="position-absolute" style={clickableArea}>
+              {clickableArea.action.type === ItemTypeInterface.KEYWORD && itemComponent.render() || (
+                <ModalItem button={<Button className="h-100 w-100"/>}>
+                  {itemComponent.render()}
+                </ModalItem>
+              )}
+            </div>
+          )
+        })}
       </div>
     );
   }
