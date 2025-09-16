@@ -187,6 +187,29 @@
           "icon": "/assets/meert/icon.png",
           "image": "/assets/meert/texture.png"
         }
+      },
+      {
+        "type": "page-flip",
+        "options": {
+          "icon": "/assets/vieille-bourse/icon.png",
+          "pages": [
+            {
+              "text": "Page 1<br/>with HTML"
+            },
+            {
+              "text": "Page 2<br/>with HTML"
+            },
+            {
+              "text": "Page 3<br/>with HTML"
+            },
+            {
+              "text": "Page 4<br/>with HTML<br/>and {keyword}keyword{/keyword}"
+            },
+            {
+              "text": "Page 5<br/>with HTML"
+            }
+          ]
+        }
       }
     ]
   }

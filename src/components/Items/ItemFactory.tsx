@@ -9,6 +9,7 @@ import {
   ScratchCard,
   ThreeFiber,
   WindmillSpinner,
+  PageFlip,
 } from "@/components/Items";
 
 export enum ItemType {
@@ -38,7 +39,7 @@ export class ItemFactory {
       case ItemType.CARD_FLIP:
         return new CardFlip(params.options);
       case ItemType.PAGE_FLIP:
-        return new CardFlip(params.options);
+        return new PageFlip(params.options);
       case ItemType.THREE_FIBER:
         return new ThreeFiber(params.options);
       case ItemType.MAGNIFIER:
