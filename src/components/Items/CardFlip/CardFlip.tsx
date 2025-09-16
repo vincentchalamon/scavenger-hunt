@@ -7,19 +7,20 @@ import ReactCardFlip from 'react-card-flip';
 import {ItemFactory} from "@/components/Items/ItemFactory";
 import {Item as ItemType} from "@/types/Item";
 
-interface PageFlipProps {
+interface CardFlipProps {
   icon: string,
   front: string,
   back: ItemType,
 }
 
-export class PageFlip extends Item {
-  constructor(private options: PageFlipProps) {
+export class CardFlip extends Item {
+  constructor(private options: CardFlipProps) {
     super();
   }
 
   renderButton(): ReactNode {
     return (
+      // @ts-ignore
       <Button variant="link" className="p-0 h-100 w-100">
         <Img src={this.options.icon} className="w-100 h-100"/>
       </Button>

@@ -117,7 +117,7 @@
               "width": "10%",
               "height": "20%",
               "action": {
-                "type": "page-flip",
+                "type": "card-flip",
                 "options": {
                   "front": "/assets/place-aux-oignons/treille-front.png",
                   "back": {

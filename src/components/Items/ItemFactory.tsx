@@ -5,7 +5,7 @@ import {
   Image,
   Keyword,
   Magnifier,
-  PageFlip,
+  CardFlip,
   ScratchCard,
   ThreeFiber,
   WindmillSpinner,
@@ -17,6 +17,7 @@ export enum ItemType {
   IMAGE = "image",
   KEYWORD = "keyword",
   SCRATCH_CARD = "scratch-card",
+  CARD_FLIP = "card-flip",
   PAGE_FLIP = "page-flip",
   THREE_FIBER = "three-fiber",
   MAGNIFIER = "magnifier",
@@ -34,8 +35,10 @@ export class ItemFactory {
         return new Image(params.options);
       case ItemType.SCRATCH_CARD:
         return new ScratchCard(params.options);
+      case ItemType.CARD_FLIP:
+        return new CardFlip(params.options);
       case ItemType.PAGE_FLIP:
-        return new PageFlip(params.options);
+        return new CardFlip(params.options);
       case ItemType.THREE_FIBER:
         return new ThreeFiber(params.options);
       case ItemType.MAGNIFIER:
