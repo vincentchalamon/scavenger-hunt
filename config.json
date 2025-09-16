@@ -145,6 +145,41 @@
             }
           ]
         }
+      },
+      {
+        "type": "clickable-image",
+        "options": {
+          "icon": "/assets/notre-dame-de-la-treille/icon.png",
+          "image": "/assets/notre-dame-de-la-treille/bible.png",
+          "clickableAreas": [
+            {
+              "top": "45%",
+              "right": "15%",
+              "width": "10%",
+              "height": "20%",
+              "action": {
+                "type": "clickable-image",
+                "options": {
+                  "image": "/assets/notre-dame-de-la-treille/letter.png",
+                  "clickableAreas": [
+                    {
+                      "top": "45%",
+                      "right": "15%",
+                      "width": "10%",
+                      "height": "20%",
+                      "action": {
+                        "type": "keyword",
+                        "options": {
+                          "keyword": "trésor"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }
