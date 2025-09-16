@@ -8,7 +8,7 @@
       {
         "type": "compass",
         "options": {
-          "icon": "/assets/compass.png",
+          "icon": "/assets/compass/icon.png",
           "coordinates": {
             "latitude": 50.6381036,
             "longitude": 3.0638525
@@ -22,10 +22,10 @@
           "image": "/assets/bras-d-or/bras-d-or.png",
           "clickableAreas": [
             {
-              "top": "45%",
-              "right": "15%",
-              "width": "10%",
-              "height": "20%",
+              "top": "35%",
+              "right": "10%",
+              "width": "20%",
+              "height": "30%",
               "action": {
                 "type": "magnifier",
                 "options": {
@@ -34,14 +34,14 @@
               }
             },
             {
-              "bottom": "15%",
-              "left": "15%",
+              "bottom": "10%",
+              "left": "11%",
               "width": "12%",
-              "height": "15%",
+              "height": "12%",
               "action": {
                 "type": "keyword",
                 "options": {
-                  "keyword": "se"
+                  "keyword": "Le"
                 }
               }
             }
@@ -55,10 +55,10 @@
           "image": "/assets/hospice-comtesse/medical-bag.png",
           "clickableAreas": [
             {
-              "top": "58%",
-              "left": "38%",
-              "width": "15%",
-              "height": "10%",
+              "top": "80%",
+              "right": "5%",
+              "width": "12%",
+              "height": "12%",
               "action": {
                 "type": "image",
                 "options": {
@@ -67,14 +67,14 @@
               }
             },
             {
-              "top": "28%",
-              "left": "38%",
-              "width": "15%",
+              "top": "35%",
+              "left": "20%",
+              "width": "30%",
               "height": "15%",
               "action": {
                 "type": "keyword",
                 "options": {
-                  "keyword": "de"
+                  "keyword": "trésor"
                 }
               }
             }

@@ -29,7 +29,7 @@ export class Image extends Item {
 
   render(): ReactNode {
     return (
-      <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid white"}}>
         <Img src={this.options.image} className="w-100 mh-100"/>
       </div>
     );

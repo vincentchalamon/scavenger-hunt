@@ -18,10 +18,18 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
     <>
       <div className="h-100 w-100" onClick={show}>{button}</div>
       <Modal show={isShown} fullscreen onHide={hide}>
-        <Modal.Body className="p-0 position-relative">
+        <Modal.Body className="p-0 position-relative" style={{
+          backgroundImage: 'url(/assets/background.png)',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backgroundBlendMode: 'lighten',
+        }}>
           <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hide}/>
           <Container className="position-relative d-flex flex-column justify-content-center align-items-center object-fit-contain h-100 w-100 p-0">
-            {children}
+            <div className="position-relative d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
+              {children}
+            </div>
           </Container>
         </Modal.Body>
       </Modal>

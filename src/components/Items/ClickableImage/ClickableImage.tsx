@@ -44,7 +44,7 @@ export class ClickableImage extends Item {
 
   render(): ReactNode {
     return (
-      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+      <>
         <Image src={this.options.image} className="mh-100 mw-100"/>
         {this.options.clickableAreas.map((clickableArea, i) => {
           const itemComponent = ItemFactory.create(clickableArea.action);
@@ -52,14 +52,14 @@ export class ClickableImage extends Item {
           return (
             <div key={i} className="position-absolute" style={clickableArea}>
               {clickableArea.action.type === ItemTypeInterface.KEYWORD && itemComponent.render() || (
-                <ModalItem button={<Button className="h-100 w-100"/>} onHide={itemComponent.onHide} onShow={itemComponent.onShow}>
+                <ModalItem button={<Button className="h-100 mh-100 w-100"/>} onHide={itemComponent.onHide} onShow={itemComponent.onShow}>
                   {itemComponent.render()}
                 </ModalItem>
               )}
             </div>
           )
         })}
-      </div>
+      </>
     );
   }
 }

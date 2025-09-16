@@ -12,7 +12,7 @@ export const Phrase: React.FC<PhraseProps> = ({phrase}) => {
   const {keywords} = useContext(PhraseContext);
 
   return (
-    <Container className="py-3 text-dark fw-bolder">
+    <Container className="py-3 text-dark fw-bold h6">
       {/*@ts-ignore*/}
       {phrase.split(" ").map((keyword) => keywords.includes(keyword) ? keyword : "_".repeat(keyword.length)).join(" ")}
     </Container>

@@ -33,9 +33,7 @@ export class Magnifier extends Item {
 
   render(): ReactNode {
     return (
-      <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
-        <LookingGlass src={this.options.image} zoomFactor={3}/>
-      </div>
+      <LookingGlass src={this.options.image} zoomFactor={4} imageClassName="mh-100 mw-100"/>
     );
   }
 }

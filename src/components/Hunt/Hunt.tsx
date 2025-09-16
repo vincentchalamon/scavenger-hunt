@@ -73,10 +73,10 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           minHeight: '100vh',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          backgroundImage: 'url(/assets/manuscript.png)',
+          backgroundImage: 'url(/assets/background.png)',
           backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
-          backgroundColor: 'rgba(255, 255, 255, 0.3)',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
           backgroundBlendMode: 'lighten',
         }}>
           <Tab.Container defaultActiveKey="manuscript">

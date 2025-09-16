@@ -19,6 +19,7 @@ export class Compass extends Item {
 
   renderButton(): ReactNode {
     return (
+      // @ts-ignore
       <Button variant="link" className="h-100">
         <Img src={this.options.icon} className="w-100 mh-100"/>
       </Button>
