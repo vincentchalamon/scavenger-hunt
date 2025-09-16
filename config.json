@@ -210,6 +210,13 @@
             }
           ]
         }
+      },
+      {
+        "type": "magnifier",
+        "options": {
+          "icon": "/assets/opera/icon.png",
+          "image": "/assets/opera/opera.png"
+        }
       }
     ]
   }

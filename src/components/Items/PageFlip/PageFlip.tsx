@@ -50,6 +50,7 @@ export class PageFlip extends Item {
 
     return (
       <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+        {/*@ts-ignore*/}
         <HTMLFlipBook width={width} height={height} flippingTime={2000} showCover={true} style={{
           background: "url('/assets/vieille-bourse/cover.png') repeat",
           boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.5)",

@@ -7,6 +7,7 @@ import {Button, Image as Img} from "react-bootstrap";
 import LookingGlass from "react-looking-glass";
 
 interface MagnifierProps {
+  icon: string,
   image: string,
 }
 
@@ -17,8 +18,9 @@ export class Magnifier extends Item {
 
   renderButton(): ReactNode {
     return (
+      // @ts-ignore
       <Button variant="link" className="p-0 h-100 w-100">
-        <Img src={this.options.image} className="w-100 h-100"/>
+        <Img src={this.options.icon} className="w-100 h-100"/>
       </Button>
     );
   }
