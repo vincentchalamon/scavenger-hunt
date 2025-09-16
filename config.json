@@ -180,6 +180,13 @@
             }
           ]
         }
+      },
+      {
+        "type": "three-fiber",
+        "options": {
+          "icon": "/assets/meert/icon.png",
+          "image": "/assets/meert/texture.png"
+        }
       }
     ]
   }

@@ -37,7 +37,7 @@ export class ItemFactory {
       case ItemType.PAGE_FLIP:
         return new PageFlip(params.options);
       case ItemType.THREE_FIBER:
-        return new ThreeFiber();
+        return new ThreeFiber(params.options);
       case ItemType.MAGNIFIER:
         return new Magnifier(params.options);
       case ItemType.WINDMILL_SPINNER:
