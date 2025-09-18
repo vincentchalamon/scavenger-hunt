@@ -44,7 +44,7 @@ export class ClickableImage extends Item {
 
   render(): ReactNode {
     return (
-      <>
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
         <Image src={this.options.image} className="mh-100 mw-100"/>
         {this.options.clickableAreas.map((clickableArea, i) => {
           const itemComponent = ItemFactory.create(clickableArea.action);
@@ -59,7 +59,7 @@ export class ClickableImage extends Item {
             </div>
           )
         })}
-      </>
+      </div>
     );
   }
 }

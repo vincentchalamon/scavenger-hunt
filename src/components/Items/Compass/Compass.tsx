@@ -114,12 +114,8 @@ export class Compass extends Item {
     }
 
     return (
-      <>
-        <div className="position-relative w-100" style={{
-          maxWidth: '95%',
-          maxHeight: `${height}px`,
-          height: '350px',
-        }}>
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+        <div style={{maxWidth: '95%', maxHeight: `${height}px`, height: '350px'}}>
           <div className="position-absolute w-0 h-0 start-50 z-1" style={{
             top: '-20px',
             transform: 'translateX(-50%)',
@@ -138,7 +134,7 @@ export class Compass extends Item {
             background: 'rgb(8, 223, 69)',
           }}/>
         </div>
-      </>
+      </div>
     );
   }
 }

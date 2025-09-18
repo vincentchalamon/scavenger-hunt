@@ -69,7 +69,7 @@ export class ScratchCard extends Item {
     }
 
     return (
-      <div className="bg-white">
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center mw-100 mh-100 bg-white">
         <ReactScratchCard
           // @ts-ignore
           width={width}

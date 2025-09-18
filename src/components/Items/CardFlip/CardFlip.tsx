@@ -38,7 +38,7 @@ export class CardFlip extends Item {
     const [flipped, setFlipped] = useState(false);
 
     return (
-      <div className="d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
         <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
           <div>
             <Button variant="link" onClick={() => setFlipped(true)}>

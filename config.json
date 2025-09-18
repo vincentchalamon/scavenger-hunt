@@ -133,7 +133,7 @@
                           "action": {
                             "type": "keyword",
                             "options": {
-                              "keyword": "Le"
+                              "keyword": "du"
                             }
                           }
                         }
@@ -170,7 +170,7 @@
                       "action": {
                         "type": "keyword",
                         "options": {
-                          "keyword": "trésor"
+                          "keyword": "Vieux-Lille"
                         }
                       }
                     }
@@ -185,7 +185,8 @@
         "type": "three-fiber",
         "options": {
           "icon": "/assets/meert/icon.png",
-          "image": "/assets/meert/texture.png"
+          "image": "/assets/meert/texture.png",
+          "keyword": "se"
         }
       },
       {

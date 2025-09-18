@@ -20,6 +20,10 @@ export class WindmillSpinner extends Item {
   }
 
   render(): ReactNode {
-    return <p>This is a WindmillSpinner</p>
+    return (
+      <div className="position-relative d-flex flex-column justify-content-center align-items-center w-100 mw-100 mh-100">
+        <p>This is a WindmillSpinner</p>
+      </div>
+    );
   }
 }
