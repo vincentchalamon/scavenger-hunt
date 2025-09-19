@@ -16,38 +16,45 @@ interface HuntProps {
 }
 
 export const Hunt: React.FC<HuntProps> = ({hunt}) => {
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const [opacity, setOpacity] = useState<number>(1);
+  // Ensure geolocation is enabled and allowed
+  const [geolocation, hasGeolocation] = useState<boolean|undefined>(undefined);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      () => hasGeolocation(true),
+      () => hasGeolocation(false),
+    );
+  }, [navigator.geolocation]);
 
+  // Calculate application height because I suck at CSS
+  const [height, setHeight] = useState<number | undefined>(undefined);
   if (typeof screen !== "undefined") {
     useEffect(() => {
       // Total height - bottom navbar - top navbar
-      const timeout = setTimeout(() => {setHeight(screen.height - 40 - 59)}, 500);
+      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59), 500);
 
       return () => clearTimeout(timeout);
     }, [screen]);
 
     useEffect(() => {
+      // Total height - bottom navbar - top navbar
       const handler = () => setHeight(screen.height - 40 - 59);
       screen.orientation.addEventListener('change', handler, true);
 
       return () => screen.orientation.removeEventListener('change', handler, true);
     }, [screen.orientation]);
-
-    useEffect(() => {
-      if (opacity === 0 || typeof height === "undefined") {
-        return;
-      }
-
-      const interval = setInterval(() => {
-        setOpacity(opacity - 0.1);
-      }, 20);
-
-      return () => {
-        clearInterval(interval);
-      };
-    }, [height, opacity]);
   }
+
+  // Reveal effect after height calculation
+  const [opacity, setOpacity] = useState<number>(1);
+  useEffect(() => {
+    if (opacity === 0 || typeof height === "undefined" || geolocation !== true) {
+      return;
+    }
+
+    const interval = setInterval(() => setOpacity(opacity - 0.1), 20);
+
+    return () => clearInterval(interval);
+  }, [opacity, height, geolocation]);
 
   return (
     <PhraseProvider>
@@ -56,7 +63,13 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           <Container
             className="z-3 vh-100 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center"
             style={{opacity: opacity}}>
-            <ClipLoader size={80} color="white"/>
+            {geolocation !== true && (
+              <div className="mb-5">
+                <p>This application requires geolocation.</p>
+                <p>Please enable and allow geolocation on your browser.</p>
+              </div>
+            )}
+            <ClipLoader size={80} color="white" className="mt-5"/>
           </Container>
         )}
         <Toast/>
@@ -116,5 +129,5 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
         </div>
       </ToastProvider>
     </PhraseProvider>
-  )
+  );
 }
