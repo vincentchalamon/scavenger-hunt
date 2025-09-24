@@ -1,42 +1,28 @@
 "use client";
 
-import {Item} from "@/components/Items/Item";
-import React, {ReactNode, useContext} from "react";
-import {Button} from "react-bootstrap";
-import {PhraseContext} from "@/contexts/PhraseContext";
-import {ToastContext} from "@/contexts/ToastContext";
+import {Item} from "@/components/Items";
+import React, {ReactNode} from "react";
+import {Button, Image as Img} from "react-bootstrap";
+import {ItemOptionsType} from "@/types/Item";
 
-interface KeywordProps {
-  keyword: string,
+type KeywordProps = {
+  keyword: string;
+  debug?: boolean;
+  onKeywordClicked: (keyword: string) => void;
 }
 
 export class Keyword extends Item {
-  constructor(private options: KeywordProps) {
+  constructor(private options: KeywordProps & ItemOptionsType) {
     super();
   }
 
-  renderButton(): ReactNode {
-    throw new Error('Keyword cannot be rendered in the items list.');
-  }
-
-  onHide(): void {
-  }
-
-  onShow(): void {
+  renderImage(): ReactNode {
+    throw new Error('Keyword::renderImage is not implemented');
   }
 
   render(): ReactNode {
-    const {keywords, setKeywords} = useContext(PhraseContext);
-    const {setToast} = useContext(ToastContext);
-
     return (
-      <Button className="h-100 w-100" onClick={() => {
-        // @ts-ignore
-        if (!keywords.includes(this.options.keyword)) {
-          setKeywords([...keywords, this.options.keyword].filter((value, index, self) => self.indexOf(value) === index));
-          setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
-        }
-      }}/>
+      <Button className="h-100 w-100 opacity-50" variant={this.options.debug ? "primary" : "link"} onClick={() => this.options.onKeywordClicked(this.options.keyword)}/>
     );
   }
 }

@@ -1,24 +1,23 @@
 "use client";
 
 import {Container} from "react-bootstrap";
-import React from "react";
-import {Phrase} from "@/components/Manuscript/Phrase";
+import React, {useContext} from "react";
+import {PhraseContext} from "@/contexts/PhraseContext";
 
-interface ManuscriptProps {
+type ManuscriptProps = {
   manuscript: string;
   phrase: string;
 }
 
-export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase}) => (
-  <Container className="py-3 text-dark">
-    <div dangerouslySetInnerHTML={{
-      // @ts-ignore
-      __html: manuscript.split('{phrase}').shift(),
-    }}/>
-    <Phrase phrase={phrase}/>
-    <div dangerouslySetInnerHTML={{
-      // @ts-ignore
-      __html: manuscript.split('{phrase}').pop(),
-    }}/>
-  </Container>
-)
+export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase}) => {
+  const {keywords} = useContext(PhraseContext);
+
+  return (
+    <Container className="py-3 text-dark">
+      <div dangerouslySetInnerHTML={{
+        // @ts-ignore
+        __html: manuscript.replace('{phrase}', phrase.split(" ").map((keyword) => keywords.includes(keyword) ? keyword : "..".repeat(keyword.length)).join(" ")),
+      }}/>
+    </Container>
+  );
+}

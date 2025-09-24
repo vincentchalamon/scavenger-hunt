@@ -23,18 +23,18 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {
-  if (!/android.+mobile|ip(hone|[oa]d)/i.test((await headers()).get('user-agent') || '')) {
-    return (
-      <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <Container className="pt-2">
-        <p>This application is not compatible for desktop navigation.</p>
-        <p>Please open it on mobile.</p>
-      </Container>
-      </body>
-      </html>
-    );
-  }
+  // if (!/android.+mobile|ip(hone|[oa]d)/i.test((await headers()).get('user-agent') || '')) {
+  //   return (
+  //     <html lang="en">
+  //     <body className={`${geistSans.variable} ${geistMono.variable}`}>
+  //     <Container className="pt-2">
+  //       <p>This application is not compatible for desktop navigation.</p>
+  //       <p>Please open it on mobile.</p>
+  //     </Container>
+  //     </body>
+  //     </html>
+  //   );
+  // }
 
   return (
     <html lang="en">

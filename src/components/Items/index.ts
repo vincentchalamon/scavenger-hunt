@@ -10,3 +10,5 @@ export {Image} from "./Image/Image";
 export {Keyword} from "./Keyword/Keyword";
 export {ModalItem} from "./ModalItem";
 export {Item} from "./Item";
+export {ItemFactory, ItemType} from "./ItemFactory";
+

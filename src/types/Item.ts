@@ -1,4 +1,8 @@
-export interface Item {
+export type ItemOptionsType = {
+  onKeywordClicked: (keyword: string) => void;
+}
+
+export type Item = {
   type: string;
-  options?: object;
+  options?: object & ItemOptionsType;
 }

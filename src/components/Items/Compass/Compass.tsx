@@ -1,11 +1,10 @@
 "use client";
 
-import {Item} from "@/components/Items/Item";
+import {Item} from "@/components/Items";
 import React, {ReactNode, useEffect, useState} from "react";
-import {Button, Image as Img} from "react-bootstrap";
+import {ItemOptionsType} from "@/types/Item";
 
-interface CompassProps {
-  icon: string;
+type CompassProps = {
   coordinates: {
     latitude: number;
     longitude: number;
@@ -13,23 +12,8 @@ interface CompassProps {
 }
 
 export class Compass extends Item {
-  constructor(private options: CompassProps) {
+  constructor(private options: CompassProps & ItemOptionsType) {
     super();
-  }
-
-  renderButton(): ReactNode {
-    return (
-      // @ts-ignore
-      <Button variant="link" className="h-100">
-        <Img src={this.options.icon} className="w-100 mh-100"/>
-      </Button>
-    );
-  }
-
-  onHide(): void {
-  }
-
-  onShow(): void {
   }
 
   render(): ReactNode {

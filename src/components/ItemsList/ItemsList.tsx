@@ -2,11 +2,10 @@
 
 import {Col, Container, Row} from "react-bootstrap";
 import React from "react";
-import {ItemFactory} from "@/components/Items/ItemFactory";
+import {ItemFactory, ModalItem} from "@/components/Items";
 import {Item} from "@/types/Item";
-import {ModalItem} from "@/components/Items";
 
-interface ItemsListProps {
+type ItemsListProps = {
   items: Item[];
 }
 
@@ -17,7 +16,7 @@ export const ItemsList: React.FC<ItemsListProps> = ({items}) => (
         const itemComponent = ItemFactory.create(item);
 
         return (
-          <Col className="col-4 col-md-2" key={i}>
+          <Col className="col-4 col-md-2" key={`item-${i}`}>
             <ModalItem button={
               <div className="shadow" style={{
                 backdropFilter: 'blur(1px)',

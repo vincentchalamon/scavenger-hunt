@@ -1,26 +1,24 @@
 "use client";
 
-import {Item} from "@/components/Items/Item";
-import React, {ReactNode, useContext, useEffect, useState} from "react";
-import {Button, Image as Img} from "react-bootstrap";
+import {Item, ItemFactory, ItemType as ItemTypeInterface, ModalItem} from "@/components/Items";
+import React, {ReactNode, useEffect, useState} from "react";
 // @ts-ignore
 import ReactScratchCard from 'react-scratchcard-v4';
-import {PhraseContext} from "@/contexts/PhraseContext";
-import {ToastContext} from "@/contexts/ToastContext";
+import {ItemOptionsType} from "@/types/Item";
+import {Button, Image, Image as Img} from "react-bootstrap";
 
-interface ScratchableAreaProps {
-  top?: string,
-  bottom?: string,
-  left?: string,
-  right?: string,
-  width: string,
-  height: string,
-  text: string,
-  keyword: boolean,
+type ScratchableAreaProps = {
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  width: string;
+  height: string;
+  text: string;
+  keyword: boolean;
 }
 
-interface ScratchCardProps {
-  icon: string;
+type ScratchCardProps = {
   image: string;
   scratchableAreas: ScratchableAreaProps[];
 }
@@ -28,7 +26,7 @@ interface ScratchCardProps {
 export class ScratchCard extends Item {
   private keyword: string|undefined = undefined;
 
-  constructor(private options: ScratchCardProps) {
+  constructor(private options: ScratchCardProps & ItemOptionsType) {
     super();
     const nbKeywords = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword).length;
     if (nbKeywords > 1) {
@@ -41,57 +39,28 @@ export class ScratchCard extends Item {
     this.keyword = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text;
   }
 
-  renderButton(): ReactNode {
+  renderImage(): ReactNode {
     return (
-      <Button variant="link" className="h-100">
-        <Img src={this.options.icon} className="w-100 mh-100"/>
-      </Button>
+      <Img src={this.options.image} className="w-100 mh-100"/>
     );
   }
 
-  onHide(): void {
-  }
-
-  onShow(): void {
-  }
-
   render(): ReactNode {
-    const [height, setHeight] = useState<number | undefined>(undefined);
-    const [width, setWidth] = useState<number | undefined>(undefined);
-    const {keywords, setKeywords} = useContext(PhraseContext);
-    const {setToast} = useContext(ToastContext);
-
-    if (typeof screen !== "undefined") {
-      useEffect(() => {
-        setHeight(screen.height);
-        setWidth(screen.width);
-      }, [screen]);
-    }
-
     return (
-      <div className="position-relative d-flex flex-column justify-content-center align-items-center mw-100 mh-100 bg-white">
+      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
         <ReactScratchCard
-          // @ts-ignore
-          width={width}
-          // @ts-ignore
-          height={height}
+          width={300}
+          height={700}
           image={this.options.image}
           finishPercent={80}
           fadeOutOnComplete={false}
           // @ts-ignore
-          customCheckZone={{x: 0, y: height/2, width: width, height: 15}}
-          onComplete={() => {
-            // @ts-ignore
-            if (!keywords.includes(this.keyword)) {
-              // @ts-ignore
-              setKeywords([...keywords, this.keyword].filter((value, index, self) => self.indexOf(value) === index));
-              setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
-            }
-          }}
+          customCheckZone={{x: 0, y: 350, width: 300, height: 15}}
+          onComplete={() => this.options.onKeywordClicked(this.keyword)}
         >
           <div className="align-items-center justify-content-center w-100 h-100 d-flex">
             {this.options.scratchableAreas.map((scratchableArea, i) => (
-              <h1 className="m-3" key={i}>{scratchableArea.text}</h1>
+              <h1 className="m-3" key={`scratchable-area-${i}`}>{scratchableArea.text}</h1>
             ))}
           </div>
         </ReactScratchCard>

@@ -1,8 +1,8 @@
-import {Item} from "@/components/Items/Item";
 import {
   ClickableImage,
   Compass,
   Image,
+  Item,
   Keyword,
   Magnifier,
   CardFlip,
@@ -11,6 +11,7 @@ import {
   WindmillSpinner,
   PageFlip,
 } from "@/components/Items";
+import {ItemOptionsType} from "@/types/Item";
 
 export enum ItemType {
   COMPASS = "compass",
@@ -26,7 +27,7 @@ export enum ItemType {
 }
 
 export class ItemFactory {
-  static create(params: { type: string, options?: any }): Item {
+  static create(params: { type: string, options?: any & ItemOptionsType }): Item {
     switch (params.type) {
       case ItemType.COMPASS:
         return new Compass(params.options);

@@ -1,3 +1,5 @@
+"use client";
+
 const fields = ['routes.viewport', 'routes.legs', 'routes.polylineDetails'];
 
 // docs at https://developers.google.com/maps/documentation/routes/reference/rest/v2/TopLevel/computeRoutes

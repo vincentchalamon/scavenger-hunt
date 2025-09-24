@@ -4,7 +4,7 @@ import {Container, ListGroup, ListGroupItem} from "react-bootstrap";
 import React from "react";
 import {Hunt} from "@/types/Hunt";
 
-interface HuntsListProps {
+type HuntsListProps = {
   hunts: Hunt[];
 }
 

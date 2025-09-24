@@ -4,13 +4,15 @@ import {Button, Container, Form, ListGroup} from "react-bootstrap";
 import React, {FormEvent, FunctionComponent, useCallback, useState} from "react";
 import {ControlPosition, MapControl, useMapsLibrary} from "@vis.gl/react-google-maps";
 import {useAutocompleteSuggestions} from "@/hooks/use-autocomplete-suggestions";
+import {FormControlProps} from "react-bootstrap/FormControl";
 
-interface AutocompleteControlProps {
-  onPlaceSelect: (place: google.maps.places.Place | null) => void;
-  onClear: () => void;
+type AutocompleteControlProps = {
+  onPlaceSelect?: (place: google.maps.places.Place | null) => void;
+  onClear?: () => void;
 }
 
-export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = ({onPlaceSelect, onClear}) => {
+export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
+  const {onPlaceSelect = () => {}, onClear = () => {}, ...formControlProps} = props;
   const [inputValue, setInputValue] = useState<string>('');
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
@@ -69,7 +71,9 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
           // @ts-ignore
           onInput={(event) => handleInput(event)}
           // @ts-ignore
-          style={inputStyle}/>
+          style={inputStyle}
+          {...formControlProps}
+        />
         <Button
           type="button"
           className="btn-close position-absolute"
@@ -77,11 +81,11 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps> = 
           onClick={clearInput}
         />
         {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}}>
-          {suggestions.map((suggestion, index) => (
+          {suggestions.map((suggestion, i) => (
             <ListGroup.Item
-              key={index}
+              key={`suggestion-${i}`}
               action
-              style={{fontSize: '14px', borderRadius: index === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
+              style={{fontSize: '14px', borderRadius: i === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
               onClick={() => handleSuggestionClick(suggestion)}
             >
               <i className="bi bi-geo-alt-fill me-1"></i> {suggestion.placePrediction?.text.text}

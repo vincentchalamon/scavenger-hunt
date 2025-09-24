@@ -1,38 +1,29 @@
 "use client";
 
-import {Item} from "@/components/Items/Item";
+import {Item} from "@/components/Items";
 import React, {ReactNode} from "react";
-import {Button, Image as Img} from "react-bootstrap";
+import {Image as Img} from "react-bootstrap";
+import {ItemOptionsType} from "@/types/Item";
 
-interface ImageProps {
+type ImageProps = {
   image: string;
 }
 
 export class Image extends Item {
-  constructor(private options: ImageProps) {
+  constructor(private options: ImageProps & ItemOptionsType) {
     super();
   }
 
-  renderButton(): ReactNode {
+  renderImage(): ReactNode {
     return (
-      <Button variant="link" className="p-0 h-100 w-100">
-        <Img src={this.options.image} className="w-100 h-100"/>
-      </Button>
+      <Img src={this.options.image} className="w-100 mh-100"/>
     );
-  }
-
-  onHide(): void {
-  }
-
-  onShow(): void {
   }
 
   render(): ReactNode {
     return (
-      <div className="position-relative d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
-        <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid white"}}>
-          <Img src={this.options.image} className="w-100 mh-100"/>
-        </div>
+      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
+        <Img src={this.options.image} className="w-100 mh-100"/>
       </div>
     );
   }
