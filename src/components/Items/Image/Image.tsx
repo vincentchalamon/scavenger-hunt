@@ -5,12 +5,12 @@ import React, {ReactNode} from "react";
 import {Image as Img} from "react-bootstrap";
 import {ItemOptionsType} from "@/types/Item";
 
-type ImageProps = {
+type ImageProps = ItemOptionsType & {
   image: string;
 }
 
 export class Image extends Item {
-  constructor(private options: ImageProps & ItemOptionsType) {
+  constructor(private options: ImageProps) {
     super();
   }
 

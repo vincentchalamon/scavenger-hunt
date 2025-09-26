@@ -2,17 +2,16 @@
 
 import {Item} from "@/components/Items";
 import React, {ReactNode} from "react";
-import {Button, Image as Img} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {ItemOptionsType} from "@/types/Item";
+import {useKeyword} from "@/contexts/PhraseContext";
 
-type KeywordProps = {
+type KeywordProps = ItemOptionsType & {
   keyword: string;
-  debug?: boolean;
-  onKeywordClicked: (keyword: string) => void;
-}
+};
 
 export class Keyword extends Item {
-  constructor(private options: KeywordProps & ItemOptionsType) {
+  constructor(private options: KeywordProps) {
     super();
   }
 
@@ -22,7 +21,17 @@ export class Keyword extends Item {
 
   render(): ReactNode {
     return (
-      <Button className="h-100 w-100 opacity-50" variant={this.options.debug ? "primary" : "link"} onClick={() => this.options.onKeywordClicked(this.options.keyword)}/>
+      <Component keyword={this.options.keyword} debug={this.options.debug}/>
     );
   }
+}
+
+const Component: React.FC<KeywordProps> = ({keyword, debug}) => {
+  const {addKeyword} = useKeyword();
+
+  const onKeywordClicked = () => addKeyword(keyword);
+
+  return (
+    <Button className="h-100 w-100 opacity-50" variant={debug ? "primary" : "link"} onClick={onKeywordClicked}/>
+  );
 }

@@ -9,10 +9,11 @@ import {FormControlProps} from "react-bootstrap/FormControl";
 type AutocompleteControlProps = {
   onPlaceSelect?: (place: google.maps.places.Place | null) => void;
   onClear?: () => void;
+  coordinates: google.maps.LatLngLiteral;
 }
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
-  const {onPlaceSelect = () => {}, onClear = () => {}, ...formControlProps} = props;
+  const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, ...formControlProps} = props;
   const [inputValue, setInputValue] = useState<string>('');
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
@@ -23,11 +24,12 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   }, [inputValue]);
 
   const places = useMapsLibrary('places');
-  const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue);
+  const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue, {locationBias});
   const handleSuggestionClick = useCallback(
     async (suggestion: google.maps.places.AutocompleteSuggestion) => {
-      if (!places) return;
-      if (!suggestion.placePrediction) return;
+      if (!places || !suggestion.placePrediction) {
+        return;
+      }
 
       setInputValue(suggestion.placePrediction.text.text);
 

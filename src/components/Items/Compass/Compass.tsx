@@ -4,7 +4,7 @@ import {Item} from "@/components/Items";
 import React, {ReactNode, useEffect, useState} from "react";
 import {ItemOptionsType} from "@/types/Item";
 
-type CompassProps = {
+type CompassProps = ItemOptionsType & {
   coordinates: {
     latitude: number;
     longitude: number;
@@ -12,7 +12,7 @@ type CompassProps = {
 }
 
 export class Compass extends Item {
-  constructor(private options: CompassProps & ItemOptionsType) {
+  constructor(private options: CompassProps) {
     super();
   }
 

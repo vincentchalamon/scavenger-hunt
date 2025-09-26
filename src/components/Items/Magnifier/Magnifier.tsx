@@ -7,12 +7,12 @@ import LookingGlass from "react-looking-glass";
 import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 
-type MagnifierProps = {
+type MagnifierProps = ItemOptionsType & {
   image: string;
 }
 
 export class Magnifier extends Item {
-  constructor(private options: MagnifierProps & ItemOptionsType) {
+  constructor(private options: MagnifierProps) {
     super();
   }
 

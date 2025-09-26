@@ -1,5 +1,5 @@
 export type ItemOptionsType = {
-  onKeywordClicked: (keyword: string) => void;
+  debug?: boolean;
 }
 
 export type Item = {

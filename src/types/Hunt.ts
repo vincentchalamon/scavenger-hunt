@@ -1,13 +1,14 @@
-import {Item} from "@/types/Item";
 import {Place} from "@/types/Place";
 
 export type Hunt = {
   name: string;
+  coordinates: google.maps.LatLngLiteral;
+  debug?: boolean;
   lang: string;
   manuscript: string;
   phrase: string;
+  defaultKeywords?: string[];
   places: Place[];
-  items: Item[];
   slug: string;
   url: string;
 }

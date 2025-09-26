@@ -16,14 +16,13 @@ type ClickableAreaProps = {
   action: ItemType;
 }
 
-type ClickableImageProps = {
+type ClickableImageProps = ItemOptionsType & {
   image: string;
-  debug?: boolean;
   clickableAreas: ClickableAreaProps[];
 }
 
 export class ClickableImage extends Item {
-  constructor(private options: ClickableImageProps & ItemOptionsType) {
+  constructor(private options: ClickableImageProps) {
     super();
   }
 
@@ -38,7 +37,7 @@ export class ClickableImage extends Item {
       <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle position-relative">
         <Image src={this.options.image} className="mh-100 mw-100"/>
         {this.options.clickableAreas.map((clickableArea, i) => {
-          const itemComponent = ItemFactory.create({...clickableArea.action, options: {...clickableArea.action.options, onKeywordClicked: this.options.onKeywordClicked}});
+          const itemComponent = ItemFactory.create({...clickableArea.action, options: {...clickableArea.action.options, debug: this.options.debug}});
 
           return (
             <div key={`clickable-area-${i}`} className="position-absolute" style={clickableArea}>

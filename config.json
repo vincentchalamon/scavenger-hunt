@@ -2,8 +2,13 @@
   {
     "name": "Le Trésor du Vieux-Lille",
     "lang": "fr",
+    "coordinates": {
+      "lat": 50.633333,
+      "lng": 3.066667
+    },
     "manuscript": "<p>J'ai découvert le plus grand trésor du Vieux-Lille, mais des gens essaient de le voler !</p><p>Je l'ai donc caché, aux yeux de tous, et ai semé des indices pour vous aider à le retrouver !</p><p>Voici le premier indice, contenant le nom d'un objet insolite à proximité, à vous de le trouver !</p><p style=\"font-style: italic\">\"Je me dirigeai vers l'Alcide pensant que le trésor s'y trouverait.<br/>Quelle déception de voir qu'il n'y était pas, les <strong>BRAS</strong> m'en tombaient !<br/>Mais tout espoir n'était pas encore perdu, car dans les rues sur ma droite commençait alors mon aventure vers un trésor plus riche que l'<strong>OR</strong> !\"</p><hr/><p>Avez-vous trouver l'objet insolite ?</p><p>Retrouvez ce lieu dans l'onglet \"carte\" ci-dessous pour accéder aux indices suivants.</p><p>Dans chaque lieu sur cette carte, retrouvez un mot caché vous permettant de compléter la phrase suivante indiquant la position du trésor :</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p>",
     "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
+    "defaultKeywords": ["Le", "trésor", "Vieux-Lille", "se", "trouve"],
     "places": [
       {
         "name": "Le Bras d'Or",
@@ -15,7 +20,6 @@
         "item": {
           "type": "clickable-image",
           "options": {
-            "debug": true,
             "image": "/assets/bras-d-or/bras-d-or.png",
             "clickableAreas": [
               {
@@ -38,8 +42,7 @@
                 "action": {
                   "type": "keyword",
                   "options": {
-                    "debug": true,
-                    "keyword": "Le"
+                    "keyword": "pied"
                   }
                 }
               }
@@ -58,7 +61,6 @@
         "item": {
           "type": "clickable-image",
           "options": {
-            "debug": true,
             "image": "/assets/hospice-comtesse/medical-bag.png",
             "clickableAreas": [
               {
@@ -81,8 +83,7 @@
                 "action": {
                   "type": "keyword",
                   "options": {
-                    "debug": true,
-                    "keyword": "trésor"
+                    "keyword": "du"
                   }
                 }
               }
@@ -133,7 +134,6 @@
         "item": {
           "type": "clickable-image",
           "options": {
-            "debug": true,
             "image": "/assets/place-aux-oignons/place.png",
             "clickableAreas": [
               {
@@ -157,8 +157,7 @@
                 "action": {
                   "type": "keyword",
                   "options": {
-                    "debug": true,
-                    "keyword": "Vieux-Lille"
+                    "keyword": "au"
                   }
                 }
               }
@@ -177,7 +176,6 @@
         "item": {
           "type": "clickable-image",
           "options": {
-            "debug": true,
             "image": "/assets/notre-dame-de-la-treille/bible.png",
             "clickableAreas": [
               {
@@ -200,8 +198,7 @@
                 "action": {
                   "type": "keyword",
                   "options": {
-                    "debug": true,
-                    "keyword": "se"
+                    "keyword": "la"
                   }
                 }
               }
@@ -221,7 +218,7 @@
           "type": "three-fiber",
           "options": {
             "image": "/assets/meert/texture.png",
-            "keyword": "du"
+            "keyword": "de"
           }
         }
       },
@@ -248,7 +245,7 @@
                 "text": "Page 3<br/>with HTML"
               },
               {
-                "text": "Page 4<br/>with HTML<br/>and {keyword}keyword{/keyword}"
+                "text": "Page 4<br/>with HTML<br/>and {keyword}Colonne{/keyword}"
               },
               {
                 "text": "Page 5<br/>with HTML"
@@ -268,27 +265,20 @@
         "item": {
           "type": "magnifier",
           "options": {
-            "image": "/assets/opera/opera.png"
+            "image": "/assets/opera/opera.png",
+            "keyword": "Déesse"
           }
         }
       },
       {
         "name": "Colonne de la Déesse",
-        "description": "<h3>FÉLICITATIONS !!!</3><p>Vous avez trouvé le trésor du Vieux-Lille !</p><p>Il n'est pas constitué d'or ni d'argent, mais de la plus importante promesse que les Lillois ont fait : \"<strong>Nous venons de renouveler notre serment d'être fidèle à la Nation, de maintenir la Liberté et l'Égalité ou de mourir à notre poste. Nous ne sommes pas des parjures.</strong>\"</p><hr/><p>Ce monument commémore <strong>l'héroïsme des Lillois lors du siège de Lille de 1792</strong> par l'armée impériale.</p><p>Elle tient dans sa main droite un <strong>boutefeu</strong>, servant à allumer la mèche des canons, et montre de la gauche <strong>l'inscription du socle</strong> qui reprend la réponse du maire de Lille, François André-Bonte, refusant la reddition de la ville assiégée aux Impériaux, le 29 septembre 1792.</p>",
+        "description": "<h3>FÉLICITATIONS !!!</h3><p>Vous avez trouvé le trésor du Vieux-Lille !</p><p>Il n'est pas constitué d'or ni d'argent, mais de la plus importante promesse que les Lillois ont fait : \"<strong>Nous venons de renouveler notre serment d'être fidèle à la Nation, de maintenir la Liberté et l'Égalité ou de mourir à notre poste. Nous ne sommes pas des parjures.</strong>\"</p><hr/><p>Ce monument commémore <strong>l'héroïsme des Lillois lors du siège de Lille de 1792</strong> par l'armée impériale.</p><p>Elle tient dans sa main droite un <strong>boutefeu</strong>, servant à allumer la mèche des canons, et montre de la gauche <strong>l'inscription du socle</strong> qui reprend la réponse du maire de Lille, François André-Bonte, refusant la reddition de la ville assiégée aux Impériaux, le 29 septembre 1792.</p>",
         "link": "https://fr.wikipedia.org/wiki/Colonne_de_la_D%C3%A9esse",
         "coordinates": {
           "lat": 50.6369341,
           "lng": 3.0634202999999998
-        },
-        "item": {
-          "type": "magnifier",
-          "options": {
-            "image": "/assets/opera/opera.png"
-          }
         }
       }
-    ],
-    "items": [
     ]
   }
 ]
