@@ -9,6 +9,7 @@ import {ToastProvider} from "@/contexts/ToastContext";
 import {Toast} from "@/components/Toast/Toast";
 import {Map} from "@/components/Map/Map";
 import {PulseLoader} from "react-spinners";
+import {ApiKeyProvider} from "@/contexts/ApiKeyContext";
 
 type HuntProps = {
   hunt: HuntType;
@@ -55,70 +56,64 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (locked) {
     return (
       <Container>
-        <p>Landscape mode is not supported.</p>
+        <p>Le mode paysage n'est pas supporté.</p>
       </Container>
     );
   }
 
   return (
-    <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
-      <ToastProvider>
-        <Toast/>
-        <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
-          <Container>
-            <Navbar.Brand>
-              <Button type="button" size="lg" className="py-0 me-2 bg-transparent border-0 text-dark fs-1 lh-1" href="/">&#8249;</Button>
-              {hunt.name}
-            </Navbar.Brand>
-          </Container>
-        </Navbar>
-        <div className="px-0 d-flex" style={{
-          paddingTop: '58px',
-          minHeight: '100vh',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          backgroundImage: 'url(/assets/background.png)',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)',
-          backgroundBlendMode: 'lighten',
-        }}>
-          <Tab.Container defaultActiveKey="manuscript">
-            <Tab.Content style={{height: `${height}px`}}>
-              <Tab.Pane eventKey="manuscript" className="h-100">
-                <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase} defaultKeywords={hunt.defaultKeywords}/>
-              </Tab.Pane>
-              {/*<Tab.Pane eventKey="items" className="h-100">*/}
-              {/*  <ItemsList items={hunt.items}/>*/}
-              {/*</Tab.Pane>*/}
-              <Tab.Pane eventKey="map" className="h-100">
-                <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
-              </Tab.Pane>
-            </Tab.Content>
-            <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
-              <Container>
-                <Row>
-                  <Nav.Item>
-                    <Nav.Link eventKey="manuscript">
-                      <i className="bi bi-house"></i>
-                    </Nav.Link>
-                  </Nav.Item>
-                  {/*<Nav.Item>*/}
-                  {/*  <Nav.Link eventKey="items">*/}
-                  {/*    <i className="bi bi-backpack3"></i>*/}
-                  {/*  </Nav.Link>*/}
-                  {/*</Nav.Item>*/}
-                  <Nav.Item>
-                    <Nav.Link eventKey="map">
-                      <i className="bi bi-compass"></i>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Row>
-              </Container>
-            </Nav>
-          </Tab.Container>
-        </div>
-      </ToastProvider>
-    </PhraseProvider>
+    <ApiKeyProvider>
+      <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
+        <ToastProvider>
+          <Toast/>
+          <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
+            <Container>
+              <Navbar.Brand>
+                <Button type="button" size="lg" className="py-0 me-2 bg-transparent border-0 text-dark fs-1 lh-1" href="/">&#8249;</Button>
+                {hunt.name}
+              </Navbar.Brand>
+            </Container>
+          </Navbar>
+          <div className="px-0 d-flex" style={{
+            paddingTop: '58px',
+            minHeight: '100vh',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            backgroundImage: 'url(/assets/background.png)',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'repeat',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            backgroundBlendMode: 'lighten',
+          }}>
+            <Tab.Container defaultActiveKey="manuscript">
+              <Tab.Content style={{height: `${height}px`}}>
+                <Tab.Pane eventKey="manuscript" className="h-100">
+                  <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase} defaultKeywords={hunt.defaultKeywords}/>
+                </Tab.Pane>
+                <Tab.Pane eventKey="map" className="h-100">
+                  <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
+                </Tab.Pane>
+              </Tab.Content>
+              <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
+                <Container>
+                  <Row>
+                    <Nav.Item>
+                      <Nav.Link eventKey="manuscript">
+                        <i className="bi bi-house"></i>
+                      </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="map">
+                        <i className="bi bi-compass"></i>
+                      </Nav.Link>
+                    </Nav.Item>
+                  </Row>
+                </Container>
+              </Nav>
+            </Tab.Container>
+          </div>
+        </ToastProvider>
+      </PhraseProvider>
+    </ApiKeyProvider>
   );
 }

@@ -1,6 +1,5 @@
 import {
   ClickableImage,
-  Compass,
   Image,
   Item,
   Keyword,
@@ -14,7 +13,6 @@ import {
 import {ItemOptionsType} from "@/types/Item";
 
 export enum ItemType {
-  COMPASS = "compass",
   CLICKABLE_IMAGE = "clickable-image",
   IMAGE = "image",
   KEYWORD = "keyword",
@@ -29,8 +27,6 @@ export enum ItemType {
 export class ItemFactory {
   static create(params: { type: string, options?: any & ItemOptionsType }): Item {
     switch (params.type) {
-      case ItemType.COMPASS:
-        return new Compass(params.options);
       case ItemType.CLICKABLE_IMAGE:
         return new ClickableImage(params.options);
       case ItemType.IMAGE:

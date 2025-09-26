@@ -23,9 +23,15 @@ export class Magnifier extends Item {
   }
 
   render(): ReactNode {
+    const onMove = () => {
+      console.log("onMove");
+    };
+
     return (
-      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}}>
-        <LookingGlass src={this.options.image} zoomFactor={4} imageClassName="mh-100 mw-100"/>
+      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}}
+           onMouseDown={onMove}
+      >
+        <LookingGlass src={this.options.image} zoomFactor={3} imageClassName="mh-100 mw-100"/>
       </div>
     );
   }

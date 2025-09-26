@@ -6,14 +6,17 @@ import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {RoutesApi} from "@/components/Map/RoutesApi";
 import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
+import {ItemOptionsType} from "@/types/Item";
+import {useApiKey} from "@/contexts/ApiKeyContext";
 
-type MapProps = {
+type MapProps = ItemOptionsType & {
   places: Place[];
   coordinates: google.maps.LatLngLiteral;
-  debug?: boolean;
 }
 
-export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
+export const Map: React.FC<MapProps> = ({places, coordinates}) => {
+  // Retrieve Google Maps API Key
+  const apiKey = useApiKey();
   // Store all visited places to trace a route in the map
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
@@ -47,10 +50,10 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
   const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>(visitedPlaces[0].coordinates);
 
   // Configure and show GoogleMap with a route of all visited places
-  const apiClient = new RoutesApi(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string);
+  const apiClient = new RoutesApi(apiKey);
 
   return (
-    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}>
+    <APIProvider apiKey={apiKey}>
       <GoogleMap
         mapId="map-id"
         center={mapCenter}
