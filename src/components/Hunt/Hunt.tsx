@@ -68,8 +68,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           <Toast/>
           <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
             <Container>
-              <Navbar.Brand>
-                <Button type="button" size="lg" className="py-0 me-2 bg-transparent border-0 text-dark fs-1 lh-1" href="/">&#8249;</Button>
+              <Navbar.Brand className="ms-2">
                 {hunt.name}
               </Navbar.Brand>
             </Container>

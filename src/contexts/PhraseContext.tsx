@@ -1,5 +1,5 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
-import {ToastContext} from "@/contexts/ToastContext";
+import {useToast} from "@/contexts/ToastContext";
 
 export const PhraseContext = createContext({
   keywords: [],
@@ -24,7 +24,7 @@ export function PhraseProvider({ children, defaultKeywords = [] }: { children: R
 
 export const useKeyword = () => {
   const {keywords, setKeywords} = useContext(PhraseContext);
-  const {setToast} = useContext(ToastContext);
+  const {addToast} = useToast();
 
   const addKeyword = (keyword: string) => {
     const newKeywords = [...keywords, keyword].filter((value, index, self) => self.indexOf(value) === index);
@@ -33,7 +33,7 @@ export const useKeyword = () => {
     if (!keywords.includes(keyword)) {
       setKeywords(newKeywords);
       localStorage.setItem('keywords', JSON.stringify(newKeywords));
-      setToast('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+      addToast("Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !", "success");
     }
   };
 

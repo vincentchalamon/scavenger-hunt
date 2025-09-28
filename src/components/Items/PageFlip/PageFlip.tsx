@@ -1,13 +1,12 @@
 "use client";
 
-import {Item, ItemFactory} from "@/components/Items";
-import React, {ReactNode, useContext, useEffect, useState} from "react";
+import {Item} from "@/components/Items";
+import React, {ReactNode, useEffect, useState} from "react";
 import HTMLFlipBook from "react-pageflip";
 import styles from "./pageFlip.module.css";
 import {ItemOptionsType} from "@/types/Item";
-import {Button, Image as Img} from "react-bootstrap";
-import {PhraseContext} from "@/contexts/PhraseContext";
-import {ToastContext} from "@/contexts/ToastContext";
+import {Image as Img} from "react-bootstrap";
+import {useKeyword} from "@/contexts/PhraseContext";
 
 type PageProps = {
   text: string;
@@ -39,25 +38,30 @@ export class PageFlip extends Item {
 const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
   const [height, setHeight] = useState<number | undefined>(undefined);
   const [width, setWidth] = useState<number | undefined>(undefined);
+  const {addKeyword} = useKeyword();
 
   if (typeof screen !== "undefined") {
     useEffect(() => {
       // Total height - bottom navbar - top navbar
-      setHeight((screen.height - 40 - 59) / 2);
-      setWidth((screen.width / 2) - 20);
-    }, [screen]);
+      setHeight((screen.height / 2) - 40 - 59);
+      setWidth((screen.width / 2) - 10);
+    }, []);
   }
 
+  const onClick = (e, keyword: string) => {
+    if (e.target.classList.contains("keyword")) {
+      addKeyword(keyword);
+    }
+  };
+
   return (
-    <HTMLFlipBook width={width} height={height} flippingTime={2000} showCover={true} style={{
-      background: "url('/assets/vieille-bourse/cover.png') repeat",
-      boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.5)",
+    <HTMLFlipBook clickEventForward={true} width={width} height={height} flippingTime={2000} className="py-1" style={{
+      backgroundImage: "url('/assets/book.png')",
+      backgroundSize: "100% 100%",
+      backgroundPosition: "right center",
+      backgroundRepeat: "no-repeat",
     }}>
-      <div className={styles.page && styles.pageCover} data-density="hard">
-        <div className={styles.pageContent}>
-          <h2>BOOK TITLE</h2>
-        </div>
-      </div>
+      <div className={styles.page && styles.pageCover && styles.pageCoverTop}/>
       {pages.map((page, i) => {
         let content = <div className={styles.pageText} dangerouslySetInnerHTML={{__html: page.text}}/>;
         if (page.text.includes('{keyword}')) {
@@ -67,13 +71,8 @@ const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
             <>
               <div className={styles.pageText} dangerouslySetInnerHTML={{
                 // @ts-ignore
-                __html: page.text.split('{keyword}').shift(),
-              }}/>
-              {ItemFactory.create({type: "keyword", options: {debug: debug, keyword: keyword}}).render()}
-              <div className={styles.pageText} dangerouslySetInnerHTML={{
-                // @ts-ignore
-                __html: page.text.split('{/keyword}').pop(),
-              }}/>
+                __html: page.text.replace(/\{keyword}(.+)\{\/keyword}/g, `<a class="keyword">${keyword}</a>`),
+              }} onClick={(e) => onClick(e, keyword)}/>
             </>
           );
         }
@@ -82,16 +81,11 @@ const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
           <div className={styles.page} key={`content-${i}`}>
             <div className={styles.pageContent}>
               {content}
-              <div className={styles.pageFooter}>{i}</div>
             </div>
           </div>
         );
       })}
-      <div className={styles.page && styles.pageCover} data-density="hard">
-        <div className={styles.pageContent}>
-          <h2>FIN</h2>
-        </div>
-      </div>
+      <div className={styles.page && styles.pageCover && styles.pageCoverBottom} data-density="hard"/>
     </HTMLFlipBook>
   );
 }

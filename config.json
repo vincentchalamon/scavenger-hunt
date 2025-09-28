@@ -7,7 +7,7 @@
   },
   "manuscript": "<p>J'ai découvert le plus grand trésor du Vieux-Lille, mais des gens essaient de le voler !</p><p>Je l'ai donc caché, aux yeux de tous, et ai semé des indices pour vous aider à le retrouver !</p><p>Voici le premier indice, contenant le nom d'un objet insolite à proximité, à vous de le trouver !</p><p style=\"font-style: italic\">\"Je me dirigeai vers l'Alcide pensant que le trésor s'y trouverait.<br/>Quelle déception de voir qu'il n'y était pas, les <strong>BRAS</strong> m'en tombaient !<br/>Mais tout espoir n'était pas encore perdu, car dans les rues sur ma droite commençait alors mon aventure vers un trésor plus riche que l'<strong>OR</strong> !\"</p><hr/><p>Avez-vous trouver l'objet insolite ?</p><p>Retrouvez ce lieu dans l'onglet \"carte\" ci-dessous pour accéder aux indices suivants.</p><p>Dans chaque lieu sur cette carte, retrouvez un mot caché vous permettant de compléter la phrase suivante indiquant la position du trésor :</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p>",
   "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
-  "defaultKeywords": ["Le", "trésor", "Vieux-Lille", "se", "trouve"],
+  "defaultKeywords": ["Le", "trésor", "se", "trouve"],
   "places": [
     {
       "name": "Le Bras d'Or",
@@ -19,7 +19,7 @@
       "item": {
         "type": "clickable-image",
         "options": {
-          "image": "/assets/bras-d-or/bras-d-or.png",
+          "image": "/assets/bras-d-or/bras-d-or.jpg",
           "clickableAreas": [
             {
               "top": "33%",
@@ -29,7 +29,7 @@
               "action": {
                 "type": "magnifier",
                 "options": {
-                  "image": "/assets/bras-d-or/press.png"
+                  "image": "/assets/bras-d-or/press.jpg"
                 }
               }
             },
@@ -60,13 +60,13 @@
       "item": {
         "type": "clickable-image",
         "options": {
-          "image": "/assets/hospice-comtesse/medical-bag.png",
+          "image": "/assets/hospice-comtesse/paint.jpg",
           "clickableAreas": [
             {
-              "top": "80%",
-              "right": "5%",
-              "width": "12%",
-              "height": "12%",
+              "top": "5%",
+              "right": "3%",
+              "width": "25%",
+              "height": "16%",
               "action": {
                 "type": "image",
                 "options": {
@@ -75,9 +75,9 @@
               }
             },
             {
-              "top": "35%",
-              "left": "20%",
-              "width": "30%",
+              "top": "8%",
+              "left": "6%",
+              "width": "12%",
               "height": "15%",
               "action": {
                 "type": "keyword",
@@ -102,6 +102,8 @@
         "type": "scratch-card",
         "options": {
           "image": "/assets/aux-merveilleux-de-fred/box.png",
+          "width": 340,
+          "height": 380,
           "scratchableAreas": [
             {
               "top": "45%",
@@ -133,13 +135,12 @@
       "item": {
         "type": "clickable-image",
         "options": {
-          "image": "/assets/place-aux-oignons/place.png",
+          "image": "/assets/place-aux-oignons/place.jpg",
           "clickableAreas": [
             {
-              "top": "45%",
-              "right": "15%",
-              "width": "10%",
-              "height": "20%",
+              "top": "73%",
+              "width": "20%",
+              "height": "10%",
               "action": {
                 "type": "card-flip",
                 "options": {
@@ -149,10 +150,10 @@
               }
             },
             {
-              "top": "45%",
-              "left": "15%",
-              "width": "10%",
-              "height": "20%",
+              "top": "50%",
+              "right": "3%",
+              "width": "13%",
+              "height": "8%",
               "action": {
                 "type": "keyword",
                 "options": {
@@ -178,10 +179,10 @@
           "image": "/assets/notre-dame-de-la-treille/bible.png",
           "clickableAreas": [
             {
-              "top": "45%",
-              "right": "15%",
-              "width": "10%",
-              "height": "20%",
+              "top": "48%",
+              "right": "3%",
+              "width": "20%",
+              "height": "27%",
               "action": {
                 "type": "image",
                 "options": {
@@ -191,8 +192,8 @@
             },
             {
               "top": "45%",
-              "left": "15%",
-              "width": "10%",
+              "left": "20%",
+              "width": "20%",
               "height": "20%",
               "action": {
                 "type": "keyword",
@@ -216,7 +217,15 @@
       "item": {
         "type": "three-fiber",
         "options": {
-          "image": "/assets/meert/texture.png",
+          "image": "/assets/meert/box.png",
+          "textures": [
+            "/assets/meert/textures/right.png",
+            "/assets/meert/textures/left.png",
+            "/assets/meert/textures/top.png",
+            "/assets/meert/textures/bottom.png",
+            "/assets/meert/textures/front.png",
+            "/assets/meert/textures/background.png"
+          ],
           "keyword": "de"
         }
       }
@@ -232,22 +241,25 @@
       "item": {
         "type": "page-flip",
         "options": {
-          "image": "/assets/vieille-bourse/book.png",
+          "image": "/assets/vieille-bourse/books.png",
           "pages": [
             {
-              "text": "Page 1<br/>with HTML"
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
             },
             {
-              "text": "Page 2<br/>with HTML"
+              "text": "<p>faucibus molestie congue. Aenean sollicitudin ligula vel leo placerat, ac aliquet dolor egestas. Integer sodales, lorem sit amet faucibus lobortis, justo arcu imperdiet ante, ut commodo eros lorem vulputate</p>"
             },
             {
-              "text": "Page 3<br/>with HTML"
+              "text": "<p>lorem. Ut pharetra elementum cursus. Duis gravida a urna id pellentesque. Duis interdum non risus at lacinia.</p> Etiam posuere augue nec mi aliquet, id cursus urna maximus. Ut lobortis dui sit amet</p>"
             },
             {
-              "text": "Page 4<br/>with HTML<br/>and {keyword}Colonne{/keyword}"
+              "text": "<p>libero lacinia gravida <strong>{keyword}Vieux-Lille{/keyword}</strong>.</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
             },
             {
-              "text": "Page 5<br/>with HTML"
+              "text": "<p>faucibus. Aliquam congue lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pellentesque viverra ultrices. Praesent viverra</p>"
+            },
+            {
+              "text": "<p>tellus non tellus commodo, eget pulvinar risus placerat.</p><p><strong>Allez à l'Opéra !</strong></p>"
             }
           ]
         }
@@ -264,8 +276,12 @@
       "item": {
         "type": "magnifier",
         "options": {
-          "image": "/assets/opera/opera.png",
-          "keyword": "Déesse"
+          "image": "/assets/opera/opera.jpg",
+          "keyword": "Déesse",
+          "keywordPosition": {
+            "x": 130,
+            "y": 440
+          }
         }
       }
     },

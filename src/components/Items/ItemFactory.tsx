@@ -7,7 +7,6 @@ import {
   CardFlip,
   ScratchCard,
   ThreeFiber,
-  WindmillSpinner,
   PageFlip,
 } from "@/components/Items";
 import {ItemOptionsType} from "@/types/Item";
@@ -21,7 +20,6 @@ export enum ItemType {
   PAGE_FLIP = "page-flip",
   THREE_FIBER = "three-fiber",
   MAGNIFIER = "magnifier",
-  WINDMILL_SPINNER = "windmill-spinner",
 }
 
 export class ItemFactory {
@@ -41,8 +39,6 @@ export class ItemFactory {
         return new ThreeFiber(params.options);
       case ItemType.MAGNIFIER:
         return new Magnifier(params.options);
-      case ItemType.WINDMILL_SPINNER:
-        return new WindmillSpinner();
       case ItemType.KEYWORD:
         return new Keyword(params.options);
       default:

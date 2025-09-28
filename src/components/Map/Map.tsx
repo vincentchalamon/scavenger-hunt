@@ -8,13 +8,16 @@ import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
 import {ItemOptionsType} from "@/types/Item";
 import {useApiKey} from "@/contexts/ApiKeyContext";
+import {useToast} from "@/contexts/ToastContext";
 
 type MapProps = ItemOptionsType & {
   places: Place[];
   coordinates: google.maps.LatLngLiteral;
 }
 
-export const Map: React.FC<MapProps> = ({places, coordinates}) => {
+export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
+  const {addToast} = useToast();
+
   // Retrieve Google Maps API Key
   const apiKey = useApiKey();
   // Store all visited places to trace a route in the map
@@ -38,10 +41,10 @@ export const Map: React.FC<MapProps> = ({places, coordinates}) => {
       });
       setMapCenter(location.coordinates);
     } else {
-      console.log(
-        places,
-        place?.location?.toJSON()
-      );
+      addToast("Ce lieu ne fait pas partie du jeu.", "danger");
+      if (debug) {
+        console.log(places, place?.location?.toJSON());
+      }
     }
   };
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);

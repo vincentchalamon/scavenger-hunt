@@ -45,7 +45,7 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
             {place.link && (
               <Button href={place.link} target="_blank">Découvrez son histoire</Button>
             )}
-            {place.item && (
+            {place.item?.type && (
               <Item item={ItemFactory.create(place.item)}/>
             )}
           </Container>

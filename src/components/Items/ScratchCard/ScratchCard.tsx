@@ -21,6 +21,8 @@ type ScratchableAreaProps = {
 
 type ScratchCardProps = ItemOptionsType & {
   image: string;
+  width: number;
+  height: number;
   scratchableAreas: ScratchableAreaProps[];
 }
 
@@ -42,18 +44,24 @@ export class ScratchCard extends Item {
 
   renderImage(): ReactNode {
     return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
+      <Img src={this.options.image} className="mw-100 mh-100"/>
     );
   }
 
   render(): ReactNode {
     return (
-      <Component image={this.options.image} scratchableAreas={this.options.scratchableAreas} keyword={this.keyword}/>
+      <Component
+        image={this.options.image}
+        width={this.options.width}
+        height={this.options.height}
+        scratchableAreas={this.options.scratchableAreas}
+        keyword={this.keyword}
+      />
     );
   }
 }
 
-const Component: React.FC<ScratchCardProps & {keyword: string}> = ({image, scratchableAreas, keyword}) => {
+const Component: React.FC<ScratchCardProps & {keyword: string}> = ({image, width, height, scratchableAreas, keyword}) => {
   const {addKeyword} = useKeyword();
 
   const onKeywordFound = () => addKeyword(keyword);
@@ -61,13 +69,13 @@ const Component: React.FC<ScratchCardProps & {keyword: string}> = ({image, scrat
   return (
     <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
       <ReactScratchCard
-        width={300}
-        height={700}
+        width={width}
+        height={height}
         image={image}
         finishPercent={80}
         fadeOutOnComplete={false}
         // @ts-ignore
-        customCheckZone={{x: 0, y: 350, width: 300, height: 15}}
+        customCheckZone={{x: 0, y: height/3, width: (80*width)/100, height: height/4}}
         onComplete={onKeywordFound}
       >
         <div className="align-items-center justify-content-center w-100 h-100 d-flex">

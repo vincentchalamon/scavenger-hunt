@@ -10,16 +10,15 @@ import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
-type BoxProps = {
-  image: string;
+type CubeProps = {
+  textures: string[];
   keyword: string;
   onKeywordFounded: () => void;
 }
 
-export const Box: React.FC<BoxProps> = ({image, onKeywordFounded}) => {
+export const Cube: React.FC<CubeProps> = ({textures, onKeywordFounded}) => {
   const ref = useRef<THREE.Mesh>(null!);
-  // todo improve texture
-  const colorMap = useLoader(THREE.TextureLoader, image);
+  const [right, left, top, bottom, front, background] = useLoader(THREE.TextureLoader, textures);
   const onPointerMove = (event: ThreeEvent<PointerEvent>) => {
     // @ts-ignore
     if (event.camera.position.y < -3) {
@@ -30,7 +29,12 @@ export const Box: React.FC<BoxProps> = ({image, onKeywordFounded}) => {
   return (
     <mesh position={[0, 0, 0]} ref={ref} scale={3} onPointerMove={onPointerMove}>
       <boxGeometry args={[1, 1, 1]}/>
-      <meshStandardMaterial map={colorMap}/>
+      <meshBasicMaterial map={right} attach="material-0"/>
+      <meshBasicMaterial map={left} attach="material-1"/>
+      <meshBasicMaterial map={top} attach="material-2"/>
+      <meshBasicMaterial map={bottom} attach="material-3"/>
+      <meshBasicMaterial map={front} attach="material-4"/>
+      <meshBasicMaterial map={background} attach="material-5"/>
     </mesh>
   );
 }
@@ -38,6 +42,7 @@ export const Box: React.FC<BoxProps> = ({image, onKeywordFounded}) => {
 type ThreeFiberProps = ItemOptionsType & {
   image: string;
   keyword: string;
+  textures: string[];
 }
 
 export class ThreeFiber extends Item {
@@ -53,15 +58,13 @@ export class ThreeFiber extends Item {
 
   render(): ReactNode {
     return (
-      <Component image={this.options.image} keyword={this.options.keyword}/>
+      <Component textures={this.options.textures} keyword={this.options.keyword}/>
     );
   }
 }
 
-export const Component: React.FC<ThreeFiberProps> = ({image, keyword}) => {
+export const Component: React.FC<Omit<ThreeFiberProps, "image">> = ({textures, keyword}) => {
   const {addKeyword} = useKeyword();
-
-  const onKeywordFounded = () => addKeyword(keyword);
 
   return (
     <Canvas style={{height: "500px"}}>
@@ -69,7 +72,7 @@ export const Component: React.FC<ThreeFiberProps> = ({image, keyword}) => {
       <ambientLight intensity={Math.PI / 2} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      <Box image={image} keyword={keyword} onKeywordFounded={onKeywordFounded}/>
+      <Cube textures={textures} keyword={keyword} onKeywordFounded={() => addKeyword(keyword)}/>
     </Canvas>
   );
 }
