@@ -1,0 +1,298 @@
+{
+  "name": "Le Trésor du Vieux-Lille",
+  "lang": "fr",
+  "coordinates": {
+    "lat": 50.633333,
+    "lng": 3.066667
+  },
+  "manuscript": "<p>J'ai découvert le plus grand trésor du Vieux-Lille, mais des gens essaient de le voler !</p><p>Je l'ai donc caché, aux yeux de tous, et ai semé des indices pour vous aider à le retrouver !</p><p>Voici le premier indice, contenant le nom d'un objet insolite à proximité, à vous de le trouver !</p><p style=\"font-style: italic\">\"Je me dirigeai vers l'Alcide pensant que le trésor s'y trouverait.<br/>Quelle déception de voir qu'il n'y était pas, les <strong>BRAS</strong> m'en tombaient !<br/>Mais tout espoir n'était pas encore perdu, car dans les rues sur ma droite commençait alors mon aventure vers un trésor plus riche que l'<strong>OR</strong> !\"</p><hr/><p>Avez-vous trouver l'objet insolite ?</p><p>Retrouvez ce lieu dans l'onglet \"carte\" ci-dessous pour accéder aux indices suivants.</p><p>Dans chaque lieu sur cette carte, retrouvez un mot caché vous permettant de compléter la phrase suivante indiquant la position du trésor :</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p>",
+  "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
+  "defaultKeywords": ["Le", "trésor", "se", "trouve"],
+  "places": [
+    {
+      "name": "Le Bras d'Or",
+      "description": "<p>C'est là, fixé en haut d'un balcon, qu'est tendu le bras en question. Entièrement doré, bien droit, la main ouverte, il semble nous indiquer la direction. Mais que symbolise-t-il réellement ?</p><p>Même l'origine fait débat. Certains attribuent l'apparition de cette <strong>sculpture au 17ème siècle</strong>. D'autres s'avancent au 16ème. On retrouve d'ailleurs une <strong>gravure de l'ancienne maison en bois</strong> (désormais un immeuble en pierres) sur trois étages qui ouvrait la rue autrefois nommée la rue « <strong>Grant Cauchie</strong> » dès le début du 16ème siècle.</p><p>Pour certains, il donnerait la <strong>direction de la Rue de la Monnaie</strong> où était livré l'or destiné à frapper les pièces de monnaie. D'où le rappel de sa couleur. D'autres penchent plus vers la <strong>direction de l'Hôpital Comtesse</strong> (l'actuel Hospice Comtesse).</p><p>D'autres encore, l'associent à l'<strong>insigne d'un maître d'armes ou d'un gantier</strong>. En effet, selon les historiens, il n'était pas rare de retrouver un bras tendu en guise de <strong>signalétique</strong> vers ce genre de commerces. Sauf que, le rez-de-chaussée a été occupé successivement par <strong>des imprimeurs, un magasin d'objets religieux, une pharmacie...</strong></p>",
+      "coordinates": {
+        "lat": 50.6382135,
+        "lng": 3.0637474
+      },
+      "item": {
+        "type": "clickable-image",
+        "options": {
+          "image": "/assets/bras-d-or/bras-d-or.jpg",
+          "clickableAreas": [
+            {
+              "top": "33%",
+              "right": "10%",
+              "width": "20%",
+              "height": "48%",
+              "action": {
+                "type": "magnifier",
+                "options": {
+                  "image": "/assets/bras-d-or/press.jpg"
+                }
+              }
+            },
+            {
+              "bottom": "10%",
+              "left": "10%",
+              "width": "12%",
+              "height": "12%",
+              "action": {
+                "type": "keyword",
+                "options": {
+                  "keyword": "pied"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Musée de l'Hospice Comtesse",
+      "description": "<p>L'Hospice Comtesse est un <strong>ancien hôpital médiéval</strong> fondé en 1237 par la comtesse Jeanne de Flandre (v. 1200-1244). Il abrite depuis 1962 le <strong>musée d’art et d’histoire</strong> de la ville.</p><p>L’ampleur de ses volumes et son architecture caractéristique des lieux de soins incarnent <strong>plus de 750 ans d’hospitalité et de générosité</strong>. Riches de <strong>près de 70 000 œuvres</strong>, ses collections très diverses reflètent l’histoire sociale et culturelle de la capitale des Flandres.</p><p>Labellisé « <strong>Musée de France</strong> » en 2003 et classé au titre des « <strong>Monuments Historiques</strong> » en 1923 et 1991, le Musée de l’Hospice Comtesse travaille à l’heure actuelle son futur Projet Scientifique et Culturel (PSC).</p>",
+      "link": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_l%27Hospice_Comtesse",
+      "coordinates": {
+        "lat": 50.641385799999995,
+        "lng": 3.0632544
+      },
+      "item": {
+        "type": "clickable-image",
+        "options": {
+          "image": "/assets/hospice-comtesse/paint.jpg",
+          "clickableAreas": [
+            {
+              "top": "5%",
+              "right": "3%",
+              "width": "25%",
+              "height": "16%",
+              "action": {
+                "type": "image",
+                "options": {
+                  "image": "/assets/hospice-comtesse/code.png"
+                }
+              }
+            },
+            {
+              "top": "8%",
+              "left": "6%",
+              "width": "12%",
+              "height": "15%",
+              "action": {
+                "type": "keyword",
+                "options": {
+                  "keyword": "du"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Aux Merveilleux de Fred",
+      "description": "<p>En 1985, le boulanger pâtissier <strong>Frédéric Vaucamps</strong> reprend un commerce à Hazebrouck (Nord) et y commercialise une première version d'un gâteau meringué.</p><p>En 1997, la première boutique <strong>Aux Merveilleux de Fred</strong> ouvre <strong>Rue de la Monnaie</strong>.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Aux_Merveilleux_de_Fred",
+      "coordinates": {
+        "lat": 50.641309,
+        "lng": 3.0621609999999997
+      },
+      "item": {
+        "type": "scratch-card",
+        "options": {
+          "image": "/assets/aux-merveilleux-de-fred/box.png",
+          "width": 340,
+          "height": 380,
+          "scratchableAreas": [
+            {
+              "top": "45%",
+              "right": "15%",
+              "width": "10%",
+              "height": "20%",
+              "text": "Place aux Oignons"
+            },
+            {
+              "bottom": "15%",
+              "left": "15%",
+              "width": "12%",
+              "height": "15%",
+              "text": "Colonne",
+              "keyword": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Place aux Oignons",
+      "description": "<p>Le nom de la place serait une déformation de <strong>dominium</strong> (donjon en latin) en <strong>dominion</strong> puis <strong>des oignons</strong>.</p><p>Ce donjon serait celui de la <strong>forteresse des comtes de Flandre</strong> sur la motte castrale (site de l'actuelle cathédrale <strong>Notre-Dame de la Treille</strong>) à proximité. Il ne reste aucun vestige de cette construction en bois.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Place_aux_Oignons",
+      "coordinates": {
+        "lat": 50.640917599999995,
+        "lng": 3.0615233
+      },
+      "item": {
+        "type": "clickable-image",
+        "options": {
+          "image": "/assets/place-aux-oignons/place.jpg",
+          "clickableAreas": [
+            {
+              "top": "73%",
+              "width": "20%",
+              "height": "10%",
+              "action": {
+                "type": "card-flip",
+                "options": {
+                  "front": "/assets/place-aux-oignons/treille-front.png",
+                  "back": "/assets/place-aux-oignons/treille-back.jpg"
+                }
+              }
+            },
+            {
+              "top": "50%",
+              "right": "3%",
+              "width": "13%",
+              "height": "8%",
+              "action": {
+                "type": "keyword",
+                "options": {
+                  "keyword": "au"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Cathédrale Notre-Dame-de-la-Treille",
+      "description": "<p>Sa construction, qui s'est étalée sur <strong>près de cent cinquante ans</strong>, a débuté symboliquement en <strong>1854</strong> par la pose d'une première pierre.</p><p>Engagée en <strong>1856</strong>, la construction de l'église rencontre ensuite de <strong>nombreuses difficultés</strong>, en particulier pour <strong>réunir les financements</strong> nécessaires à la poursuite des travaux. Ils sont réalisés par tranche, sous la direction de plusieurs générations d'architectes, de 1856 à 1975, pour s'achever <strong>en 1999 par la pose d'une façade très moderne</strong>, une partie du programme initial, qui comportait notamment un massif ouest constitué de deux grandes tours encadrant une rosace, ayant été abandonnée.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Notre-Dame-de-la-Treille",
+      "coordinates": {
+        "lat": 50.640187,
+        "lng": 3.062681
+      },
+      "item": {
+        "type": "clickable-image",
+        "options": {
+          "image": "/assets/notre-dame-de-la-treille/bible.png",
+          "clickableAreas": [
+            {
+              "top": "48%",
+              "right": "3%",
+              "width": "20%",
+              "height": "27%",
+              "action": {
+                "type": "image",
+                "options": {
+                  "image": "/assets/notre-dame-de-la-treille/letter.png"
+                }
+              }
+            },
+            {
+              "top": "45%",
+              "left": "20%",
+              "width": "20%",
+              "height": "20%",
+              "action": {
+                "type": "keyword",
+                "options": {
+                  "keyword": "la"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Maison Méert",
+      "description": "<p>La Maison Méert est réputée pour ses spécialités de confiseries et pâtisseries telles que les <strong>gaufres fourrées</strong> à la vanille de Madagascar.</p><p>Il s'agit d'<strong>une des plus vieilles pâtisseries encore en activité au monde</strong> et trouve son origine en 1761.</p><p>La boutique de la rue Esquermoise a connu de nombreux illustres visiteurs dont Buffalo Bill, Napoléon, les familles royales de Bourbon-Parme, d'Orléans, de Bauffremont, etc. ou, aux XXe et XXIe siècles, Marguerite Yourcenar, Winston Churchill, Jackie Kennedy, Alain Souchon, Amélie Nothomb, Jean d'Ormesson, Dany Boon, Jean-Claude Casadesus... Charles de Gaulle se faisait régulièrement livrer des gaufres de chez Méert à l'Élysée.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Maison_M%C3%A9ert",
+      "coordinates": {
+        "lat": 50.6377202,
+        "lng": 3.0619916999999996
+      },
+      "item": {
+        "type": "three-fiber",
+        "options": {
+          "image": "/assets/meert/box.png",
+          "textures": [
+            "/assets/meert/textures/right.png",
+            "/assets/meert/textures/left.png",
+            "/assets/meert/textures/top.png",
+            "/assets/meert/textures/bottom.png",
+            "/assets/meert/textures/front.png",
+            "/assets/meert/textures/background.png"
+          ],
+          "keyword": "de"
+        }
+      }
+    },
+    {
+      "name": "Vieille Bourse",
+      "description": "<p>La Vieille Bourse de Lille est un des <strong>monuments les plus prestigieux de Lille</strong>. Elle est l'un des témoins de l'intense activité économique qui se déroulait à Lille durant le Grand Siècle. Elle est appelée « Vieille bourse » depuis la construction de la nouvelle Chambre de Commerce (dite « Nouvelle bourse ») dans les années 1910. Elle a été construite en 1653 et a été <strong>classée monument historique</strong> en 1921 et 1923.</p><p>Le bâtiment, quadrangulaire, se compose de 24 demeures identiques qui renferment la cour intérieure, lieu où se donnent aujourd'hui rendez-vous <strong>bouquinistes, fleuristes, joueurs d'échecs, flâneurs et touristes</strong>.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Vieille_Bourse",
+      "coordinates": {
+        "lat": 50.6370175,
+        "lng": 3.0642923
+      },
+      "item": {
+        "type": "page-flip",
+        "options": {
+          "image": "/assets/vieille-bourse/books.png",
+          "pages": [
+            {
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
+            },
+            {
+              "text": "<p>faucibus molestie congue. Aenean sollicitudin ligula vel leo placerat, ac aliquet dolor egestas. Integer sodales, lorem sit amet faucibus lobortis, justo arcu imperdiet ante, ut commodo eros lorem vulputate</p>"
+            },
+            {
+              "text": "<p>lorem. Ut pharetra elementum cursus. Duis gravida a urna id pellentesque. Duis interdum non risus at lacinia.</p> Etiam posuere augue nec mi aliquet, id cursus urna maximus. Ut lobortis dui sit amet</p>"
+            },
+            {
+              "text": "<p>libero lacinia gravida <strong>{keyword}Vieux-Lille{/keyword}</strong>.</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
+            },
+            {
+              "text": "<p>faucibus. Aliquam congue lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pellentesque viverra ultrices. Praesent viverra</p>"
+            },
+            {
+              "text": "<p>tellus non tellus commodo, eget pulvinar risus placerat.</p><p><strong>Allez à l'Opéra !</strong></p>"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Opéra de Lille",
+      "description": "<p>L’opéra de Lille est un théâtre <strong>d'inspiration néo classique</strong>.</p><p>Construit de 1907 à 1913, il est <strong>inauguré officiellement en 1923</strong>. Fermé pour rénovation en 1998, il a rouvert fin 2003 pour Lille 2004.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Op%C3%A9ra_de_Lille",
+      "coordinates": {
+        "lat": 50.6377004,
+        "lng": 3.0652619999999997
+      },
+      "item": {
+        "type": "magnifier",
+        "options": {
+          "image": "/assets/opera/opera.jpg",
+          "keyword": "Déesse",
+          "keywordPosition": {
+            "x": 130,
+            "y": 440
+          }
+        }
+      }
+    },
+    {
+      "name": "Colonne de la Déesse",
+      "description": "<h3>FÉLICITATIONS !!!</h3><p>Vous avez trouvé le trésor du Vieux-Lille !</p><p>Il n'est pas constitué d'or ni d'argent, mais de la plus importante promesse que les Lillois ont fait : \"<strong>Nous venons de renouveler notre serment d'être fidèle à la Nation, de maintenir la Liberté et l'Égalité ou de mourir à notre poste. Nous ne sommes pas des parjures.</strong>\"</p><hr/><p>Ce monument commémore <strong>l'héroïsme des Lillois lors du siège de Lille de 1792</strong> par l'armée impériale.</p><p>Elle tient dans sa main droite un <strong>boutefeu</strong>, servant à allumer la mèche des canons, et montre de la gauche <strong>l'inscription du socle</strong> qui reprend la réponse du maire de Lille, François André-Bonte, refusant la reddition de la ville assiégée aux Impériaux, le 29 septembre 1792.</p>",
+      "link": "https://fr.wikipedia.org/wiki/Colonne_de_la_D%C3%A9esse",
+      "coordinates": {
+        "lat": 50.6369341,
+        "lng": 3.0634202999999998
+      }
+    }
+  ]
+}

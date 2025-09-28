@@ -1,0 +1,85 @@
+.page {
+  padding: 20px;
+  background-color: hsl(35deg, 55%, 98%);
+  color: hsl(35deg, 35%, 35%);
+  overflow: hidden;
+  background-image: url("/assets/page.png");
+  background-color: rgba(255, 255, 255, 0.5);
+  background-blend-mode: lighten;
+  box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.6);
+  height: 95% !important;
+}
+
+.page .page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.page .page-content .page-header {
+  height: 30px;
+  font-size: 100%;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.page .page-content .page-image {
+  height: 100%;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.page .page-content .page-text {
+  height: 100%;
+  flex-grow: 1;
+  font-size: 80%;
+  text-align: justify;
+  margin-top: 10px;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+
+.page .page-content .page-footer {
+  height: 30px;
+  font-size: 80%;
+  color: hsl(35deg, 20%, 50%);
+}
+
+.page.--left {
+  box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
+}
+
+.page.--right {
+  box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.4);
+}
+
+.page.--right .page-footer {
+  text-align: right;
+}
+
+.page.hard {
+  background-color: hsl(35deg, 50%, 90%);
+}
+
+.page.page-cover {
+  background-color: hsl(35deg, 45%, 80%);
+  color: hsl(35deg, 35%, 35%);
+}
+
+.page.page-cover h2 {
+  text-align: center;
+  padding-top: 50%;
+  font-size: 210%;
+}
+
+.page.page-cover.page-cover-top {
+  /*box-shadow: inset 0 0 30px 0 rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);*/
+}
+
+.page.page-cover.page-cover-bottom {
+  /*box-shadow: inset 0 0 30px 0 rgba(36, 10, 3, 0.5), 10px 0 8px 0 rgba(0, 0, 0, 0.4);*/
+}
