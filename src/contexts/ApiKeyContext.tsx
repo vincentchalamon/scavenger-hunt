@@ -20,7 +20,7 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
-  const onSubmit = (e) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     const form = e.currentTarget;
     // Validate API Key
@@ -63,6 +63,7 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
                 <Form.Text className="text-danger d-block mt-3">La clé saisie semble invalide. Merci de vérifier votre saisie.</Form.Text>
               )}
             </Form.Group>
+            {/*@ts-ignore*/}
             <Button variant="primary" type="submit">Enregistrer</Button>
           </Form>
         </Container>

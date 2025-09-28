@@ -59,6 +59,7 @@ const Item = ({item}: {item: AbstractItem}) => (
   <>
     <hr/>
     <ModalItem button={
+      // @ts-ignore
       <Button variant="link" className="p-0 m-0 w-100 h-100">
         {item.renderImage()}
       </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
+import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
 import React, {useEffect, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
@@ -20,8 +20,14 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   const [height, setHeight] = useState<number | undefined>(undefined);
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
+  // Lock for mobile only
+  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
   // Loading screen
   const [loaded, setLoaded] = useState<boolean>(false);
+
+  if (typeof navigator !== "undefined") {
+    useEffect(() => setIsMobile(/iphone|ipad|ipod|android|blackberry|windows phone/g.test(navigator.userAgent.toLowerCase())));
+  }
 
   if (typeof screen !== "undefined") {
     // Calculate application height because I suck at CSS
@@ -42,13 +48,22 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     }, [screen.orientation]);
 
     // Loading screen
-    useEffect(() => setLoaded(typeof height !== "undefined" && typeof locked !== "undefined"), [height, locked]);
+    useEffect(() => setLoaded(typeof height !== "undefined" && typeof locked !== "undefined" && typeof isMobile !== "undefined"), [height, locked, isMobile]);
   }
 
   if (!loaded) {
     return (
       <Container className="z-3 vh-100 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
         <PulseLoader color="white"/>
+      </Container>
+    );
+  }
+
+  if (!isMobile) {
+    return (
+      <Container className="pt-2">
+        <p>Cette application est uniquement compatible sur mobile.</p>
+        <p>Veuillez l'ouvrir sur votre mobile.</p>
       </Container>
     );
   }
@@ -87,7 +102,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
             <Tab.Container defaultActiveKey="manuscript">
               <Tab.Content style={{height: `${height}px`}}>
                 <Tab.Pane eventKey="manuscript" className="h-100">
-                  <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase} defaultKeywords={hunt.defaultKeywords}/>
+                  <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
                 </Tab.Pane>
                 <Tab.Pane eventKey="map" className="h-100">
                   <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>

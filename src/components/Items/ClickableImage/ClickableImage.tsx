@@ -1,10 +1,9 @@
 "use client";
 
-import {Item as ItemType} from "@/types/Item";
+import {Item as ItemType, ItemOptionsType} from "@/types/Item";
 import {Item, ItemFactory, ItemType as ItemTypeInterface, ModalItem} from "@/components/Items";
 import React, {ReactNode} from "react";
 import {Button, Image as Img, Image} from "react-bootstrap";
-import {ItemOptionsType} from "@/types/Item";
 
 type ClickableAreaProps = {
   top?: string;
@@ -42,6 +41,7 @@ export class ClickableImage extends Item {
           return (
             <div key={`clickable-area-${i}`} className="position-absolute" style={clickableArea}>
               {clickableArea.action.type === ItemTypeInterface.KEYWORD && itemComponent.render() || (
+                // @ts-ignore
                 <ModalItem button={<Button variant={this.options.debug ? "primary" : "link"} className="p-0 m-0 w-100 h-100 mh-100 opacity-50"/>}>
                   <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
                     {itemComponent.render()}

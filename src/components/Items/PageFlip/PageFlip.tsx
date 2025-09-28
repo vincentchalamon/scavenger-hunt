@@ -36,8 +36,8 @@ export class PageFlip extends Item {
 }
 
 const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const [width, setWidth] = useState<number | undefined>(undefined);
+  const [height, setHeight] = useState<number>(300);
+  const [width, setWidth] = useState<number>(100);
   const {addKeyword} = useKeyword();
 
   if (typeof screen !== "undefined") {
@@ -48,19 +48,26 @@ const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
     }, []);
   }
 
-  const onClick = (e, keyword: string) => {
+  const onClick = (e: any, keyword: string) => {
     if (e.target.classList.contains("keyword")) {
       addKeyword(keyword);
     }
   };
 
   return (
-    <HTMLFlipBook clickEventForward={true} width={width} height={height} flippingTime={2000} className="py-1" style={{
-      backgroundImage: "url('/assets/book.png')",
-      backgroundSize: "100% 100%",
-      backgroundPosition: "right center",
-      backgroundRepeat: "no-repeat",
-    }}>
+    // @ts-ignore
+    <HTMLFlipBook
+      clickEventForward={true}
+      width={width}
+      height={height}
+      flippingTime={2000}
+      className="py-1"
+      style={{
+        backgroundImage: "url('/assets/book.png')",
+        backgroundSize: "100% 100%",
+        backgroundPosition: "right center",
+        backgroundRepeat: "no-repeat",
+      }}>
       <div className={styles.page && styles.pageCover && styles.pageCoverTop}/>
       {pages.map((page, i) => {
         let content = <div className={styles.pageText} dangerouslySetInnerHTML={{__html: page.text}}/>;

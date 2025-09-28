@@ -32,6 +32,7 @@ const Component: React.FC<KeywordProps> = ({keyword, debug}) => {
   const onKeywordClicked = () => addKeyword(keyword);
 
   return (
+    // @ts-ignore
     <Button className="h-100 w-100 opacity-50" variant={debug ? "primary" : "link"} onClick={onKeywordClicked}/>
   );
 }

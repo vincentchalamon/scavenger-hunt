@@ -10,16 +10,17 @@ const getHunt = (): HuntType => {
   return {
     ...hunt,
     places: hunt.places.map((place): Place => {
-      return {
-        ...place,
-        item: {
+      if (place.item) {
+        place.item = {
           ...place.item || {},
           options: {
             ...place.item?.options || {},
             debug: typeof hunt.debug === "boolean" ? hunt.debug : (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
           },
-        },
-      };
+        };
+      }
+
+      return place;
     }),
   }
 };

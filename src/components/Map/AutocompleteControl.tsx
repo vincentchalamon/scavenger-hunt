@@ -67,6 +67,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
     <MapControl position={ControlPosition.TOP_CENTER}>
       <Container className="mt-3 p-0 position-relative" style={{width: '280px'}}>
         <Form.Control
+          // @ts-ignore
           type="search"
           placeholder="Rechercher dans Google Maps"
           value={inputValue}
@@ -76,12 +77,8 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
           style={inputStyle}
           {...formControlProps}
         />
-        <Button
-          type="button"
-          className="btn-close position-absolute"
-          style={{top: '8px', right: '10px'}}
-          onClick={clearInput}
-        />
+        {/*@ts-ignore*/}
+        <Button type="button" className="btn-close position-absolute" style={{top: '8px', right: '10px'}} onClick={clearInput}/>
         {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}}>
           {suggestions.map((suggestion, i) => (
             <ListGroup.Item
