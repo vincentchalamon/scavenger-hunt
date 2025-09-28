@@ -3,8 +3,6 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {headers} from "next/headers";
-import {Container} from "react-bootstrap";
 import {ReactNode} from "react";
 
 const geistSans = Geist({
@@ -23,19 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {
-  // if (!/android.+mobile|ip(hone|[oa]d)/i.test((await headers()).get('user-agent') || '')) {
-  //   return (
-  //     <html lang="en">
-  //     <body className={`${geistSans.variable} ${geistMono.variable}`}>
-  //     <Container className="pt-2">
-  //       <p>This application is not compatible for desktop navigation.</p>
-  //       <p>Please open it on mobile.</p>
-  //     </Container>
-  //     </body>
-  //     </html>
-  //   );
-  // }
-
   return (
     <html lang="en">
     <body className={`${geistSans.variable} ${geistMono.variable}`}>

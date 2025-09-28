@@ -32,5 +32,6 @@ export const useToast = () => {
     toast: undefined,
   });
 
+  // @ts-ignore
   return {toast: toast?.toast, style: toast?.style, addToast, clearToast}
 };

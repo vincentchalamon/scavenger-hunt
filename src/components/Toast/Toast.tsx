@@ -14,6 +14,7 @@ export const Toast: React.FC = () => {
     width: '75%',
   }}>
     <Notification.Body className="me-3">
+      {/*@ts-ignore*/}
       <Button className="btn-close z-3 position-absolute m-2 top-0 end-0" onClick={() => clearToast()}/>
       {toast}
     </Notification.Body>

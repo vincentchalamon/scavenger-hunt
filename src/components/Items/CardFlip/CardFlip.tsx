@@ -37,6 +37,7 @@ const Component: React.FC<CardFlipProps> = ({front, back}) => {
     <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
       <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
         <div className="mh-100 mw-100">
+          {/*@ts-ignore*/}
           <Button variant="link" onClick={() => setFlipped(true)} className="p-0 m-0 w-100 h-100">
             <Img src={front} className="w-100 mh-100"/>
           </Button>

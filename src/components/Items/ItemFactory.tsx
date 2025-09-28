@@ -1,13 +1,13 @@
 import {
+  CardFlip,
   ClickableImage,
   Image,
   Item,
   Keyword,
   Magnifier,
-  CardFlip,
+  PageFlip,
   ScratchCard,
   ThreeFiber,
-  PageFlip,
 } from "@/components/Items";
 import {ItemOptionsType} from "@/types/Item";
 
