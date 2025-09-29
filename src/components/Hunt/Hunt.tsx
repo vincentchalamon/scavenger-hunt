@@ -29,14 +29,10 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     useEffect(() => setIsMobile(/iphone|ipad|ipod|android|blackberry|windows phone/g.test(navigator.userAgent.toLowerCase())));
   }
 
-  if (typeof screen !== "undefined") {
+  if (typeof window !== "undefined") {
     // Calculate application height because I suck at CSS
-    useEffect(() => {
-      // Total height - bottom navbar - top navbar
-      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59), 500);
-
-      return () => clearTimeout(timeout);
-    }, [screen]);
+    // Total height - bottom navbar - top navbar
+    useEffect(() => setHeight(window.innerHeight - 40 - 59), []);
 
     // Lock screen orientation (native browser option is not fully supported)
     useEffect(() => {

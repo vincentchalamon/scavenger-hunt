@@ -25,11 +25,11 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
   const [width, setWidth] = useState<number>(100);
   const {addKeyword} = useKeyword();
 
-  if (typeof screen !== "undefined") {
+  if (typeof window !== "undefined") {
+    // Total height - bottom navbar - top navbar
     useEffect(() => {
-      // Total height - bottom navbar - top navbar
-      setHeight((screen.height / 2) - 40 - 59);
-      setWidth((screen.width / 2) - 10);
+      setHeight((window.innerHeight / 2) - 40 - 59);
+      setWidth((window.innerWidth / 2) - 10);
     }, []);
   }
 
