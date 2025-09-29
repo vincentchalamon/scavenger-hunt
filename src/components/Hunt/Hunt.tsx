@@ -96,7 +96,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
             backgroundBlendMode: "lighten",
           }}>
             <Tab.Container defaultActiveKey="manuscript">
-              <Tab.Content style={{height: `${height}px`}}>
+              <Tab.Content style={{height: `${height}px`, overflow: "auto"}}>
                 <Tab.Pane eventKey="manuscript" className="h-100">
                   <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
                 </Tab.Pane>
