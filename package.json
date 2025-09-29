@@ -18,11 +18,8 @@
     "next": "^15.5",
     "react": "^19.1",
     "react-bootstrap": "^2.10.10",
-    "react-card-flip": "^1.2.3",
     "react-dom": "^19.1",
-    "react-image-magnifiers": "^1.4.0",
     "react-pageflip": "^2.0.3",
-    "react-scratchcard-v4": "^1.1.6",
     "react-spinners": "^0.17.0",
     "three": "^0.180.0"
   },

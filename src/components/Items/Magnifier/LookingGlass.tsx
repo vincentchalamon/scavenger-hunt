@@ -1,6 +1,6 @@
 "use client";
 
-import React, {Ref, RefObject, useRef, useState} from 'react';
+import React, {RefObject, useRef, useState} from 'react';
 import {ItemOptionsType} from "@/types/Item";
 
 /**

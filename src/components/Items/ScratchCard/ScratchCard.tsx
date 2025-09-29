@@ -3,7 +3,8 @@
 import {Item} from "@/components/Items";
 import React, {ReactNode} from "react";
 // @ts-ignore
-import ReactScratchCard from 'react-scratchcard-v4';
+// import ReactScratchCard from 'react-scratchcard-v4';
+import {ReactScratchCard} from "./ReactScratchCard";
 import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
