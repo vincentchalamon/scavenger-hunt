@@ -1,30 +1,18 @@
 "use client";
 
-import {Item} from "@/components/Items";
-import React, {ReactNode} from "react";
+import React from "react";
 import {Image as Img} from "react-bootstrap";
-import {ItemOptionsType} from "@/types/Item";
 
-type ImageProps = ItemOptionsType & {
+export type ImageProps = {
   image: string;
 }
 
-export class Image extends Item {
-  constructor(private options: ImageProps) {
-    super();
-  }
+export const ImageButton: React.FC<ImageProps> = ({image}) => (
+  <Img src={image} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
-        <Img src={this.options.image} className="w-100 mh-100"/>
-      </div>
-    );
-  }
-}
+export const Image: React.FC<ImageProps> = ({image}) => (
+  <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
+    <Img src={image} className="w-100 mh-100"/>
+  </div>
+);

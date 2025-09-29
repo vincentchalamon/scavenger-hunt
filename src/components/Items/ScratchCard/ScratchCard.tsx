@@ -1,11 +1,7 @@
 "use client";
 
-import {Item} from "@/components/Items";
-import React, {ReactNode} from "react";
-// @ts-ignore
-// import ReactScratchCard from 'react-scratchcard-v4';
+import React from "react";
 import {ReactScratchCard} from "./ReactScratchCard";
-import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
@@ -20,52 +16,27 @@ type ScratchableAreaProps = {
   keyword: boolean;
 }
 
-type ScratchCardProps = ItemOptionsType & {
+export type ScratchCardProps = {
   image: string;
   width: number;
   height: number;
   scratchableAreas: ScratchableAreaProps[];
 }
 
-export class ScratchCard extends Item {
-  private keyword: string;
+export const ScratchCardButton: React.FC<ScratchCardProps> = ({image}) => (
+  <Img src={image} className="mw-100 mh-100"/>
+);
 
-  constructor(private options: ScratchCardProps) {
-    super();
-    const nbKeywords = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword).length;
-    if (nbKeywords > 1) {
-      throw new Error('Scratchable card only supports one keyword scratchable area.');
-    }
-    if (nbKeywords === 0) {
-      throw new Error('Scratchable card requires a keyword scratchable area.');
-    }
-    // @ts-ignore
-    this.keyword = this.options.scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text;
-  }
-
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="mw-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <Component
-        image={this.options.image}
-        width={this.options.width}
-        height={this.options.height}
-        scratchableAreas={this.options.scratchableAreas}
-        keyword={this.keyword}
-      />
-    );
-  }
-}
-
-const Component: React.FC<ScratchCardProps & {keyword: string}> = ({image, width, height, scratchableAreas, keyword}) => {
+export const ScratchCard: React.FC<ScratchCardProps> = ({image, width, height, scratchableAreas}) => {
   const {addKeyword} = useKeyword();
 
-  const onKeywordFound = () => addKeyword(keyword);
+  const nbKeywords = scratchableAreas.filter((scratchableArea: ScratchableAreaProps) => scratchableArea.keyword).length;
+  if (nbKeywords > 1) {
+    throw new Error('Scratchable card only supports one keyword scratchable area.');
+  }
+  if (nbKeywords === 0) {
+    throw new Error('Scratchable card requires a keyword scratchable area.');
+  }
 
   return (
     <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle">
@@ -75,9 +46,8 @@ const Component: React.FC<ScratchCardProps & {keyword: string}> = ({image, width
         image={image}
         finishPercent={80}
         fadeOutOnComplete={false}
-        // @ts-ignore
         customCheckZone={{x: 0, y: height/3, width: (80*width)/100, height: height/4}}
-        onComplete={onKeywordFound}
+        onComplete={() => addKeyword(scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text)}
       >
         <div className="align-items-center justify-content-center w-100 h-100 d-flex">
           {scratchableAreas.map((scratchableArea, i) => (

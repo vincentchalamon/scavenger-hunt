@@ -4,7 +4,8 @@ import React from "react";
 import {AdvancedMarker, AdvancedMarkerProps, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 import {Place} from "@/types/Place";
 import {Button, Container} from "react-bootstrap";
-import {Item as AbstractItem, ItemFactory, ModalItem} from "@/components/Items";
+import {RenderButton, RenderItem} from "@/components/Items/ItemFactory";
+import {ModalItem} from "@/components/Items/ModalItem";
 
 export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children"> & {
   onMarkerClick: (marker: google.maps.marker.AdvancedMarkerElement) => void;
@@ -43,10 +44,23 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
               textJustify: "inter-word",
             }} dangerouslySetInnerHTML={{__html: place.description}}/>
             {place.link && (
+              // @ts-ignore
               <Button href={place.link} target="_blank">Découvrez son histoire</Button>
             )}
             {place.item?.type && (
-              <Item item={ItemFactory.create(place.item)}/>
+              <>
+                <hr/>
+                <ModalItem button={
+                  // @ts-ignore
+                  <Button variant="link" className="p-0 m-0 w-100 h-100">
+                    <RenderButton {...place.item}/>
+                  </Button>
+                }>
+                  <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
+                    <RenderItem {...place.item}/>
+                  </div>
+                </ModalItem>
+              </>
             )}
           </Container>
         </InfoWindow>
@@ -54,19 +68,3 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
     </AdvancedMarker>
   );
 }
-
-const Item = ({item}: {item: AbstractItem}) => (
-  <>
-    <hr/>
-    <ModalItem button={
-      // @ts-ignore
-      <Button variant="link" className="p-0 m-0 w-100 h-100">
-        {item.renderImage()}
-      </Button>
-    }>
-      <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
-        {item.render()}
-      </div>
-    </ModalItem>
-  </>
-);

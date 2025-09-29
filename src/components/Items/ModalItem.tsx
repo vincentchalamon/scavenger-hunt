@@ -25,6 +25,7 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
           backgroundColor: 'rgba(255, 255, 255, 0.7)',
           backgroundBlendMode: 'lighten',
         }}>
+          {/*@ts-ignore*/}
           <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hide}/>
           <Container className="d-flex flex-column justify-content-center h-100 w-100 p-0">
             {children}

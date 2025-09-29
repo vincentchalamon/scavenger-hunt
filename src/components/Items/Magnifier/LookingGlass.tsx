@@ -1,7 +1,6 @@
 "use client";
 
 import React, {RefObject, useRef, useState} from 'react';
-import {ItemOptionsType} from "@/types/Item";
 
 /**
  * Component backported from https://github.com/Josh-McFarlin/react-looking-glass
@@ -19,7 +18,7 @@ type MouseE = {
   pageY: number;
 };
 
-type LookingGlassProps = ItemOptionsType & {
+type LookingGlassProps = {
   // large image url
   src: string;
   // the alternate text for when image cannot be displayed
@@ -164,7 +163,7 @@ export const LookingGlass: React.FC<LookingGlassProps> = ({
   );
 }
 
-type MagnifierProps = ItemOptionsType & {
+type MagnifierProps = {
   // the ref to the image object
   imageRef: RefObject<HTMLImageElement>;
   // the offset of the zoom bubble from the cursor

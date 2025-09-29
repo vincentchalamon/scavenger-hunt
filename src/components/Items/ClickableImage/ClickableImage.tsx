@@ -1,8 +1,9 @@
 "use client";
 
-import {Item as ItemType, ItemOptionsType} from "@/types/Item";
-import {Item, ItemFactory, ItemType as ItemTypeInterface, ModalItem} from "@/components/Items";
-import React, {ReactNode} from "react";
+import {Item as ItemType} from "@/types/Item";
+import {ItemEnum, RenderItem} from "@/components/Items/ItemFactory";
+import {ModalItem} from "@/components/Items/ModalItem";
+import React from "react";
 import {Button, Image as Img, Image} from "react-bootstrap";
 
 type ClickableAreaProps = {
@@ -15,43 +16,34 @@ type ClickableAreaProps = {
   action: ItemType;
 }
 
-type ClickableImageProps = ItemOptionsType & {
+export type ClickableImageProps = {
+  debug?: boolean;
   image: string;
   clickableAreas: ClickableAreaProps[];
 }
 
-export class ClickableImage extends Item {
-  constructor(private options: ClickableImageProps) {
-    super();
-  }
+export const ClickableImageButton: React.FC<ClickableImageProps> = ({image}) => (
+  <Img src={image} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
-  }
+export const ClickableImage: React.FC<ClickableImageProps> = ({image, clickableAreas, debug}) => (
+  <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle position-relative">
+    <Image src={image} className="mh-100 mw-100"/>
+    {clickableAreas.map((clickableArea, i) => {
+      const item = {...clickableArea.action, options: {...clickableArea.action.options, debug: debug}};
 
-  render(): ReactNode {
-    return (
-      <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555"}} className="bg-secondary-subtle position-relative">
-        <Image src={this.options.image} className="mh-100 mw-100"/>
-        {this.options.clickableAreas.map((clickableArea, i) => {
-          const itemComponent = ItemFactory.create({...clickableArea.action, options: {...clickableArea.action.options, debug: this.options.debug}});
-
-          return (
-            <div key={`clickable-area-${i}`} className="position-absolute" style={clickableArea}>
-              {clickableArea.action.type === ItemTypeInterface.KEYWORD && itemComponent.render() || (
-                // @ts-ignore
-                <ModalItem button={<Button variant={this.options.debug ? "primary" : "link"} className="p-0 m-0 w-100 h-100 mh-100 opacity-50"/>}>
-                  <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
-                    {itemComponent.render()}
-                  </div>
-                </ModalItem>
-              )}
-            </div>
-          )
-        })}
-      </div>
-    );
-  }
-}
+      return (
+        <div key={`clickable-area-${i}`} className="position-absolute" style={clickableArea}>
+          {clickableArea.action.type === ItemEnum.KEYWORD && <RenderItem {...item}/> || (
+            // @ts-ignore
+            <ModalItem button={<Button variant={debug ? "primary" : "link"} className="p-0 m-0 w-100 h-100 mh-100 opacity-50"/>}>
+              <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
+                <RenderItem {...item}/>
+              </div>
+            </ModalItem>
+          )}
+        </div>
+      )
+    })}
+  </div>
+)

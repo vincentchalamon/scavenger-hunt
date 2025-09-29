@@ -1,35 +1,19 @@
 "use client";
 
-import {Item} from "@/components/Items";
-import React, {ReactNode, useState} from "react";
+import React, {useState} from "react";
 import {Button, Image as Img} from "react-bootstrap";
-import {ItemOptionsType} from "@/types/Item";
 import {ReactCardFlip} from "./ReactCardFlip";
 
-type CardFlipProps = ItemOptionsType & {
+export type CardFlipProps = {
   front: string;
   back: string;
 }
 
-export class CardFlip extends Item {
-  constructor(private options: CardFlipProps) {
-    super();
-  }
+export const CardFlipButton: React.FC<CardFlipProps> = ({front}) => (
+  <Img src={front} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.front} className="w-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <Component front={this.options.front} back={this.options.back}/>
-    );
-  }
-}
-
-const Component: React.FC<CardFlipProps> = ({front, back}) => {
+export const CardFlip: React.FC<CardFlipProps> = ({front, back}) => {
   const [flipped, setFlipped] = useState(false);
 
   return (

@@ -1,7 +1,6 @@
 "use client";
 
 import React, {ReactNode, useEffect, useRef, useState} from 'react';
-import {ItemOptionsType} from "@/types/Item";
 
 /**
  * Component backported from https://github.com/gshudhanshu/react-scratchcard-v4
@@ -23,7 +22,7 @@ type CustomCheckZone = Point & {
   height: number;
 }
 
-type ReactScratchCardProps = ItemOptionsType & {
+type ReactScratchCardProps = {
   width: number;
   height: number;
   image: string;

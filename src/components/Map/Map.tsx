@@ -6,11 +6,11 @@ import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {RoutesApi} from "@/components/Map/RoutesApi";
 import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
-import {ItemOptionsType} from "@/types/Item";
 import {useApiKey} from "@/contexts/ApiKeyContext";
 import {useToast} from "@/contexts/ToastContext";
 
-type MapProps = ItemOptionsType & {
+type MapProps = {
+  debug?: boolean;
   places: Place[];
   coordinates: google.maps.LatLngLiteral;
 }

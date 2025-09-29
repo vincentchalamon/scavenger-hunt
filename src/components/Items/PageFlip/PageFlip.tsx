@@ -1,10 +1,8 @@
 "use client";
 
-import {Item} from "@/components/Items";
-import React, {ReactNode, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import HTMLFlipBook from "react-pageflip";
 import styles from "./pageFlip.module.css";
-import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
@@ -12,30 +10,17 @@ type PageProps = {
   text: string;
 }
 
-type PageFlipProps = ItemOptionsType & {
+export type PageFlipProps = {
+  debug?: boolean;
   image: string;
   pages: PageProps[];
 }
 
-export class PageFlip extends Item {
-  constructor(private options: PageFlipProps) {
-    super();
-  }
+export const PageFlipButton: React.FC<PageFlipProps> = ({image}) => (
+  <Img src={image} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <Component pages={this.options.pages} debug={this.options.debug}/>
-    );
-  }
-}
-
-const Component: React.FC<Omit<PageFlipProps, "image">> = ({pages, debug}) => {
+export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
   const [height, setHeight] = useState<number>(300);
   const [width, setWidth] = useState<number>(100);
   const {addKeyword} = useKeyword();

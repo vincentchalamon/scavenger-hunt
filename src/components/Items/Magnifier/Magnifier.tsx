@@ -1,37 +1,21 @@
 "use client";
 
-import {Item} from "@/components/Items";
-import React, {ReactNode} from "react";
+import React from "react";
 import {Coordinates, LookingGlass} from "./LookingGlass";
-import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
-type MagnifierProps = ItemOptionsType & {
+export type MagnifierProps = {
   image: string;
   keyword?: string;
   keywordPosition?: Coordinates;
 }
 
-export class Magnifier extends Item {
-  constructor(private options: MagnifierProps) {
-    super();
-  }
+export const MagnifierButton: React.FC<MagnifierProps> = ({image}) => (
+  <Img src={image} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <Component image={this.options.image} keyword={this.options.keyword} keywordPosition={this.options.keywordPosition}/>
-    );
-  }
-}
-
-const Component: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {
+export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {
   const {addKeyword} = useKeyword();
 
   const onCursorMove = (position: Coordinates) => {

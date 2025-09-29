@@ -1,12 +1,10 @@
 "use client";
 
 import * as THREE from "three";
-import {Item} from "@/components/Items";
-import React, {ReactNode, useRef} from "react";
+import React, {useRef} from "react";
 import {Canvas, useLoader} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import {ThreeEvent} from "@react-three/fiber/dist/declarations/src/core/events";
-import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
@@ -39,31 +37,17 @@ export const Cube: React.FC<CubeProps> = ({textures, onKeywordFounded}) => {
   );
 }
 
-type ThreeFiberProps = ItemOptionsType & {
+export type ThreeFiberProps = {
   image: string;
   keyword: string;
   textures: string[];
 }
 
-export class ThreeFiber extends Item {
-  constructor(private options: ThreeFiberProps) {
-    super();
-  }
+export const ThreeFiberButton: React.FC<ThreeFiberProps> = ({image}) => (
+  <Img src={image} className="w-100 mh-100"/>
+);
 
-  renderImage(): ReactNode {
-    return (
-      <Img src={this.options.image} className="w-100 mh-100"/>
-    );
-  }
-
-  render(): ReactNode {
-    return (
-      <Component textures={this.options.textures} keyword={this.options.keyword}/>
-    );
-  }
-}
-
-export const Component: React.FC<Omit<ThreeFiberProps, "image">> = ({textures, keyword}) => {
+export const ThreeFiber: React.FC<ThreeFiberProps> = ({keyword, textures}) => {
   const {addKeyword} = useKeyword();
 
   return (
