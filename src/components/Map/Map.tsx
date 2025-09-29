@@ -82,7 +82,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
                   transformOrigin: AdvancedMarkerAnchorPoint['BOTTOM'].join(' ')
                 }}
                 place={visitedPlace}
-                pinOptions={i !== visitedPlaces.length-1 ? {
+                pinOptions={visitedPlaces.length > 1 && i !== visitedPlaces.length-1 ? {
                   background: "rgba(255, 255, 255, 0.6)",
                 } : {}}
               />
