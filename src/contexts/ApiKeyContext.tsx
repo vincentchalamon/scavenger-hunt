@@ -40,7 +40,6 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
       () => {
         // Save valid API Key and store it in localStorage
         setApiKey(form[0].value);
-        localStorage.setItem("apiKey", form[0].value);
         setIsValid(true);
       },
       () => setIsValid(false)
