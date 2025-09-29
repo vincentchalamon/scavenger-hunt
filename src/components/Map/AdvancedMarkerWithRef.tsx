@@ -12,8 +12,9 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
   onCloseClick: (marker: google.maps.marker.AdvancedMarkerElement) => void;
   showInfo: boolean;
   place: Place;
+  pinOptions?: google.maps.marker.PinElementOptions;
 }) => {
-  const {onMarkerClick, onCloseClick, showInfo, place, ...advancedMarkerProps} = props;
+  const {onMarkerClick, onCloseClick, showInfo, place, pinOptions = {}, ...advancedMarkerProps} = props;
   const [markerRef, marker] = useAdvancedMarkerRef();
 
   return (
@@ -27,7 +28,7 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
       position={place.coordinates}
       {...advancedMarkerProps}
     >
-      <Pin/>
+      <Pin {...pinOptions}/>
       {showInfo && (
         <InfoWindow
           anchor={marker}

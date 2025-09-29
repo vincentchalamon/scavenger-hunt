@@ -1,6 +1,6 @@
 "use client";
 
-import React, {ReactNode, useEffect, useRef, useState} from 'react';
+import React, {PropsWithChildren, ReactNode, useEffect, useRef, useState} from 'react';
 
 /**
  * Component backported from https://github.com/gshudhanshu/react-scratchcard-v4
@@ -22,18 +22,17 @@ type CustomCheckZone = Point & {
   height: number;
 }
 
-type ReactScratchCardProps = {
+type ReactScratchCardProps = PropsWithChildren<{
   width: number;
   height: number;
   image: string;
-  children: ReactNode;
   finishPercent?: number;
   onComplete?: () => void;
   brushSize?: number;
   fadeOutOnComplete?: boolean;
   customBrush?: CustomBrush;
   customCheckZone?: CustomCheckZone;
-}
+}>
 
 export const ReactScratchCard: React.FC<ReactScratchCardProps> = ({
   width,

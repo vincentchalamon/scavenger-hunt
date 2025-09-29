@@ -131,7 +131,7 @@ export const ReactCardFlip: React.FC<ReactFlipCardProps> = (props) => {
   );
 };
 
-type ReactFlipCardProps  = {
+type ReactFlipCardProps = {
   /**
    * z-Index for the flip card. Used to help solve context stack issues while using multiple flip cards.
    * @default 'auto'

@@ -7,6 +7,9 @@ const fields = ['routes.viewport', 'routes.legs', 'routes.polylineDetails'];
 const ROUTES_API_ENDPOINT =
   'https://routes.googleapis.com/directions/v2:computeRoutes';
 
+/**
+ * This class is currently only used to validate API Key from ApiKeyContext
+ */
 export class RoutesApi {
   private readonly apiKey: string;
 

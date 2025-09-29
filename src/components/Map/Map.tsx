@@ -3,7 +3,6 @@
 import React, {useEffect, useState} from "react";
 import {AdvancedMarkerAnchorPoint, APIProvider, Map as GoogleMap} from "@vis.gl/react-google-maps";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
-import {RoutesApi} from "@/components/Map/RoutesApi";
 import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
 import {useApiKey} from "@/contexts/ApiKeyContext";
@@ -52,9 +51,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>(visitedPlaces[0].coordinates);
 
-  // Configure and show GoogleMap with a route of all visited places
-  const apiClient = new RoutesApi(apiKey);
-
   return (
     <APIProvider apiKey={apiKey}>
       <GoogleMap
@@ -86,16 +82,10 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
                   transformOrigin: AdvancedMarkerAnchorPoint['BOTTOM'].join(' ')
                 }}
                 place={visitedPlace}
+                pinOptions={i !== visitedPlaces.length-1 ? {
+                  background: "rgba(255, 255, 255, 0.6)",
+                } : {}}
               />
-              {/*TODO fix route with polyline*/}
-              {/*{i > 0 && (*/}
-              {/*  <Route*/}
-              {/*    apiClient={apiClient}*/}
-              {/*    origin={visitedPlaces[i - 1].coordinates}*/}
-              {/*    destination={visitedPlace.coordinates}*/}
-              {/*    routeOptions={{travelMode: 'WALK', computeAlternativeRoutes: false, units: 'METRIC'}}*/}
-              {/*  />*/}
-              {/*)}*/}
             </div>
           )
         })}

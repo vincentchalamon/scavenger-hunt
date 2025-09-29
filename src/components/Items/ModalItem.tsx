@@ -1,9 +1,9 @@
 "use client";
 
-import React, {ReactNode, useState} from "react";
+import React, {PropsWithChildren, ReactNode, useState} from "react";
 import {Button, Container, Modal} from "react-bootstrap";
 
-export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {}}: Readonly<{ button: ReactNode, children: ReactNode, onShow?: () => void, onHide?: () => void }>) => {
+export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {}}: PropsWithChildren<{ button: ReactNode, onShow?: () => void, onHide?: () => void }>) => {
   const [isShown, setIsShown] = useState<boolean>(false);
   const show = () => {
     setIsShown(true);
