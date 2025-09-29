@@ -27,8 +27,8 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
 
   if (typeof screen !== "undefined") {
     useEffect(() => {
-      // Total height - bottom navbar - top navbar - delta
-      setHeight((screen.height / 2) - 40 - 59 - 50);
+      // Total height - bottom navbar - top navbar
+      setHeight((screen.height / 2) - 40 - 59);
       setWidth((screen.width / 2) - 10);
     }, []);
   }
@@ -37,6 +37,13 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
     if (e.target.classList.contains("keyword")) {
       addKeyword(keyword);
     }
+  };
+
+  const pageStyle = {
+    backgroundImage: "url('assets/page.png')",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundBlendMode: "lighten",
+    boxShadow: "inset 7px 0 30px -7px rgba(0, 0, 0, 0.6)",
   };
 
   return (
@@ -48,12 +55,13 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
       flippingTime={2000}
       className="py-1"
       style={{
-        backgroundImage: "url('/assets/book.png')",
+        backgroundImage: "url('assets/book.png')",
         backgroundSize: "100% 100%",
         backgroundPosition: "right center",
         backgroundRepeat: "no-repeat",
-      }}>
-      <div className={styles.page && styles.pageCover && styles.pageCoverTop}/>
+      }}
+    >
+      <div className={styles.page && styles.pageCover && styles.pageCoverTop} style={pageStyle}/>
       {pages.map((page, i) => {
         let content = <div className={styles.pageText} dangerouslySetInnerHTML={{__html: page.text}}/>;
         if (page.text.includes('{keyword}')) {
@@ -70,14 +78,14 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
         }
 
         return (
-          <div className={styles.page} key={`content-${i}`}>
+          <div className={styles.page} style={pageStyle} key={`content-${i}`}>
             <div className={styles.pageContent}>
               {content}
             </div>
           </div>
         );
       })}
-      <div className={styles.page && styles.pageCover && styles.pageCoverBottom} data-density="hard"/>
+      <div className={styles.page && styles.pageCover && styles.pageCoverBottom} style={pageStyle} data-density="hard"/>
     </HTMLFlipBook>
   );
 }

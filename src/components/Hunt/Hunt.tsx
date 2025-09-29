@@ -32,8 +32,8 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (typeof screen !== "undefined") {
     // Calculate application height because I suck at CSS
     useEffect(() => {
-      // Total height - bottom navbar - top navbar - delta
-      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59 - 50), 500);
+      // Total height - bottom navbar - top navbar
+      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59), 500);
 
       return () => clearTimeout(timeout);
     }, [screen]);
@@ -89,15 +89,15 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
             </Container>
           </Navbar>
           <div className="px-0 d-flex" style={{
-            paddingTop: '58px',
-            minHeight: '100vh',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            backgroundImage: 'url(/assets/background.png)',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'repeat',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            backgroundBlendMode: 'lighten',
+            paddingTop: "58px",
+            minHeight: "100vh",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            backgroundImage: "url('assets/background.png')",
+            backgroundPosition: "center",
+            backgroundRepeat: "repeat",
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            backgroundBlendMode: "lighten",
           }}>
             <Tab.Container defaultActiveKey="manuscript">
               <Tab.Content style={{height: `${height}px`}}>
