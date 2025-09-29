@@ -27,8 +27,8 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
 
   if (typeof screen !== "undefined") {
     useEffect(() => {
-      // Total height - bottom navbar - top navbar
-      setHeight((screen.height / 2) - 40 - 59);
+      // Total height - bottom navbar - top navbar - delta
+      setHeight((screen.height / 2) - 40 - 59 - 50);
       setWidth((screen.width / 2) - 10);
     }, []);
   }

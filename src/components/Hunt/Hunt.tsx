@@ -32,8 +32,8 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (typeof screen !== "undefined") {
     // Calculate application height because I suck at CSS
     useEffect(() => {
-      // Total height - bottom navbar - top navbar
-      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59), 500);
+      // Total height - bottom navbar - top navbar - delta
+      const timeout = setTimeout(() => setHeight(screen.height - 40 - 59 - 50), 500);
 
       return () => clearTimeout(timeout);
     }, [screen]);
