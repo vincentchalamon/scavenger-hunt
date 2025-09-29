@@ -2,20 +2,15 @@
 
 import {Item} from "@/components/Items";
 import React, {ReactNode} from "react";
-import LookingGlass from "./LookingGlass";
+import {Coordinates, LookingGlass} from "./LookingGlass";
 import {ItemOptionsType} from "@/types/Item";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
 
-type Position = {
-  x: number;
-  y: number;
-}
-
 type MagnifierProps = ItemOptionsType & {
   image: string;
   keyword?: string;
-  keywordPosition?: Position;
+  keywordPosition?: Coordinates;
 }
 
 export class Magnifier extends Item {
@@ -39,7 +34,7 @@ export class Magnifier extends Item {
 const Component: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {
   const {addKeyword} = useKeyword();
 
-  const onCursorMove = (position: Position) => {
+  const onCursorMove = (position: Coordinates) => {
     if (keyword && keywordPosition
       && (position.x >= (keywordPosition.x-30) && position.x <= (keywordPosition.x+30))
       && (position.y >= (keywordPosition.y-30) && position.y <= (keywordPosition.y+30))
