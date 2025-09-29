@@ -13,9 +13,6 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
     if (typeof process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY === "string") {
       // For development purpose
       setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
-    } else if (typeof localStorage !== "undefined") {
-      // For production purpose
-      setApiKey(localStorage.getItem("apiKey") || undefined);
     }
   }, []);
 
