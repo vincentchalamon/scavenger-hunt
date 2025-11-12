@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
-    <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html style={{overscrollBehaviorY: "none"}} lang="en">
+    <body style={{overscrollBehaviorY: "none"}} className={`${geistSans.variable} ${geistMono.variable}`}>
     {children}
     </body>
     </html>
