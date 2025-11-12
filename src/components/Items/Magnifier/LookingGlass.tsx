@@ -195,9 +195,8 @@ const Magnifier: React.FC<MagnifierProps> = ({
   squareMagnifier = false,
   zoomClassName = "",
 }) => {
-  const halfSize = size / 2;
-  const bgX = (-zoomFactor * imageOffset.x) + halfSize;
-  const bgY = (-zoomFactor * imageOffset.y) + halfSize;
+  const bgX = (-zoomFactor * imageOffset.x) + (size / 2);
+  const bgY = (-zoomFactor * imageOffset.y) + (size / 2);
   const imageWidth = imageRef.current.offsetWidth;
   const imageHeight = imageRef.current.offsetHeight;
   const imageSrc = imageRef.current.src;
@@ -211,8 +210,8 @@ const Magnifier: React.FC<MagnifierProps> = ({
         left: cursorPosition.x,
         width: size,
         height: size,
-        marginLeft: cursorOffset.x - halfSize,
-        marginTop: cursorOffset.y - halfSize,
+        marginLeft: cursorOffset.x - size + 40,
+        marginTop: cursorOffset.y - size + 40,
         backgroundColor: 'white',
         borderRadius: !squareMagnifier ? "50%" : "0%",
         boxShadow: `1px 1px 6px rgba(0,0,0,0.3)`,
