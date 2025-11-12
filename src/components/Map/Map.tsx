@@ -24,7 +24,10 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
   useEffect(() => {
     if (typeof localStorage !== "undefined") {
-      setVisitedPlaces(JSON.parse(localStorage.getItem("places") || JSON.stringify(visitedPlaces)));
+      const alreadyVisitedPlaces = JSON.parse(localStorage.getItem("places") || JSON.stringify(visitedPlaces));
+      setVisitedPlaces(alreadyVisitedPlaces);
+      // On Map load, auto-select the latest visited place
+      setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
     }
   }, []);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
@@ -36,6 +39,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
       setVisitedPlaces((prevVisitedPlaces) => {
         const visitedPlaces = [...prevVisitedPlaces, location];
         localStorage.setItem("places", JSON.stringify(visitedPlaces));
+        // Auto-select this new visited place
+        setSelectedPlace(location);
 
         return visitedPlaces;
       });
@@ -75,7 +80,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
               <AdvancedMarkerWithRef
                 onMarkerClick={() => setSelectedPlace(visitedPlace)}
                 onCloseClick={() => setSelectedPlace(null)}
-                showInfo={selectedPlace === visitedPlace || i === visitedPlaces.length - 1}
+                showInfo={selectedPlace === visitedPlace}
                 style={{
                   transition: "all 200ms ease-in-out",
                   transform: "scale(1)",
