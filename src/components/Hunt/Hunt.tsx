@@ -16,8 +16,6 @@ type HuntProps = {
 }
 
 export const Hunt: React.FC<HuntProps> = ({hunt}) => {
-  // Calculate application height because I suck at CSS
-  const [height, setHeight] = useState<number | undefined>(undefined);
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
   // Lock for mobile only
@@ -30,10 +28,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   if (typeof window !== "undefined") {
-    // Calculate application height because I suck at CSS
-    // Total height - bottom navbar - top navbar
-    useEffect(() => setHeight(window.innerHeight - 40 - 59), []);
-
     // Lock screen orientation (native browser option is not fully supported)
     useEffect(() => {
       const handler = () => setLocked(screen.orientation.type.toString().startsWith("landscape"));
@@ -44,12 +38,12 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     }, [screen.orientation]);
 
     // Loading screen
-    useEffect(() => setLoaded(typeof height !== "undefined" && typeof locked !== "undefined" && typeof isMobile !== "undefined"), [height, locked, isMobile]);
+    useEffect(() => setLoaded(typeof locked !== "undefined" && typeof isMobile !== "undefined"), [locked, isMobile]);
   }
 
   if (!loaded) {
     return (
-      <Container className="z-3 vh-100 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
+      <Container style={{height: "100svh"}} className="z-3 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
         <PulseLoader color="white"/>
       </Container>
     );
@@ -86,7 +80,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           </Navbar>
           <div className="px-0 d-flex" style={{
             paddingTop: "58px",
-            minHeight: "100vh",
+            height: "100svh",
             flexDirection: "column",
             justifyContent: "space-between",
             backgroundImage: "url('assets/background.png')",
@@ -96,7 +90,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
             backgroundBlendMode: "lighten",
           }}>
             <Tab.Container defaultActiveKey="manuscript">
-              <Tab.Content style={{height: `${height}px`, overflow: "auto"}}>
+              <Tab.Content style={{height: "100svh", overflow: "auto"}}>
                 <Tab.Pane eventKey="manuscript" className="h-100">
                   <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
                 </Tab.Pane>
