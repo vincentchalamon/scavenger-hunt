@@ -49,10 +49,10 @@ export const ScratchCard: React.FC<ScratchCardProps> = ({image, width, height, s
         customCheckZone={{x: 0, y: height/3, width: (80*width)/100, height: height/4}}
         onComplete={() => addKeyword(scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text)}
       >
-        <div className="align-items-center justify-content-center w-100 h-100 d-flex">
-          {scratchableAreas.map((scratchableArea, i) => (
-            <h1 className="m-3" key={`scratchable-area-${i}`}>{scratchableArea.text}</h1>
-          ))}
+        <div className="align-items-center justify-content-center w-100 h-100">
+          <h1 className="text-center py-5">{scratchableAreas[0].text}</h1>
+          <br/><br/><br/>
+          <h6 className="text-end mt-3">{scratchableAreas[1].text}</h6>
         </div>
       </ReactScratchCard>
     </div>
