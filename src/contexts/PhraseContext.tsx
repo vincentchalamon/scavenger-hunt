@@ -26,14 +26,14 @@ export const useKeyword = () => {
   const {keywords, setKeywords} = useContext(PhraseContext);
   const {addToast} = useToast();
 
-  const addKeyword = (keyword: string) => {
+  const addKeyword = (keyword: string, toast: string = "Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !") => {
     const newKeywords = [...keywords, keyword].filter((value, index, self) => self.indexOf(value) === index);
 
     // @ts-ignore
     if (!keywords.includes(keyword)) {
       setKeywords(newKeywords);
       localStorage.setItem('keywords', JSON.stringify(newKeywords));
-      addToast("Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !", "success");
+      addToast(toast, "success");
     }
   };
 

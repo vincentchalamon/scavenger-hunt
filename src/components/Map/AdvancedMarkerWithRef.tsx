@@ -51,6 +51,11 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
             {place.item?.type && (
               <>
                 <hr/>
+                <p style={{
+                  textAlign: "justify",
+                  textJustify: "inter-word",
+                  fontWeight: "bolder",
+                }}><strong>Allez sur place, puis cliquer sur l'image ci-dessous pour accéder à la prochaine énigme.</strong></p>
                 <ModalItem button={
                   // @ts-ignore
                   <Button variant="link" className="p-0 m-0 w-100 h-100">

@@ -98,7 +98,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
             <Tab.Container defaultActiveKey="manuscript">
               <Tab.Content style={{height: `${height}px`, overflow: "auto"}}>
                 <Tab.Pane eventKey="manuscript" className="h-100">
-                  <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
+                  <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
                 </Tab.Pane>
                 <Tab.Pane eventKey="map" className="h-100">
                   <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>

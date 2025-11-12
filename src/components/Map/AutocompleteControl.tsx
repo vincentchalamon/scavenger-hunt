@@ -69,7 +69,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
         <Form.Control
           // @ts-ignore
           type="search"
-          placeholder="Rechercher dans Google Maps"
+          placeholder="Rechercher un lieu..."
           value={inputValue}
           // @ts-ignore
           onInput={(event) => handleInput(event)}

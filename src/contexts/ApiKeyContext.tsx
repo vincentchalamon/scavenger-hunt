@@ -14,6 +14,11 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
       // For development purpose
       setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
     }
+
+    // For production purpose
+    if (typeof localStorage !== "undefined" && localStorage.getItem("api-key")) {
+      setApiKey(localStorage.getItem("api-key") as string);
+    }
   }, []);
 
   const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
@@ -40,6 +45,9 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
       () => {
         // Save valid API Key and store it in localStorage
         setApiKey(form[0].value);
+        if (typeof localStorage !== "undefined") {
+          localStorage.setItem("api-key", form[0].value);
+        }
         setIsValid(true);
       },
       () => setIsValid(false)

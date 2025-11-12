@@ -27,6 +27,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
       setVisitedPlaces(JSON.parse(localStorage.getItem("places") || JSON.stringify(visitedPlaces)));
     }
   }, []);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const onPlaceSelect = (place: google.maps.places.Place | null) => {
     // Look for place in configuration based on it's coordinates
     // Note: it's possible to search for all places through GoogleMap, but only select a place from the configuration
@@ -46,7 +47,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
       }
     }
   };
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>(visitedPlaces[0].coordinates);
@@ -75,7 +75,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
               <AdvancedMarkerWithRef
                 onMarkerClick={() => setSelectedPlace(visitedPlace)}
                 onCloseClick={() => setSelectedPlace(null)}
-                showInfo={selectedPlace === visitedPlace}
+                showInfo={selectedPlace === visitedPlace || i === visitedPlaces.length - 1}
                 style={{
                   transition: "all 200ms ease-in-out",
                   transform: "scale(1)",

@@ -20,10 +20,10 @@ export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosi
 
   const onCursorMove = (position: Coordinates) => {
     if (keyword && keywordPosition
-      && (position.x >= (keywordPosition.x-30) && position.x <= (keywordPosition.x+30))
-      && (position.y >= (keywordPosition.y-30) && position.y <= (keywordPosition.y+30))
+      && (position.x >= (keywordPosition.x-40) && position.x <= (keywordPosition.x+40))
+      && (position.y >= (keywordPosition.y-40) && position.y <= (keywordPosition.y+40))
     ) {
-      addKeyword(keyword);
+      addKeyword(keyword, "Félicitations ! Vous avez trouver tous les mots cachés. Consultez la phrase pour découvrir le lieu du trésor !");
     }
   };
 
