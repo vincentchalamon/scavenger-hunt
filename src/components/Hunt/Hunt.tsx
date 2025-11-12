@@ -41,6 +41,14 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     useEffect(() => setLoaded(typeof locked !== "undefined" && typeof isMobile !== "undefined"), [locked, isMobile]);
   }
 
+  if (typeof document !== "undefined") {
+    useEffect(() => {
+      document.addEventListener('contextmenu', event => {
+        event.preventDefault();
+      });
+    }, [document]);
+  }
+
   if (!loaded) {
     return (
       <Container style={{height: "100svh"}} className="z-3 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
