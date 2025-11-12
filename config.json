@@ -254,7 +254,7 @@
               "text": "<p>lorem. Ut pharetra elementum cursus. Duis gravida a urna id pellentesque. Duis interdum non risus at lacinia.</p> Etiam posuere augue nec mi aliquet, id cursus urna maximus. Ut lobortis dui sit amet</p>"
             },
             {
-              "text": "<p>libero lacinia gravida <strong>{keyword}Vieux-Lille{/keyword}</strong>.</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
+              "text": "<p>libero lacinia gravida <strong>{keyword}Vieux-Lille{/keyword}</strong> (cliquez moi !).</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
             },
             {
               "text": "<p>faucibus. Aliquam congue lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pellentesque viverra ultrices. Praesent viverra</p>"
