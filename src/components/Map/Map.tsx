@@ -60,6 +60,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
     <APIProvider apiKey={apiKey}>
       <GoogleMap
         mapId="map-id"
+        data-testid="map"
         center={mapCenter}
         onCenterChanged={(map) => setMapCenter(map.detail.center)}
         defaultZoom={16}
@@ -81,6 +82,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
                 onMarkerClick={() => setSelectedPlace(visitedPlace)}
                 onCloseClick={() => setSelectedPlace(null)}
                 showInfo={selectedPlace === visitedPlace}
+                data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
                 style={{
                   transition: "all 200ms ease-in-out",
                   transform: "scale(1)",

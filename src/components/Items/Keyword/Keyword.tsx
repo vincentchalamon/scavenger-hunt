@@ -14,6 +14,6 @@ export const Keyword: React.FC<KeywordProps> = ({keyword, debug}) => {
 
   return (
     // @ts-ignore
-    <Button className="h-100 w-100 opacity-50" variant={debug ? "primary" : "link"} onClick={() => addKeyword(keyword)}/>
+    <Button className="h-100 w-100 opacity-50" data-testid="keyword-button" variant={debug ? "primary" : "link"} onClick={() => addKeyword(keyword)}/>
   );
 }

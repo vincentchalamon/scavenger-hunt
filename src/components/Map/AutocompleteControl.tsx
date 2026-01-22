@@ -75,11 +75,12 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
           onInput={(event) => handleInput(event)}
           // @ts-ignore
           style={inputStyle}
+          data-testid="search-field"
           {...formControlProps}
         />
         {/*@ts-ignore*/}
         <Button type="button" className="btn-close position-absolute" style={{top: '8px', right: '10px'}} onClick={clearInput}/>
-        {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}}>
+        {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}} data-testid="search-results">
           {suggestions.map((suggestion, i) => (
             <ListGroup.Item
               key={`suggestion-${i}`}

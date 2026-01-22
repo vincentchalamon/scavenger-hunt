@@ -81,7 +81,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           <Toast/>
           <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
             <Container>
-              <Navbar.Brand className="ms-2">
+              <Navbar.Brand className="ms-2" data-testid="hunt-title">
                 {hunt.name}
               </Navbar.Brand>
             </Container>
@@ -110,12 +110,12 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
                 <Container>
                   <Row>
                     <Nav.Item>
-                      <Nav.Link eventKey="manuscript">
+                      <Nav.Link eventKey="manuscript" data-testid="manuscript-button">
                         <i className="bi bi-house"></i>
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="map">
+                      <Nav.Link eventKey="map" data-testid="map-button">
                         <i className="bi bi-compass"></i>
                       </Nav.Link>
                     </Nav.Item>

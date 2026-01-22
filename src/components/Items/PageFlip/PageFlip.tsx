@@ -71,7 +71,7 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
             <>
               <div className={styles.pageText} dangerouslySetInnerHTML={{
                 // @ts-ignore
-                __html: page.text.replace(/\{keyword}(.+)\{\/keyword}/g, `<a class="keyword">${keyword}</a>`),
+                __html: page.text.replace(/\{keyword}(.+)\{\/keyword}/g, `<a class="keyword" data-testid="keyword-button">${keyword}</a>`),
               }} onClick={(e) => onClick(e, keyword)}/>
             </>
           );

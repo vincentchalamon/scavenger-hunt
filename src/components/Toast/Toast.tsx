@@ -7,7 +7,7 @@ import {useToast} from "@/contexts/ToastContext";
 export const Toast: React.FC = () => {
   const {toast, style, clearToast} = useToast();
 
-  return <Notification show={!!toast} autohide delay={5000} onClose={() => clearToast()} className={`position-absolute bg-${style} text-light`} style={{
+  return <Notification data-testid="toast" show={!!toast} autohide delay={5000} onClose={() => clearToast()} className={`position-absolute bg-${style} text-light`} style={{
     zIndex: 2000,
     top: '3%',
     left: '12%',

@@ -17,7 +17,7 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
   return (
     <>
       <div className="h-100 w-100 p-0 m-0" onClick={show}>{button}</div>
-      <Modal show={isShown} fullscreen onHide={hide}>
+      <Modal show={isShown} fullscreen onHide={hide} data-testid="modal">
         <Modal.Body className="p-0 position-relative" style={{
           backgroundImage: "url('assets/background.png')",
           backgroundPosition: "center",
