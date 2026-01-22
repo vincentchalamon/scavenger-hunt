@@ -23,7 +23,7 @@ export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosi
       && (position.x >= (keywordPosition.x-40) && position.x <= (keywordPosition.x+40))
       && (position.y >= (keywordPosition.y-40) && position.y <= (keywordPosition.y+40))
     ) {
-      addKeyword(keyword, "Félicitations ! Vous avez trouver tous les mots cachés. Consultez la phrase pour découvrir le lieu du trésor !");
+      addKeyword(keyword, "Félicitations ! Vous avez trouvé tous les mots cachés. Consultez la phrase pour découvrir le lieu du trésor !");
     }
   };
 

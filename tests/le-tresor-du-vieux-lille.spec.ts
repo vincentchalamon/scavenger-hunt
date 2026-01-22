@@ -491,7 +491,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
 
       // Vérifier que le toast de succès apparaît (le mot-clé est ajouté automatiquement au survol)
       await expect(page.getByTestId('toast')).toBeVisible();
-      await expect(page.getByTestId('toast')).toContainText('Félicitations ! Vous avez trouver tous les mots cachés');
+      await expect(page.getByTestId('toast')).toContainText('Félicitations ! Vous avez trouvé tous les mots cachés');
 
       // Fermer le toast
       await page.getByTestId('toast').locator('.btn-close').click();
