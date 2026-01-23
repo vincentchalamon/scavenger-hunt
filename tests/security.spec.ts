@@ -4,20 +4,20 @@ test.describe('Security', () => {
   test('Cannot access the application without API key', async ({ page }) => {
     await page.goto('/');
 
-    // Vérifier que la page de sécurité est affichée
+    // Verify that the security page is displayed
     await expect(page.getByPlaceholder('Clé d\'accès')).toBeVisible();
 
-    // Essayer de valider sans entrer de clé
+    // Try to submit without entering a key
     await page.getByRole('button', { name: 'Enregistrer', exact: true }).click();
 
-    // La page de sécurité devrait rester visible (ou afficher un message d'erreur)
+    // The security page should remain visible (or display an error message)
     await expect(page.getByPlaceholder('Clé d\'accès')).toBeVisible();
   });
 
   test('Access the application with API key', async ({ page }) => {
     await page.goto('/');
 
-    // Vérifier que la page de sécurité est affichée
+    // Verify that the security page is displayed
     await expect(page.getByPlaceholder('Clé d\'accès')).toBeVisible();
 
     // Fill in security code

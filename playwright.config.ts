@@ -6,7 +6,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+// Only load .env file if not in CI (where env vars are set directly)
+if (!process.env.CI) {
+  dotenv.config({ path: path.resolve(__dirname, '.env'), debug: false, quiet: true });
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
