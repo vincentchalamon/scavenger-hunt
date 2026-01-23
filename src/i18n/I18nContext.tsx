@@ -36,7 +36,6 @@ function detectBrowserLanguage(): Language {
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("fr");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Detect language on component mount
@@ -46,7 +45,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
     const detectedLang = savedLang || detectBrowserLanguage();
     setLanguageState(detectedLang);
-    setMounted(true);
   }, []);
 
   const setLanguage = (lang: Language) => {
@@ -61,11 +59,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return (translations[language] as any)[key] || (translations.fr as any)[key] || key;
   };
 
-  // Avoid flash of untranslated content
-  if (!mounted) {
-    return null;
-  }
-
+  // Always render to avoid hydration mismatch and flash of empty content
+  // The language will be updated after mount if needed
   return (
     <I18nContext.Provider value={{ language, setLanguage, t }}>
       {children}
