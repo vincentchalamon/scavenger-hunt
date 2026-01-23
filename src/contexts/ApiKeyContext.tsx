@@ -62,7 +62,7 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
             <Form.Group className="mb-4">
               <Form.Label className="h3 mb-3">Clé d'accès</Form.Label>
               <Form.Text className="text-white d-block mb-3">Veuillez renseigner la clé d'accès fournie par votre hôte.</Form.Text>
-              <Form.Control required type="text" placeholder="Clé d'accès" />
+              <Form.Control required type="password" placeholder="Clé d'accès" />
               {isValid === false && (
                 <Form.Text className="text-danger d-block mt-3">La clé saisie semble invalide. Merci de vérifier votre saisie.</Form.Text>
               )}

@@ -14,7 +14,7 @@ export const Manuscript: React.FC<ManuscriptProps> = ({rules, manuscript, phrase
   const {keywords} = useContext(PhraseContext);
 
   return (
-    <Container className="py-3 text-dark">
+    <Container className="py-3 text-dark" data-testid="manuscript">
       <div style={{
         textAlign: "justify",
         textJustify: "inter-word",

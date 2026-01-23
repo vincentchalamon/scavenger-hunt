@@ -34,6 +34,7 @@ export const AdvancedMarkerWithRef = (props: Omit<AdvancedMarkerProps, "children
           anchor={marker}
           headerContent={<h5 className="text-dark">{place.name}</h5>}
           pixelOffset={[0, -2]}
+          data-testid="info-window"
           onCloseClick={() => {
             if (marker) {
               onCloseClick(marker);
