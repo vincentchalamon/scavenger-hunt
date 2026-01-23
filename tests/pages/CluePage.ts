@@ -177,9 +177,12 @@ export class Box3DClue extends ClueBasePage {
  */
 export class PageFlipClue extends ClueBasePage {
   /**
-   * Turn a page by clicking on the right page
+   * Turn a page by swiping left (more natural for page flip on mobile)
+   * Uses swipe gesture instead of click for better Safari compatibility
    */
   async turnPage() {
+    await this.wait(1000); // Wait for page to be ready
+
     const pages = this.modal.locator('div[style*="background"]');
     const pageCount = await pages.count();
 
@@ -188,25 +191,75 @@ export class PageFlipClue extends ClueBasePage {
       const pageBox = await rightPage.boundingBox();
 
       if (pageBox) {
-        const centerX = pageBox.x + pageBox.width / 2;
+        // Calculate swipe coordinates (right to left swipe)
+        const startX = pageBox.x + pageBox.width * 0.9; // Start at right edge
+        const endX = pageBox.x + pageBox.width * 0.1;   // End at left edge
         const centerY = pageBox.y + pageBox.height / 2;
-        await this.page.mouse.click(centerX, centerY);
+
+        try {
+          // Strategy 1: Swipe gesture for mobile (most reliable for Safari)
+          await this.page.mouse.move(startX, centerY);
+          await this.page.mouse.down();
+          await this.page.mouse.move(endX, centerY, { steps: 10 });
+          await this.page.mouse.up();
+          await this.wait(3500); // Extended wait for animation
+          return;
+        } catch (e) {
+          // Swipe failed, try other strategies
+        }
+
+        try {
+          // Strategy 2: Touch swipe for Safari
+          await this.page.touchscreen.tap(startX, centerY);
+          await this.wait(500);
+          await this.page.touchscreen.tap(pageBox.x + pageBox.width * 0.5, centerY);
+          await this.wait(3500);
+          return;
+        } catch (e) {
+          // Touch tap failed
+        }
+
+        try {
+          // Strategy 3: Multiple rapid taps on right side
+          const clickX = pageBox.x + pageBox.width * 0.8;
+          await this.page.mouse.click(clickX, centerY);
+          await this.wait(200);
+          await this.page.mouse.click(clickX, centerY);
+          await this.wait(3500);
+          return;
+        } catch (e) {
+          // All strategies failed
+        }
       }
     }
-    await this.wait(3000);
+
+    // Fallback: just wait
+    await this.wait(3500);
   }
 
   /**
    * Turn pages until the keyword button is visible
    */
-  async turnUntilKeywordVisible(maxAttempts: number = 5) {
+  async turnUntilKeywordVisible(maxAttempts: number = 10) {
     const keywordButton = this.modal.getByTestId('keyword-button');
+
     for (let i = 0; i < maxAttempts; i++) {
+      // Check if button is visible
       const isVisible = await keywordButton.isVisible().catch(() => false);
       if (isVisible) {
-        return true;
+        // Double check it's really visible and ready
+        await this.wait(1000);
+        const stillVisible = await keywordButton.isVisible().catch(() => false);
+        if (stillVisible) {
+          return true;
+        }
       }
+
+      // Turn to next page
       await this.turnPage();
+
+      // Extra wait on Mobile Safari
+      await this.wait(500);
     }
     return false;
   }
@@ -217,12 +270,50 @@ export class PageFlipClue extends ClueBasePage {
     // Turn pages until we find the keyword button (it appears on page 3)
     const keywordButton = this.modal.getByTestId('keyword-button');
 
-    // Try turning pages to find the keyword
-    await this.turnUntilKeywordVisible(5);
+    // Try turning pages to find the keyword with extended attempts for mobile
+    const maxAttempts = 10; // Increased for mobile reliability
+    const found = await this.turnUntilKeywordVisible(maxAttempts);
 
-    // Wait for the button to be clickable
-    await keywordButton.waitFor({ state: 'visible', timeout: 10000 });
-    await keywordButton.click();
+    if (!found) {
+      // If not found after all attempts, try one more time with longer waits
+      await this.wait(2000);
+      await this.turnPage();
+      await this.wait(2000);
+      await this.turnPage();
+      await this.wait(2000);
+    }
+
+    // Wait for the button to be clickable with extended timeout
+    await keywordButton.waitFor({ state: 'visible', timeout: 20000 });
+
+    // Extra wait to ensure it's really ready
+    await this.wait(1000);
+
+    // Use tap on mobile devices for better compatibility
+    try {
+      const buttonBox = await keywordButton.boundingBox();
+      if (buttonBox) {
+        const centerX = buttonBox.x + buttonBox.width / 2;
+        const centerY = buttonBox.y + buttonBox.height / 2;
+
+        // Always try tap first on Safari
+        try {
+          await this.page.touchscreen.tap(centerX, centerY);
+          await this.wait(500);
+          return;
+        } catch (tapError) {
+          // Tap failed, try click
+        }
+
+        // Fallback to mouse click
+        await this.page.mouse.click(centerX, centerY);
+        await this.wait(500);
+        return;
+      }
+    } catch (e) {
+      // If getting bounding box fails, try direct click
+      await keywordButton.click();
+    }
   }
 
   /**
