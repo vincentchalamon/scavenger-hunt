@@ -19,10 +19,12 @@ export class HuntApp {
   readonly security: SecurityPage;
   readonly manuscript: ManuscriptPage;
   readonly map: MapPage;
+  readonly slug: string;
 
-  constructor(page: Page) {
+  constructor(page: Page, slug: string = 'le-tresor-du-vieux-lille') {
     this.page = page;
-    this.security = new SecurityPage(page);
+    this.slug = slug;
+    this.security = new SecurityPage(page, slug);
     this.manuscript = new ManuscriptPage(page);
     this.map = new MapPage(page);
   }

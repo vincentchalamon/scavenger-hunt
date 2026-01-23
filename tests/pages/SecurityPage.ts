@@ -5,8 +5,18 @@ import { BasePage } from './BasePage';
  * Page Object for the Security/API Key page
  */
 export class SecurityPage extends BasePage {
-  constructor(page: Page) {
+  readonly slug: string;
+
+  constructor(page: Page, slug: string = 'le-tresor-du-vieux-lille') {
     super(page);
+    this.slug = slug;
+  }
+
+  /**
+   * Navigate to the hunt with the slug
+   */
+  async goto() {
+    await this.page.goto(`/${this.slug}`, { waitUntil: 'networkidle', timeout: 30000 });
   }
 
   /**

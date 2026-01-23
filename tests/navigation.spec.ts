@@ -2,11 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/le-tresor-du-vieux-lille');
 
     // Fill in security code
     await page.getByPlaceholder('Clé d\'accès').fill(process.env.GOOGLE_MAPS_API_KEY as string);
     await page.getByRole('button', { name: 'Enregistrer', exact: true }).click();
+
+    // Wait for hunt to load
+    await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });
   });
 
   test('I can reload the page, the security code is saved', async ({ page }) => {

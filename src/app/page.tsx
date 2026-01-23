@@ -1,41 +1,14 @@
 import {type Metadata} from "next";
-import {Hunt} from "@/components/Hunt/Hunt";
-import {Hunt as HuntType} from "@/types/Hunt";
-import config from "../../config.json";
-import {Place} from "@/types/Place";
+import {getAllHunts} from "@/lib/hunts";
+import {HuntsList} from "@/components/HuntsList/HuntsList";
 
-const getHunt = (): HuntType => {
-  const hunt = config as HuntType;
-
-  return {
-    ...hunt,
-    places: hunt.places.map((place): Place => {
-      if (place.item) {
-        place.item = {
-          ...place.item || {},
-          options: {
-            ...place.item?.options || {},
-            debug: typeof hunt.debug === "boolean" ? hunt.debug : (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
-          },
-        };
-      }
-
-      return place;
-    }),
-  }
+export const metadata: Metadata = {
+  title: "Scavenger Hunts",
+  description: "Choisissez votre chasse au trésor",
 };
 
-export async function generateMetadata(): Promise<Metadata | undefined> {
-  const hunt = getHunt();
-
-  return {
-    title: hunt.name,
-  };
-}
-
 export default async function Page() {
-  const hunt = getHunt();
+  const hunts = getAllHunts();
 
-  // https://github.com/vercel/next.js/discussions/46137
-  return <Hunt hunt={JSON.parse(JSON.stringify(hunt))}/>;
+  return <HuntsList hunts={hunts}/>;
 }
