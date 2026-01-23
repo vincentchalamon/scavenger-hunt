@@ -1,6 +1,7 @@
 import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import {RoutesApi} from "@/components/Map/RoutesApi";
+import {useTranslation} from "@/i18n";
 
 export const ApiKeyContext = createContext({
   apiKey: undefined,
@@ -8,6 +9,7 @@ export const ApiKeyContext = createContext({
 });
 
 export function ApiKeyProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
   const [apiKey, setApiKey] = useState<string | undefined>(undefined);
   useEffect(() => {
     if (typeof process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY === "string") {
@@ -60,15 +62,15 @@ export function ApiKeyProvider({ children }: { children: ReactNode }) {
         <Container className="px-4 py-5">
           <Form onSubmit={onSubmit}>
             <Form.Group className="mb-4">
-              <Form.Label className="h3 mb-3">Clé d'accès</Form.Label>
-              <Form.Text className="text-white d-block mb-3">Veuillez renseigner la clé d'accès fournie par votre hôte.</Form.Text>
-              <Form.Control required type="password" placeholder="Clé d'accès" />
+              <Form.Label className="h3 mb-3">{t('apiKeyLabel')}</Form.Label>
+              <Form.Text className="text-white d-block mb-3">{t('apiKeyHelper')}</Form.Text>
+              <Form.Control required type="password" placeholder={t('apiKeyPlaceholder')} />
               {isValid === false && (
-                <Form.Text className="text-danger d-block mt-3">La clé saisie semble invalide. Merci de vérifier votre saisie.</Form.Text>
+                <Form.Text className="text-danger d-block mt-3">{t('apiKeyInvalid')}</Form.Text>
               )}
             </Form.Group>
             {/*@ts-ignore*/}
-            <Button variant="primary" type="submit">Enregistrer</Button>
+            <Button variant="primary" type="submit">{t('apiKeySave')}</Button>
           </Form>
         </Container>
       </ApiKeyContext.Provider>

@@ -20,17 +20,17 @@ export class SecurityPage extends BasePage {
   }
 
   /**
-   * Get the API key input field
+   * Get the API key input field (multilingual)
    */
   get apiKeyInput() {
-    return this.page.getByPlaceholder('Clé d\'accès');
+    return this.page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
   }
 
   /**
-   * Get the save button
+   * Get the save button (multilingual)
    */
   get saveButton() {
-    return this.page.getByRole('button', { name: 'Enregistrer', exact: true });
+    return this.page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
   }
 
   /**

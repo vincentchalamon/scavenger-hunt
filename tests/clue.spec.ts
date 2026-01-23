@@ -5,8 +5,8 @@ test.describe('Clue', () => {
     await page.goto('/le-tresor-du-vieux-lille');
 
     // Fill in security code
-    await page.getByPlaceholder('Clé d\'accès').fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    await page.getByRole('button', { name: 'Enregistrer', exact: true }).click();
+    await page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/).fill(process.env.GOOGLE_MAPS_API_KEY as string);
+    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
 
     // Wait for hunt to load
     await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });

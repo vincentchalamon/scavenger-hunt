@@ -2,6 +2,7 @@ import {type Metadata} from "next";
 import {Hunt} from "@/components/Hunt/Hunt";
 import {getHuntBySlug, getAllHunts} from "@/lib/hunts";
 import {notFound} from "next/navigation";
+import {getDefaultTranslations} from "@/i18n/server";
 
 type PageProps = {
   params: Promise<{
@@ -19,10 +20,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {slug} = await params;
   const hunt = getHuntBySlug(slug);
+  const { t } = getDefaultTranslations();
 
   if (!hunt) {
     return {
-      title: "Jeu introuvable",
+      title: t('huntNotFoundTitle'),
     };
   }
 

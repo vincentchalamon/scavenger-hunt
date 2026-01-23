@@ -4,8 +4,10 @@ import {Container} from "react-bootstrap";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {PulseLoader} from "react-spinners";
+import {useTranslation} from "@/i18n";
 
 export default function NotFound() {
+  const { t } = useTranslation();
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
   // Lock for mobile only
@@ -42,8 +44,8 @@ export default function NotFound() {
   if (!isMobile) {
     return (
       <Container className="pt-2">
-        <p>Cette application est uniquement compatible sur mobile.</p>
-        <p>Veuillez l'ouvrir sur votre mobile.</p>
+        <p>{t('mobileOnly')}</p>
+        <p>{t('mobileOnlyHelper')}</p>
       </Container>
     );
   }
@@ -51,17 +53,17 @@ export default function NotFound() {
   if (locked) {
     return (
       <Container>
-        <p>Le mode paysage n'est pas supporté.</p>
+        <p>{t('landscapeNotSupported')}</p>
       </Container>
     );
   }
 
   return (
     <Container className="py-4 text-center">
-      <h1 className="mb-4">404 - Jeu introuvable</h1>
-      <p className="mb-4">Le jeu que vous recherchez n'existe pas ou a été supprimé.</p>
+      <h1 className="mb-4">{t('notFoundTitle')}</h1>
+      <p className="mb-4">{t('notFoundMessage')}</p>
       <Link href="/" className="btn btn-primary">
-        Retour à la liste des jeux
+        {t('notFoundBackButton')}
       </Link>
     </Container>
   );

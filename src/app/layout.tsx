@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {ReactNode} from "react";
+import {I18nProvider} from "@/i18n";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,9 @@ export default async function RootLayout({children}: Readonly<{ children: ReactN
   return (
     <html style={{overscrollBehaviorY: "none"}} lang="en">
     <body style={{overscrollBehaviorY: "none"}} className={`${geistSans.variable} ${geistMono.variable}`}>
-    {children}
+    <I18nProvider>
+      {children}
+    </I18nProvider>
     </body>
     </html>
   );

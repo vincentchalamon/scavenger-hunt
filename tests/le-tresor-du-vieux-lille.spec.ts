@@ -65,7 +65,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
 
       // Solve the clickable image puzzle
       const clue = app.createClickableImageClue();
-      await clue.solveAndClose('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+      await clue.solveAndClose(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !|Congratulations! You found a keyword leading to the treasure!|¡Felicidades! ¡Encontraste una palabra clave que conduce al tesoro!|Glückwunsch! Sie haben ein Schlüsselwort gefunden, das zum Schatz führt!|Gefeliciteerd! Je hebt een trefwoord gevonden dat naar de schat leidt!/);
 
       // Verify the phrase
       await app.manuscript.navigateToManuscript();

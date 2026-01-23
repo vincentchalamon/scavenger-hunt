@@ -10,19 +10,19 @@ test.describe('Hunts List', () => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 30000 });
 
     // Should require API key first
-    const apiKeyInput = page.getByPlaceholder('Clé d\'accès');
+    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
     await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
 
     // Enter API key
     await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: 'Enregistrer', exact: true });
+    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
     await saveButton.click();
 
     // Wait for hunts list to appear
     await page.waitForTimeout(2000);
 
-    // Should see the title
-    const title = page.getByRole('heading', { name: 'Chasses au trésor disponibles' });
+    // Should see the title (multilingual)
+    const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts|Búsquedas del tesoro disponibles|Verfügbare Schatzsuchen|Beschikbare schattenjachten/ });
     await expect(title).toBeVisible({ timeout: 10000 });
 
     // Should see at least one hunt card
@@ -33,10 +33,10 @@ test.describe('Hunts List', () => {
     const huntTitle = page.getByText('Le Trésor du Vieux-Lille');
     await expect(huntTitle).toBeVisible();
 
-    // Should see a "Commencer" button
+    // Should see a "Commencer" button (multilingual)
     const startButton = page.locator('a.btn-primary').first();
     await expect(startButton).toBeVisible();
-    await expect(startButton).toHaveText('Commencer');
+    await expect(startButton).toHaveText(/Commencer|Start|Comenzar|Beginnen/);
   });
 
   test('Should navigate to a hunt when clicking "Commencer"', async ({ page }) => {
@@ -44,10 +44,10 @@ test.describe('Hunts List', () => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 30000 });
 
     // Enter API key
-    const apiKeyInput = page.getByPlaceholder('Clé d\'accès');
+    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
     await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
     await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: 'Enregistrer', exact: true });
+    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
     await saveButton.click();
 
     // Wait for hunts list to appear
@@ -72,12 +72,12 @@ test.describe('Hunts List', () => {
     await page.goto('/le-tresor-du-vieux-lille', { waitUntil: 'networkidle', timeout: 30000 });
 
     // Should require API key first
-    const apiKeyInput = page.getByPlaceholder('Clé d\'accès');
+    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
     await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
 
     // Enter API key
     await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: 'Enregistrer', exact: true });
+    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
     await saveButton.click();
 
     // Should show the hunt
@@ -93,20 +93,20 @@ test.describe('Hunts List', () => {
 
     // Should show 404 page
     await page.waitForTimeout(2000);
-    const notFoundTitle = page.getByRole('heading', { name: '404 - Jeu introuvable' });
+    const notFoundTitle = page.getByRole('heading', { name: /404 - Jeu introuvable|404 - Hunt Not Found|404 - Búsqueda no encontrada|404 - Schatzsuche nicht gefunden|404 - Schattenjacht niet gevonden/ });
     await expect(notFoundTitle).toBeVisible({ timeout: 10000 });
 
     // Should have a link back to home
     const backButton = page.locator('a.btn-primary');
     await expect(backButton).toBeVisible();
-    await expect(backButton).toHaveText('Retour à la liste des jeux');
+    await expect(backButton).toHaveText(/Retour à la liste des jeux|Back to hunts list|Volver a la lista de búsquedas|Zurück zur Schatzsuchen-Liste|Terug naar de schattenjachten lijst/);
 
     // Click back button
     await backButton.click();
 
     // Should redirect to home and require API key again
     await page.waitForTimeout(2000);
-    const apiKeyInput = page.getByPlaceholder('Clé d\'accès');
+    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
     await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
   });
 });

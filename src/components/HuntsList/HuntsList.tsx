@@ -6,12 +6,15 @@ import {Card, Container} from "react-bootstrap";
 import {PulseLoader} from "react-spinners";
 import {ApiKeyProvider} from "@/contexts/ApiKeyContext";
 import Link from "next/link";
+import {useTranslation} from "@/i18n";
 
 type HuntsListProps = {
   hunts: Hunt[];
 }
 
 export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
+  const { t } = useTranslation();
+
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
   // Lock for mobile only
@@ -56,8 +59,8 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
   if (!isMobile) {
     return (
       <Container className="pt-2">
-        <p>Cette application est uniquement compatible sur mobile.</p>
-        <p>Veuillez l'ouvrir sur votre mobile.</p>
+        <p>{t('mobileOnly')}</p>
+        <p>{t('mobileOnlyHelper')}</p>
       </Container>
     );
   }
@@ -65,7 +68,7 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
   if (locked) {
     return (
       <Container>
-        <p>Le mode paysage n'est pas supporté.</p>
+        <p>{t('landscapeNotSupported')}</p>
       </Container>
     );
   }
@@ -73,14 +76,14 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
   return (
     <ApiKeyProvider>
       <Container className="py-4">
-        <h1 className="mb-4">Chasses au trésor disponibles</h1>
+        <h1 className="mb-4">{t('huntsListTitle')}</h1>
         <div className="d-flex flex-column gap-3">
           {hunts.map((hunt) => (
             <Card key={hunt.slug}>
               <Card.Body>
                 <Card.Title>{hunt.name}</Card.Title>
                 <Link href={`/${hunt.slug}`} className="btn btn-primary mt-2">
-                  Commencer
+                  {t('huntStart')}
                 </Link>
               </Card.Body>
             </Card>
