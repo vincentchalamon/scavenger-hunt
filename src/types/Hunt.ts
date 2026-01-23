@@ -1,7 +1,9 @@
 import {Place} from "@/types/Place";
 
 export type Hunt = {
+  slug: string;
   name: string;
+  lang: string;
   coordinates: google.maps.LatLngLiteral;
   debug?: boolean;
   rules: string;

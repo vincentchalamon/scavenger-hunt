@@ -2,11 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Keyword', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/le-tresor-du-vieux-lille');
 
     // Fill in security code
-    await page.getByPlaceholder('Clé d\'accès').fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    await page.getByRole('button', { name: 'Enregistrer', exact: true }).click();
+    await page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/).fill(process.env.GOOGLE_MAPS_API_KEY as string);
+    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
+
+    // Wait for hunt to load
+    await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });
   });
 
   test('I can click on a keyword to fill in the phrase', async ({ page }) => {
@@ -25,7 +28,7 @@ test.describe('Keyword', () => {
     // Click on the hidden keyword
     await expect(page.getByTestId('modal').getByTestId('keyword-button')).toBeInViewport();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
-    await expect(page.getByTestId('toast')).toHaveText('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+    await expect(page.getByTestId('toast')).toHaveText(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !|Congratulations! You found a keyword leading to the treasure!|¡Felicidades! ¡Encontraste una palabra clave que conduce al tesoro!|Glückwunsch! Sie haben ein Schlüsselwort gefunden, das zum Schatz führt!|Gefeliciteerd! Je hebt een trefwoord gevonden dat naar de schat leidt!/);
 
     // Close modal
     await page.getByTestId('modal').locator('.btn-close').click();
@@ -40,7 +43,7 @@ test.describe('Keyword', () => {
     await page.getByTestId('map-button').click();
     await page.locator('.gm-style-iw-c').locator('.container button').click();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
-    await expect(page.getByTestId('toast')).toHaveText('Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !');
+    await expect(page.getByTestId('toast')).toHaveText(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !|Congratulations! You found a keyword leading to the treasure!|¡Felicidades! ¡Encontraste una palabra clave que conduce al tesoro!|Glückwunsch! Sie haben ein Schlüsselwort gefunden, das zum Schatz führt!|Gefeliciteerd! Je hebt een trefwoord gevonden dat naar de schat leidt!/);
     await page.getByTestId('modal').locator('.btn-close').click();
     await page.getByTestId('manuscript-button').click();
     await expect(page.getByTestId('manuscript')).toContainText('Le trésor .... ...................... se trouve .... pied .... .... .............. .... .... ............');

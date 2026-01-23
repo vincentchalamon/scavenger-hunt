@@ -74,9 +74,9 @@ export class BasePage {
   }
 
   /**
-   * Verify a success toast appears with specific message
+   * Verify a success toast appears with specific message (supports regex)
    */
-  async verifySuccessToast(message?: string) {
+  async verifySuccessToast(message?: string | RegExp) {
     const toast = this.page.getByTestId('toast');
     await expect(toast).toBeVisible({ timeout: 10000 });
     if (message) {

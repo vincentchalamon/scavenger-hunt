@@ -10,12 +10,15 @@ import {Toast} from "@/components/Toast/Toast";
 import {Map} from "@/components/Map/Map";
 import {PulseLoader} from "react-spinners";
 import {ApiKeyProvider} from "@/contexts/ApiKeyContext";
+import {useTranslation} from "@/i18n";
 
 type HuntProps = {
   hunt: HuntType;
 }
 
 export const Hunt: React.FC<HuntProps> = ({hunt}) => {
+  const { t } = useTranslation();
+
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
   // Lock for mobile only
@@ -60,8 +63,8 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (!isMobile) {
     return (
       <Container className="pt-2">
-        <p>Cette application est uniquement compatible sur mobile.</p>
-        <p>Veuillez l'ouvrir sur votre mobile.</p>
+        <p>{t('mobileOnly')}</p>
+        <p>{t('mobileOnlyHelper')}</p>
       </Container>
     );
   }
@@ -69,7 +72,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   if (locked) {
     return (
       <Container>
-        <p>Le mode paysage n'est pas supporté.</p>
+        <p>{t('landscapeNotSupported')}</p>
       </Container>
     );
   }

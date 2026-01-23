@@ -20,7 +20,7 @@ export abstract class ClueBasePage extends BasePage {
   /**
    * Complete the full flow: solve the clue, verify success, close modal
    */
-  async solveAndClose(expectedMessage?: string) {
+  async solveAndClose(expectedMessage?: string | RegExp) {
     await this.solve();
 
     // Verify and close toast
