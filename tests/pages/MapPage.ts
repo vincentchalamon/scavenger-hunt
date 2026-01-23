@@ -1,5 +1,5 @@
-import { Page, expect } from '@playwright/test';
-import { BasePage } from './BasePage';
+import {expect, Page} from '@playwright/test';
+import {BasePage} from './BasePage';
 
 /**
  * Page Object for the Map view

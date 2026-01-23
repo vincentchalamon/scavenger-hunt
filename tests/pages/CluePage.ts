@@ -1,5 +1,5 @@
-import { expect } from '@playwright/test';
-import { BasePage } from './BasePage';
+import {expect} from '@playwright/test';
+import {BasePage} from './BasePage';
 
 /**
  * Base class for all clue/puzzle solvers

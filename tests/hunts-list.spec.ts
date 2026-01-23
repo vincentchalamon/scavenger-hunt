@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
+import {HuntApp} from './pages';
 
 /**
  * Test for the hunts list page
@@ -6,20 +7,9 @@ import { test, expect } from '@playwright/test';
 test.describe('Hunts List', () => {
 
   test('Should display the list of available hunts', async ({ page }) => {
-    // Navigate to home page
-    await page.goto('/', { waitUntil: 'networkidle', timeout: 30000 });
-
-    // Should require API key first
-    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
-    await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
-
-    // Enter API key
-    await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
-    await saveButton.click();
-
-    // Wait for hunts list to appear
-    await page.waitForTimeout(2000);
+    // Navigate to home page and authenticate
+    const app = new HuntApp(page);
+    await app.navigateAndAuthenticate('/');
 
     // Should see the title (multilingual)
     const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts|Búsquedas del tesoro disponibles|Verfügbare Schatzsuchen|Beschikbare schattenjachten/ });
@@ -40,18 +30,9 @@ test.describe('Hunts List', () => {
   });
 
   test('Should navigate to a hunt when clicking "Commencer"', async ({ page }) => {
-    // Navigate to home page
-    await page.goto('/', { waitUntil: 'networkidle', timeout: 30000 });
-
-    // Enter API key
-    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
-    await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
-    await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
-    await saveButton.click();
-
-    // Wait for hunts list to appear
-    await page.waitForTimeout(2000);
+    // Navigate to home page and authenticate
+    const app = new HuntApp(page);
+    await app.navigateAndAuthenticate('/');
 
     // Click on "Commencer" button
     const startButton = page.locator('a.btn-primary').first();
@@ -68,31 +49,22 @@ test.describe('Hunts List', () => {
   });
 
   test('Should navigate directly to a hunt by URL', async ({ page }) => {
-    // Navigate directly to hunt URL
-    await page.goto('/le-tresor-du-vieux-lille', { waitUntil: 'networkidle', timeout: 30000 });
-
-    // Should require API key first
-    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
-    await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
-
-    // Enter API key
-    await apiKeyInput.fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    const saveButton = page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ });
-    await saveButton.click();
+    // Navigate directly to hunt URL and authenticate
+    const app = new HuntApp(page);
+    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
 
     // Should show the hunt
-    await page.waitForTimeout(2000);
     const huntTitle = page.getByTestId('hunt-title');
     await expect(huntTitle).toBeVisible({ timeout: 10000 });
     await expect(huntTitle).toHaveText('Le Trésor du Vieux-Lille');
   });
 
-  test('Should show 404 page for invalid hunt slug', async ({ page }) => {
-    // Navigate to invalid hunt URL
-    await page.goto('/invalid-hunt-slug', { waitUntil: 'networkidle', timeout: 30000 });
+  test('Should show 404 page for invalid hunt url', async ({ page }) => {
+    // Navigate to invalid hunt URL and authenticate
+    const app = new HuntApp(page);
+    await app.navigateAndAuthenticate('/invalid-hunt-url');
 
-    // Should show 404 page
-    await page.waitForTimeout(2000);
+    // Should show 404 page (hunt title won't be visible, but 404 title will)
     const notFoundTitle = page.getByRole('heading', { name: /404 - Jeu introuvable|404 - Hunt Not Found|404 - Búsqueda no encontrada|404 - Schatzsuche nicht gefunden|404 - Schattenjacht niet gevonden/ });
     await expect(notFoundTitle).toBeVisible({ timeout: 10000 });
 
@@ -104,9 +76,9 @@ test.describe('Hunts List', () => {
     // Click back button
     await backButton.click();
 
-    // Should redirect to home and require API key again
+    // Should redirect to home - password should NOT be required again (global context)
     await page.waitForTimeout(2000);
-    const apiKeyInput = page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/);
-    await expect(apiKeyInput).toBeVisible({ timeout: 15000 });
+    const huntsListTitle = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i });
+    await expect(huntsListTitle).toBeVisible({ timeout: 15000 });
   });
 });

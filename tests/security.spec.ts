@@ -1,60 +1,93 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
+import {HuntApp} from './pages';
 
-test.describe('Security', () => {
-  test('Cannot access the hunt list without API key', async ({ page }) => {
+test.describe('Security - Password Authentication', () => {
+  test('Cannot access the hunt list without password', async ({ page }) => {
     await page.goto('/');
 
-    // Verify that the security page is displayed
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
+    // Verify that the password page is displayed
+    await expect(page.getByPlaceholder(/Entrez le mot de passe|Enter password|Mot de passe|Password/i)).toBeVisible();
 
-    // Try to submit without entering a key
-    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
-
-    // The security page should remain visible (or display an error message)
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
+    // The unlock button should be visible
+    await expect(page.getByRole('button', { name: /Déverrouiller|Unlock/i })).toBeVisible();
   });
 
-  test('Cannot access a specific hunt without API key', async ({ page }) => {
-    await page.goto('/le-tresor-du-vieux-lille');
-
-    // Verify that the security page is displayed
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
-
-    // Try to submit without entering a key
-    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
-
-    // The security page should remain visible
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
-  });
-
-  test('Access the hunt list with API key', async ({ page }) => {
+  test('Cannot access with wrong password', async ({ page }) => {
     await page.goto('/');
 
-    // Verify that the security page is displayed
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
+    // Wait for password input
+    const passwordInput = page.getByPlaceholder(/Entrez le mot de passe|Enter password|Mot de passe|Password/i);
+    await passwordInput.waitFor({ state: 'visible' });
 
-    // Fill in security code
-    await page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/).fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
+    // Fill in wrong password
+    await passwordInput.fill('WrongPassword123!');
+    await page.getByRole('button', { name: /Déverrouiller|Unlock/i }).click();
+
+    // Should show an error message
+    await expect(page.getByText(/Mot de passe incorrect|Incorrect password|Invalid password/i)).toBeVisible({ timeout: 10000 });
+
+    // Password input should still be visible
+    await expect(passwordInput).toBeVisible();
+  });
+
+  test('Can access the hunt list with correct password', async ({ page }) => {
+    const app = new HuntApp(page);
+
+    // Unlock with correct password
+    await app.navigateAndAuthenticate('/');
 
     // Should see the hunts list
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).not.toBeVisible();
-    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts|Búsquedas del tesoro disponibles|Verfügbare Schatzsuchen|Beschikbare schattenjachten/ })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible({ timeout: 10000 });
   });
 
-  test('Access a specific hunt with API key', async ({ page }) => {
-    await page.goto('/le-tresor-du-vieux-lille');
+  test('Can access a specific hunt with correct password', async ({ page }) => {
+    const app = new HuntApp(page);
 
-    // Verify that the security page is displayed
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).toBeVisible();
-
-    // Fill in security code
-    await page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/).fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
+    // Unlock with correct password
+    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
 
     // Should see the hunt page
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).not.toBeVisible();
     await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });
     await expect(page.getByTestId('hunt-title')).toContainText('Le Trésor du Vieux-Lille');
+  });
+
+  test('Password persists in memory during session', async ({ page }) => {
+    const app = new HuntApp(page);
+
+    // Unlock with correct password
+    await app.navigateAndAuthenticate('/');
+
+    // Wait for hunts list to be visible
+    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible({ timeout: 15000 });
+
+    // Click on first hunt card link
+    const firstHuntLink = page.locator('a.btn-primary').first();
+    await expect(firstHuntLink).toBeVisible({ timeout: 5000 });
+    await firstHuntLink.click();
+
+    // Wait for navigation
+    await page.waitForLoadState('networkidle', { timeout: 10000 });
+
+    // Should not ask for password again (password persists in memory via global context)
+    await expect(page.getByPlaceholder(/Entrez le mot de passe|Enter password/i)).not.toBeVisible();
+
+    // Should eventually see the hunt page (may take time to load)
+    await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 30000 });
+  });
+
+  test('Password is required after page reload', async ({ page }) => {
+    const app = new HuntApp(page);
+
+    // Unlock with correct password
+    await app.navigateAndAuthenticate('/');
+
+    // Verify we're in
+    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible();
+
+    // Reload the page
+    await page.reload();
+
+    // Should ask for password again (not stored in localStorage)
+    await expect(page.getByPlaceholder(/Entrez le mot de passe|Enter password/i)).toBeVisible();
   });
 });
