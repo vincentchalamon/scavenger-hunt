@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/generate-places-cache.js",
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/generate-places-cache.js",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-cache": "node scripts/generate-places-cache.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.6",

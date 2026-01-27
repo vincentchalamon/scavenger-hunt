@@ -19,6 +19,9 @@
 
 # production
 /build
+
+# generated files (created at build time)
+/src/lib/places-cache.generated.ts
 /docs
 
 # misc
