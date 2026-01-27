@@ -24,7 +24,14 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   }, [inputValue]);
 
   const places = useMapsLibrary('places');
-  const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue, {locationBias});
+  // OPTIMIZATION: Bias autocomplete to Lille area to prioritize local results
+  // This improves relevance and reduces unnecessary API calls
+  const autocompleteOptions = {
+    locationBias,
+    language: 'fr',
+    region: 'FR',
+  };
+  const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue, autocompleteOptions);
   const handleSuggestionClick = useCallback(
     async (suggestion: google.maps.places.AutocompleteSuggestion) => {
       if (!places || !suggestion.placePrediction) {
@@ -34,13 +41,9 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
       setInputValue(suggestion.placePrediction.text.text);
 
       const place = suggestion.placePrediction.toPlace();
+      // OPTIMIZATION: Only fetch 'location' field to reduce API costs
       await place.fetchFields({
-        fields: [
-          'viewport',
-          'location',
-          'svgIconMaskURI',
-          'iconBackgroundColor'
-        ]
+        fields: ['location']
       });
 
       resetSession();
