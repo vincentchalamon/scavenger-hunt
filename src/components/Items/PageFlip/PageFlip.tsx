@@ -5,6 +5,7 @@ import HTMLFlipBook from "react-pageflip";
 import styles from "./pageFlip.module.css";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
+import {assetPath} from "@/lib/assets";
 
 type PageProps = {
   text: string;
@@ -40,7 +41,7 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
   };
 
   const pageStyle = {
-    backgroundImage: "url('/assets/page.png')",
+    backgroundImage: `url('${assetPath('/assets/page.png')}')`,
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     backgroundBlendMode: "lighten",
     boxShadow: "inset 7px 0 30px -7px rgba(0, 0, 0, 0.6)",
@@ -55,7 +56,7 @@ export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
       flippingTime={2000}
       className="py-1"
       style={{
-        backgroundImage: "url('/assets/book.png')",
+        backgroundImage: `url('${assetPath('/assets/book.png')}')`,
         backgroundSize: "100% 100%",
         backgroundPosition: "right center",
         backgroundRepeat: "no-repeat",
