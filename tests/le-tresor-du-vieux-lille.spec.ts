@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test';
-import { HuntApp } from './pages';
+import {expect, test} from '@playwright/test';
+import {HuntApp} from './pages';
 
 /**
  * E2E test for "Le Trésor du Vieux-Lille" application.
@@ -21,8 +21,8 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     // STEP 1: Application initialization
     // ========================================
-    await test.step('Initialize application and enter API key', async () => {
-      await app.initialize(process.env.GOOGLE_MAPS_API_KEY as string);
+    await test.step('Initialize application and authenticate with password', async () => {
+      await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
       await app.verifyHuntTitle('Le Trésor du Vieux-Lille');
     });
 

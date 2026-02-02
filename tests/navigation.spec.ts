@@ -1,27 +1,26 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
+import {HuntApp} from './pages';
 
 test.describe('Navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/le-tresor-du-vieux-lille');
-
-    // Fill in security code
-    await page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/).fill(process.env.GOOGLE_MAPS_API_KEY as string);
-    await page.getByRole('button', { name: /Enregistrer|Save|Guardar|Speichern|Opslaan/ }).click();
-
-    // Wait for hunt to load
-    await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });
+    const app = new HuntApp(page);
+    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
   });
 
-  test('I can reload the page, the security code is saved', async ({ page }) => {
+  test('Password is NOT saved after reload (security)', async ({ page }) => {
     // Ensure hunt is loaded
     await expect(page.getByTestId('hunt-title')).toBeVisible();
     await expect(page.getByTestId('hunt-title')).toContainText('Le Trésor du Vieux-Lille');
 
     // Refresh page
     await page.reload();
-    await expect(page.getByPlaceholder(/Clé d'accès|Access Key|Clave de acceso|Zugriffsschlüssel|Toegangssleutel/)).not.toBeVisible();
-    await expect(page.getByTestId('hunt-title')).toBeVisible();
-    await expect(page.getByTestId('hunt-title')).toContainText('Le Trésor du Vieux-Lille');
+
+    // With new security system, password is NOT saved in localStorage
+    // User must re-enter password after reload
+    const passwordInput = page.getByPlaceholder(/Entrez le mot de passe|Enter password|Mot de passe|Password/i);
+
+    // Password input should be visible again
+    await expect(passwordInput).toBeVisible({ timeout: 5000 });
   });
 
   test('I can navigate using tabs', async ({ page }) => {

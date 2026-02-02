@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import {Hunt} from "@/types/Hunt";
 import {Card, Container} from "react-bootstrap";
 import {PulseLoader} from "react-spinners";
-import {ApiKeyProvider} from "@/contexts/ApiKeyContext";
 import Link from "next/link";
 import {useTranslation} from "@/i18n";
 
@@ -74,22 +73,20 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
   }
 
   return (
-    <ApiKeyProvider>
-      <Container className="py-4">
-        <h1 className="mb-4">{t('huntsListTitle')}</h1>
-        <div className="d-flex flex-column gap-3">
-          {hunts.map((hunt) => (
-            <Card key={hunt.slug}>
-              <Card.Body>
-                <Card.Title>{hunt.name}</Card.Title>
-                <Link href={`/${hunt.slug}`} className="btn btn-primary mt-2">
-                  {t('huntStart')}
-                </Link>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </ApiKeyProvider>
+    <Container className="py-4">
+      <h1 className="mb-4">{t('huntsListTitle')}</h1>
+      <div className="d-flex flex-column gap-3">
+        {hunts.map((hunt) => (
+          <Card key={hunt.slug}>
+            <Card.Body>
+              <Card.Title>{hunt.name}</Card.Title>
+              <Link href={`/${hunt.slug}`} className="btn btn-primary mt-2">
+                {t('huntStart')}
+              </Link>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    </Container>
   );
 }

@@ -20,6 +20,16 @@ export const translations = {
     apiKeyInvalid: 'La clé saisie semble invalide. Merci de vérifier votre saisie.',
     apiKeySave: 'Enregistrer',
 
+    // Password for decryption
+    passwordLabel: 'Mot de passe',
+    passwordPlaceholder: 'Entrez le mot de passe',
+    passwordHelper: 'Veuillez entrer le mot de passe fourni par votre hôte pour déverrouiller l\'application.',
+    passwordInvalid: 'Mot de passe incorrect. Veuillez réessayer.',
+    unlock: 'Déverrouiller',
+    decrypting: 'Déchiffrement en cours...',
+    error: 'Erreur',
+    noEncryptedKey: 'Aucune clé chiffrée trouvée. Veuillez déployer l\'application avec un mot de passe.',
+
     // Hunts List
     huntsListTitle: 'Chasses au trésor disponibles',
     huntStart: 'Commencer',
@@ -57,6 +67,16 @@ export const translations = {
     apiKeyHelper: 'Please enter the access key provided by your host.',
     apiKeyInvalid: 'The entered key seems invalid. Please check your input.',
     apiKeySave: 'Save',
+
+    // Password for decryption
+    passwordLabel: 'Password',
+    passwordPlaceholder: 'Enter password',
+    passwordHelper: 'Please enter the password provided by your host to unlock the application.',
+    passwordInvalid: 'Incorrect password. Please try again.',
+    unlock: 'Unlock',
+    decrypting: 'Decrypting...',
+    error: 'Error',
+    noEncryptedKey: 'No encrypted key found. Please deploy the application with a password.',
 
     // Hunts List
     huntsListTitle: 'Available Treasure Hunts',

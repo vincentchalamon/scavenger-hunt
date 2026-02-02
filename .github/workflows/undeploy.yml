@@ -1,0 +1,43 @@
+name: Undeploy from GitHub Pages
+
+on:
+  # Manual trigger only
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  undeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+      
+      - name: Remove all files from gh-pages branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Remove all files except .git
+          find . -maxdepth 1 ! -name '.git' ! -name '.' ! -name '..' -exec rm -rf {} +
+          
+          # Create a placeholder file to indicate the site is unavailable
+          echo "# Application temporairement indisponible" > README.md
+          echo "" >> README.md
+          echo "Cette application a été désinstallée." >> README.md
+          echo "Contactez l'administrateur pour plus d'informations." >> README.md
+          
+          git add .
+          git commit -m "Undeploy: Remove application from GitHub Pages" || echo "No changes to commit"
+          git push origin gh-pages
+      
+      - name: Deployment status
+        run: |
+          echo "✅ Application successfully undeployed from GitHub Pages"
+          echo "The gh-pages branch has been cleared"

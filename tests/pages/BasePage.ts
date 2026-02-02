@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import {expect, Page} from '@playwright/test';
 
 /**
  * Base Page Object for common functionality across all pages
@@ -8,13 +8,6 @@ export class BasePage {
 
   constructor(page: Page) {
     this.page = page;
-  }
-
-  /**
-   * Navigate to the application
-   */
-  async goto() {
-    await this.page.goto('/', { waitUntil: 'networkidle', timeout: 30000 });
   }
 
   /**

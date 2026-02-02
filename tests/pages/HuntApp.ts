@@ -1,14 +1,8 @@
-import { Page, expect } from '@playwright/test';
-import { SecurityPage } from './SecurityPage';
-import { ManuscriptPage } from './ManuscriptPage';
-import { MapPage } from './MapPage';
-import {
-  ClickableImageClue,
-  ScratchCardClue,
-  Box3DClue,
-  PageFlipClue,
-  MagnifierClue
-} from './CluePage';
+import {expect, Page} from '@playwright/test';
+import {ManuscriptPage} from './ManuscriptPage';
+import {MapPage} from './MapPage';
+import {Box3DClue, ClickableImageClue, MagnifierClue, PageFlipClue, ScratchCardClue} from './CluePage';
+import {TEST_PASSWORD, unlockApplication} from "../helpers/auth";
 
 /**
  * Main Application Page Object
@@ -16,15 +10,11 @@ import {
  */
 export class HuntApp {
   readonly page: Page;
-  readonly security: SecurityPage;
   readonly manuscript: ManuscriptPage;
   readonly map: MapPage;
-  readonly slug: string;
 
-  constructor(page: Page, slug: string = 'le-tresor-du-vieux-lille') {
+  constructor(page: Page) {
     this.page = page;
-    this.slug = slug;
-    this.security = new SecurityPage(page, slug);
     this.manuscript = new ManuscriptPage(page);
     this.map = new MapPage(page);
   }
@@ -37,12 +27,12 @@ export class HuntApp {
   }
 
   /**
-   * Initialize the application and login with API key
+   * Navigate to a specific URL and authenticate (without waiting for hunt title)
+   * Useful for error pages (404, etc.)
    */
-  async initialize(apiKey: string) {
-    await this.security.goto();
-    await this.security.enterApiKey(apiKey);
-    await expect(this.huntTitle).toBeVisible({ timeout: 20000 });
+  async navigateAndAuthenticate(url: string) {
+    await this.page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+    await unlockApplication(this.page, TEST_PASSWORD);
     await this.page.waitForTimeout(2000);
   }
 
@@ -237,10 +227,13 @@ export class HuntApp {
 
   /**
    * Reload and verify data persistence
+   * Note: After reload, user must re-authenticate with password
    */
   async verifyPersistence(expectedMarkerCount: number, completedPhrase: string) {
     await this.page.reload({ waitUntil: 'networkidle', timeout: 30000 });
-    await this.security.verifyAuthenticated();
+
+    // Re-authenticate after reload (password is not stored)
+    await unlockApplication(this.page, TEST_PASSWORD);
     await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
 
     await this.manuscript.navigateToManuscript();

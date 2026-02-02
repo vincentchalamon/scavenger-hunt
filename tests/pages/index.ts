@@ -6,7 +6,6 @@
  */
 
 export { BasePage } from './BasePage';
-export { SecurityPage } from './SecurityPage';
 export { ManuscriptPage } from './ManuscriptPage';
 export { MapPage } from './MapPage';
 export {

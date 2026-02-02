@@ -9,7 +9,6 @@ import {ToastProvider} from "@/contexts/ToastContext";
 import {Toast} from "@/components/Toast/Toast";
 import {Map} from "@/components/Map/Map";
 import {PulseLoader} from "react-spinners";
-import {ApiKeyProvider} from "@/contexts/ApiKeyContext";
 import {useTranslation} from "@/i18n";
 
 type HuntProps = {
@@ -78,57 +77,55 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   return (
-    <ApiKeyProvider>
-      <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
-        <ToastProvider>
-          <Toast/>
-          <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
-            <Container>
-              <Navbar.Brand className="ms-2" data-testid="hunt-title">
-                {hunt.name}
-              </Navbar.Brand>
-            </Container>
-          </Navbar>
-          <div className="px-0 d-flex" style={{
-            paddingTop: "58px",
-            height: "100svh",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            backgroundImage: "url('assets/background.png')",
-            backgroundPosition: "center",
-            backgroundRepeat: "repeat",
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            backgroundBlendMode: "lighten",
-          }}>
-            <Tab.Container defaultActiveKey="manuscript">
-              <Tab.Content style={{height: "100svh", overflow: "auto"}}>
-                <Tab.Pane eventKey="manuscript" className="h-100">
-                  <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
-                </Tab.Pane>
-                <Tab.Pane eventKey="map" className="h-100">
-                  <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
-                </Tab.Pane>
-              </Tab.Content>
-              <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
-                <Container>
-                  <Row>
-                    <Nav.Item>
-                      <Nav.Link eventKey="manuscript" data-testid="manuscript-button">
-                        <i className="bi bi-house"></i>
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="map" data-testid="map-button">
-                        <i className="bi bi-compass"></i>
-                      </Nav.Link>
-                    </Nav.Item>
-                  </Row>
-                </Container>
-              </Nav>
-            </Tab.Container>
-          </div>
-        </ToastProvider>
-      </PhraseProvider>
-    </ApiKeyProvider>
+    <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
+      <ToastProvider>
+        <Toast/>
+        <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
+          <Container>
+            <Navbar.Brand className="ms-2" data-testid="hunt-title">
+              {hunt.name}
+            </Navbar.Brand>
+          </Container>
+        </Navbar>
+        <div className="px-0 d-flex" style={{
+          paddingTop: "58px",
+          height: "100svh",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          backgroundImage: "url('assets/background.png')",
+          backgroundPosition: "center",
+          backgroundRepeat: "repeat",
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
+          backgroundBlendMode: "lighten",
+        }}>
+          <Tab.Container defaultActiveKey="manuscript">
+            <Tab.Content style={{height: "100svh", overflow: "auto"}}>
+              <Tab.Pane eventKey="manuscript" className="h-100">
+                <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="map" className="h-100">
+                <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
+              </Tab.Pane>
+            </Tab.Content>
+            <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
+              <Container>
+                <Row>
+                  <Nav.Item>
+                    <Nav.Link eventKey="manuscript" data-testid="manuscript-button">
+                      <i className="bi bi-house"></i>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="map" data-testid="map-button">
+                      <i className="bi bi-compass"></i>
+                    </Nav.Link>
+                  </Nav.Item>
+                </Row>
+              </Container>
+            </Nav>
+          </Tab.Container>
+        </div>
+      </ToastProvider>
+    </PhraseProvider>
   );
 }
