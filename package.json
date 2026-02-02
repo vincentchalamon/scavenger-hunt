@@ -11,28 +11,28 @@
   "dependencies": {
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
-    "@types/three": "^0.180.0",
+    "@types/three": "^0.182.0",
     "@vis.gl/react-google-maps": "^1.5.5",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
-    "next": "^15.5",
+    "next": "^16.1",
     "react": "^19.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1",
     "react-pageflip": "^2.0.3",
     "react-spinners": "^0.17.0",
-    "three": "^0.180.0"
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.57.0",
     "@types/dotenv": "^6.1.1",
-    "@types/node": "^24",
+    "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.2.3",
     "eslint": "^9",
-    "eslint-config-next": "^15.5",
+    "eslint-config-next": "^16.1",
     "typescript": "^5"
   }
 }
