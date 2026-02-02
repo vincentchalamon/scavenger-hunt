@@ -1,13 +1,41 @@
 import config from "../../config.json";
 import {Hunt} from "@/types/Hunt";
 import {Place} from "@/types/Place";
+import {assetPath} from "@/lib/assets";
 
 export type Config = {
   hunts: Hunt[];
 };
 
+/**
+ * Recursively transform all asset paths in an object to include basePath
+ */
+const transformAssetPaths = (obj: any): any => {
+  if (typeof obj === 'string') {
+    // If it's a string starting with /assets/, transform it
+    if (obj.startsWith('/assets/')) {
+      return assetPath(obj);
+    }
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(transformAssetPaths);
+  }
+
+  if (obj !== null && typeof obj === 'object') {
+    const result: any = {};
+    for (const key in obj) {
+      result[key] = transformAssetPaths(obj[key]);
+    }
+    return result;
+  }
+
+  return obj;
+};
+
 export const getConfig = (): Config => {
-  return config as Config;
+  return transformAssetPaths(config) as Config;
 };
 
 export const getAllHunts = (): Hunt[] => {

@@ -2,6 +2,7 @@
 
 import React, {PropsWithChildren, ReactNode, useState} from "react";
 import {Button, Container, Modal} from "react-bootstrap";
+import {assetPath} from "@/lib/assets";
 
 export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {}}: PropsWithChildren<{ button: ReactNode, onShow?: () => void, onHide?: () => void }>) => {
   const [isShown, setIsShown] = useState<boolean>(false);
@@ -19,7 +20,7 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
       <div className="h-100 w-100 p-0 m-0" onClick={show}>{button}</div>
       <Modal show={isShown} fullscreen onHide={hide} data-testid="modal">
         <Modal.Body className="p-0 position-relative" style={{
-          backgroundImage: "url('assets/background.png')",
+          backgroundImage: `url('${assetPath('/assets/background.png')}')`,
           backgroundPosition: "center",
           backgroundRepeat: "repeat",
           backgroundColor: "rgba(255, 255, 255, 0.7)",

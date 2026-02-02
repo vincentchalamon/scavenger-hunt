@@ -31,37 +31,6 @@ async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey>
 }
 
 /**
- * Encrypts a string with a password using AES-GCM
- * @param plaintext - The text to encrypt
- * @param password - The password to use for encryption
- * @returns Base64 encoded encrypted data with salt and IV
- */
-export async function encryptApiKey(plaintext: string, password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  const key = await deriveKey(password, salt);
-
-  const encryptedData = await crypto.subtle.encrypt(
-    {
-      name: 'AES-GCM',
-      iv,
-    },
-    key,
-    encoder.encode(plaintext)
-  );
-
-  // Combine salt + IV + encrypted data
-  const combined = new Uint8Array(salt.length + iv.length + encryptedData.byteLength);
-  combined.set(salt, 0);
-  combined.set(iv, salt.length);
-  combined.set(new Uint8Array(encryptedData), salt.length + iv.length);
-
-  // Convert to base64
-  return btoa(String.fromCharCode(...combined));
-}
-
-/**
  * Decrypts an encrypted string with a password
  * @param encryptedBase64 - The base64 encoded encrypted data
  * @param password - The password to use for decryption

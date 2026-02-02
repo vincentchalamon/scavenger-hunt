@@ -28,7 +28,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "assets/bras-d-or/bras-d-or.jpg",
+              "image": "/assets/le-tresor-du-vieux-lille/bras-d-or/bras-d-or.jpg",
               "clickableAreas": [
                 {
                   "top": "33%",
@@ -38,7 +38,7 @@
                   "action": {
                     "type": "magnifier",
                     "options": {
-                      "image": "assets/bras-d-or/press.jpg"
+                      "image": "/assets/le-tresor-du-vieux-lille/bras-d-or/press.jpg"
                     }
                   }
                 },
@@ -69,7 +69,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "assets/hospice-comtesse/paint.jpg",
+              "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/paint.jpg",
               "clickableAreas": [
                 {
                   "top": "5%",
@@ -79,7 +79,7 @@
                   "action": {
                     "type": "image",
                     "options": {
-                      "image": "assets/hospice-comtesse/code.png"
+                      "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/code.png"
                     }
                   }
                 },
@@ -110,7 +110,7 @@
           "item": {
             "type": "scratch-card",
             "options": {
-              "image": "assets/aux-merveilleux-de-fred/box.png",
+              "image": "/assets/le-tresor-du-vieux-lille/aux-merveilleux-de-fred/box.png",
               "width": 340,
               "height": 380,
               "scratchableAreas": [
@@ -144,7 +144,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "assets/place-aux-oignons/place.jpg",
+              "image": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/place.jpg",
               "clickableAreas": [
                 {
                   "top": "73%",
@@ -153,8 +153,8 @@
                   "action": {
                     "type": "card-flip",
                     "options": {
-                      "front": "assets/place-aux-oignons/treille-front.png",
-                      "back": "assets/place-aux-oignons/treille-back.jpg"
+                      "front": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/treille-front.png",
+                      "back": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/treille-back.jpg"
                     }
                   }
                 },
@@ -185,7 +185,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "assets/notre-dame-de-la-treille/bible.png",
+              "image": "/assets/le-tresor-du-vieux-lille/notre-dame-de-la-treille/bible.png",
               "clickableAreas": [
                 {
                   "top": "48%",
@@ -195,7 +195,7 @@
                   "action": {
                     "type": "image",
                     "options": {
-                      "image": "assets/notre-dame-de-la-treille/letter.png"
+                      "image": "/assets/le-tresor-du-vieux-lille/notre-dame-de-la-treille/letter.png"
                     }
                   }
                 },
@@ -226,14 +226,14 @@
           "item": {
             "type": "three-fiber",
             "options": {
-              "image": "assets/meert/box.png",
+              "image": "/assets/le-tresor-du-vieux-lille/meert/box.png",
               "textures": [
-                "assets/meert/textures/right.png",
-                "assets/meert/textures/left.png",
-                "assets/meert/textures/top.png",
-                "assets/meert/textures/bottom.png",
-                "assets/meert/textures/front.png",
-                "assets/meert/textures/background.png"
+                "/assets/le-tresor-du-vieux-lille/meert/textures/right.png",
+                "/assets/le-tresor-du-vieux-lille/meert/textures/left.png",
+                "/assets/le-tresor-du-vieux-lille/meert/textures/top.png",
+                "/assets/le-tresor-du-vieux-lille/meert/textures/bottom.png",
+                "/assets/le-tresor-du-vieux-lille/meert/textures/front.png",
+                "/assets/le-tresor-du-vieux-lille/meert/textures/background.png"
               ],
               "keyword": "de"
             }
@@ -250,7 +250,7 @@
           "item": {
             "type": "page-flip",
             "options": {
-              "image": "assets/vieille-bourse/books.png",
+              "image": "/assets/le-tresor-du-vieux-lille/vieille-bourse/books.png",
               "pages": [
                 {
                   "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
@@ -285,7 +285,7 @@
           "item": {
             "type": "magnifier",
             "options": {
-              "image": "assets/opera/opera.jpg",
+              "image": "/assets/le-tresor-du-vieux-lille/opera/opera.jpg",
               "keyword": "Déesse",
               "keywordPosition": {
                 "x": 130,

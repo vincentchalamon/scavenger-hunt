@@ -10,6 +10,7 @@ import {Toast} from "@/components/Toast/Toast";
 import {Map} from "@/components/Map/Map";
 import {PulseLoader} from "react-spinners";
 import {useTranslation} from "@/i18n";
+import {assetPath} from "@/lib/assets";
 
 type HuntProps = {
   hunt: HuntType;
@@ -92,7 +93,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           height: "100svh",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundImage: "url('assets/background.png')",
+          backgroundImage: `url('${assetPath('/assets/background.png')}')`,
           backgroundPosition: "center",
           backgroundRepeat: "repeat",
           backgroundColor: "rgba(255, 255, 255, 0.7)",
