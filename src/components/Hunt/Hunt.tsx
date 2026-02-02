@@ -92,7 +92,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
           height: "100svh",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundImage: "url('assets/background.png')",
+          backgroundImage: "url('/assets/background.png')",
           backgroundPosition: "center",
           backgroundRepeat: "repeat",
           backgroundColor: "rgba(255, 255, 255, 0.7)",
