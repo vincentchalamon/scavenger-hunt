@@ -15,6 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+    strategy:
+      matrix:
+        project:
+          - 'Mobile Chrome'
+          - 'Mobile Safari'
+          - 'Mobile Firefox'
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -57,7 +64,7 @@ jobs:
       - name: Install Playwright Browsers
         run: ${{ steps.detect-package-manager.outputs.runner }} playwright install --with-deps
       - name: Run Playwright tests
-        run: ${{ steps.detect-package-manager.outputs.runner }} playwright test
+        run: ${{ steps.detect-package-manager.outputs.runner }} playwright test --project="${{ matrix.project }}"
       - uses: actions/upload-artifact@v6
         if: ${{ failure() && !cancelled() }}
         with:
