@@ -56,6 +56,10 @@ export default defineConfig({
       name: 'Mobile Safari',
       use: { ...devices['iPhone 15'] },
     },
+    {
+      name: 'Mobile Firefox',
+      use: { ...devices['Galaxy S24'] },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
