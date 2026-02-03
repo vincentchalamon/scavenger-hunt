@@ -10,7 +10,7 @@ async function globalSetup() {
   // Load environment variables
   dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
     console.warn('⚠️  GOOGLE_MAPS_API_KEY not found in environment variables');

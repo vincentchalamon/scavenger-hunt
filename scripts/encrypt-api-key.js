@@ -44,7 +44,7 @@ function encryptApiKey(plaintext, password) {
 
 // Main execution
 const password = process.env.BUILD_PASSWORD;
-const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 if (!password) {
   console.error('❌ Error: BUILD_PASSWORD environment variable is required');
