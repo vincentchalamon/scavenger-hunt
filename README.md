@@ -287,6 +287,46 @@ You'll be asked to provide a password to crypt the API key on production. This p
 
 Go to "Actions" repository tab and run the workflow named "_Undeploy from GitHub Pages_" to remove the application from GitHub Pages.
 
+## Config Validation
+
+The `config.json` file is **automatically validated using [Zod](https://zod.dev/)** to ensure data integrity and prevent errors.
+
+### Validate your config
+
+Before committing changes to `config.json`, you can validate it manually:
+
+```bash
+npm run validate:config
+```
+
+This will check:
+- ✅ All required fields are present
+- ✅ Data types are correct (strings, numbers, URLs, etc.)
+- ✅ Item types are valid
+- ✅ Structure matches the expected schema
+
+### Automatic validation
+
+The validation happens automatically:
+1. **During build** - `npm run build` will fail if config is invalid
+2. **At runtime** - The app won't start with an invalid config
+3. **Manual check** - Use `npm run validate:config` anytime
+
+### Example error output
+
+If you have an error in your config, you'll see:
+
+```
+❌ Error validating config.json file:
+
+1. hunts → 0 → coordinates → lat
+   Invalid input: expected number, received string
+
+Total: 1 error(s) detected
+
+💡 Check the structure and types in config.json
+```
+
 ## License
 
 This application is licensed under the [Creative Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) License.
@@ -297,6 +337,7 @@ This application uses the following open-source libraries and resources:
 
 * [Next.js](https://nextjs.org/)
 * [TypeScript](https://www.typescriptlang.org/)
+* [Zod](https://zod.dev/)
 * [React Components](https://www.reactcomponents.com/)
 * [Playwright](https://playwright.dev/)
 * [GitHub Copilot](https://github.com/features/copilot)

@@ -1,11 +1,25 @@
-import config from "../../config.json";
+import rawConfig from "../../config.json";
 import {Hunt} from "@/types/Hunt";
 import {Place} from "@/types/Place";
 import {assetPath} from "@/lib/assets";
+import { configSchema } from "./config-schema";
 
 export type Config = {
   hunts: Hunt[];
 };
+
+// Validate config.json file on load
+const validateConfig = () => {
+  try {
+    return configSchema.parse(rawConfig);
+  } catch (error) {
+    console.error("❌ Error validating config.json file:");
+    throw error;
+  }
+};
+
+// Validate configuration when loading the module
+const config = validateConfig();
 
 /**
  * Recursively transform all asset paths in an object to include basePath
