@@ -11,6 +11,7 @@ const keywordActionSchema = z.object({
   type: z.literal('keyword'),
   options: z.object({
     keyword: z.string(),
+    debug: z.boolean().optional(),
   }),
 });
 
@@ -63,6 +64,7 @@ const clickableImageItemSchema = z.object({
   type: z.literal('clickable-image'),
   options: z.object({
     image: z.string(),
+    debug: z.boolean().optional(),
     clickableAreas: z.array(clickableAreaSchema),
   }),
 });

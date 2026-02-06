@@ -12,7 +12,6 @@ type PageProps = {
 }
 
 export type PageFlipProps = {
-  debug?: boolean;
   image: string;
   pages: PageProps[];
 }
@@ -21,7 +20,7 @@ export const PageFlipButton: React.FC<PageFlipProps> = ({image}) => (
   <Img src={image} className="w-100 mh-100"/>
 );
 
-export const PageFlip: React.FC<PageFlipProps> = ({image, pages, debug}) => {
+export const PageFlip: React.FC<PageFlipProps> = ({pages}) => {
   const [height, setHeight] = useState<number>(300);
   const [width, setWidth] = useState<number>(100);
   const {addKeyword} = useKeyword();
