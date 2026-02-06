@@ -60,8 +60,8 @@ test.describe('Security - Password Authentication', () => {
     // Wait for hunts list to be visible
     await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible({ timeout: 15000 });
 
-    // Click on first hunt card link
-    const firstHuntLink = page.locator('a.btn-primary').first();
+    // Click on first hunt start button
+    const firstHuntLink = page.getByRole('link').filter({ hasText: /Commencer|Start|Comenzar|Starten/i }).first();
     await expect(firstHuntLink).toBeVisible({ timeout: 5000 });
     await firstHuntLink.click();
 
