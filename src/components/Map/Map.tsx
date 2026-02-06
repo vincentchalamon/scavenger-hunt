@@ -7,14 +7,16 @@ import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
 import {useApiKey} from "@/contexts/ApiKeyContext";
 import {useToast} from "@/contexts/ToastContext";
+import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
 
 type MapProps = {
   debug?: boolean;
   places: Place[];
   coordinates: google.maps.LatLngLiteral;
+  huntSlug: string;
 }
 
-export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
+export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
 
   // Retrieve Google Maps API Key
@@ -23,13 +25,11 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
   useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const alreadyVisitedPlaces = JSON.parse(localStorage.getItem("places") || JSON.stringify(visitedPlaces));
-      setVisitedPlaces(alreadyVisitedPlaces);
-      // On Map load, auto-select the latest visited place
-      setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
-    }
-  }, []);
+    const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
+    setVisitedPlaces(alreadyVisitedPlaces);
+    // On Map load, auto-select the latest visited place
+    setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
+  }, [huntSlug]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const onPlaceSelect = (place: google.maps.places.Place | null) => {
     // Look for place in configuration based on it's coordinates
@@ -38,7 +38,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
     if (location) {
       setVisitedPlaces((prevVisitedPlaces) => {
         const visitedPlaces = [...prevVisitedPlaces, location];
-        localStorage.setItem("places", JSON.stringify(visitedPlaces));
+        saveVisitedPlaces(huntSlug, visitedPlaces);
         // Auto-select this new visited place
         setSelectedPlace(location);
 
