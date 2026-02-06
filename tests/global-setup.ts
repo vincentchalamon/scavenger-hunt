@@ -14,7 +14,12 @@ async function globalSetup() {
 
   if (!apiKey) {
     console.warn('⚠️  GOOGLE_MAPS_API_KEY not found in environment variables');
-    console.warn('⚠️  Tests requiring authentication will fail');
+    console.warn('⚠️  Using dummy API key for testing (maps features will not work)');
+    // Create a dummy encrypted key file so tests can at least run
+    const dummyApiKey = 'DUMMY_API_KEY_FOR_TESTING';
+    const filePath = createEncryptedKeyFile(dummyApiKey, TEST_PASSWORD);
+    console.log(`✅ Encrypted dummy API key created at: ${filePath}`);
+    console.log(`🔑 Test password: ${TEST_PASSWORD}`);
     return;
   }
 
