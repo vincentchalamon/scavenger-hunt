@@ -71,7 +71,8 @@ export const getHuntBySlug = (slug: string): Hunt | undefined => {
           ...place.item || {},
           options: {
             ...place.item?.options || {},
-            debug: typeof hunt.debug === "boolean" ? hunt.debug : (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+            // @ts-expect-error Debug option is not defined in the schema because of dynamic schema
+            debug: place.item?.options?.debug
           },
         };
       }

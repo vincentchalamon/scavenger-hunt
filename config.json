@@ -28,6 +28,7 @@
             "type": "clickable-image",
             "options": {
               "image": "/assets/le-tresor-du-vieux-lille/bras-d-or/bras-d-or.jpg",
+              "debug": false,
               "clickableAreas": [
                 {
                   "top": "33%",
