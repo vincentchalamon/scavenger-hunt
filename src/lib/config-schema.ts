@@ -31,7 +31,7 @@ const magnifierActionSchema = z.object({
   }),
 });
 
-// Schéma pour les actions de type card-flip
+// Schema for card-flip type actions
 const cardFlipActionSchema = z.object({
   type: z.literal('card-flip'),
   options: z.object({
@@ -48,7 +48,7 @@ const actionSchema = z.union([
   cardFlipActionSchema,
 ]);
 
-// Schéma pour les zones cliquables
+// Schema for clickable areas
 const clickableAreaSchema = z.object({
   top: z.string().optional(),
   bottom: z.string().optional(),
@@ -151,9 +151,12 @@ const placeSchema = z.object({
 const huntSchema = z.object({
   slug: z.string(),
   name: z.string(),
+  lang: z.string().optional(), // Language code (e.g., "fr", "en") or language name
+  description: z.string().optional(), // Short description of the hunt
+  duration: z.string().optional(), // Estimated duration (e.g., "~2h", "1h30")
   coordinates: coordinatesSchema,
   debug: z.boolean().optional(),
-  rules: z.string(),
+  rules: z.string().optional(), // Deprecated: rules are now in translations
   manuscript: z.string(),
   phrase: z.string(),
   defaultKeywords: z.array(z.string()).optional(),

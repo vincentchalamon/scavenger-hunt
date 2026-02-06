@@ -1,8 +1,15 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useToast} from "@/contexts/ToastContext";
 import {getKeywords, saveKeywords} from "@/lib/storage";
+import {useTranslation} from "@/i18n";
 
-export const PhraseContext = createContext({
+type PhraseContextType = {
+  keywords: string[];
+  setKeywords: (keywords: string[]) => void;
+  huntSlug: string,
+};
+
+export const PhraseContext = createContext<PhraseContextType>({
   keywords: [],
   setKeywords: (_keywords: string[]) => {},
   huntSlug: '',
@@ -25,15 +32,17 @@ export function PhraseProvider({ children, defaultKeywords = [], huntSlug }: { c
 export const useKeyword = () => {
   const {keywords, setKeywords, huntSlug} = useContext(PhraseContext);
   const {addToast} = useToast();
+  const {t} = useTranslation();
 
-  const addKeyword = (keyword: string, toast: string = "Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !") => {
+  const addKeyword = (keyword: string, toast?: string) => {
     const newKeywords = [...keywords, keyword].filter((value, index, self) => self.indexOf(value) === index);
 
     // @ts-ignore
     if (!keywords.includes(keyword)) {
       setKeywords(newKeywords);
       saveKeywords(huntSlug, newKeywords);
-      addToast(toast, "success");
+      // Note: toast parameter allows custom messages from components if needed
+      addToast(toast || t('keywordFound'), "success");
     }
   };
 
