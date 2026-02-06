@@ -78,7 +78,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   return (
-    <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
+    <PhraseProvider defaultKeywords={hunt.defaultKeywords} huntSlug={hunt.slug}>
       <ToastProvider>
         <Toast/>
         <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
@@ -105,7 +105,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
                 <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
               </Tab.Pane>
               <Tab.Pane eventKey="map" className="h-100">
-                <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
+                <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates} huntSlug={hunt.slug}/>
               </Tab.Pane>
             </Tab.Content>
             <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
