@@ -52,7 +52,7 @@ test.describe('Map', () => {
 
     // Notification is visible
     await expect(page.getByTestId('toast')).toBeVisible();
-    await expect(page.getByTestId('toast')).toHaveText('Ce lieu ne fait pas partie du jeu.');
+    await expect(page.getByTestId('toast')).toHaveText(/Ce lieu ne fait pas partie du jeu\.|This place is not part of the game\./);
   });
 
   test('I can show a destination info window', async ({ page }) => {

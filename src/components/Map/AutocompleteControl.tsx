@@ -5,6 +5,7 @@ import React, {FormEvent, FunctionComponent, useCallback, useState} from "react"
 import {ControlPosition, MapControl, useMapsLibrary} from "@vis.gl/react-google-maps";
 import {useAutocompleteSuggestions} from "@/hooks/use-autocomplete-suggestions";
 import {FormControlProps} from "react-bootstrap/FormControl";
+import {useTranslation} from "@/i18n";
 
 type AutocompleteControlProps = {
   onPlaceSelect?: (place: google.maps.places.Place | null) => void;
@@ -14,6 +15,7 @@ type AutocompleteControlProps = {
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
   const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, ...formControlProps} = props;
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>('');
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
@@ -69,7 +71,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
         <Form.Control
           // @ts-ignore
           type="search"
-          placeholder="Rechercher un lieu..."
+          placeholder={t('searchPlaceholder')}
           value={inputValue}
           // @ts-ignore
           onInput={(event) => handleInput(event)}

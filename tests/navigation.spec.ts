@@ -24,26 +24,38 @@ test.describe('Navigation', () => {
   });
 
   test('I can navigate using tabs', async ({ page }) => {
+    // Rules tab is active by default
+    await expect(page.getByTestId('rules-button')).toBeVisible();
+    await expect(page.getByTestId('rules-button')).toHaveClass(/active/);
     await expect(page.getByTestId('manuscript-button')).toBeVisible();
-    await expect(page.getByTestId('manuscript-button')).toHaveClass('nav-link active');
+    await expect(page.getByTestId('manuscript-button')).not.toHaveClass(/active/);
     await expect(page.getByTestId('map-button')).toBeVisible();
-    await expect(page.getByTestId('map-button')).not.toHaveClass('nav-link active');
+    await expect(page.getByTestId('map-button')).not.toHaveClass(/active/);
+
+    // Go to manuscript tab
+    await page.getByTestId('manuscript-button').click();
+    await expect(page.getByTestId('manuscript')).toBeVisible();
+    await expect(page.getByTestId('rules-button')).not.toHaveClass(/active/);
+    await expect(page.getByTestId('manuscript-button')).toHaveClass(/active/);
+    await expect(page.getByTestId('map-button')).not.toHaveClass(/active/);
 
     // Go to map tab
     await page.getByTestId('map-button').click();
     await expect(page.getByTestId('search-field')).toBeVisible();
-    await expect(page.getByTestId('manuscript-button')).not.toHaveClass('nav-link active');
-    await expect(page.getByTestId('map-button')).toHaveClass('nav-link active');
+    await expect(page.getByTestId('rules-button')).not.toHaveClass(/active/);
+    await expect(page.getByTestId('manuscript-button')).not.toHaveClass(/active/);
+    await expect(page.getByTestId('map-button')).toHaveClass(/active/);
     // First item must be selected
     await expect(page.locator('.GMAMP-maps-pin-view')).toHaveCount(1);
     await expect(page.locator('.GMAMP-maps-pin-view')).toBeVisible();
     await expect(page.locator('.gm-style-iw-c')).toHaveCount(1);
     await expect(page.locator('.gm-style-iw-c')).toBeVisible();
 
-    // Go to manuscript tab
-    await page.getByTestId('manuscript-button').click();
-    await expect(page.getByTestId('search-field')).not.toBeVisible();
-    await expect(page.getByTestId('manuscript-button')).toHaveClass('nav-link active');
-    await expect(page.getByTestId('map-button')).not.toHaveClass('nav-link active');
+    // Go back to rules tab
+    await page.getByTestId('rules-button').click();
+    await expect(page.getByTestId('rules')).toBeVisible();
+    await expect(page.getByTestId('rules-button')).toHaveClass(/active/);
+    await expect(page.getByTestId('manuscript-button')).not.toHaveClass(/active/);
+    await expect(page.getByTestId('map-button')).not.toHaveClass(/active/);
   });
 });

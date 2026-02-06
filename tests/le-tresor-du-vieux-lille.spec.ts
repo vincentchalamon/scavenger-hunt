@@ -30,8 +30,9 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // STEP 2: Read manuscript and game rules
     // ========================================
     await test.step('Read manuscript and game rules', async () => {
+      await app.manuscript.navigateToManuscript();
       await app.manuscript.verifyTabActive();
-      await app.manuscript.verifyText('Le trésor .... ...................... se trouve .... ........ .... .... .............. .... .... ............');
+      await app.manuscript.verifyText('Le trésor ···· ······················ se trouve ···· ········ ···· ···· ·············· ···· ···· ············');
       await app.manuscript.verifyClues('BRAS', 'OR');
     });
 
@@ -69,7 +70,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
 
       // Verify the phrase
       await app.manuscript.navigateToManuscript();
-      await app.manuscript.verifyText('Le trésor .... ...................... se trouve .... pied .... .... .............. .... .... ............');
+      await app.manuscript.verifyText('Le trésor ···· ······················ se trouve ···· pied ···· ···· ·············· ···· ···· ············');
       await app.map.navigateToMap();
     });
 
@@ -81,7 +82,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Hospice',
         'Musée de l\'Hospice Comtesse',
         2,
-        'Le trésor du ...................... se trouve .... pied .... .... .............. .... .... ............'
+        'Le trésor du ······················ se trouve ···· pied ···· ···· ·············· ···· ···· ············'
       );
     });
 
@@ -94,7 +95,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Aux Merveilleux de Fred',
         3,
         'Colonne',
-        'Le trésor du ...................... se trouve .... pied .... .... Colonne .... .... ............',
+        'Le trésor du ······················ se trouve ···· pied ···· ···· Colonne ···· ···· ············',
         'Place aux Oignons',
         1 // Second result (Rue de la Monnaie)
       );
@@ -108,7 +109,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Place aux Oignons',
         'Place aux Oignons',
         4,
-        'Le trésor du ...................... se trouve au pied .... .... Colonne .... .... ............'
+        'Le trésor du ······················ se trouve au pied ···· ···· Colonne ···· ···· ············'
       );
     });
 
@@ -120,7 +121,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Notre-Dame Treille',
         'Cathédrale Notre-Dame-de-la-Treille',
         5,
-        'Le trésor du ...................... se trouve au pied .... la Colonne .... la ............'
+        'Le trésor du ······················ se trouve au pied ···· la Colonne ···· la ············'
       );
     });
 
@@ -132,7 +133,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Méert',
         'Maison Méert',
         6,
-        'Le trésor du ...................... se trouve au pied de la Colonne de la ............'
+        'Le trésor du ······················ se trouve au pied de la Colonne de la ············'
       );
     });
 
@@ -144,7 +145,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Vieille Bourse',
         'Vieille Bourse',
         7,
-        'Le trésor du Vieux-Lille se trouve au pied de la Colonne de la ............',
+        'Le trésor du Vieux-Lille se trouve au pied de la Colonne de la ············',
         'Allez à l\'Opéra !'
       );
     });

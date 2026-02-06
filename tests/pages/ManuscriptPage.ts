@@ -34,7 +34,7 @@ export class ManuscriptPage extends BasePage {
   /**
    * Verify the manuscript contains specific text
    */
-  async verifyText(text: string) {
+  async verifyText(text: string | RegExp) {
     await expect(this.manuscript).toContainText(text, { timeout: 5000 });
   }
 
@@ -42,7 +42,7 @@ export class ManuscriptPage extends BasePage {
    * Verify the manuscript tab is active
    */
   async verifyTabActive() {
-    await expect(this.manuscriptButton).toHaveClass('nav-link active');
+    await expect(this.manuscriptButton).toHaveClass(/active/);
     await expect(this.manuscript).toBeVisible();
   }
 
@@ -58,7 +58,7 @@ export class ManuscriptPage extends BasePage {
    */
   async verifyPhraseComplete() {
     const text = await this.getText();
-    expect(text).not.toContain('....');
+    expect(text).not.toContain('····');
   }
 
   /**

@@ -1,0 +1,150 @@
+.parchmentCard {
+  position: relative;
+  background: var(--gradient-parchment);
+  background-image: var(--texture-paper), var(--gradient-parchment);
+  background-blend-mode: multiply;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-base);
+  transform: translateY(-2px);
+}
+
+/* Additional texture effect */
+.parchmentCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(139, 30, 30, 0.03) 0%, transparent 10%),
+    radial-gradient(circle at 80% 70%, rgba(92, 64, 51, 0.03) 0%, transparent 10%);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  color: var(--ink-dark);
+  font-family: var(--font-body);
+}
+
+/* Variantes */
+.bordered {
+  border: 1px solid var(--treasure-bronze);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+.bordered::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid var(--treasure-gold);
+  border-radius: var(--border-radius-md);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.sealed {
+  padding-bottom: calc(var(--spacing-lg) + 40px);
+}
+
+.seal {
+  position: absolute;
+  bottom: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 48px;
+  height: 48px;
+  background: var(--gradient-seal);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-seal);
+  transform: rotate(-15deg);
+}
+
+.sealIcon {
+  font-size: var(--font-size-xl);
+  filter: brightness(1.2);
+}
+
+/* Élévations */
+.elevation-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.elevation-md {
+  box-shadow: var(--shadow-md);
+}
+
+.elevation-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.elevation-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+/* État cliquable */
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.clickable:active {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Animation au chargement */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.parchmentCard {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Torn edges effect (optional) */
+.tornEdges {
+  clip-path: polygon(
+    0% 2%, 2% 0%, 98% 0%, 100% 2%,
+    100% 98%, 98% 100%, 2% 100%, 0% 98%
+  );
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .parchmentCard {
+    padding: var(--spacing-md);
+  }
+
+  .seal {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sealIcon {
+    font-size: var(--font-size-lg);
+  }
+}
+

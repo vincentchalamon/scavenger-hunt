@@ -15,18 +15,13 @@ test.describe('Hunts List', () => {
     const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts|Búsquedas del tesoro disponibles|Verfügbare Schatzsuchen|Beschikbare schattenjachten/ });
     await expect(title).toBeVisible({ timeout: 10000 });
 
-    // Should see at least one hunt card
-    const huntCard = page.locator('.card').first();
-    await expect(huntCard).toBeVisible();
-
     // Should see "Le Trésor du Vieux-Lille"
-    const huntTitle = page.getByText('Le Trésor du Vieux-Lille');
+    const huntTitle = page.getByRole('heading', { name: 'Le Trésor du Vieux-Lille' });
     await expect(huntTitle).toBeVisible();
 
-    // Should see a "Commencer" button (multilingual)
-    const startButton = page.locator('a.btn-primary').first();
-    await expect(startButton).toBeVisible();
-    await expect(startButton).toHaveText(/Commencer|Start|Comenzar|Beginnen/);
+    // Should see a "Commencer/Start" button (multilingual) - now it's inside a Link
+    const startButton = page.getByRole('link', { name: /Start|Commencer|Comenzar|Beginnen/ });
+    await expect(startButton.first()).toBeVisible();
   });
 
   test('Should navigate to a hunt when clicking "Commencer"', async ({ page }) => {
@@ -34,8 +29,8 @@ test.describe('Hunts List', () => {
     const app = new HuntApp(page);
     await app.navigateAndAuthenticate('/');
 
-    // Click on "Commencer" button
-    const startButton = page.locator('a.btn-primary').first();
+    // Click on "Commencer/Start" button - it's now a link
+    const startButton = page.getByRole('link', { name: /Start|Commencer|Comenzar|Beginnen/ }).first();
     await startButton.click();
 
     // Should navigate to the hunt page
@@ -69,9 +64,8 @@ test.describe('Hunts List', () => {
     await expect(notFoundTitle).toBeVisible({ timeout: 10000 });
 
     // Should have a link back to home
-    const backButton = page.locator('a.btn-primary');
+    const backButton = page.getByRole('link', { name: /Retour à la liste des jeux|Back to hunts list|Volver a la lista de búsquedas|Zurück zur Schatzsuchen-Liste|Terug naar de schattenjachten lijst/ });
     await expect(backButton).toBeVisible();
-    await expect(backButton).toHaveText(/Retour à la liste des jeux|Back to hunts list|Volver a la lista de búsquedas|Zurück zur Schatzsuchen-Liste|Terug naar de schattenjachten lijst/);
 
     // Click back button
     await backButton.click();

@@ -1,0 +1,192 @@
+.rulesContent {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: #5C4033;
+}
+
+.rulesContent :global(h1) {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-bold);
+  color: #8B5A13;
+  font-size: var(--font-size-2xl);
+  text-align: center;
+  border-bottom: 3px double var(--treasure-bronze);
+  padding-bottom: var(--spacing-md);
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+/* Objectif principal */
+.objective {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(184, 134, 11, 0.12) 100%);
+  border-left: 5px solid var(--treasure-gold);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg) var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.15);
+}
+
+.objective :global(p) {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #4A3426;
+  font-weight: 500;
+}
+
+/* Étape 0 - Avant de commencer (section spéciale) */
+.stepZero {
+  background: linear-gradient(135deg, rgba(114, 89, 150, 0.12) 0%, rgba(94, 73, 122, 0.08) 100%);
+  border: 2px solid rgba(114, 89, 150, 0.4);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  box-shadow: 0 2px 6px rgba(114, 89, 150, 0.1);
+}
+
+.stepZero :global(h2) {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-bold);
+  color: #5E4976;
+  font-size: 1.15rem;
+  margin-bottom: var(--spacing-sm);
+  margin-top: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.stepZero :global(p) {
+  margin: 0;
+  color: #5C4033;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Steps */
+.step {
+  margin-bottom: var(--spacing-xl);
+  padding-left: var(--spacing-md);
+  padding-top: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-left: 3px solid rgba(139, 90, 19, 0.3);
+}
+
+.step :global(h2) {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-bold);
+  color: #8B5A13;
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+  margin-top: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.step :global(p) {
+  margin: 0 0 0 var(--spacing-md);
+  color: #5C4033;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Astuce */
+.tip {
+  background: linear-gradient(135deg, rgba(139, 90, 19, 0.1) 0%, rgba(139, 90, 19, 0.06) 100%);
+  border: 2px dashed rgba(139, 90, 19, 0.4);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+}
+
+.tip :global(p) {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #5C4033;
+  font-weight: 500;
+}
+
+/* Styles pour le contenu HTML */
+.rulesContent :global(strong) {
+  color: #8B5A13;
+  font-weight: var(--font-weight-bold);
+}
+
+.rulesContent :global(i) {
+  color: var(--treasure-gold);
+}
+
+/* Animation d'apparition */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.objective,
+.stepZero,
+.step,
+.tip {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.objective {
+  animation-delay: 0.1s;
+}
+
+.stepZero {
+  animation-delay: 0.2s;
+}
+
+.step:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.step:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.step:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.step:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+.step:nth-child(8) {
+  animation-delay: 0.7s;
+}
+
+.tip {
+  animation-delay: 0.8s;
+}
+
+.step:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+.tip {
+  animation-delay: 0.7s;
+}
+
+
