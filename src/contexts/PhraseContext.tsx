@@ -1,7 +1,12 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useToast} from "@/contexts/ToastContext";
 
-export const PhraseContext = createContext({
+type PhraseContextType = {
+  keywords: string[];
+  setKeywords: (keywords: string[]) => void;
+};
+
+export const PhraseContext = createContext<PhraseContextType>({
   keywords: [],
   setKeywords: (_keywords: string[]) => {},
 });
@@ -26,14 +31,15 @@ export const useKeyword = () => {
   const {keywords, setKeywords} = useContext(PhraseContext);
   const {addToast} = useToast();
 
-  const addKeyword = (keyword: string, toast: string = "Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !") => {
+  const addKeyword = (keyword: string, toast?: string) => {
     const newKeywords = [...keywords, keyword].filter((value, index, self) => self.indexOf(value) === index);
 
     // @ts-ignore
     if (!keywords.includes(keyword)) {
       setKeywords(newKeywords);
       localStorage.setItem('keywords', JSON.stringify(newKeywords));
-      addToast(toast, "success");
+      // Note: toast parameter allows custom messages from components if needed
+      addToast(toast || keyword, "success");
     }
   };
 

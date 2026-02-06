@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import {Geist, Geist_Mono, Cinzel, Crimson_Text, Dancing_Script} from "next/font/google";
+import "../styles/theme.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -16,6 +17,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Thematic fonts for "Treasure Hunt"
+const cinzel = Cinzel({
+  variable: "--font-title",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const crimsonText = Crimson_Text({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+});
+
+const dancingScript = Dancing_Script({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Scavenger Hunt",
   description: "Scavenger Hunt App",
@@ -24,7 +45,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {
   return (
     <html style={{overscrollBehaviorY: "none"}} lang="en">
-    <body style={{overscrollBehaviorY: "none"}} className={`${geistSans.variable} ${geistMono.variable}`}>
+    <body style={{overscrollBehaviorY: "none"}} className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} ${crimsonText.variable} ${dancingScript.variable}`}>
     <Providers>
       {children}
     </Providers>

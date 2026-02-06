@@ -4,6 +4,7 @@ import React from "react";
 import {Coordinates, LookingGlass} from "./LookingGlass";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
+import {useTranslation} from "@/i18n";
 
 export type MagnifierProps = {
   image: string;
@@ -17,13 +18,14 @@ export const MagnifierButton: React.FC<MagnifierProps> = ({image}) => (
 
 export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {
   const {addKeyword} = useKeyword();
+  const { t } = useTranslation();
 
   const onCursorMove = (position: Coordinates) => {
     if (keyword && keywordPosition
       && (position.x >= (keywordPosition.x-40) && position.x <= (keywordPosition.x+40))
       && (position.y >= (keywordPosition.y-40) && position.y <= (keywordPosition.y+40))
     ) {
-      addKeyword(keyword, "Félicitations ! Vous avez trouvé tous les mots cachés. Consultez la phrase pour découvrir le lieu du trésor !");
+      addKeyword(keyword, t('allKeywordsFound'));
     }
   };
 

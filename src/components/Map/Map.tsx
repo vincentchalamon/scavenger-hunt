@@ -7,6 +7,7 @@ import {Place} from "@/types/Place";
 import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
 import {useApiKey} from "@/contexts/ApiKeyContext";
 import {useToast} from "@/contexts/ToastContext";
+import {useTranslation} from "@/i18n";
 
 type MapProps = {
   debug?: boolean;
@@ -16,6 +17,7 @@ type MapProps = {
 
 export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
   const {addToast} = useToast();
+  const { t } = useTranslation();
 
   // Retrieve Google Maps API Key
   const apiKey = useApiKey();
@@ -46,7 +48,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug}) => {
       });
       setMapCenter(location.coordinates);
     } else {
-      addToast("Ce lieu ne fait pas partie du jeu.", "danger");
+      addToast(t('placeNotInGame'), "danger");
       if (debug) {
         console.log(places, place?.location?.toJSON());
       }

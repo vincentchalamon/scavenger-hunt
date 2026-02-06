@@ -2,15 +2,17 @@
 
 import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
+import {Rules} from "@/components/Rules";
 import React, {useEffect, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
 import {PhraseProvider} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
 import {Toast} from "@/components/Toast/Toast";
 import {Map} from "@/components/Map/Map";
-import {PulseLoader} from "react-spinners";
+import {CompassLoader} from "@/components/UI";
 import {useTranslation} from "@/i18n";
-import {assetPath} from "@/lib/assets";
+import Link from "next/link";
+import styles from "./Hunt.module.css";
 
 type HuntProps = {
   hunt: HuntType;
@@ -53,27 +55,30 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   if (!loaded) {
-    return (
-      <Container style={{height: "100svh"}} className="z-3 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
-        <PulseLoader color="white"/>
-      </Container>
-    );
+    return <CompassLoader fullScreen text={t('loading')} />;
   }
 
   if (!isMobile) {
     return (
-      <Container className="pt-2">
-        <p>{t('mobileOnly')}</p>
-        <p>{t('mobileOnlyHelper')}</p>
-      </Container>
+      <div className={styles.errorContainer}>
+        <div className={styles.errorContent}>
+          <span className={styles.errorIcon}>📱</span>
+          <h2 className={styles.errorTitle}>{t('mobileOnly')}</h2>
+          <p className={styles.errorText}>{t('mobileOnlyHelper')}</p>
+        </div>
+      </div>
     );
   }
 
   if (locked) {
     return (
-      <Container>
-        <p>{t('landscapeNotSupported')}</p>
-      </Container>
+      <div className={styles.errorContainer}>
+        <div className={styles.errorContent}>
+          <span className={styles.errorIcon}>🔄</span>
+          <h2 className={styles.errorTitle}>{t('landscapeNotSupported')}</h2>
+          <p className={styles.errorText}>{t('landscapeHelper')}</p>
+        </div>
+      </div>
     );
   }
 
@@ -81,44 +86,53 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     <PhraseProvider defaultKeywords={hunt.defaultKeywords}>
       <ToastProvider>
         <Toast/>
-        <Navbar fixed="top" className="z-0 bg-light border-bottom border-dark">
-          <Container>
-            <Navbar.Brand className="ms-2" data-testid="hunt-title">
+        <Navbar fixed="top" className={styles.treasureNavbar}>
+          <Container className={styles.navbarContainer}>
+            <Link href="/" className={styles.backButton}>
+              <span className={styles.backIcon}>🏛️</span>
+            </Link>
+            <Navbar.Brand className={styles.navbarTitle} data-testid="hunt-title">
               {hunt.name}
             </Navbar.Brand>
           </Container>
         </Navbar>
         <div className="px-0 d-flex" style={{
-          paddingTop: "58px",
+          paddingTop: "70px",
           height: "100svh",
           flexDirection: "column",
-          justifyContent: "space-between",
-          backgroundImage: `url('${assetPath('/assets/background.png')}')`,
-          backgroundPosition: "center",
-          backgroundRepeat: "repeat",
-          backgroundColor: "rgba(255, 255, 255, 0.7)",
-          backgroundBlendMode: "lighten",
+          background: "var(--gradient-parchment)",
         }}>
-          <Tab.Container defaultActiveKey="manuscript">
-            <Tab.Content style={{height: "100svh", overflow: "auto"}}>
+          <Tab.Container defaultActiveKey="rules">
+            <Tab.Content style={{flex: 1, overflow: "auto"}}>
+              <Tab.Pane eventKey="rules" className="h-100">
+                <Rules/>
+              </Tab.Pane>
               <Tab.Pane eventKey="manuscript" className="h-100">
-                <Manuscript rules={hunt.rules} manuscript={hunt.manuscript} phrase={hunt.phrase}/>
+                <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
               </Tab.Pane>
               <Tab.Pane eventKey="map" className="h-100">
                 <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates}/>
               </Tab.Pane>
             </Tab.Content>
-            <Nav variant="pills" justify fill className="bg-white text-dark border-top border-dark">
+            <Nav variant="pills" justify fill className={styles.treasureNav}>
               <Container>
                 <Row>
                   <Nav.Item>
-                    <Nav.Link eventKey="manuscript" data-testid="manuscript-button">
-                      <i className="bi bi-house"></i>
+                    <Nav.Link eventKey="rules" data-testid="rules-button" className={styles.navItem}>
+                      <span className={styles.navIcon}>📖</span>
+                      <span className={styles.navLabel}>{t('navRules')}</span>
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="map" data-testid="map-button">
-                      <i className="bi bi-compass"></i>
+                    <Nav.Link eventKey="manuscript" data-testid="manuscript-button" className={styles.navItem}>
+                      <span className={styles.navIcon}>📜</span>
+                      <span className={styles.navLabel}>{t('navManuscript')}</span>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="map" data-testid="map-button" className={styles.navItem}>
+                      <span className={styles.navIcon}>🧭</span>
+                      <span className={styles.navLabel}>{t('navMap')}</span>
                     </Nav.Link>
                   </Nav.Item>
                 </Row>

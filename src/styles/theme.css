@@ -1,0 +1,233 @@
+/**
+ * Treasure Hunt Theme System
+ * Variables CSS pour un design cohérent inspiré des chasses au trésor
+ */
+
+:root {
+  /* === Couleurs Principales === */
+  --treasure-gold: #D4AF37;
+  --treasure-gold-light: #E6C85C;
+  --treasure-gold-dark: #B8941F;
+  --treasure-bronze: #CD7F32;
+  --treasure-bronze-light: #E19B5F;
+  --treasure-bronze-dark: #A56328;
+
+  /* === Couleurs Parchemin === */
+  --parchment: #F4E4C1;
+  --parchment-light: #F9F3E3;
+  --parchment-dark: #E8D5A8;
+  --parchment-border: #D4C4A8;
+
+  /* === Couleurs Encre === */
+  --ink-dark: #2C1810;
+  --ink-medium: #5C4033;
+  --ink-light: #8B6F47;
+
+  /* === Couleurs Carte === */
+  --map-blue: #4A90A4;
+  --map-blue-light: #5FA8D3;
+  --map-blue-dark: #3B7486;
+  --map-ocean: #2E6B7F;
+
+  /* === Couleurs Accentuation === */
+  --seal-red: #8B1E1E;
+  --seal-red-light: #A63232;
+  --emerald: #2D5F3F;
+  --ruby: #9B2335;
+
+  /* === Dégradés === */
+  --gradient-treasure: linear-gradient(135deg, #D4AF37 0%, #CD7F32 100%);
+  --gradient-parchment: linear-gradient(180deg, #F9F3E3 0%, #F4E4C1 100%);
+  --gradient-ocean: linear-gradient(180deg, #5FA8D3 0%, #4A90A4 100%);
+  --gradient-seal: radial-gradient(circle, #A63232 0%, #8B1E1E 100%);
+  --gradient-manuscript: linear-gradient(
+    135deg,
+    var(--parchment-light) 0%,
+    var(--parchment) 50%,
+    var(--parchment-dark) 100%
+  );
+
+  /* === Ombres === */
+  --shadow-sm: 0 2px 4px rgba(44, 24, 16, 0.1);
+  --shadow-md: 0 4px 8px rgba(44, 24, 16, 0.15);
+  --shadow-lg: 0 8px 16px rgba(44, 24, 16, 0.2);
+  --shadow-xl: 0 12px 24px rgba(44, 24, 16, 0.25);
+  --shadow-treasure: 0 4px 12px rgba(212, 175, 55, 0.3);
+  --shadow-seal: 0 2px 8px rgba(139, 30, 30, 0.4);
+
+  /* === Espacements === */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* === Bordures === */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-width: 2px;
+  --border-width-thick: 3px;
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  /* === Z-index === */
+  --z-base: 0;
+  --z-nav: 10;
+  --z-modal: 100;
+  --z-toast: 1000;
+  --z-loader: 9999;
+
+  /* === Fonts === */
+  --font-title: 'Cinzel', serif;
+  --font-body: 'Crimson Text', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-mono: 'Courier New', monospace;
+
+  /* === Tailles de police === */
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-base: 1rem;    /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.25rem;   /* 20px */
+  --font-size-2xl: 1.5rem;   /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem;  /* 36px */
+
+  /* === Poids de police === */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === Hauteurs de ligne === */
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* === Textures (utiliser avec background-image) === */
+  --texture-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* === Mode Sombre (optionnel) === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --parchment: #3A3325;
+    --parchment-light: #4A4335;
+    --parchment-dark: #2A2315;
+    --ink-dark: #E8D5A8;
+    --ink-medium: #D4C4A8;
+    --ink-light: #C0B098;
+  }
+}
+
+/* === Classes utilitaires === */
+
+.parchment-bg {
+  background: var(--gradient-parchment);
+  background-image: var(--texture-paper), var(--gradient-parchment);
+  background-blend-mode: multiply;
+}
+
+.treasure-gradient {
+  background: var(--gradient-treasure);
+}
+
+.text-treasure {
+  color: var(--treasure-gold);
+}
+
+.text-ink {
+  color: var(--ink-dark);
+}
+
+.shadow-treasure {
+  box-shadow: var(--shadow-treasure);
+}
+
+.border-decorative {
+  border: var(--border-width-thick) solid var(--treasure-bronze);
+  border-image: linear-gradient(
+    135deg,
+    var(--treasure-gold) 0%,
+    var(--treasure-bronze) 50%,
+    var(--treasure-gold) 100%
+  ) 1;
+}
+
+/* Animation de pulsation pour éléments importants */
+@keyframes treasure-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.pulse-treasure {
+  animation: treasure-pulse 2s ease-in-out infinite;
+}
+
+/* Animation de brillance */
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shine-effect {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 3s ease-in-out infinite;
+}
+
+/* Animation de rotation (boussole) */
+@keyframes compass-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-compass {
+  animation: compass-rotate 4s linear infinite;
+}
+
+/* 3D relief effect */
+.relief-3d {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Torn parchment effect (to use with clip-path) */
+.torn-edges {
+  filter: url(#torn-paper-filter);
+}
+
+/* Ink dripping effect */
+.ink-effect {
+  text-shadow:
+    1px 1px 2px rgba(44, 24, 16, 0.3),
+    0 0 1px rgba(44, 24, 16, 0.5);
+}
+
