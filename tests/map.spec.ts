@@ -14,6 +14,9 @@ test.describe('Map', () => {
     // Fill in a destination
     await page.getByTestId('search-field').fill('Hospice');
 
+    // Wait for search results to appear
+    await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
+    
     // Results are shown, valid results are shown first
     await expect(page.getByTestId('search-results').getByRole('button')).toHaveCount(5);
     await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice');
@@ -22,7 +25,9 @@ test.describe('Map', () => {
   test('I can select a valid destination, its marker is added in the map and saved', async ({ page }) => {
     // Fill in a destination
     await page.getByTestId('search-field').fill('Hospice');
-    await page.waitForTimeout(2000); // Wait for search results
+    
+    // Wait for search results to appear
+    await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
 
     // Select first destination
     await page.getByTestId('search-results').getByRole('button').first().click();
@@ -48,7 +53,10 @@ test.describe('Map', () => {
   test('I can fill in a wrong destination, an error message is shown', async ({ page }) => {
     // Fill in and select a wrong destination
     await page.getByTestId('search-field').fill('Dilettante');
-    await page.waitForTimeout(2000); // Wait for search results
+    
+    // Wait for search results to appear
+    await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
+    
     await page.getByTestId('search-results').getByRole('button').first().click();
 
     // Notification is visible
@@ -59,7 +67,10 @@ test.describe('Map', () => {
   test('I can show a destination info window', async ({ page }) => {
     // Fill in and select a destination
     await page.getByTestId('search-field').fill('Hospice');
-    await page.waitForTimeout(2000); // Wait for search results
+    
+    // Wait for search results to appear
+    await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
+    
     await page.getByTestId('search-results').getByRole('button').first().click();
 
     // Description is visible

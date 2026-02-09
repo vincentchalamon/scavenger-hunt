@@ -8,6 +8,9 @@ import {FormControlProps} from "react-bootstrap/FormControl";
 import {useTranslation} from "@/i18n";
 import ReactDOM from "react-dom";
 
+// Debounce delay for search input in milliseconds
+const SEARCH_DEBOUNCE_MS = 500;
+
 type SearchResult = {
   x: number;
   y: number;
@@ -68,7 +71,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
       } finally {
         setIsSearching(false);
       }
-    }, 500); // Debounce search
+    }, SEARCH_DEBOUNCE_MS); // Use named constant for debounce
 
     return () => clearTimeout(timeoutId);
   }, [inputValue, provider]);
