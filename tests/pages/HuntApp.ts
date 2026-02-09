@@ -30,8 +30,10 @@ export class HuntApp {
    */
   async navigateAndAuthenticate(url: string) {
     await this.page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-    // Wait for hunt title to ensure page is loaded
-    await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
+    // Only wait for hunt title if we're navigating to a valid hunt page (not home or 404)
+    if (url !== '/' && url !== '/invalid-hunt-url') {
+      await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
+    }
     await this.page.waitForTimeout(1000);
   }
 
