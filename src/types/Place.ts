@@ -4,6 +4,6 @@ export type Place = {
   name: string;
   description: string;
   link?: string;
-  coordinates: google.maps.LatLngLiteral;
+  coordinates: {lat: number; lng: number};
   item?: Item;
 }

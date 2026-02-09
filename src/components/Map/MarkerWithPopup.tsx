@@ -66,9 +66,11 @@ export const MarkerWithPopup = (props: {
       }}
     >
       <Popup
-        onClose={() => onCloseClick()}
         closeButton={true}
         maxWidth={300}
+        eventHandlers={{
+          popupclose: () => onCloseClick()
+        }}
       >
         <Container className="bg-white text-dark p-0 m-0 pb-2 pe-2">
           <h5 className="text-dark mb-2">{place.name}</h5>

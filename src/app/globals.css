@@ -45,3 +45,9 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Custom styles for Leaflet markers */
+.custom-leaflet-marker {
+  background: transparent !important;
+  border: none !important;
+}

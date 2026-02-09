@@ -6,7 +6,7 @@ export type Hunt = {
   lang?: string;
   description?: string;
   duration?: string;
-  coordinates: google.maps.LatLngLiteral;
+  coordinates: {lat: number; lng: number};
   debug?: boolean;
   rules?: string; // Deprecated: rules are now in translations
   manuscript: string;
