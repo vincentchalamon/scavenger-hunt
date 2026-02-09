@@ -14,8 +14,10 @@ test.describe('Clue', () => {
     await expect(page.locator('.leaflet-popup-content')).toBeVisible();
     await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
-    // Click on the image to display the clue (force to bypass navbar interception)
-    await page.locator('.leaflet-popup-content').locator('.container button').click({ force: true });
+    // Scroll button into view and click to display the clue
+    const button = page.locator('.leaflet-popup-content').locator('.container button');
+    await button.scrollIntoViewIfNeeded();
+    await button.click();
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the clue to display it
