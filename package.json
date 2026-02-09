@@ -23,7 +23,6 @@
     "bootstrap-icons": "^1.13.1",
     "leaflet": "^1.9.4",
     "leaflet-geosearch": "^4.2.2",
-    "leaflet-providers": "^3.0.0",
     "next": "^16.1",
     "react": "^19.1",
     "react-bootstrap": "^2.10.10",
