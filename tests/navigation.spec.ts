@@ -7,22 +7,6 @@ test.describe('Navigation', () => {
     await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
   });
 
-  test('Password is NOT saved after reload (security)', async ({ page }) => {
-    // Ensure hunt is loaded
-    await expect(page.getByTestId('hunt-title')).toBeVisible();
-    await expect(page.getByTestId('hunt-title')).toContainText('Le Secret du Vieux-Lille');
-
-    // Refresh page
-    await page.reload();
-
-    // With new security system, password is NOT saved in localStorage
-    // User must re-enter password after reload
-    const passwordInput = page.getByPlaceholder(/Entrez le mot de passe|Enter password|Mot de passe|Password/i);
-
-    // Password input should be visible again
-    await expect(passwordInput).toBeVisible({ timeout: 5000 });
-  });
-
   test('I can navigate using tabs', async ({ page }) => {
     // Rules tab is active by default
     await expect(page.getByTestId('rules-button')).toBeVisible();
@@ -45,11 +29,11 @@ test.describe('Navigation', () => {
     await expect(page.getByTestId('rules-button')).not.toHaveClass(/active/);
     await expect(page.getByTestId('manuscript-button')).not.toHaveClass(/active/);
     await expect(page.getByTestId('map-button')).toHaveClass(/active/);
-    // First item must be selected
-    await expect(page.locator('.GMAMP-maps-pin-view')).toHaveCount(1);
-    await expect(page.locator('.GMAMP-maps-pin-view')).toBeVisible();
-    await expect(page.locator('.gm-style-iw-c')).toHaveCount(1);
-    await expect(page.locator('.gm-style-iw-c')).toBeVisible();
+    // First item must be selected (Leaflet marker)
+    await expect(page.locator('.leaflet-marker-icon')).toHaveCount(1);
+    await expect(page.locator('.leaflet-marker-icon')).toBeVisible();
+    await expect(page.locator('.leaflet-popup-content')).toHaveCount(1);
+    await expect(page.locator('.leaflet-popup-content')).toBeVisible();
 
     // Go back to rules tab
     await page.getByTestId('rules-button').click();

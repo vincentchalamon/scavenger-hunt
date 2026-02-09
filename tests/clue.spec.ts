@@ -11,11 +11,11 @@ test.describe('Clue', () => {
   });
 
   test('I can show a marker description to display its clue', async ({ page }) => {
-    await expect(page.locator('.gm-style-iw-c')).toBeVisible();
-    await expect(page.locator('.gm-style-iw-c').locator('.container button')).toBeVisible();
+    await expect(page.locator('.leaflet-popup-content')).toBeVisible();
+    await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
     // Click on the image to display the clue
-    await page.locator('.gm-style-iw-c').locator('.container button').click();
+    await page.locator('.leaflet-popup-content').locator('.container button').click();
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the clue to display it

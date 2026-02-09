@@ -15,10 +15,10 @@ test.describe('Keyword', () => {
     await page.getByTestId('map-button').click();
 
     // Show marker description
-    await expect(page.locator('.gm-style-iw-c').locator('.container button')).toBeVisible();
+    await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
     // Click on the image to display the clue
-    await page.locator('.gm-style-iw-c').locator('.container button').click();
+    await page.locator('.leaflet-popup-content').locator('.container button').click();
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the hidden keyword
@@ -37,7 +37,7 @@ test.describe('Keyword', () => {
   test('I cannot find an already found keyword', async ({ page }) => {
     // Select the keyword
     await page.getByTestId('map-button').click();
-    await page.locator('.gm-style-iw-c').locator('.container button').click();
+    await page.locator('.leaflet-popup-content').locator('.container button').click();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
     await expect(page.getByTestId('toast')).toContainText(/Bravo ! Vous avez trouv|Congratulations! You found|Felicidades! Encontraste|Glckwunsch! Sie haben|Gefeliciteerd! Je hebt/);
     await page.getByTestId('modal').locator('.btn-close').click();
@@ -46,7 +46,7 @@ test.describe('Keyword', () => {
 
     // Return to the same clue
     await page.getByTestId('map-button').click();
-    await page.locator('.gm-style-iw-c').locator('.container button').click();
+    await page.locator('.leaflet-popup-content').locator('.container button').click();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
 
     // Click on keyword doesn't change anything (already found, no toast shown)
