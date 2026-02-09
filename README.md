@@ -10,7 +10,7 @@ The application is built using [Next.js](https://nextjs.org/) and [TypeScript](h
 
 > Some features, debugging and tests have been optimized using [GitHub Copilot](https://github.com/features/copilot) with [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5) agent.
 
-The application uses [OpenStreetMap](https://www.openstreetmap.org/) via [Leaflet](https://leafletjs.com/) and [React Leaflet](https://react-leaflet.js.org/) for interactive maps, with geocoding provided by [Nominatim](https://nominatim.openstreetmap.org/). No API keys are required!
+The application uses [OpenStreetMap](https://www.openstreetmap.org/) via [Leaflet](https://leafletjs.com/) and [React Leaflet](https://react-leaflet.js.org/) for interactive maps, with geocoding provided by [Nominatim](https://nominatim.openstreetmap.org/). Map tiles are provided by [Thunderforest Pioneer](https://www.thunderforest.com/) (optional API key for enhanced styling, free tier available).
 
 ### Configure a Hunt
 
@@ -334,6 +334,14 @@ This application uses the following open-source libraries and resources:
 * [Leaflet](https://leafletjs.com/)
 * [React Leaflet](https://react-leaflet.js.org/)
 * [Leaflet GeoSearch](https://github.com/smeijer/leaflet-geosearch)
+* [Nominatim](https://nominatim.openstreetmap.org/)
+* [Thunderforest](https://www.thunderforest.com/)
+* [Fontsource](https://fontsource.org/) - Open source fonts:
+  * [Geist Sans](https://vercel.com/font) (Vercel)
+  * [Geist Mono](https://vercel.com/font) (Vercel)
+  * [Cinzel](https://fonts.google.com/specimen/Cinzel) (Natanael Gama)
+  * [Crimson Text](https://fonts.google.com/specimen/Crimson+Text) (Sebastian Kosch)
+  * [Dancing Script](https://fonts.google.com/specimen/Dancing+Script) (Impallari Type)
 * [Aaron Wong - React Card Flip](https://github.com/AaronCCWong/react-card-flip)
 * [Josh Mc Farlin - React Looking Glass](https://github.com/Josh-McFarlin/react-looking-glass)
 * [Oleg Nodlik - React Page Flip](https://github.com/Nodlik/react-pageflip)

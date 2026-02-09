@@ -81,6 +81,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
+  const thunderforestApiKey = process.env.NEXT_PUBLIC_THUNDERFOREST_API_KEY || '';
+
   return (
     <div style={{height: '100%', width: '100%'}} data-testid="map">
       <MapContainer
@@ -90,8 +92,9 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
         zoomControl={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url={`https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}.png${thunderforestApiKey ? `?apikey=${thunderforestApiKey}` : ''}`}
+          subdomains={['a', 'b', 'c']}
         />
         <MapController center={mapCenter} />
         <AutocompleteControl

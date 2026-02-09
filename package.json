@@ -10,6 +10,11 @@
     "validate:config": "tsx scripts/validate-config.ts"
   },
   "dependencies": {
+    "@fontsource/cinzel": "^5.2.8",
+    "@fontsource/crimson-text": "^5.2.7",
+    "@fontsource/dancing-script": "^5.2.8",
+    "@fontsource/geist-mono": "^5.2.7",
+    "@fontsource/geist-sans": "^5.2.5",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
     "@types/leaflet": "^1.9.21",
@@ -18,6 +23,7 @@
     "bootstrap-icons": "^1.13.1",
     "leaflet": "^1.9.4",
     "leaflet-geosearch": "^4.2.2",
+    "leaflet-providers": "^3.0.0",
     "next": "^16.1",
     "react": "^19.1",
     "react-bootstrap": "^2.10.10",
