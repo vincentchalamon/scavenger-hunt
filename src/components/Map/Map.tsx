@@ -1,28 +1,45 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {AdvancedMarkerAnchorPoint, APIProvider, Map as GoogleMap} from "@vis.gl/react-google-maps";
+import {MapContainer, TileLayer, useMap} from "react-leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
-import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
-import {useApiKey} from "@/contexts/ApiKeyContext";
+import {MarkerWithPopup} from "@/components/Map/MarkerWithPopup";
 import {useToast} from "@/contexts/ToastContext";
 import {useTranslation} from "@/i18n";
 import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
+import "leaflet/dist/leaflet.css";
 
 type MapProps = {
   debug?: boolean;
   places: Place[];
-  coordinates: google.maps.LatLngLiteral;
+  coordinates: {lat: number; lng: number};
   huntSlug: string;
+}
+
+type SearchResult = {
+  x: number;
+  y: number;
+  label: string;
+  bounds: [[number, number], [number, number]] | null;
+  raw: any;
+}
+
+// Component to handle map center changes
+function MapController({center}: {center: {lat: number; lng: number}}) {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView([center.lat, center.lng], map.getZoom());
+  }, [center, map]);
+
+  return null;
 }
 
 export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
   const { t } = useTranslation();
 
-  // Retrieve Google Maps API Key
-  const apiKey = useApiKey();
   // Store all visited places to trace a route in the map
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
@@ -33,10 +50,16 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
   }, [huntSlug]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const onPlaceSelect = (place: google.maps.places.Place | null) => {
+  const onPlaceSelect = (result: SearchResult | null) => {
+    if (!result) return;
+
     // Look for place in configuration based on it's coordinates
-    // Note: it's possible to search for all places through GoogleMap, but only select a place from the configuration
-    const location = places.find((location) => location.coordinates.lat.toFixed(7) === place?.location?.toJSON().lat.toFixed(7) && location.coordinates.lng.toFixed(7) === place?.location?.toJSON().lng.toFixed(7));
+    // Note: it's possible to search for all places through the geocoding service, but only select a place from the configuration
+    const location = places.find((location) =>
+      location.coordinates.lat.toFixed(7) === result.y.toFixed(7) &&
+      location.coordinates.lng.toFixed(7) === result.x.toFixed(7)
+    );
+
     if (location) {
       setVisitedPlaces((prevVisitedPlaces) => {
         const visitedPlaces = [...prevVisitedPlaces, location];
@@ -50,26 +73,27 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     } else {
       addToast(t('placeNotInGame'), "danger");
       if (debug) {
-        console.log(places, place?.location?.toJSON());
+        console.log(places, {lat: result.y, lng: result.x});
       }
     }
   };
 
   // Helps to center map on new marker added
-  const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>(visitedPlaces[0].coordinates);
+  const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
   return (
-    <APIProvider apiKey={apiKey}>
-      <GoogleMap
-        mapId="map-id"
-        data-testid="map"
-        defaultCenter={mapCenter}
-        defaultZoom={16}
-        gestureHandling={'greedy'}
-        disableDefaultUI
+    <div style={{height: '100%', width: '100%'}} data-testid="map">
+      <MapContainer
+        center={[coordinates.lat, coordinates.lng]}
+        zoom={16}
+        style={{height: '100%', width: '100%'}}
         zoomControl={true}
-        onClick={() => setSelectedPlace(null)}
       >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MapController center={mapCenter} />
         <AutocompleteControl
           coordinates={coordinates}
           onPlaceSelect={onPlaceSelect}
@@ -78,26 +102,18 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
         />
         {visitedPlaces.map((visitedPlace, i) => {
           return (
-            <div key={`marker-${i}`}>
-              <AdvancedMarkerWithRef
-                onMarkerClick={() => setSelectedPlace(visitedPlace)}
-                onCloseClick={() => setSelectedPlace(null)}
-                showInfo={selectedPlace === visitedPlace}
-                data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
-                style={{
-                  transition: "all 200ms ease-in-out",
-                  transform: "scale(1)",
-                  transformOrigin: AdvancedMarkerAnchorPoint['BOTTOM'].join(' ')
-                }}
-                place={visitedPlace}
-                pinOptions={visitedPlaces.length > 1 && i !== visitedPlaces.length-1 ? {
-                  background: "rgba(255, 255, 255, 0.6)",
-                } : {}}
-              />
-            </div>
+            <MarkerWithPopup
+              key={`marker-${i}`}
+              place={visitedPlace}
+              isSelected={selectedPlace === visitedPlace}
+              isLatest={i === visitedPlaces.length - 1}
+              onMarkerClick={() => setSelectedPlace(visitedPlace)}
+              onCloseClick={() => setSelectedPlace(null)}
+              data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
+            />
           )
         })}
-      </GoogleMap>
-    </APIProvider>
+      </MapContainer>
+    </div>
   );
 }

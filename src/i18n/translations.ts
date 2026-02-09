@@ -14,23 +14,6 @@ export const translations = {
     landscapeNotSupported: 'Le mode paysage n\'est pas supporté.',
     landscapeHelper: 'Veuillez tourner votre appareil en mode portrait',
 
-    // API Key
-    apiKeyLabel: 'Clé d\'accès',
-    apiKeyPlaceholder: 'Clé d\'accès',
-    apiKeyHelper: 'Veuillez renseigner la clé d\'accès fournie par votre hôte.',
-    apiKeyInvalid: 'La clé saisie semble invalide. Merci de vérifier votre saisie.',
-    apiKeySave: 'Enregistrer',
-
-    // Password for decryption
-    passwordLabel: 'Mot de passe',
-    passwordPlaceholder: 'Entrez le mot de passe',
-    passwordHelper: 'Veuillez entrer le mot de passe fourni par votre hôte pour déverrouiller l\'application.',
-    passwordInvalid: 'Mot de passe incorrect. Veuillez réessayer.',
-    unlock: 'Déverrouiller',
-    decrypting: 'Déchiffrement en cours...',
-    error: 'Erreur',
-    noEncryptedKey: 'Aucune clé chiffrée trouvée. Veuillez déployer l\'application avec un mot de passe.',
-
     // Hunts List
     huntsListTitle: 'Parcours disponibles',
     huntSubtitle: 'Découvrez les secrets cachés de votre ville',
@@ -101,23 +84,6 @@ export const translations = {
     mobileOnlyHelper: 'Please open it on your mobile device.',
     landscapeNotSupported: 'Landscape mode is not supported.',
     landscapeHelper: 'Please rotate your device to portrait mode',
-
-    // API Key
-    apiKeyLabel: 'Access Key',
-    apiKeyPlaceholder: 'Access Key',
-    apiKeyHelper: 'Please enter the access key provided by your host.',
-    apiKeyInvalid: 'The entered key seems invalid. Please check your input.',
-    apiKeySave: 'Save',
-
-    // Password for decryption
-    passwordLabel: 'Password',
-    passwordPlaceholder: 'Enter password',
-    passwordHelper: 'Please enter the password provided by your host to unlock the application.',
-    passwordInvalid: 'Incorrect password. Please try again.',
-    unlock: 'Unlock',
-    decrypting: 'Decrypting...',
-    error: 'Error',
-    noEncryptedKey: 'No encrypted key found. Please deploy the application with a password.',
 
     // Hunts List
     huntsListTitle: 'Available Routes',

@@ -1,53 +1,84 @@
 "use client";
 
 import {Button, Container, Form, ListGroup} from "react-bootstrap";
-import React, {FormEvent, FunctionComponent, useCallback, useState} from "react";
-import {ControlPosition, MapControl, useMapsLibrary} from "@vis.gl/react-google-maps";
-import {useAutocompleteSuggestions} from "@/hooks/use-autocomplete-suggestions";
+import React, {FormEvent, FunctionComponent, useCallback, useEffect, useState} from "react";
+import {useMap} from "react-leaflet";
+import {OpenStreetMapProvider} from 'leaflet-geosearch';
 import {FormControlProps} from "react-bootstrap/FormControl";
 import {useTranslation} from "@/i18n";
+import ReactDOM from "react-dom";
+
+type SearchResult = {
+  x: number;
+  y: number;
+  label: string;
+  bounds: [[number, number], [number, number]] | null;
+  raw: any;
+}
 
 type AutocompleteControlProps = {
-  onPlaceSelect?: (place: google.maps.places.Place | null) => void;
+  onPlaceSelect?: (result: SearchResult | null) => void;
   onClear?: () => void;
-  coordinates: google.maps.LatLngLiteral;
+  coordinates: {lat: number; lng: number};
 }
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
   const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, ...formControlProps} = props;
   const { t } = useTranslation();
+  const map = useMap();
   const [inputValue, setInputValue] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  
+  const provider = useCallback(() => {
+    return new OpenStreetMapProvider({
+      params: {
+        'accept-language': 'fr',
+        countrycodes: 'fr',
+        addressdetails: 1,
+      },
+    });
+  }, []);
+
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
   }, []);
+  
   const clearInput = useCallback(async () => {
     setInputValue('');
+    setSuggestions([]);
     onClear();
-  }, [inputValue]);
+  }, [onClear]);
 
-  const places = useMapsLibrary('places');
-  const {suggestions, resetSession} = useAutocompleteSuggestions(inputValue, {locationBias});
-  const handleSuggestionClick = useCallback(
-    async (suggestion: google.maps.places.AutocompleteSuggestion) => {
-      if (!places || !suggestion.placePrediction) {
-        return;
+  // Perform search when input changes
+  useEffect(() => {
+    if (inputValue.length < 3) {
+      setSuggestions([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const results = await provider().search({ query: inputValue });
+        setSuggestions(results as SearchResult[]);
+      } catch (error) {
+        console.error('Search error:', error);
+        setSuggestions([]);
+      } finally {
+        setIsSearching(false);
       }
+    }, 500); // Debounce search
 
-      setInputValue(suggestion.placePrediction.text.text);
+    return () => clearTimeout(timeoutId);
+  }, [inputValue, provider]);
 
-      const place = suggestion.placePrediction.toPlace();
-      await place.fetchFields({
-        fields: [
-          'viewport',
-          'location',
-          'svgIconMaskURI',
-          'iconBackgroundColor'
-        ]
-      });
-
-      resetSession();
-      onPlaceSelect(place);
-    }, [places]);
+  const handleSuggestionClick = useCallback(
+    async (suggestion: SearchResult) => {
+      setInputValue(suggestion.label);
+      setSuggestions([]);
+      onPlaceSelect(suggestion);
+    }, [onPlaceSelect]);
 
   const inputStyle = {
     boxSizing: 'border-box',
@@ -65,24 +96,27 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
     textOverflow: 'ellipses',
   }
 
-  return (
-    <MapControl position={ControlPosition.TOP_CENTER}>
-      <Container className="mt-3 p-0 position-relative" style={{width: '280px'}}>
-        <Form.Control
-          // @ts-ignore
-          type="search"
-          placeholder={t('searchPlaceholder')}
-          value={inputValue}
-          // @ts-ignore
-          onInput={(event) => handleInput(event)}
-          // @ts-ignore
-          style={inputStyle}
-          data-testid="search-field"
-          {...formControlProps}
-        />
-        {/*@ts-ignore*/}
-        <Button type="button" className="btn-close position-absolute" style={{top: '8px', right: '10px'}} onClick={clearInput}/>
-        {suggestions && <ListGroup style={{borderRadius: '0 0 20px 20px'}} data-testid="search-results">
+  // Use portal to render control outside of map container
+  const controlContainer = map.getContainer();
+  
+  return ReactDOM.createPortal(
+    <Container className="position-absolute top-0 start-50 translate-middle-x mt-3 p-0" style={{width: '280px', zIndex: 1000}}>
+      <Form.Control
+        // @ts-ignore
+        type="search"
+        placeholder={t('searchPlaceholder')}
+        value={inputValue}
+        // @ts-ignore
+        onInput={(event) => handleInput(event)}
+        // @ts-ignore
+        style={inputStyle}
+        data-testid="search-field"
+        {...formControlProps}
+      />
+      {/*@ts-ignore*/}
+      <Button type="button" className="btn-close position-absolute" style={{top: '8px', right: '10px'}} onClick={clearInput}/>
+      {suggestions.length > 0 && (
+        <ListGroup style={{borderRadius: '0 0 20px 20px'}} data-testid="search-results">
           {suggestions.map((suggestion, i) => (
             <ListGroup.Item
               key={`suggestion-${i}`}
@@ -90,11 +124,12 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
               style={{fontSize: '14px', borderRadius: i === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
               onClick={() => handleSuggestionClick(suggestion)}
             >
-              <i className="bi bi-geo-alt-fill me-1"></i> {suggestion.placePrediction?.text.text}
+              <i className="bi bi-geo-alt-fill me-1"></i> {suggestion.label}
             </ListGroup.Item>
           ))}
-        </ListGroup>}
-      </Container>
-    </MapControl>
-  )
+        </ListGroup>
+      )}
+    </Container>,
+    controlContainer
+  );
 }
