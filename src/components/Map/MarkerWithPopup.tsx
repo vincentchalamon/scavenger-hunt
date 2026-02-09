@@ -71,6 +71,7 @@ export const MarkerWithPopup = (props: {
       <Popup
         closeButton={true}
         maxWidth={300}
+        className="map-popup"
         eventHandlers={{
           popupclose: () => onCloseClick()
         }}

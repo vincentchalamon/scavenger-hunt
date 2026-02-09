@@ -17,8 +17,9 @@ test.describe('Map', () => {
     // Wait for search results to appear
     await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
     
-    // Results are shown, valid results are shown first
-    await expect(page.getByTestId('search-results').getByRole('button')).toHaveCount(5);
+    // Results are shown (OpenStreetMap may return different number of results than Google Maps)
+    const resultsCount = await page.getByTestId('search-results').getByRole('button').count();
+    expect(resultsCount).toBeGreaterThan(0);
     await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice');
   });
 

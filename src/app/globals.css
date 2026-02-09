@@ -51,3 +51,12 @@ a {
   background: transparent !important;
   border: none !important;
 }
+
+/* Ensure Leaflet popups appear above fixed navbar */
+.leaflet-popup-pane {
+  z-index: 1100 !important;
+}
+
+.leaflet-popup {
+  z-index: 1100 !important;
+}
