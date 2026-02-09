@@ -117,7 +117,7 @@ export class MapPage extends BasePage {
   async showClue() {
     const showButton = this.infoWindow.locator('.container button');
     await showButton.waitFor({ state: 'visible', timeout: 5000 });
-    await showButton.click();
+    await showButton.click({ force: true }); // Force click to bypass navbar interception
     await this.waitForModalReady();
   }
 
