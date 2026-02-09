@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm run validate:config && next build --turbopack",
+    "prebuild": "npm run validate:config",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "test:e2e": "playwright",
     "validate:config": "tsx scripts/validate-config.ts"
   },
   "dependencies": {

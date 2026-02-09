@@ -32,7 +32,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const [inputValue, setInputValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  
+
   const provider = useCallback(() => {
     return new OpenStreetMapProvider({
       params: {
@@ -46,7 +46,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
   }, []);
-  
+
   const clearInput = useCallback(async () => {
     setInputValue('');
     setSuggestions([]);
@@ -71,7 +71,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
       } finally {
         setIsSearching(false);
       }
-    }, SEARCH_DEBOUNCE_MS); // Use named constant for debounce
+    }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);
   }, [inputValue, provider]);
@@ -101,7 +101,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
 
   // Use portal to render control outside of map container
   const controlContainer = map.getContainer();
-  
+
   return ReactDOM.createPortal(
     <Container className="position-absolute top-0 start-50 translate-middle-x mt-3 p-0" style={{width: '280px', zIndex: 1000}}>
       <Form.Control

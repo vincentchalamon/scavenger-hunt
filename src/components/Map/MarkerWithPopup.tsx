@@ -28,7 +28,7 @@ const createCustomIcon = (isLatest: boolean) => {
       <circle cx="12.5" cy="12.5" r="7" fill="white"/>
     </svg>
   `;
-  
+
   return L.divIcon({
     html: svgIcon,
     className: 'custom-leaflet-marker',
@@ -70,7 +70,8 @@ export const MarkerWithPopup = (props: {
     >
       <Popup
         closeButton={true}
-        maxWidth={300}
+        maxWidth={500}
+        minWidth={280}
         className="map-popup"
         eventHandlers={{
           popupclose: () => onCloseClick()

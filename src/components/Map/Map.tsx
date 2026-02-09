@@ -43,45 +43,83 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   // Store all visited places to trace a route in the map
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
     setVisitedPlaces(alreadyVisitedPlaces);
     // On Map load, auto-select the latest visited place
     setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
-  }, [huntSlug]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  }, [huntSlug, places]);
   const onPlaceSelect = (result: SearchResult | null) => {
     if (!result) return;
 
+    if (debug) {
+      console.log(`🔍 Searching for place at coordinates: lat=${result.y}, lng=${result.x} (label: "${result.label}")`);
+    }
     // Look for place in configuration based on it's coordinates
     // Note: it's possible to search for all places through the geocoding service, but only select a place from the configuration
-    const location = places.find((location) =>
-      location.coordinates.lat.toFixed(7) === result.y.toFixed(7) &&
-      location.coordinates.lng.toFixed(7) === result.x.toFixed(7)
-    );
+    // Use proximity check with margin of error (approximately 50-100m depending on latitude)
+    // Default margin: ~111m at the equator, less at higher latitudes
+    const DEFAULT_COORDINATE_MARGIN = 0.001;
 
-    if (location) {
+    // Find the closest place within its margin
+    let closestPlace: Place | null = null;
+    let minDistance = Infinity;
+
+    places.forEach((location) => {
+      const margin = location.coordinateMargin ?? DEFAULT_COORDINATE_MARGIN;
+      const distLat = Math.abs(location.coordinates.lat - result.y);
+      const distLng = Math.abs(location.coordinates.lng - result.x);
+
+      // Check if within margin
+      if (distLat <= margin && distLng <= margin) {
+        // Calculate Euclidean distance for comparison
+        const distance = Math.sqrt(distLat * distLat + distLng * distLng);
+
+        if (debug) {
+          console.log(`Place: ${location.name}`);
+          console.log(`  Coordinates: lat=${location.coordinates.lat}, lng=${location.coordinates.lng}`);
+          console.log(`  Result: lat=${result.y}, lng=${result.x}`);
+          console.log(`  Margin: ${margin} (${margin === DEFAULT_COORDINATE_MARGIN ? 'default' : 'custom'})`);
+          console.log(`  Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)}, total=${distance.toFixed(6)}`);
+          console.log(`  Within margin: YES`);
+        }
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestPlace = location;
+        }
+      } else if (debug) {
+        console.log(`Place: ${location.name} - Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)} - Within margin: NO`);
+      }
+    });
+
+    if (closestPlace !== null) {
+      // Store in a const to preserve type narrowing in callbacks
+      const placeToAdd: Place = closestPlace;
       setVisitedPlaces((prevVisitedPlaces) => {
-        const visitedPlaces = [...prevVisitedPlaces, location];
+        const visitedPlaces = [...prevVisitedPlaces, placeToAdd];
         saveVisitedPlaces(huntSlug, visitedPlaces);
-        // Auto-select this new visited place
-        setSelectedPlace(location);
 
         return visitedPlaces;
       });
-      setMapCenter(location.coordinates);
+      // Auto-select this new visited place
+      setSelectedPlace(placeToAdd);
+      if (debug) {
+        console.log("✅ Selected closest place:", placeToAdd.name, "with distance:", minDistance.toFixed(6));
+      }
+      setMapCenter(placeToAdd.coordinates);
     } else {
       addToast(t('placeNotInGame'), "danger");
       if (debug) {
-        console.log(places, {lat: result.y, lng: result.x});
+        console.log("❌ No place found within margin. Search coordinates:", {lat: result.y, lng: result.x});
       }
     }
   };
 
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
-
-  const thunderforestApiKey = process.env.NEXT_PUBLIC_THUNDERFOREST_API_KEY || '';
 
   return (
     <div style={{height: '100%', width: '100%'}} data-testid="map">
@@ -92,9 +130,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
         zoomControl={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url={`https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}.png${thunderforestApiKey ? `?apikey=${thunderforestApiKey}` : ''}`}
-          subdomains={['a', 'b', 'c']}
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapController center={mapCenter} />
         <AutocompleteControl

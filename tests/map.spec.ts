@@ -10,23 +10,23 @@ test.describe('Map', () => {
     await page.getByTestId('map-button').click();
   });
 
-  test('I can search for a destination, the valid ones are shown first', async ({ page }) => {
+  test('I can search for a destination, only the valid ones are shown', async ({ page }) => {
     // Fill in a destination
-    await page.getByTestId('search-field').fill('Hospice');
+    await page.getByTestId('search-field').fill('Hospice Comtesse');
 
     // Wait for search results to appear
     await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
-    
+
     // Results are shown (OpenStreetMap may return different number of results than Google Maps)
     const resultsCount = await page.getByTestId('search-results').getByRole('button').count();
     expect(resultsCount).toBeGreaterThan(0);
-    await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice');
+    await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice Comtesse');
   });
 
   test('I can select a valid destination, its marker is added in the map and saved', async ({ page }) => {
     // Fill in a destination
-    await page.getByTestId('search-field').fill('Hospice');
-    
+    await page.getByTestId('search-field').fill('Hospice Comtesse');
+
     // Wait for search results to appear
     await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
 
@@ -54,10 +54,10 @@ test.describe('Map', () => {
   test('I can fill in a wrong destination, an error message is shown', async ({ page }) => {
     // Fill in and select a wrong destination
     await page.getByTestId('search-field').fill('Dilettante');
-    
+
     // Wait for search results to appear
     await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
-    
+
     await page.getByTestId('search-results').getByRole('button').first().click();
 
     // Notification is visible
@@ -67,11 +67,11 @@ test.describe('Map', () => {
 
   test('I can show a destination info window', async ({ page }) => {
     // Fill in and select a destination
-    await page.getByTestId('search-field').fill('Hospice');
-    
+    await page.getByTestId('search-field').fill('Hospice Comtesse');
+
     // Wait for search results to appear
     await page.getByTestId('search-results').waitFor({ state: 'visible', timeout: 5000 });
-    
+
     await page.getByTestId('search-results').getByRole('button').first().click();
 
     // Description is visible

@@ -19,7 +19,7 @@ test.describe('Hunts List', () => {
     const huntTitle = page.getByRole('heading', { name: 'Le Secret du Vieux-Lille' });
     await expect(huntTitle).toBeVisible();
 
-    // Should see a "Commencer/Start" button (multilingual) - now it's inside a Link
+    // Should see a "Start/Commencer" button (multilingual) - now it's inside a Link
     const startButton = page.getByRole('link', { name: /Start|Commencer/ });
     await expect(startButton.first()).toBeVisible();
   });

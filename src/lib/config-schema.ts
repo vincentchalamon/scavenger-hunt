@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-// Schéma pour les coordonnées
+// Schema for coordinates
 const coordinatesSchema = z.object({
   lat: z.number(),
   lng: z.number(),
 });
 
-// Schéma pour les actions de type keyword
+// Schema for keyword type actions
 const keywordActionSchema = z.object({
   type: z.literal('keyword'),
   options: z.object({
@@ -15,7 +15,7 @@ const keywordActionSchema = z.object({
   }),
 });
 
-// Schéma pour les actions de type image
+// Schema for image type actions
 const imageActionSchema = z.object({
   type: z.literal('image'),
   options: z.object({
@@ -23,7 +23,7 @@ const imageActionSchema = z.object({
   }),
 });
 
-// Schéma pour les actions de type magnifier
+// Schema for magnifier type actions
 const magnifierActionSchema = z.object({
   type: z.literal('magnifier'),
   options: z.object({
@@ -144,6 +144,7 @@ const placeSchema = z.object({
   description: z.string(),
   link: z.string().url().optional(),
   coordinates: coordinatesSchema,
+  coordinateMargin: z.number().positive().optional(), // Margin of error for coordinate proximity check
   item: itemSchema.optional(),
 });
 

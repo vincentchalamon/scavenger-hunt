@@ -75,7 +75,7 @@
   filter: brightness(1.2);
 }
 
-/* Élévations */
+/* Elevations */
 .elevation-sm {
   box-shadow: var(--shadow-sm);
 }

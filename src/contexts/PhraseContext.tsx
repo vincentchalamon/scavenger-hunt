@@ -6,16 +6,20 @@ import {useTranslation} from "@/i18n";
 type PhraseContextType = {
   keywords: string[];
   setKeywords: (keywords: string[]) => void;
-  huntSlug: string,
+  huntSlug: string;
+  phrase: string;
+  defaultKeywords: string[];
 };
 
 export const PhraseContext = createContext<PhraseContextType>({
   keywords: [],
   setKeywords: (_keywords: string[]) => {},
   huntSlug: '',
+  phrase: '',
+  defaultKeywords: [],
 });
 
-export function PhraseProvider({ children, defaultKeywords = [], huntSlug }: { children: ReactNode, defaultKeywords?: string[], huntSlug: string }) {
+export function PhraseProvider({ children, defaultKeywords = [], huntSlug, phrase }: { children: ReactNode, defaultKeywords?: string[], huntSlug: string, phrase: string }) {
   const [keywords, setKeywords] = useState<string[]>(defaultKeywords);
   useEffect(() => {
     setKeywords(getKeywords(huntSlug, defaultKeywords));
@@ -23,14 +27,14 @@ export function PhraseProvider({ children, defaultKeywords = [], huntSlug }: { c
 
   return (
     // @ts-ignore
-    <PhraseContext.Provider value={{keywords, setKeywords, huntSlug}}>
+    <PhraseContext.Provider value={{keywords, setKeywords, huntSlug, phrase, defaultKeywords}}>
       {children}
     </PhraseContext.Provider>
   );
 }
 
 export const useKeyword = () => {
-  const {keywords, setKeywords, huntSlug} = useContext(PhraseContext);
+  const {keywords, setKeywords, huntSlug, phrase, defaultKeywords} = useContext(PhraseContext);
   const {addToast} = useToast();
   const {t} = useTranslation();
 
@@ -41,8 +45,17 @@ export const useKeyword = () => {
     if (!keywords.includes(keyword)) {
       setKeywords(newKeywords);
       saveKeywords(huntSlug, newKeywords);
+
+      // Calculate the total number of unique keywords to find
+      const uniqueWordsInPhrase = [...new Set(phrase.split(' '))];
+      const totalKeywords = uniqueWordsInPhrase.length - defaultKeywords.length;
+      const foundKeywords = newKeywords.length - defaultKeywords.length;
+
+      // Use the appropriate translation key
+      const messageKey = foundKeywords >= totalKeywords ? 'allKeywordsFound' : 'keywordFound';
+
       // Note: toast parameter allows custom messages from components if needed
-      addToast(toast || t('keywordFound'), "success");
+      addToast(toast || t(messageKey), "success");
     }
   };
 

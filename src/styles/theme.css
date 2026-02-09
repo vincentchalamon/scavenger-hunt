@@ -35,7 +35,7 @@
   --emerald: #2D5F3F;
   --ruby: #9B2335;
 
-  /* === Dégradés === */
+  /* === Gradients === */
   --gradient-treasure: linear-gradient(135deg, #D4AF37 0%, #CD7F32 100%);
   --gradient-parchment: linear-gradient(180deg, #F9F3E3 0%, #F4E4C1 100%);
   --gradient-ocean: linear-gradient(180deg, #5FA8D3 0%, #4A90A4 100%);
@@ -160,7 +160,7 @@
   ) 1;
 }
 
-/* Animation de pulsation pour éléments importants */
+/* Pulse animation for important elements */
 @keyframes treasure-pulse {
   0%, 100% {
     transform: scale(1);
