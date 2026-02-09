@@ -52,6 +52,40 @@ a {
   border: none !important;
 }
 
+/* Float animation for active marker (similar to hunts list icon but faster) */
+@keyframes markerFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.marker-bounce {
+  animation: markerFloat 2s ease-in-out infinite;
+}
+
+/* Remove spacing from Bootstrap tabs */
+.tab-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.tab-pane {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+/* Ensure Leaflet container takes full height */
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1;
+  display: block !important;
+}
+
 /* Ensure Leaflet popups appear above fixed navbar */
 .leaflet-popup-pane {
   z-index: 1100 !important;
@@ -59,4 +93,53 @@ a {
 
 .leaflet-popup {
   z-index: 1100 !important;
+}
+
+/* Constrain popup size to viewport with margins */
+.leaflet-popup {
+  max-width: calc(100vw - 32px) !important; /* Small margin on sides (16px each side) */
+  max-height: calc(100svh - 230px) !important; /* Account for navbar (70px), tab bar (~70px), search bar (~60px), and marker height (~30px) */
+}
+
+.leaflet-popup-content-wrapper {
+  max-width: 100% !important;
+  max-height: calc(100svh - 270px) !important; /* Account for navbar, tab bar, search bar, marker, and popup header/footer */
+  overflow: hidden !important;
+  padding: 7px !important; /* Increased padding for the popup wrapper (20% increase from 6px) */
+}
+
+/* Ensure popup content container has minimum width for readability */
+.leaflet-popup-content .container {
+  min-width: 260px !important;
+}
+
+.leaflet-popup-content {
+  max-width: 100% !important;
+  max-height: calc(100svh - 290px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 1px !important; /* Reduced margin by 50% from 2px to 1px */
+  padding: 4px !important;
+}
+
+/* Ensure images in popup never exceed popup bounds */
+.leaflet-popup-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* Override react-bootstrap Image component in popup */
+.leaflet-popup-content .img-fluid {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Style primary buttons in popup */
+.leaflet-popup-content .btn-primary {
+  color: white !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
 }

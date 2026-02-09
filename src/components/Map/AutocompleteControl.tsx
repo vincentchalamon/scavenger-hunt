@@ -32,6 +32,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const [inputValue, setInputValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isSelecting, setIsSelecting] = useState(false);
 
   const provider = useCallback(() => {
     return new OpenStreetMapProvider({
@@ -55,8 +56,16 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
 
   // Perform search when input changes
   useEffect(() => {
+    // Don't search if we're setting the value from a selection
+    if (isSelecting) {
+      setIsSelecting(false);
+
+      return;
+    }
+
     if (inputValue.length < 3) {
       setSuggestions([]);
+
       return;
     }
 
@@ -74,10 +83,11 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);
-  }, [inputValue, provider]);
+  }, [inputValue, provider]); // Do not listen to "isSelecting" to avoid infinite loop when selecting a suggestion
 
   const handleSuggestionClick = useCallback(
     async (suggestion: SearchResult) => {
+      setIsSelecting(true);
       setInputValue(suggestion.label);
       setSuggestions([]);
       onPlaceSelect(suggestion);

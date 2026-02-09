@@ -11,6 +11,7 @@ test.describe('Clue', () => {
   });
 
   test('I can show a marker description to display its clue', async ({ page }) => {
+    await page.locator('.leaflet-marker-icon').first().click();
     await expect(page.locator('.leaflet-popup-content')).toBeVisible();
     await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 

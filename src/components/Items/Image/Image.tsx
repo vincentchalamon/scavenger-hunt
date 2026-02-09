@@ -8,7 +8,7 @@ export type ImageProps = {
 }
 
 export const ImageButton: React.FC<ImageProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const Image: React.FC<ImageProps> = ({image}) => (

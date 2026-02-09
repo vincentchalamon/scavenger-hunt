@@ -36,6 +36,29 @@ function MapController({center}: {center: {lat: number; lng: number}}) {
   return null;
 }
 
+// Component to fix map rendering issues (grey tiles)
+function MapInvalidator() {
+  const map = useMap();
+
+  useEffect(() => {
+    // Invalidate size when component mounts and when window resizes
+    const invalidateSize = () => {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    };
+
+    invalidateSize();
+    window.addEventListener('resize', invalidateSize);
+
+    return () => {
+      window.removeEventListener('resize', invalidateSize);
+    };
+  }, [map]);
+
+  return null;
+}
+
 export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
   const { t } = useTranslation();
@@ -44,12 +67,14 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  // Track if selection is from search (to auto-open popup) or from initialization (to only bounce)
+  const [isSearchSelection, setIsSearchSelection] = useState<boolean>(false);
 
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
     setVisitedPlaces(alreadyVisitedPlaces);
-    // On Map load, auto-select the latest visited place
-    setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
+    // Don't auto-select on initialization to avoid opening popup
+    // The bounce effect will be applied to the latest place instead
   }, [huntSlug, places]);
   const onPlaceSelect = (result: SearchResult | null) => {
     if (!result) return;
@@ -104,7 +129,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
 
         return visitedPlaces;
       });
-      // Auto-select this new visited place
+      // Auto-select this new visited place (from search)
+      setIsSearchSelection(true);
       setSelectedPlace(placeToAdd);
       if (debug) {
         console.log("✅ Selected closest place:", placeToAdd.name, "with distance:", minDistance.toFixed(6));
@@ -122,23 +148,30 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
   return (
-    <div style={{height: '100%', width: '100%'}} data-testid="map">
-      <MapContainer
-        center={[coordinates.lat, coordinates.lng]}
-        zoom={16}
-        style={{height: '100%', width: '100%'}}
-        zoomControl={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <MapController center={mapCenter} />
-        <AutocompleteControl
+    <MapContainer
+      center={[coordinates.lat, coordinates.lng]}
+      zoom={16}
+      style={{height: '100%', width: '100%'}}
+      zoomControl={true}
+      data-testid="map"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <MapController center={mapCenter} />
+      <MapInvalidator />
+      <AutocompleteControl
           coordinates={coordinates}
           onPlaceSelect={onPlaceSelect}
-          onChange={() => setSelectedPlace(null)}
-          onClear={() => setSelectedPlace(null)}
+          onChange={() => {
+            setSelectedPlace(null);
+            setIsSearchSelection(false);
+          }}
+          onClear={() => {
+            setSelectedPlace(null);
+            setIsSearchSelection(false);
+          }}
         />
         {visitedPlaces.map((visitedPlace, i) => {
           return (
@@ -147,13 +180,19 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
               place={visitedPlace}
               isSelected={selectedPlace === visitedPlace}
               isLatest={i === visitedPlaces.length - 1}
-              onMarkerClick={() => setSelectedPlace(visitedPlace)}
-              onCloseClick={() => setSelectedPlace(null)}
+              shouldOpenPopup={selectedPlace === visitedPlace && isSearchSelection}
+              onMarkerClick={() => {
+                setSelectedPlace(visitedPlace);
+                setIsSearchSelection(true);
+              }}
+              onCloseClick={() => {
+                setSelectedPlace(null);
+                setIsSearchSelection(false);
+              }}
               data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
             />
           )
         })}
       </MapContainer>
-    </div>
   );
 }

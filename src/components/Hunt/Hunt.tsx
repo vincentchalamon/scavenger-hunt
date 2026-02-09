@@ -63,20 +63,30 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
         </Container>
       </Navbar>
       <div className="px-0 d-flex" style={{
-        paddingTop: "70px",
+        paddingTop: "65px",
         height: "100dvh",
         flexDirection: "column",
         background: "var(--gradient-parchment)",
       }}>
-        <Tab.Container defaultActiveKey="rules">
-          <Tab.Content style={{flex: 1, overflow: "auto"}}>
+        <Tab.Container
+          defaultActiveKey="rules"
+          onSelect={(key) => {
+            // Force window resize event to trigger map invalidation
+            if (key === 'map') {
+              setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+              }, 50);
+            }
+          }}
+        >
+          <Tab.Content style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
             <Tab.Pane eventKey="rules" className="h-100">
               <Rules/>
             </Tab.Pane>
             <Tab.Pane eventKey="manuscript" className="h-100">
               <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
             </Tab.Pane>
-            <Tab.Pane eventKey="map" className="h-100">
+            <Tab.Pane eventKey="map" className="h-100" style={{padding: 0, margin: 0}}>
               <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates} huntSlug={hunt.slug}/>
             </Tab.Pane>
           </Tab.Content>

@@ -1,5 +1,6 @@
 import {expect, test} from '@playwright/test';
 import {HuntApp} from './pages';
+import {getConfig} from "@/lib/hunts";
 
 test.describe('Map', () => {
   test.beforeEach(async ({ page }) => {
@@ -84,5 +85,21 @@ test.describe('Map', () => {
     await expect(infoWindow.locator('.container')).toBeVisible();
     await expect(infoWindow.locator('.container a.btn-primary')).toBeVisible();
     await expect(infoWindow.locator('.container button')).toBeVisible();
+  });
+
+  test('I can see the places I have already visited after reload', async ({ page }) => {
+    // Populate localStorage
+    const hunt = getConfig().hunts[0];
+    await page.evaluate((hunt) => {
+      localStorage.setItem('places_le-tresor-du-vieux-lille', JSON.stringify(hunt.places));
+    }, hunt);
+
+    // Reload page
+    await page.reload();
+    await new HuntApp(page).navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await page.getByTestId('map-button').click();
+
+    // Places icons are visible in the map
+    await expect(page.locator('.leaflet-marker-icon')).toHaveCount(9);
   });
 });

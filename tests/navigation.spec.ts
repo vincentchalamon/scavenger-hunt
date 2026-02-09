@@ -32,6 +32,7 @@ test.describe('Navigation', () => {
     // First item must be selected (Leaflet marker)
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(1);
     await expect(page.locator('.leaflet-marker-icon')).toBeVisible();
+    await page.locator('.leaflet-marker-icon').first().click();
     await expect(page.locator('.leaflet-popup-content')).toHaveCount(1);
     await expect(page.locator('.leaflet-popup-content')).toBeVisible();
 

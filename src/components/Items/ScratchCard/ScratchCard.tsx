@@ -24,7 +24,7 @@ export type ScratchCardProps = {
 }
 
 export const ScratchCardButton: React.FC<ScratchCardProps> = ({image}) => (
-  <Img src={image} className="mw-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const ScratchCard: React.FC<ScratchCardProps> = ({image, width, height, scratchableAreas}) => {

@@ -12,7 +12,7 @@ export type MagnifierProps = {
 }
 
 export const MagnifierButton: React.FC<MagnifierProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {

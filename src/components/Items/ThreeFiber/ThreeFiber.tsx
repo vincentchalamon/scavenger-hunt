@@ -44,7 +44,7 @@ export type ThreeFiberProps = {
 }
 
 export const ThreeFiberButton: React.FC<ThreeFiberProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const ThreeFiber: React.FC<ThreeFiberProps> = ({keyword, textures}) => {

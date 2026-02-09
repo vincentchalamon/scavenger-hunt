@@ -51,6 +51,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
 
       // Verify a marker is already present
       await app.map.verifyMarkerCount(1);
+      await page.locator('.leaflet-marker-icon').first().click();
       await expect(app.map.infoWindow).toBeVisible({ timeout: 10000 });
     });
 

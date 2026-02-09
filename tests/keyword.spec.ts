@@ -1,5 +1,6 @@
 import {expect, test} from '@playwright/test';
 import {HuntApp} from './pages';
+import {getConfig} from "@/lib/hunts";
 
 test.describe('Keyword', () => {
   test.beforeEach(async ({ page }) => {
@@ -15,6 +16,7 @@ test.describe('Keyword', () => {
     await page.getByTestId('map-button').click();
 
     // Show marker description
+    await page.locator('.leaflet-marker-icon').first().click();
     await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
     // Use JavaScript to trigger the click - the parent div has the onClick handler
@@ -42,6 +44,7 @@ test.describe('Keyword', () => {
   test('I cannot find an already found keyword', async ({ page }) => {
     // Select the keyword
     await page.getByTestId('map-button').click();
+    await page.locator('.leaflet-marker-icon').first().click();
     await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
       const parentDiv = btn.parentElement;
       if (parentDiv) {
@@ -82,6 +85,7 @@ test.describe('Keyword', () => {
     await expect(manuscriptButton).not.toHaveClass(/keywordAnimation/);
 
     // Show marker description and open modal
+    await page.locator('.leaflet-marker-icon').first().click();
     await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
       const parentDiv = btn.parentElement;
       if (parentDiv) {
@@ -110,5 +114,21 @@ test.describe('Keyword', () => {
 
     // Verify the animation class is removed after clicking the manuscript button
     await expect(manuscriptButton).not.toHaveClass(/keywordAnimation/);
+  });
+
+  test('I can see the keywords I have already visited after reload', async ({ page }) => {
+    // Populate localStorage
+    const hunt = getConfig().hunts[0];
+    await page.evaluate((hunt) => {
+      localStorage.setItem('keywords_le-tresor-du-vieux-lille', JSON.stringify(hunt.phrase.split(" ").filter((value, index, self) => self.indexOf(value) === index)));
+    }, hunt);
+
+    // Reload page
+    await page.reload();
+    await new HuntApp(page).navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await page.getByTestId('manuscript-button').click();
+
+    // Keywords are visible in the phrase
+    await expect(page.getByTestId('manuscript')).toContainText(hunt.phrase);
   });
 });
