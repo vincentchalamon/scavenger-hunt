@@ -8,11 +8,20 @@ import {Hunt as HuntType} from "@/types/Hunt";
 import {PhraseProvider} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
 import {Toast} from "@/components/Toast/Toast";
-import {Map} from "@/components/Map/Map";
+import dynamic from "next/dynamic";
 import {CompassLoader} from "@/components/UI";
 import {useTranslation} from "@/i18n";
 import Link from "next/link";
 import styles from "./Hunt.module.css";
+
+// Dynamic import of Map component to prevent SSR issues with Leaflet
+const Map = dynamic(
+  () => import("@/components/Map/Map").then((mod) => mod.Map),
+  {
+    ssr: false,
+    loading: () => <CompassLoader fullScreen text="Loading map..." />
+  }
+);
 
 type HuntProps = {
   hunt: HuntType;
