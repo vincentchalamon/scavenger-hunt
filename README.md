@@ -10,10 +10,7 @@ The application is built using [Next.js](https://nextjs.org/) and [TypeScript](h
 
 > Some features, debugging and tests have been optimized using [GitHub Copilot](https://github.com/features/copilot) with [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5) agent.
 
-To run this project, you need a [Google Maps JavaScript API key](https://developers.google.com/maps/documentation/javascript/get-api-key) with the following APIs enabled:
-
-* [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
-* [Places API (New)](https://developers.google.com/maps/documentation/places/web-service/op-overview)
+The application uses [OpenStreetMap](https://www.openstreetmap.org/) via [Leaflet](https://leafletjs.com/) and [React Leaflet](https://react-leaflet.js.org/) for interactive maps, with geocoding provided by [Nominatim](https://nominatim.openstreetmap.org/). No API keys are required!
 
 ### Configure a Hunt
 
@@ -252,13 +249,9 @@ A clickable keyword that can be collected directly.
 
 ### Run Locally
 
-Copy the `.env.example` file to a new file named `.env` and replace `your_google_maps_api_key_here` with your actual API key:
+### Run Locally
 
-```bash
-cp .env.example .env
-```
-
-Then, install the dependencies and run the development server:
+Install the dependencies and run the development server:
 
 ```bash
 npm install
@@ -277,11 +270,7 @@ This project includes [GitHub Actions workflows](https://docs.github.com/actions
 
 ### Deploy on GitHub Pages
 
-Go to the "_Settings_" repository tab and create a new secret named `GOOGLE_MAPS_API_KEY` with your Google Maps API key as the value.
-
-Then, go to "_Actions_" repository tab and run the workflow named "_Deploy Next.js site to Pages_" to deploy the application to GitHub Pages.
-
-You'll be asked to provide a password to crypt the API key on production. This password is not stored anywhere, so make sure to remember it for future deployments.
+Go to "_Actions_" repository tab and run the workflow named "_Deploy Next.js site to Pages_" to deploy the application to GitHub Pages.
 
 ### Undeploy from GitHub Pages
 
@@ -341,8 +330,10 @@ This application uses the following open-source libraries and resources:
 * [React Components](https://www.reactcomponents.com/)
 * [Playwright](https://playwright.dev/)
 * [GitHub Copilot](https://github.com/features/copilot)
-* [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
-* [Vis.gl - React Google Maps](https://visgl.github.io/react-google-maps/)
+* [OpenStreetMap](https://www.openstreetmap.org/) and [OpenStreetMap Contributors](https://www.openstreetmap.org/copyright)
+* [Leaflet](https://leafletjs.com/)
+* [React Leaflet](https://react-leaflet.js.org/)
+* [Leaflet GeoSearch](https://github.com/smeijer/leaflet-geosearch)
 * [Aaron Wong - React Card Flip](https://github.com/AaronCCWong/react-card-flip)
 * [Josh Mc Farlin - React Looking Glass](https://github.com/Josh-McFarlin/react-looking-glass)
 * [Oleg Nodlik - React Page Flip](https://github.com/Nodlik/react-pageflip)

@@ -2,7 +2,6 @@ import {expect, Page} from '@playwright/test';
 import {ManuscriptPage} from './ManuscriptPage';
 import {MapPage} from './MapPage';
 import {Box3DClue, ClickableImageClue, MagnifierClue, PageFlipClue, ScratchCardClue} from './CluePage';
-import {TEST_PASSWORD, unlockApplication} from "../helpers/auth";
 
 /**
  * Main Application Page Object
@@ -27,12 +26,10 @@ export class HuntApp {
   }
 
   /**
-   * Navigate to a specific URL and authenticate (without waiting for hunt title)
-   * Useful for error pages (404, etc.)
+   * Navigate to a specific URL (no authentication needed anymore)
    */
   async navigateAndAuthenticate(url: string) {
     await this.page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-    await unlockApplication(this.page, TEST_PASSWORD);
     await this.page.waitForTimeout(2000);
   }
 
@@ -227,13 +224,9 @@ export class HuntApp {
 
   /**
    * Reload and verify data persistence
-   * Note: After reload, user must re-authenticate with password
    */
   async verifyPersistence(expectedMarkerCount: number, completedPhrase: string) {
     await this.page.reload({ waitUntil: 'networkidle', timeout: 30000 });
-
-    // Re-authenticate after reload (password is not stored)
-    await unlockApplication(this.page, TEST_PASSWORD);
     await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
 
     await this.manuscript.navigateToManuscript();

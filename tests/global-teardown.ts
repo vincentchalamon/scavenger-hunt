@@ -1,13 +1,9 @@
-import {cleanupEncryptedKeyFile} from './helpers/auth';
-
 /**
  * Global teardown for Playwright tests
- * Cleans up the encrypted API key file after tests
+ * No cleanup needed
  */
 async function globalTeardown() {
-  console.log('🧹 Cleaning up encrypted API key file...');
-  cleanupEncryptedKeyFile();
-  console.log('✅ Cleanup complete');
+  console.log('✅ Teardown complete');
 }
 
 export default globalTeardown;

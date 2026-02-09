@@ -34,14 +34,14 @@ export class MapPage extends BasePage {
    * Get all map markers (pins)
    */
   get markers() {
-    return this.page.locator('.GMAMP-maps-pin-view');
+    return this.page.locator('.leaflet-marker-icon');
   }
 
   /**
    * Get the info window (popup on map)
    */
   get infoWindow() {
-    return this.page.locator('.gm-style-iw-c');
+    return this.page.locator('.leaflet-popup-content');
   }
 
   /**
@@ -61,16 +61,16 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Wait for Google Maps to be fully loaded
+   * Wait for Leaflet map to be fully loaded
    */
   async waitForMapReady() {
-    await this.wait(3000);
+    await this.wait(2000);
     try {
       await this.page.waitForFunction(() => {
         const hasMapContainer = document.querySelector('[data-testid="map"]') !== null;
-        const hasGoogleMap = document.querySelector('.gm-style') !== null;
-        return hasMapContainer && (hasGoogleMap || document.querySelectorAll('.GMAMP-maps-pin-view').length > 0);
-      }, { timeout: 25000 });
+        const hasLeafletMap = document.querySelector('.leaflet-container') !== null;
+        return hasMapContainer && hasLeafletMap;
+      }, { timeout: 15000 });
     } catch (e) {
       // Map ready timeout, continuing anyway
     }
