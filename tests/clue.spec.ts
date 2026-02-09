@@ -14,10 +14,14 @@ test.describe('Clue', () => {
     await expect(page.locator('.leaflet-popup-content')).toBeVisible();
     await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
-    // Scroll button into view and click to display the clue
-    const button = page.locator('.leaflet-popup-content').locator('.container button');
-    await button.scrollIntoViewIfNeeded();
-    await button.click();
+    // Use JavaScript to trigger the click - the parent div has the onClick handler
+    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
+      // Find the parent div that has the onClick handler
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the clue to display it

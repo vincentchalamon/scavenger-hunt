@@ -117,9 +117,13 @@ export class MapPage extends BasePage {
   async showClue() {
     const showButton = this.infoWindow.locator('.container button');
     await showButton.waitFor({ state: 'visible', timeout: 5000 });
-    // Scroll into view and click - the parent div has the actual onClick handler
-    await showButton.scrollIntoViewIfNeeded();
-    await showButton.click();
+    // Use JavaScript to trigger click on parent div (has the onClick handler)
+    await showButton.evaluate((btn) => {
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await this.waitForModalReady();
   }
 

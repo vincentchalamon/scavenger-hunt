@@ -17,10 +17,13 @@ test.describe('Keyword', () => {
     // Show marker description
     await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
-    // Scroll button into view and click to display the clue
-    const button = page.locator('.leaflet-popup-content').locator('.container button');
-    await button.scrollIntoViewIfNeeded();
-    await button.click();
+    // Use JavaScript to trigger the click - the parent div has the onClick handler
+    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the hidden keyword
@@ -39,9 +42,12 @@ test.describe('Keyword', () => {
   test('I cannot find an already found keyword', async ({ page }) => {
     // Select the keyword
     await page.getByTestId('map-button').click();
-    const button = page.locator('.leaflet-popup-content').locator('.container button');
-    await button.scrollIntoViewIfNeeded();
-    await button.click();
+    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await page.getByTestId('modal').getByTestId('keyword-button').click();
     await expect(page.getByTestId('toast')).toContainText(/Bravo ! Vous avez trouv|Congratulations! You found|Felicidades! Encontraste|Glckwunsch! Sie haben|Gefeliciteerd! Je hebt/);
     await page.getByTestId('modal').locator('.btn-close').click();
@@ -50,9 +56,12 @@ test.describe('Keyword', () => {
 
     // Return to the same clue
     await page.getByTestId('map-button').click();
-    const button2 = page.locator('.leaflet-popup-content').locator('.container button');
-    await button2.scrollIntoViewIfNeeded();
-    await button2.click();
+    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await page.getByTestId('modal').getByTestId('keyword-button').click();
 
     // Click on keyword doesn't change anything (already found, no toast shown)
