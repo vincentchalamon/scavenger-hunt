@@ -49,16 +49,20 @@ export default defineConfig({
   projects: [
     /* Test against mobile viewports. */
     {
-      name: 'Mobile Chrome',
+      name: 'Mobile Chrome Galaxy S24',
       use: { ...devices['Galaxy S24'] },
     },
     {
-      name: 'Mobile Safari',
+      name: 'Mobile Firefox Galaxy S24',
+      use: { ...devices['Galaxy S24'] },
+    },
+    {
+      name: 'Mobile Safari iPhone 15',
       use: { ...devices['iPhone 15'] },
     },
     {
-      name: 'Mobile Firefox',
-      use: { ...devices['Galaxy S24'] },
+      name: 'Mobile Safari iPhone SE',
+      use: { ...devices['iPhone SE (3rd gen)'] },
     },
   ],
 

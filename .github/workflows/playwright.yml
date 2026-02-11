@@ -18,9 +18,10 @@ jobs:
     strategy:
       matrix:
         project:
-          - 'Mobile Chrome'
-          - 'Mobile Safari'
-          - 'Mobile Firefox'
+          - 'Mobile Chrome Galaxy S24'
+          - 'Mobile Firefox Galaxy S24'
+          - 'Mobile Safari iPhone 15'
+          - 'Mobile Safari iPhone SE'
       fail-fast: false
     steps:
       - name: Checkout

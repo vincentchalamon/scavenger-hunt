@@ -273,7 +273,7 @@ This project includes [GitHub Actions workflows](https://docs.github.com/actions
 
 * Mobile Chrome (Galaxy S24)
 * Mobile Firefox (Galaxy S24)
-* Mobile Safari (iPhone 15)
+* Mobile Safari (iPhone 15 and iPhone SE (3rd gen))
 
 ### Deploy on GitHub Pages
 
