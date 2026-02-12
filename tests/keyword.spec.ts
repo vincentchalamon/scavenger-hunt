@@ -120,12 +120,12 @@ test.describe('Keyword', () => {
     // Populate localStorage
     const hunt = getConfig().hunts[0];
     await page.evaluate((hunt) => {
-      localStorage.setItem('keywords_le-tresor-du-vieux-lille', JSON.stringify(hunt.phrase.split(" ").filter((value, index, self) => self.indexOf(value) === index)));
+      localStorage.setItem('keywords_le-secret-du-vieux-lille', JSON.stringify(hunt.phrase.split(" ").filter((value, index, self) => self.indexOf(value) === index)));
     }, hunt);
 
     // Reload page
     await page.reload();
-    await new HuntApp(page).navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await new HuntApp(page).navigateAndAuthenticate('/le-secret-du-vieux-lille');
     await page.getByTestId('manuscript-button').click();
 
     // Keywords are visible in the phrase

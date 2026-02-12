@@ -66,7 +66,7 @@ test.describe('Map', () => {
     await expect(page.getByTestId('toast')).toHaveText(/Ce lieu ne fait pas partie du jeu\.|This place is not part of the game\./);
   });
 
-  test('I can show a destination info window', async ({ page }) => {
+  test('I can show a destination popup', async ({ page }) => {
     // Fill in and select a destination
     await page.getByTestId('search-field').fill('Hospice Comtesse');
 
@@ -77,26 +77,26 @@ test.describe('Map', () => {
 
     // Description is visible
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(2);
-    const infoWindow = page.locator('.leaflet-popup-content');
-    await expect(infoWindow).toBeVisible();
-    await expect(infoWindow.locator('h5')).toHaveText('Musée de l\'Hospice Comtesse');
+    const popup = page.locator('.leaflet-popup-content');
+    await expect(popup).toBeVisible();
+    await expect(popup.locator('h5')).toHaveText('Musée de l\'Hospice Comtesse');
 
     // Verify the popup contains the expected content
-    await expect(infoWindow.locator('.container')).toBeVisible();
-    await expect(infoWindow.locator('.container a.btn-primary')).toBeVisible();
-    await expect(infoWindow.locator('.container button')).toBeVisible();
+    await expect(popup.locator('.container')).toBeVisible();
+    await expect(popup.locator('.container a.btn-primary')).toBeVisible();
+    await expect(popup.locator('.container button')).toBeVisible();
   });
 
   test('I can see the places I have already visited after reload', async ({ page }) => {
     // Populate localStorage
     const hunt = getConfig().hunts[0];
     await page.evaluate((hunt) => {
-      localStorage.setItem('places_le-tresor-du-vieux-lille', JSON.stringify(hunt.places));
+      localStorage.setItem('places_le-secret-du-vieux-lille', JSON.stringify(hunt.places));
     }, hunt);
 
     // Reload page
     await page.reload();
-    await new HuntApp(page).navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await new HuntApp(page).navigateAndAuthenticate('/le-secret-du-vieux-lille');
     await page.getByTestId('map-button').click();
 
     // Places icons are visible in the map

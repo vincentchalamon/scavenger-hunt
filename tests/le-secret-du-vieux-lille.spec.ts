@@ -52,7 +52,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
       // Verify a marker is already present
       await app.map.verifyMarkerCount(1);
       await page.locator('.leaflet-marker-icon').first().click();
-      await expect(app.map.infoWindow).toBeVisible({ timeout: 10000 });
+      await expect(app.map.popup).toBeVisible({ timeout: 10000 });
     });
 
     // ========================================
@@ -62,11 +62,16 @@ test.describe('Le Secret du Vieux-Lille', () => {
       await app.map.closeAllModals();
 
       // The first place should already be displayed
-      await app.map.verifyInfoWindowPlace('Le Bras d\'Or');
+      await app.map.verifyPopupPlace('Le Bras d\'Or');
       await app.map.showClue();
 
       // Solve the clickable image puzzle
       const clue = app.createClickableImageClue();
+
+      // First click on the puzzle area to view the image
+      await clue.viewImageInArea(0.9, 0.5, 'press.jpg');
+
+      // Then solve by clicking the keyword
       await clue.solveAndClose(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le lieu final !|Congratulations! You found a keyword leading to the last place location!/);
 
       // Verify the phrase
@@ -108,24 +113,63 @@ test.describe('Le Secret du Vieux-Lille', () => {
     // STEP 7: Place 4 - Place aux Oignons
     // ========================================
     await test.step('Place 4: Place aux Oignons - Find keyword "au"', async () => {
-      await app.solveClickableImagePlace(
-        'Place aux Oignons',
-        'Place aux Oignons',
-        4,
-        'Le secret du ······················ se trouve au pied ···· ···· Colonne ···· ···· ············'
-      );
+      await app.map.closeAllModals();
+      await app.map.findPlace('Place aux Oignons', 'Place aux Oignons', 4);
+      await app.map.showClue();
+
+      const clue = app.createClickableImageClue();
+
+      // First click on the card-flip area to view it
+      await clue.clickArea(0.1, 0.78);
+      await page.waitForTimeout(1000);
+
+      // Click on the card image to flip it and reveal the hidden image on the back
+      const cardFlipModal = page.locator('[data-testid="modal"]').nth(1);
+      await expect(cardFlipModal).toBeVisible({ timeout: 5000 });
+      const cardImage = cardFlipModal.locator('img').first();
+      await expect(cardImage).toBeVisible({ timeout: 2000 });
+
+      // Click in the top-right corner of the card to flip it
+      const imageBox = await cardImage.boundingBox();
+      if (imageBox) {
+        const clickX = imageBox.x + imageBox.width * 0.9; // Top-right corner
+        const clickY = imageBox.y + imageBox.height * 0.1;
+        await page.mouse.click(clickX, clickY);
+        await page.waitForTimeout(1000); // Wait for flip animation
+      }
+
+      // Close the card-flip modal
+      const closeButton = cardFlipModal.locator('button.btn-close');
+      await closeButton.click();
+      await page.waitForTimeout(500);
+
+      // Then solve by clicking the keyword
+      await clue.solveAndClose();
+
+      await app.manuscript.navigateToManuscript();
+      await app.manuscript.verifyText('Le secret du ······················ se trouve au pied ···· ···· Colonne ···· ···· ············');
+      await app.map.navigateToMap();
     });
 
     // ========================================
     // STEP 8: Place 5 - Cathédrale Notre-Dame-de-la-Treille
     // ========================================
     await test.step('Place 5: Cathédrale Notre-Dame-de-la-Treille - Find keyword "la"', async () => {
-      await app.solveClickableImagePlace(
-        'Notre Dame de la Treille',
-        'Cathédrale Notre-Dame-de-la-Treille',
-        5,
-        'Le secret du ······················ se trouve au pied ···· la Colonne ···· la ············'
-      );
+      await app.map.closeAllModals();
+      await app.map.findPlace('Notre Dame de la Treille', 'Cathédrale Notre-Dame-de-la-Treille', 5);
+      await app.map.showClue();
+
+      const clue = app.createClickableImageClue();
+
+      // First click on the letter/image area to view it
+      await clue.viewImageInArea(0.95, 0.55, 'letter.png');
+
+      // Then solve by clicking the keyword
+      await clue.solveAndClose();
+
+      await app.manuscript.navigateToManuscript();
+      await app.manuscript.verifyText('Le secret du ······················ se trouve au pied ···· la Colonne ···· la ············');
+      await app.map.navigateToMap();
     });
 
     // ========================================

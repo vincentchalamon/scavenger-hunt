@@ -44,10 +44,13 @@ export class ClickableImageClue extends ClueBasePage {
     // Verify image is visible
     await expect(this.modal.locator('img')).toBeVisible({ timeout: 10000 });
 
-    // Click the keyword button
+    // Wait for keyword button to be visible
     const keywordButton = this.modal.getByTestId('keyword-button');
     await keywordButton.waitFor({ state: 'visible', timeout: 5000 });
+
+    // Click on the keyword button to validate
     await keywordButton.click();
+    await this.wait(500);
   }
 
   /**
@@ -70,7 +73,7 @@ export class ClickableImageClue extends ClueBasePage {
 
     // Click on the area
     await this.page.mouse.click(clickX, clickY);
-    await this.wait(500);
+    await this.wait(1000); // Increased wait time for image modal to appear
   }
 
   /**
@@ -112,43 +115,44 @@ export class ScratchCardClue extends ClueBasePage {
       throw new Error('Canvas not found');
     }
 
-    // Verification zone: {x: 0, y: height/3, width: 80%, height: height/4}
-    const checkZoneX = canvasBox.x;
-    const checkZoneY = canvasBox.y + canvasBox.height / 3;
-    const checkZoneWidth = canvasBox.width * 0.8;
-    const checkZoneHeight = canvasBox.height / 4;
+    // Scratch a larger area to ensure at least 80% is revealed
+    // We'll scratch the entire canvas area with dense patterns
+    const startX = canvasBox.x + 10;
+    const startY = canvasBox.y + 10;
+    const scratchWidth = canvasBox.width - 20;
+    const scratchHeight = canvasBox.height - 20;
 
-    // Dense horizontal scratching
-    const numHorizontalRows = 20;
+    // Dense horizontal scratching across the entire canvas
+    const numHorizontalRows = 30;
     for (let row = 0; row < numHorizontalRows; row++) {
-      const y = checkZoneY + (checkZoneHeight / numHorizontalRows) * row;
-      await this.page.mouse.move(checkZoneX, y);
+      const y = startY + (scratchHeight / numHorizontalRows) * row;
+      await this.page.mouse.move(startX, y);
       await this.page.mouse.down();
-      await this.page.mouse.move(checkZoneX + checkZoneWidth, y, { steps: 10 });
+      await this.page.mouse.move(startX + scratchWidth, y, { steps: 15 });
       await this.page.mouse.up();
-      await this.wait(50);
+      await this.wait(30);
     }
 
-    // Dense vertical scratching
-    const numVerticalCols = 15;
+    // Dense vertical scratching across the entire canvas
+    const numVerticalCols = 25;
     for (let col = 0; col < numVerticalCols; col++) {
-      const x = checkZoneX + (checkZoneWidth / numVerticalCols) * col;
-      await this.page.mouse.move(x, checkZoneY);
+      const x = startX + (scratchWidth / numVerticalCols) * col;
+      await this.page.mouse.move(x, startY);
       await this.page.mouse.down();
-      await this.page.mouse.move(x, checkZoneY + checkZoneHeight, { steps: 8 });
+      await this.page.mouse.move(x, startY + scratchHeight, { steps: 12 });
       await this.page.mouse.up();
-      await this.wait(50);
+      await this.wait(30);
     }
 
-    // Diagonal scratching
-    await this.page.mouse.move(checkZoneX, checkZoneY);
+    // Diagonal scratching for complete coverage
+    await this.page.mouse.move(startX, startY);
     await this.page.mouse.down();
-    await this.page.mouse.move(checkZoneX + checkZoneWidth, checkZoneY + checkZoneHeight, { steps: 15 });
+    await this.page.mouse.move(startX + scratchWidth, startY + scratchHeight, { steps: 20 });
     await this.page.mouse.up();
 
-    await this.page.mouse.move(checkZoneX + checkZoneWidth, checkZoneY);
+    await this.page.mouse.move(startX + scratchWidth, startY);
     await this.page.mouse.down();
-    await this.page.mouse.move(checkZoneX, checkZoneY + checkZoneHeight, { steps: 15 });
+    await this.page.mouse.move(startX, startY + scratchHeight, { steps: 20 });
     await this.page.mouse.up();
 
     await this.wait(2000);

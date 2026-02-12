@@ -38,9 +38,9 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Get the info window (popup on map)
+   * Get the popup
    */
-  get infoWindow() {
+  get popup() {
     return this.page.locator('.leaflet-popup-content');
   }
 
@@ -180,17 +180,17 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Verify the info window shows a specific place name
+   * Verify the popup shows a specific place name
    */
-  async verifyInfoWindowPlace(placeName: string) {
-    await expect(this.infoWindow.locator('h5')).toContainText(placeName, { timeout: 10000 });
+  async verifyPopupPlace(placeName: string) {
+    await expect(this.popup.locator('h5')).toContainText(placeName, { timeout: 10000 });
   }
 
   /**
-   * Click the button in the info window to show the clue
+   * Click the button in the popup to show the clue
    */
   async showClue() {
-    const showButton = this.infoWindow.locator('.container button');
+    const showButton = this.popup.locator('.container button');
     await showButton.waitFor({ state: 'visible', timeout: 5000 });
     // Use JavaScript to trigger click on parent div (has the onClick handler)
     await showButton.evaluate((btn) => {
@@ -203,17 +203,17 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Verify the info window contains specific text
+   * Verify the popup contains specific text
    */
-  async verifyInfoWindowText(text: string) {
-    await expect(this.infoWindow).toContainText(text, { timeout: 5000 });
+  async verifyPopupText(text: string) {
+    await expect(this.popup).toContainText(text, { timeout: 5000 });
   }
 
   /**
-   * Verify the info window has no button (final place)
+   * Verify the popup has no button (final place)
    */
   async verifyNoButton() {
-    await expect(this.infoWindow.locator('.container button')).not.toBeVisible();
+    await expect(this.popup.locator('.container button')).not.toBeVisible();
   }
 
   /**
@@ -223,6 +223,6 @@ export class MapPage extends BasePage {
     await this.searchPlace(query);
     await this.selectSearchResult(resultIndex);
     await this.verifyMarkerCount(expectedMarkerCount);
-    await this.verifyInfoWindowPlace(placeName);
+    await this.verifyPopupPlace(placeName);
   }
 }

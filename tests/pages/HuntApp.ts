@@ -251,9 +251,9 @@ export class HuntApp {
     await this.map.searchPlace(searchQuery);
     await this.map.selectSearchResult(resultIndex);
     await this.map.verifyMarkerCount(markerCount);
-    await this.map.verifyInfoWindowPlace(placeName);
-    await this.map.verifyInfoWindowText(congratsText);
-    await this.map.verifyInfoWindowText(treasureText);
+    await this.map.verifyPopupPlace(placeName);
+    await this.map.verifyPopupText(congratsText);
+    await this.map.verifyPopupText(treasureText);
     await this.map.verifyNoButton();
   }
 
