@@ -61,40 +61,115 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Wait for Leaflet map to be fully loaded
+   * Search for a place with retry mechanism for CORS/network errors
+   *
+   * This method implements an automatic retry mechanism to handle intermittent
+   * CORS errors that can occur when Playwright tests query the Nominatim API.
+   * These errors are typically caused by:
+   * - Network timing issues in headless browser contexts
+   * - Rate limiting from the Nominatim service
+   * - CORS policy enforcement in test environments
+   *
+   * The retry mechanism:
+   * - Monitors network requests to nominatim.openstreetmap.org
+   * - Retries up to maxRetries times with exponential backoff
+   * - Logs retry attempts for debugging purposes
+   * - Proceeds even on the last attempt to avoid blocking tests
+   *
+   * @param query - The search query string
+   * @param maxRetries - Maximum number of retry attempts (default: 3)
    */
-  async waitForMapReady() {
-    await this.wait(2000);
-    try {
-      await this.page.waitForFunction(() => {
-        const hasMapContainer = document.querySelector('[data-testid="map"]') !== null;
-        const hasLeafletMap = document.querySelector('.leaflet-container') !== null;
-        return hasMapContainer && hasLeafletMap;
-      }, { timeout: 15000 });
-    } catch (e) {
-      // Map ready timeout, continuing anyway
+  async searchPlace(query: string, maxRetries: number = 3) {
+    await this.searchField.waitFor({ state: 'visible', timeout: 5000 });
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // Track network requests to Nominatim
+        let requestFailed = false;
+        let requestSucceeded = false;
+
+        const requestFailedHandler = (request: any) => {
+          if (request.url().includes('nominatim.openstreetmap.org')) {
+            console.log(`Nominatim request failed on attempt ${attempt} for "${query}"`);
+            requestFailed = true;
+          }
+        };
+
+        const responseHandler = (response: any) => {
+          if (response.url().includes('nominatim.openstreetmap.org') && response.ok()) {
+            requestSucceeded = true;
+          }
+        };
+
+        this.page.on('requestfailed', requestFailedHandler);
+        this.page.on('response', responseHandler);
+
+        await this.searchField.clear();
+        await this.searchField.fill(query);
+
+        // Wait for the search to complete
+        await this.wait(2500);
+
+        // Clean up listeners
+        this.page.off('requestfailed', requestFailedHandler);
+        this.page.off('response', responseHandler);
+
+        // Check if results are visible
+        const resultsVisible = await this.searchResults.isVisible().catch(() => false);
+
+        if (resultsVisible || requestSucceeded) {
+          // Success - results are available
+          await this.wait(500);
+          return;
+        }
+
+        // If the request failed and it's not the last attempt, retry
+        if (requestFailed && attempt < maxRetries) {
+          console.log(`Retrying search for "${query}" (attempt ${attempt + 1}/${maxRetries})...`);
+          await this.wait(1000 * attempt); // Exponential backoff
+          continue;
+        }
+
+        // Last attempt or no explicit failure - proceed anyway
+        await this.wait(500);
+        return;
+
+      } catch (error) {
+        if (attempt === maxRetries) {
+          throw error;
+        }
+        console.log(`Search attempt ${attempt} encountered error for "${query}":`, error);
+        await this.wait(1000 * attempt); // Exponential backoff
+      }
     }
   }
 
   /**
-   * Search for a place
+   * Select a search result by index (0-based) with retry mechanism
+   *
+   * This method retries the selection if the search results are not yet available,
+   * which can happen when the Nominatim API response is delayed or has failed.
+   *
+   * @param index - The index of the result to select (0-based, default: 0)
+   * @param maxRetries - Maximum number of retry attempts (default: 3)
    */
-  async searchPlace(query: string) {
-    await this.searchField.waitFor({ state: 'visible', timeout: 5000 });
-    await this.searchField.clear();
-    await this.searchField.fill(query);
-    await this.wait(2000);
-  }
-
-  /**
-   * Select a search result by index (0-based)
-   */
-  async selectSearchResult(index: number = 0) {
-    const results = this.searchResults.getByRole('button');
-    const result = index === 0 ? results.first() : results.nth(index);
-    await result.waitFor({ state: 'visible', timeout: 10000 });
-    await result.click();
-    await this.wait(1500);
+  async selectSearchResult(index: number = 0, maxRetries: number = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const results = this.searchResults.getByRole('button');
+        const result = index === 0 ? results.first() : results.nth(index);
+        await result.waitFor({ state: 'visible', timeout: 10000 });
+        await result.click();
+        await this.wait(1500);
+        return;
+      } catch (error) {
+        if (attempt === maxRetries) {
+          throw error;
+        }
+        console.log(`Select result attempt ${attempt} failed, retrying...`);
+        await this.wait(1000 * attempt);
+      }
+    }
   }
 
   /**

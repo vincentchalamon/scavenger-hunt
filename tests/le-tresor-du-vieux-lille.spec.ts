@@ -78,11 +78,14 @@ test.describe('Le Secret du Vieux-Lille', () => {
     // ========================================
     // STEP 5: Place 2 - Musée de l'Hospice Comtesse
     // ========================================
-    await test.step('Place 2: Musée de l\'Hospice Comtesse - Find keyword "du"', async () => {
-      await app.solveClickableImagePlace(
+    await test.step('Place 2: Musée de l\'Hospice Comtesse - View puzzle and find keyword "du"', async () => {
+      await app.solveClickableImageWithPuzzle(
         'Hospice Comtesse',
         'Musée de l\'Hospice Comtesse',
         2,
+        0.9,  // Top-right corner (x: right side)
+        0.1,  // Top-right corner (y: top side)
+        'code.jpg',  // Expected puzzle image
         'Le secret du ······················ se trouve ···· pied ···· ···· ·············· ···· ···· ············'
       );
     });

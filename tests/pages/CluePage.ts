@@ -49,6 +49,53 @@ export class ClickableImageClue extends ClueBasePage {
     await keywordButton.waitFor({ state: 'visible', timeout: 5000 });
     await keywordButton.click();
   }
+
+  /**
+   * Click on a specific area of the clickable image
+   * Position is relative to the image (e.g., {x: 0.9, y: 0.1} for top-right corner)
+   */
+  async clickArea(relativeX: number, relativeY: number) {
+    // Get the main image in the modal
+    const image = this.modal.locator('img').first();
+    await expect(image).toBeVisible({ timeout: 10000 });
+
+    const imageBox = await image.boundingBox();
+    if (!imageBox) {
+      throw new Error('Image not found');
+    }
+
+    // Calculate absolute position
+    const clickX = imageBox.x + imageBox.width * relativeX;
+    const clickY = imageBox.y + imageBox.height * relativeY;
+
+    // Click on the area
+    await this.page.mouse.click(clickX, clickY);
+    await this.wait(500);
+  }
+
+  /**
+   * Click on an area to view an image clue, verify it, then close it
+   */
+  async viewImageInArea(relativeX: number, relativeY: number, expectedImageSrc?: string) {
+    await this.clickArea(relativeX, relativeY);
+
+    // Wait for nested modal to appear
+    const nestedModal = this.page.locator('[data-testid="modal"]').nth(1);
+    await expect(nestedModal).toBeVisible({ timeout: 5000 });
+
+    // Verify image is displayed
+    const image = nestedModal.locator('img');
+    await expect(image).toBeVisible({ timeout: 5000 });
+
+    if (expectedImageSrc) {
+      await expect(image).toHaveAttribute('src', new RegExp(expectedImageSrc));
+    }
+
+    // Close the nested modal
+    const closeButton = nestedModal.locator('button.btn-close');
+    await closeButton.click();
+    await this.wait(500);
+  }
 }
 
 /**

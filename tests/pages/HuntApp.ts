@@ -103,6 +103,37 @@ export class HuntApp {
   }
 
   /**
+   * Solve a place with clickable image containing a puzzle image to view first
+   * The puzzle leads to the next place (solved outside the app)
+   */
+  async solveClickableImageWithPuzzle(
+    searchQuery: string,
+    placeName: string,
+    markerCount: number,
+    puzzleAreaX: number,
+    puzzleAreaY: number,
+    expectedPuzzleImage: string,
+    expectedPhrase: string,
+    resultIndex: number = 0
+  ) {
+    await this.map.closeAllModals();
+    await this.map.findPlace(searchQuery, placeName, markerCount, resultIndex);
+    await this.map.showClue();
+
+    const clue = this.createClickableImageClue();
+
+    // First, click on the area to view the puzzle image
+    await clue.viewImageInArea(puzzleAreaX, puzzleAreaY, expectedPuzzleImage);
+
+    // Then solve by clicking the keyword
+    await clue.solveAndClose();
+
+    await this.manuscript.navigateToManuscript();
+    await this.manuscript.verifyText(expectedPhrase);
+    await this.map.navigateToMap();
+  }
+
+  /**
    * Solve a place with scratch card clue
    */
   async solveScratchCardPlace(
@@ -239,7 +270,6 @@ export class HuntApp {
     await this.map.navigateToMap();
     await this.map.verifyTabActive();
     await this.page.waitForTimeout(2000);
-    await this.map.waitForMapReady();
     await this.map.verifyMarkerCount(expectedMarkerCount);
   }
 }
