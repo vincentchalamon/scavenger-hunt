@@ -79,7 +79,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Place 2: Musée de l\'Hospice Comtesse - Find keyword "du"', async () => {
       await app.solveClickableImagePlace(
-        'Hospice',
+        'Hospice Comtesse',
         'Musée de l\'Hospice Comtesse',
         2,
         'Le trésor du ······················ se trouve ···· pied ···· ···· ·············· ···· ···· ············'
@@ -91,13 +91,12 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Place 3: Aux Merveilleux de Fred - Find keyword "Colonne" (scratch card)', async () => {
       await app.solveScratchCardPlace(
-        'Merveilleux',
+        'Aux Merveilleux de Fred Vieux Lille',
         'Aux Merveilleux de Fred',
         3,
         'Colonne',
         'Le trésor du ······················ se trouve ···· pied ···· ···· Colonne ···· ···· ············',
-        'Place aux Oignons',
-        1 // Second result (Rue de la Monnaie)
+        'Place aux Oignons'
       );
     });
 
@@ -118,7 +117,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Place 5: Cathédrale Notre-Dame-de-la-Treille - Find keyword "la"', async () => {
       await app.solveClickableImagePlace(
-        'Notre-Dame Treille',
+        'Notre Dame de la Treille',
         'Cathédrale Notre-Dame-de-la-Treille',
         5,
         'Le trésor du ······················ se trouve au pied ···· la Colonne ···· la ············'
@@ -130,7 +129,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Place 6: Maison Méert - Find keyword "de" (3D box)', async () => {
       await app.solveBox3DPlace(
-        'Méert',
+        'Maison Meert',
         'Maison Méert',
         6,
         'Le trésor du ······················ se trouve au pied de la Colonne de la ············'
@@ -146,7 +145,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
         'Vieille Bourse',
         7,
         'Le trésor du Vieux-Lille se trouve au pied de la Colonne de la ············',
-        'Allez à l\'Opéra !'
+        'Opéra de Lille'
       );
     });
 
@@ -155,7 +154,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Place 8: Opéra de Lille - Find keyword "Déesse" (magnifier)', async () => {
       await app.solveMagnifierPlace(
-        'Opéra Lille',
+        'Opera de Lille',
         'Opéra de Lille',
         8,
         'Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse',
@@ -177,7 +176,7 @@ test.describe('Le Trésor du Vieux-Lille', () => {
     // ========================================
     await test.step('Final place: Colonne de la Déesse - Discover the treasure', async () => {
       await app.verifyTreasureLocation(
-        'Colonne de la Déesse',
+        'Colonne de la Deesse',
         'Colonne de la Déesse',
         9,
         'FÉLICITATIONS',
