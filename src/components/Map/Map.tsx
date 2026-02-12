@@ -63,8 +63,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
       <GoogleMap
         mapId="map-id"
         data-testid="map"
-        center={mapCenter}
-        onCenterChanged={(map) => setMapCenter(map.detail.center)}
+        defaultCenter={mapCenter}
         defaultZoom={16}
         gestureHandling={'greedy'}
         disableDefaultUI
