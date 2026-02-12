@@ -98,7 +98,7 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
         </Navbar>
         <div className="px-0 d-flex" style={{
           paddingTop: "70px",
-          height: "100svh",
+          height: "100dvh",
           flexDirection: "column",
           background: "var(--gradient-parchment)",
         }}>

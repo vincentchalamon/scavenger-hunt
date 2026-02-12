@@ -1,5 +1,5 @@
 .huntsListContainer {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--gradient-parchment);
   background-image: var(--texture-paper), var(--gradient-parchment);
   background-blend-mode: multiply;
@@ -203,7 +203,7 @@
 
 /* Error Container (mobile only / landscape) */
 .errorContainer {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
