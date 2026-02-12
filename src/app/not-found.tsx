@@ -35,7 +35,7 @@ export default function NotFound() {
 
   if (!loaded) {
     return (
-      <Container style={{height: "100svh"}} className="z-3 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
+      <Container style={{height: "100dvh"}} className="z-3 vw-100 mw-100 position-fixed top-0 left-0 bg-dark align-content-center text-center">
         <PulseLoader color="white"/>
       </Container>
     );
