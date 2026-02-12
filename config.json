@@ -80,7 +80,7 @@
                   "action": {
                     "type": "image",
                     "options": {
-                      "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/code.png"
+                      "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/code.jpg"
                     }
                   }
                 },
@@ -269,7 +269,7 @@
                   "text": "<p>faucibus. Aliquam congue lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pellentesque viverra ultrices. Praesent viverra</p>"
                 },
                 {
-                  "text": "<p>tellus non tellus commodo, eget pulvinar risus placerat.</p><p><strong>Allez à l'Opéra !</strong></p>"
+                  "text": "<p>tellus non tellus commodo, eget pulvinar risus placerat.</p><p>Allez à l'<strong>Opéra de Lille</strong> !</p>"
                 }
               ]
             }
