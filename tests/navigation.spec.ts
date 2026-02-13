@@ -4,13 +4,13 @@ import {HuntApp} from './pages';
 test.describe('Navigation', () => {
   test.beforeEach(async ({ page }) => {
     const app = new HuntApp(page);
-    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
   });
 
   test('Password is NOT saved after reload (security)', async ({ page }) => {
     // Ensure hunt is loaded
     await expect(page.getByTestId('hunt-title')).toBeVisible();
-    await expect(page.getByTestId('hunt-title')).toContainText('Le Trésor du Vieux-Lille');
+    await expect(page.getByTestId('hunt-title')).toContainText('Le Secret du Vieux-Lille');
 
     // Refresh page
     await page.reload();

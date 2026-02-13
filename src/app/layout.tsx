@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Thematic fonts for "Treasure Hunt"
+// Thematic fonts for "Route"
 const cinzel = Cinzel({
   variable: "--font-title",
   subsets: ["latin"],

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Hook pour gérer la progression d'une chasse au trésor
+ * Hook pour gérer la progression d'un parcours
  * Lit les lieux visités et les mots-clés trouvés depuis localStorage
  */
 export const useHuntProgress = (huntSlug: string, totalPlaces: number, totalKeywords: number) => {

@@ -37,18 +37,18 @@ test.describe('Security - Password Authentication', () => {
     await app.navigateAndAuthenticate('/');
 
     // Should see the hunts list
-    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /Parcours disponibles|Available Routes/i })).toBeVisible({ timeout: 10000 });
   });
 
   test('Can access a specific hunt with correct password', async ({ page }) => {
     const app = new HuntApp(page);
 
     // Unlock with correct password
-    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
 
     // Should see the hunt page
     await expect(page.getByTestId('hunt-title')).toBeVisible({ timeout: 20000 });
-    await expect(page.getByTestId('hunt-title')).toContainText('Le Trésor du Vieux-Lille');
+    await expect(page.getByTestId('hunt-title')).toContainText('Le Secret du Vieux-Lille');
   });
 
   test('Password persists in memory during session', async ({ page }) => {
@@ -58,10 +58,10 @@ test.describe('Security - Password Authentication', () => {
     await app.navigateAndAuthenticate('/');
 
     // Wait for hunts list to be visible
-    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByRole('heading', { name: /Parcours disponibles|Available Routes/i })).toBeVisible({ timeout: 15000 });
 
     // Click on first hunt start link
-    const firstHuntLink = page.getByRole('link', { name: /Start|Commencer|Comenzar|Beginnen/ }).first();
+    const firstHuntLink = page.getByRole('link', { name: /Start|Commencer/ }).first();
     await expect(firstHuntLink).toBeVisible({ timeout: 5000 });
     await firstHuntLink.click();
 
@@ -82,7 +82,7 @@ test.describe('Security - Password Authentication', () => {
     await app.navigateAndAuthenticate('/');
 
     // Verify we're in
-    await expect(page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Parcours disponibles|Available Routes/i })).toBeVisible();
 
     // Reload the page
     await page.reload();

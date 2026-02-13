@@ -1,8 +1,8 @@
 {
   "hunts": [
     {
-      "slug": "le-tresor-du-vieux-lille",
-      "name": "Le Trésor du Vieux-Lille",
+      "slug": "le-secret-du-vieux-lille",
+      "name": "Le Secret du Vieux-Lille",
       "lang": "fr",
       "description": "Partez à la découverte du Vieux Lille et résolvez les énigmes pour trouver les mots cachés dans les lieux emblématiques.",
       "duration": "~2h",
@@ -10,11 +10,11 @@
         "lat": 50.633333,
         "lng": 3.066667
       },
-      "manuscript": "<p>J'ai découvert le plus grand trésor du Vieux-Lille, mais des gens essaient de le voler !</p><p>Je l'ai donc caché, aux yeux de tous :</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p><p>J'ai semé des indices pour vous aider à le retrouver !</p><p>Voici le premier indice, contenant le nom d'un objet insolite à proximité, à vous de le trouver !</p><p style=\"font-style: italic\">\"Je me dirigeai vers l'Alcide pensant que le trésor s'y trouverait.<br/>Quelle déception de voir qu'il n'y était pas, les <strong>BRAS</strong> m'en tombaient !<br/>Mais tout espoir n'était pas encore perdu, car dans les rues sur ma droite commençait alors mon aventure vers un trésor plus riche que l'<strong>OR</strong> !\"</p>",
-      "phrase": "Le trésor du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
+      "manuscript": "<p>J'ai découvert le plus grand secret du Vieux-Lille, mais des gens essaient de me dissuader de vous le révéler !</p><p>Je l'ai donc caché là où ils ne pourront jamais le trouver...aux yeux de tous :</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p><p>J'ai semé des indices pour vous aider à le retrouver !</p><p>Voici le premier indice, contenant le nom d'un objet insolite à proximité, à vous de le trouver !</p><p style=\"font-style: italic\">\"Je me dirigeai vers l'Alcide pensant que le secret s'y trouverait.<br/>Quelle déception de voir qu'il n'y était pas, les <strong>BRAS</strong> m'en tombaient !<br/>Mais tout espoir n'était pas encore perdu, car dans les rues sur ma droite commençait alors mon aventure vers un secret plus riche que l'<strong>OR</strong> !\"</p>",
+      "phrase": "Le secret du Vieux-Lille se trouve au pied de la Colonne de la Déesse",
       "defaultKeywords": [
         "Le",
-        "trésor",
+        "secret",
         "se",
         "trouve"
       ],
@@ -29,7 +29,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/bras-d-or/bras-d-or.jpg",
+              "image": "/assets/le-secret-du-vieux-lille/bras-d-or/bras-d-or.jpg",
               "clickableAreas": [
                 {
                   "top": "33%",
@@ -39,7 +39,7 @@
                   "action": {
                     "type": "magnifier",
                     "options": {
-                      "image": "/assets/le-tresor-du-vieux-lille/bras-d-or/press.jpg"
+                      "image": "/assets/le-secret-du-vieux-lille/bras-d-or/press.jpg"
                     }
                   }
                 },
@@ -70,7 +70,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/paint.jpg",
+              "image": "/assets/le-secret-du-vieux-lille/hospice-comtesse/paint.jpg",
               "clickableAreas": [
                 {
                   "top": "5%",
@@ -80,7 +80,7 @@
                   "action": {
                     "type": "image",
                     "options": {
-                      "image": "/assets/le-tresor-du-vieux-lille/hospice-comtesse/code.jpg"
+                      "image": "/assets/le-secret-du-vieux-lille/hospice-comtesse/code.jpg"
                     }
                   }
                 },
@@ -111,7 +111,7 @@
           "item": {
             "type": "scratch-card",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/aux-merveilleux-de-fred/box.png",
+              "image": "/assets/le-secret-du-vieux-lille/aux-merveilleux-de-fred/box.png",
               "width": 340,
               "height": 380,
               "scratchableAreas": [
@@ -145,7 +145,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/place.jpg",
+              "image": "/assets/le-secret-du-vieux-lille/place-aux-oignons/place.jpg",
               "clickableAreas": [
                 {
                   "top": "73%",
@@ -154,8 +154,8 @@
                   "action": {
                     "type": "card-flip",
                     "options": {
-                      "front": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/treille-front.png",
-                      "back": "/assets/le-tresor-du-vieux-lille/place-aux-oignons/treille-back.jpg"
+                      "front": "/assets/le-secret-du-vieux-lille/place-aux-oignons/treille-front.png",
+                      "back": "/assets/le-secret-du-vieux-lille/place-aux-oignons/treille-back.jpg"
                     }
                   }
                 },
@@ -186,7 +186,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/notre-dame-de-la-treille/bible.png",
+              "image": "/assets/le-secret-du-vieux-lille/notre-dame-de-la-treille/bible.png",
               "clickableAreas": [
                 {
                   "top": "48%",
@@ -196,7 +196,7 @@
                   "action": {
                     "type": "image",
                     "options": {
-                      "image": "/assets/le-tresor-du-vieux-lille/notre-dame-de-la-treille/letter.png"
+                      "image": "/assets/le-secret-du-vieux-lille/notre-dame-de-la-treille/letter.png"
                     }
                   }
                 },
@@ -227,14 +227,14 @@
           "item": {
             "type": "three-fiber",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/meert/box.png",
+              "image": "/assets/le-secret-du-vieux-lille/meert/box.png",
               "textures": [
-                "/assets/le-tresor-du-vieux-lille/meert/textures/right.png",
-                "/assets/le-tresor-du-vieux-lille/meert/textures/left.png",
-                "/assets/le-tresor-du-vieux-lille/meert/textures/top.png",
-                "/assets/le-tresor-du-vieux-lille/meert/textures/bottom.png",
-                "/assets/le-tresor-du-vieux-lille/meert/textures/front.png",
-                "/assets/le-tresor-du-vieux-lille/meert/textures/background.png"
+                "/assets/le-secret-du-vieux-lille/meert/textures/right.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/left.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/top.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/bottom.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/front.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/background.png"
               ],
               "keyword": "de"
             }
@@ -251,7 +251,7 @@
           "item": {
             "type": "page-flip",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/vieille-bourse/books.png",
+              "image": "/assets/le-secret-du-vieux-lille/vieille-bourse/books.png",
               "pages": [
                 {
                   "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
@@ -286,7 +286,7 @@
           "item": {
             "type": "magnifier",
             "options": {
-              "image": "/assets/le-tresor-du-vieux-lille/opera/opera.jpg",
+              "image": "/assets/le-secret-du-vieux-lille/opera/opera.jpg",
               "keyword": "Déesse",
               "keywordPosition": {
                 "x": 130,
@@ -297,7 +297,7 @@
         },
         {
           "name": "Colonne de la Déesse",
-          "description": "<h3>FÉLICITATIONS !!!</h3><p>Vous avez trouvé le trésor du Vieux-Lille !</p><p>Il n'est pas constitué d'or ni d'argent, mais de la plus importante promesse que les Lillois ont fait : \"<strong>Nous venons de renouveler notre serment d'être fidèle à la Nation, de maintenir la Liberté et l'Égalité ou de mourir à notre poste. Nous ne sommes pas des parjures.</strong>\"</p><hr/><p>Ce monument commémore <strong>l'héroïsme des Lillois lors du siège de Lille de 1792</strong> par l'armée impériale.</p><p>Elle tient dans sa main droite un <strong>boutefeu</strong>, servant à allumer la mèche des canons, et montre de la gauche <strong>l'inscription du socle</strong> qui reprend la réponse du maire de Lille, François André-Bonte, refusant la reddition de la ville assiégée aux Impériaux, le 29 septembre 1792.</p>",
+          "description": "<h3>FÉLICITATIONS !!!</h3><p>Vous avez trouvé le secret du Vieux-Lille !</p><p>Il n'est pas constitué d'or ni d'argent, mais de la plus importante promesse que les Lillois ont fait : \"<strong>Nous venons de renouveler notre serment d'être fidèle à la Nation, de maintenir la Liberté et l'Égalité ou de mourir à notre poste. Nous ne sommes pas des parjures.</strong>\"</p><hr/><p>Ce monument commémore <strong>l'héroïsme des Lillois lors du siège de Lille de 1792</strong> par l'armée impériale.</p><p>Elle tient dans sa main droite un <strong>boutefeu</strong>, servant à allumer la mèche des canons, et montre de la gauche <strong>l'inscription du socle</strong> qui reprend la réponse du maire de Lille, François André-Bonte, refusant la reddition de la ville assiégée aux Impériaux, le 29 septembre 1792.</p>",
           "link": "https://fr.wikipedia.org/wiki/Colonne_de_la_D%C3%A9esse",
           "coordinates": {
             "lat": 50.6369341,

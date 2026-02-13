@@ -4,7 +4,7 @@ import {HuntApp} from './pages';
 test.describe('Keyword', () => {
   test.beforeEach(async ({ page }) => {
     const app = new HuntApp(page);
-    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
   });
 
   test('I can click on a keyword to fill in the phrase', async ({ page }) => {

@@ -4,7 +4,7 @@ import {HuntApp} from './pages';
 test.describe('Clue', () => {
   test.beforeEach(async ({ page }) => {
     const app = new HuntApp(page);
-    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
 
     // Go to map tab
     await page.getByTestId('map-button').click();
