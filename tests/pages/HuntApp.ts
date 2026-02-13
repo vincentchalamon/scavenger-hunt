@@ -205,7 +205,7 @@ export class HuntApp {
   }
 
   /**
-   * Verify and visit the final treasure location
+   * Verify and visit the final place
    */
   async verifyTreasureLocation(
     searchQuery: string,

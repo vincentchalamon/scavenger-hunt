@@ -4,8 +4,8 @@ export const translations = {
     loading: 'Chargement...',
 
     // Metadata
-    appTitle: 'Chasses au trésor',
-    appDescription: 'Choisissez votre chasse au trésor',
+    appTitle: 'Visiter votre ville autrement',
+    appDescription: 'Choisissez votre parcours',
     huntNotFoundTitle: 'Jeu introuvable',
 
     // Mobile & Orientation
@@ -32,13 +32,13 @@ export const translations = {
     noEncryptedKey: 'Aucune clé chiffrée trouvée. Veuillez déployer l\'application avec un mot de passe.',
 
     // Hunts List
-    huntsListTitle: 'Chasses au trésor disponibles',
-    huntSubtitle: 'Découvrez les trésors cachés de Lille',
+    huntsListTitle: 'Parcours disponibles',
+    huntSubtitle: 'Découvrez les secrets cachés de votre ville',
     huntStart: 'Commencer',
     huntPlaces: 'lieux',
     huntProgress: 'Progression',
     huntFooterTip: 'Profitez de votre aventure et amusez-vous bien !',
-    huntDescription: 'Partez à la découverte du Vieux Lille et résolvez les énigmes pour trouver les mots cachés dans les lieux emblématiques.',
+    huntDescription: 'Partez à la découverte de votre ville et résolvez les énigmes pour trouver les mots cachés dans les lieux emblématiques.',
     huntStartAdventure: 'Commencer l\'aventure',
     huntNewBadge: 'Nouveau',
     huntLocationTip: 'Activez votre localisation pour une meilleure expérience',
@@ -49,9 +49,9 @@ export const translations = {
     notFoundBackButton: 'Retour à la liste des jeux',
 
     // Toast messages
-    keywordFound: 'Bravo ! Vous avez trouvé un mot-clé vous menant vers le trésor !',
+    keywordFound: 'Bravo ! Vous avez trouvé un mot-clé vous menant au lieu final !',
     keywordAlreadyFound: 'Vous avez déjà trouvé ce mot-clé !',
-    allKeywordsFound: 'Félicitations ! Vous avez trouvé tous les mots cachés. Consultez la phrase pour découvrir le lieu du trésor !',
+    allKeywordsFound: 'Félicitations ! Vous avez trouvé tous les mots cachés. Consultez la phrase pour découvrir le lieu final !',
 
     // Navigation
     navRules: 'Règles',
@@ -65,7 +65,7 @@ export const translations = {
 
     // Game Rules
     rulesTitle: 'Comment jouer ?',
-    rulesObjective: '🎯 <strong>Votre mission :</strong> Parcourez la ville pour résoudre des énigmes et compléter la phrase mystère qui révèle l\'emplacement du trésor !',
+    rulesObjective: '🎯 <strong>Votre mission :</strong> Parcourez la ville pour résoudre des énigmes et compléter la phrase mystère qui révèle l\'emplacement du lieu final !',
     rulesStep0Title: '📜 Avant de commencer',
     rulesStep0: 'Consultez d\'abord l\'onglet <strong>📜 Manuscrit</strong> pour découvrir l\'histoire et la phrase mystère à compléter. C\'est votre fil conducteur !',
     rulesStep1Title: '1️⃣ Rendez-vous au premier lieu',
@@ -77,7 +77,7 @@ export const translations = {
     rulesStep4Title: '4️⃣ Trouvez et validez le mot caché',
     rulesStep4: 'Repéré le mot ? <strong>Tapez dessus !</strong> Il s\'ajoutera automatiquement à la phrase mystère visible dans l\'onglet <strong>📜 Manuscrit</strong>.',
     rulesStep5Title: '5️⃣ Complétez votre quête',
-    rulesStep5: 'Continuez jusqu\'à trouver tous les mots. La phrase complète dans le <strong>📜 Manuscrit</strong> vous révèlera où récupérer votre trésor ! 🏆',
+    rulesStep5: 'Continuez jusqu\'à trouver tous les mots. La phrase complète dans le <strong>📜 Manuscrit</strong> vous révèlera le lieu final ! 🏆',
     rulesTip: '💡 <strong>Bon à savoir :</strong> Chaque mot découvert déverrouille le lieu suivant sur la carte. Avancez pas à pas dans votre aventure urbaine !',
 
     // Language names
@@ -92,8 +92,8 @@ export const translations = {
     loading: 'Loading...',
 
     // Metadata
-    appTitle: 'Treasure Hunts',
-    appDescription: 'Choose your treasure hunt',
+    appTitle: 'Discover your city differently',
+    appDescription: 'Choose your route',
     huntNotFoundTitle: 'Hunt not found',
 
     // Mobile & Orientation
@@ -120,13 +120,13 @@ export const translations = {
     noEncryptedKey: 'No encrypted key found. Please deploy the application with a password.',
 
     // Hunts List
-    huntsListTitle: 'Available Treasure Hunts',
-    huntSubtitle: 'Discover the hidden treasures of Lille',
+    huntsListTitle: 'Available Routes',
+    huntSubtitle: 'Discover the hidden treasures of your city',
     huntStart: 'Start',
     huntPlaces: 'places',
     huntProgress: 'Progress',
     huntFooterTip: 'Enjoy your adventure and have fun!',
-    huntDescription: 'Discover Old Lille and solve puzzles to find hidden words in iconic locations.',
+    huntDescription: 'Discover your city and solve puzzles to find hidden words in iconic locations.',
     huntStartAdventure: 'Start the adventure',
     huntNewBadge: 'New',
     huntLocationTip: 'Enable location for a better experience',
@@ -138,9 +138,9 @@ export const translations = {
     notFoundBackButton: 'Back to hunts list',
 
     // Toast messages
-    keywordFound: 'Congratulations! You found a keyword leading to the treasure!',
+    keywordFound: 'Congratulations! You found a keyword leading to the last place!',
     keywordAlreadyFound: 'You already found this keyword!',
-    allKeywordsFound: 'Congratulations! You found all the hidden words. Check the sentence to discover the treasure location!',
+    allKeywordsFound: 'Congratulations! You found all the hidden words. Check the sentence to discover the last place!',
 
     // Navigation
     navRules: 'Rules',
@@ -154,7 +154,7 @@ export const translations = {
 
     // Game Rules
     rulesTitle: 'How to Play?',
-    rulesObjective: '🎯 <strong>Your mission:</strong> Explore the city to solve puzzles and complete the mystery sentence that reveals the treasure\'s location!',
+    rulesObjective: '🎯 <strong>Your mission:</strong> Explore the city to solve puzzles and complete the mystery sentence that reveals the last place location!',
     rulesStep0Title: '📜 Before you start',
     rulesStep0: 'First, check the <strong>📜 Manuscript</strong> tab to discover the story and the mystery sentence to complete. It\'s your guiding thread!',
     rulesStep1Title: '1️⃣ Go to the first location',
@@ -166,7 +166,7 @@ export const translations = {
     rulesStep4Title: '4️⃣ Find and validate the hidden word',
     rulesStep4: 'Spotted the word? <strong>Tap on it!</strong> It will automatically be added to the mystery sentence in the <strong>📜 Manuscript</strong> tab.',
     rulesStep5Title: '5️⃣ Complete your quest',
-    rulesStep5: 'Keep going until you find all the words. The complete sentence in the <strong>📜 Manuscript</strong> will reveal where to claim your treasure! 🏆',
+    rulesStep5: 'Keep going until you find all the words. The complete sentence in the <strong>📜 Manuscript</strong> will reveal where the last place location! 🏆',
     rulesTip: '💡 <strong>Good to know:</strong> Each word discovered unlocks the next location on the map. Progress step by step through your urban adventure!',
 
     // Language names

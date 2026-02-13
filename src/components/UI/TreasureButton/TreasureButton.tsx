@@ -14,7 +14,7 @@ interface TreasureButtonProps {
 }
 
 /**
- * Bouton thématique "chasse au trésor"
+ * Bouton thématique "parcours"
  * Design inspiré des boutons anciens avec effet relief 3D
  */
 export const TreasureButton: React.FC<TreasureButtonProps> = ({

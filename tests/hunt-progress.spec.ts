@@ -12,7 +12,7 @@ test.describe('Hunt Progress', () => {
     await app.navigateAndAuthenticate('/');
 
     // Wait for hunts list to load
-    const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/ });
+    const title = page.getByRole('heading', { name: /Parcours disponibles|Available Routes/ });
     await expect(title).toBeVisible({ timeout: 10000 });
 
     // Check that progress percentage is displayed (looking for "0%" text)
@@ -29,7 +29,7 @@ test.describe('Hunt Progress', () => {
     await app.navigateAndAuthenticate('/');
 
     // Wait for hunts list to load
-    const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/ });
+    const title = page.getByRole('heading', { name: /Parcours disponibles|Available Routes/ });
     await expect(title).toBeVisible({ timeout: 10000 });
 
     // Check that one of the progress icons is visible (⭕ for 0%, ▶️ for in progress, ✅ for complete)
@@ -48,7 +48,7 @@ test.describe('Hunt Progress', () => {
     await app.navigateAndAuthenticate('/');
 
     // Wait for hunts list
-    const title = page.getByRole('heading', { name: /Chasses au trésor disponibles|Available Treasure Hunts/ });
+    const title = page.getByRole('heading', { name: /Parcours disponibles|Available Routes/ });
     await expect(title).toBeVisible({ timeout: 10000 });
 
     // Verify progress is shown initially

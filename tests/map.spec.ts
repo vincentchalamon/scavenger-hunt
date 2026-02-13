@@ -4,7 +4,7 @@ import {HuntApp} from './pages';
 test.describe('Map', () => {
   test.beforeEach(async ({ page }) => {
     const app = new HuntApp(page);
-    await app.navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
 
     // Go to map tab
     await page.getByTestId('map-button').click();
@@ -40,7 +40,7 @@ test.describe('Map', () => {
 
     // Reload page, markers are saved
     await page.reload();
-    await new HuntApp(page).navigateAndAuthenticate('/le-tresor-du-vieux-lille');
+    await new HuntApp(page).navigateAndAuthenticate('/le-secret-du-vieux-lille');
     await page.getByTestId('map-button').click();
     await expect(page.locator('.GMAMP-maps-pin-view')).toHaveCount(2);
   });
