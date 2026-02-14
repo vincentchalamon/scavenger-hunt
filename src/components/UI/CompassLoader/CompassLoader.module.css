@@ -39,7 +39,7 @@
 .md { width: 100px; height: 100px; }
 .lg { width: 140px; height: 140px; }
 
-/* Cadran extérieur */
+/* Outer dial */
 .compassRing {
   position: absolute;
   width: 100%;
@@ -177,7 +177,7 @@
   50% { opacity: 0.6; }
 }
 
-/* Points de chargement animés */
+/* Animated loading dots */
 .loadingText::after {
   content: '';
   animation: dots 1.5s steps(4, end) infinite;

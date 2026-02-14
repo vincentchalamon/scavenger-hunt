@@ -23,7 +23,7 @@ export const CompassLoader: React.FC<CompassLoaderProps> = ({
   return (
     <div className={containerClass}>
       <div className={`${styles.compass} ${styles[size]}`}>
-        {/* Cadran extérieur */}
+        {/* Outer dial */}
         <div className={styles.compassRing}>
           <div className={styles.compassMarkings}>
             <span className={styles.north}>N</span>
@@ -33,13 +33,13 @@ export const CompassLoader: React.FC<CompassLoaderProps> = ({
           </div>
         </div>
 
-        {/* Aiguille qui tourne */}
+        {/* Rotating needle */}
         <div className={styles.needle}>
           <div className={styles.needleNorth}></div>
           <div className={styles.needleSouth}></div>
         </div>
 
-        {/* Centre */}
+        {/* Center */}
         <div className={styles.compassCenter}></div>
       </div>
 

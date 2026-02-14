@@ -34,14 +34,14 @@ export class MapPage extends BasePage {
    * Get all map markers (pins)
    */
   get markers() {
-    return this.page.locator('.GMAMP-maps-pin-view');
+    return this.page.locator('.leaflet-marker-icon');
   }
 
   /**
-   * Get the info window (popup on map)
+   * Get the popup
    */
-  get infoWindow() {
-    return this.page.locator('.gm-style-iw-c');
+  get popup() {
+    return this.page.locator('.leaflet-popup-content');
   }
 
   /**
@@ -61,40 +61,115 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Wait for Google Maps to be fully loaded
+   * Search for a place with retry mechanism for CORS/network errors
+   *
+   * This method implements an automatic retry mechanism to handle intermittent
+   * CORS errors that can occur when Playwright tests query the Nominatim API.
+   * These errors are typically caused by:
+   * - Network timing issues in headless browser contexts
+   * - Rate limiting from the Nominatim service
+   * - CORS policy enforcement in test environments
+   *
+   * The retry mechanism:
+   * - Monitors network requests to nominatim.openstreetmap.org
+   * - Retries up to maxRetries times with exponential backoff
+   * - Logs retry attempts for debugging purposes
+   * - Proceeds even on the last attempt to avoid blocking tests
+   *
+   * @param query - The search query string
+   * @param maxRetries - Maximum number of retry attempts (default: 3)
    */
-  async waitForMapReady() {
-    await this.wait(3000);
-    try {
-      await this.page.waitForFunction(() => {
-        const hasMapContainer = document.querySelector('[data-testid="map"]') !== null;
-        const hasGoogleMap = document.querySelector('.gm-style') !== null;
-        return hasMapContainer && (hasGoogleMap || document.querySelectorAll('.GMAMP-maps-pin-view').length > 0);
-      }, { timeout: 25000 });
-    } catch (e) {
-      // Map ready timeout, continuing anyway
+  async searchPlace(query: string, maxRetries: number = 3) {
+    await this.searchField.waitFor({ state: 'visible', timeout: 5000 });
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // Track network requests to Nominatim
+        let requestFailed = false;
+        let requestSucceeded = false;
+
+        const requestFailedHandler = (request: any) => {
+          if (request.url().includes('nominatim.openstreetmap.org')) {
+            console.log(`Nominatim request failed on attempt ${attempt} for "${query}"`);
+            requestFailed = true;
+          }
+        };
+
+        const responseHandler = (response: any) => {
+          if (response.url().includes('nominatim.openstreetmap.org') && response.ok()) {
+            requestSucceeded = true;
+          }
+        };
+
+        this.page.on('requestfailed', requestFailedHandler);
+        this.page.on('response', responseHandler);
+
+        await this.searchField.clear();
+        await this.searchField.fill(query);
+
+        // Wait for the search to complete
+        await this.wait(2500);
+
+        // Clean up listeners
+        this.page.off('requestfailed', requestFailedHandler);
+        this.page.off('response', responseHandler);
+
+        // Check if results are visible
+        const resultsVisible = await this.searchResults.isVisible().catch(() => false);
+
+        if (resultsVisible || requestSucceeded) {
+          // Success - results are available
+          await this.wait(500);
+          return;
+        }
+
+        // If the request failed and it's not the last attempt, retry
+        if (requestFailed && attempt < maxRetries) {
+          console.log(`Retrying search for "${query}" (attempt ${attempt + 1}/${maxRetries})...`);
+          await this.wait(1000 * attempt); // Exponential backoff
+          continue;
+        }
+
+        // Last attempt or no explicit failure - proceed anyway
+        await this.wait(500);
+        return;
+
+      } catch (error) {
+        if (attempt === maxRetries) {
+          throw error;
+        }
+        console.log(`Search attempt ${attempt} encountered error for "${query}":`, error);
+        await this.wait(1000 * attempt); // Exponential backoff
+      }
     }
   }
 
   /**
-   * Search for a place
+   * Select a search result by index (0-based) with retry mechanism
+   *
+   * This method retries the selection if the search results are not yet available,
+   * which can happen when the Nominatim API response is delayed or has failed.
+   *
+   * @param index - The index of the result to select (0-based, default: 0)
+   * @param maxRetries - Maximum number of retry attempts (default: 3)
    */
-  async searchPlace(query: string) {
-    await this.searchField.waitFor({ state: 'visible', timeout: 5000 });
-    await this.searchField.clear();
-    await this.searchField.fill(query);
-    await this.wait(2000);
-  }
-
-  /**
-   * Select a search result by index (0-based)
-   */
-  async selectSearchResult(index: number = 0) {
-    const results = this.searchResults.getByRole('button');
-    const result = index === 0 ? results.first() : results.nth(index);
-    await result.waitFor({ state: 'visible', timeout: 10000 });
-    await result.click();
-    await this.wait(1500);
+  async selectSearchResult(index: number = 0, maxRetries: number = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const results = this.searchResults.getByRole('button');
+        const result = index === 0 ? results.first() : results.nth(index);
+        await result.waitFor({ state: 'visible', timeout: 10000 });
+        await result.click();
+        await this.wait(1500);
+        return;
+      } catch (error) {
+        if (attempt === maxRetries) {
+          throw error;
+        }
+        console.log(`Select result attempt ${attempt} failed, retrying...`);
+        await this.wait(1000 * attempt);
+      }
+    }
   }
 
   /**
@@ -105,34 +180,40 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Verify the info window shows a specific place name
+   * Verify the popup shows a specific place name
    */
-  async verifyInfoWindowPlace(placeName: string) {
-    await expect(this.infoWindow.locator('h5')).toContainText(placeName, { timeout: 10000 });
+  async verifyPopupPlace(placeName: string) {
+    await expect(this.popup.locator('h5')).toContainText(placeName, { timeout: 10000 });
   }
 
   /**
-   * Click the button in the info window to show the clue
+   * Click the button in the popup to show the clue
    */
   async showClue() {
-    const showButton = this.infoWindow.locator('.container button');
+    const showButton = this.popup.locator('.container button');
     await showButton.waitFor({ state: 'visible', timeout: 5000 });
-    await showButton.click();
+    // Use JavaScript to trigger click on parent div (has the onClick handler)
+    await showButton.evaluate((btn) => {
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await this.waitForModalReady();
   }
 
   /**
-   * Verify the info window contains specific text
+   * Verify the popup contains specific text
    */
-  async verifyInfoWindowText(text: string) {
-    await expect(this.infoWindow).toContainText(text, { timeout: 5000 });
+  async verifyPopupText(text: string) {
+    await expect(this.popup).toContainText(text, { timeout: 5000 });
   }
 
   /**
-   * Verify the info window has no button (final place)
+   * Verify the popup has no button (final place)
    */
   async verifyNoButton() {
-    await expect(this.infoWindow.locator('.container button')).not.toBeVisible();
+    await expect(this.popup.locator('.container button')).not.toBeVisible();
   }
 
   /**
@@ -142,6 +223,6 @@ export class MapPage extends BasePage {
     await this.searchPlace(query);
     await this.selectSearchResult(resultIndex);
     await this.verifyMarkerCount(expectedMarkerCount);
-    await this.verifyInfoWindowPlace(placeName);
+    await this.verifyPopupPlace(placeName);
   }
 }

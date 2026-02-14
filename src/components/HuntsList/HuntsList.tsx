@@ -92,7 +92,7 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
       <Container className={styles.huntsContainer}>
         <div className={styles.huntsList}>
           {hunts.map((hunt) => {
-            // Calculer le nombre de mots-clés total (phrase - defaultKeywords)
+            // Calculate the total number of keywords (phrase - defaultKeywords)
             const totalKeywords = hunt.phrase.split(' ').length - (hunt.defaultKeywords?.length || 0);
 
             return (

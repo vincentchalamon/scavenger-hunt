@@ -23,7 +23,7 @@ export type ClickableImageProps = {
 }
 
 export const ClickableImageButton: React.FC<ClickableImageProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const ClickableImage: React.FC<ClickableImageProps> = ({image, clickableAreas, debug}) => (

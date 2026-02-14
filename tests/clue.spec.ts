@@ -11,11 +11,18 @@ test.describe('Clue', () => {
   });
 
   test('I can show a marker description to display its clue', async ({ page }) => {
-    await expect(page.locator('.gm-style-iw-c')).toBeVisible();
-    await expect(page.locator('.gm-style-iw-c').locator('.container button')).toBeVisible();
+    await page.locator('.leaflet-marker-icon').first().click();
+    await expect(page.locator('.leaflet-popup-content')).toBeVisible();
+    await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
 
-    // Click on the image to display the clue
-    await page.locator('.gm-style-iw-c').locator('.container button').click();
+    // Use JavaScript to trigger the click - the parent div has the onClick handler
+    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
+      // Find the parent div that has the onClick handler
+      const parentDiv = btn.parentElement;
+      if (parentDiv) {
+        parentDiv.click();
+      }
+    });
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the clue to display it

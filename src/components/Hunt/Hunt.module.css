@@ -1,4 +1,4 @@
-/* Navbar thématique */
+/* Themed navbar */
 .treasureNavbar {
   background: var(--gradient-parchment);
   border-bottom: 3px solid var(--treasure-bronze);
@@ -141,6 +141,66 @@
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.3px;
+}
+
+/* Manuscript button animation when a keyword is found */
+.keywordAnimation {
+  animation: keywordFound 0.8s ease-in-out 3;
+  position: relative;
+  z-index: 1;
+}
+
+.keywordAnimation::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(
+    45deg,
+    rgba(212, 175, 55, 0.6),
+    rgba(255, 215, 0, 0.8),
+    rgba(212, 175, 55, 0.6),
+    rgba(255, 215, 0, 0.8)
+  );
+  background-size: 300% 300%;
+  border-radius: var(--border-radius-md);
+  z-index: -1;
+  animation: glowPulse 1.5s ease-in-out infinite;
+  filter: blur(8px);
+}
+
+@keyframes keywordFound {
+  0%, 100% {
+    transform: scale(1.08) translateX(0);
+  }
+  10% {
+    transform: scale(1.15) translateX(-3px) rotate(-2deg);
+  }
+  20% {
+    transform: scale(1.15) translateX(3px) rotate(2deg);
+  }
+  30% {
+    transform: scale(1.15) translateX(-3px) rotate(-2deg);
+  }
+  40% {
+    transform: scale(1.15) translateX(3px) rotate(2deg);
+  }
+  50% {
+    transform: scale(1.2) translateX(0) rotate(0);
+  }
+  60% {
+    transform: scale(1.15) translateX(0) rotate(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    background-position: 0% 50%;
+  }
+  50% {
+    opacity: 1;
+    background-position: 100% 50%;
+  }
 }
 
 /* Error states */

@@ -2,7 +2,6 @@ import {expect, Page} from '@playwright/test';
 import {ManuscriptPage} from './ManuscriptPage';
 import {MapPage} from './MapPage';
 import {Box3DClue, ClickableImageClue, MagnifierClue, PageFlipClue, ScratchCardClue} from './CluePage';
-import {TEST_PASSWORD, unlockApplication} from "../helpers/auth";
 
 /**
  * Main Application Page Object
@@ -27,13 +26,15 @@ export class HuntApp {
   }
 
   /**
-   * Navigate to a specific URL and authenticate (without waiting for hunt title)
-   * Useful for error pages (404, etc.)
+   * Navigate to a specific URL (no authentication needed anymore)
    */
   async navigateAndAuthenticate(url: string) {
     await this.page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-    await unlockApplication(this.page, TEST_PASSWORD);
-    await this.page.waitForTimeout(2000);
+    // Only wait for hunt title if we're navigating to a valid hunt page (not home or 404)
+    if (url !== '/' && url !== '/invalid-hunt-url') {
+      await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
+    }
+    await this.page.waitForTimeout(1000);
   }
 
   /**
@@ -95,6 +96,37 @@ export class HuntApp {
 
     const clue = this.createClickableImageClue();
     await clue.solveAndClose(successMessage);
+
+    await this.manuscript.navigateToManuscript();
+    await this.manuscript.verifyText(expectedPhrase);
+    await this.map.navigateToMap();
+  }
+
+  /**
+   * Solve a place with clickable image containing a puzzle image to view first
+   * The puzzle leads to the next place (solved outside the app)
+   */
+  async solveClickableImageWithPuzzle(
+    searchQuery: string,
+    placeName: string,
+    markerCount: number,
+    puzzleAreaX: number,
+    puzzleAreaY: number,
+    expectedPuzzleImage: string,
+    expectedPhrase: string,
+    resultIndex: number = 0
+  ) {
+    await this.map.closeAllModals();
+    await this.map.findPlace(searchQuery, placeName, markerCount, resultIndex);
+    await this.map.showClue();
+
+    const clue = this.createClickableImageClue();
+
+    // First, click on the area to view the puzzle image
+    await clue.viewImageInArea(puzzleAreaX, puzzleAreaY, expectedPuzzleImage);
+
+    // Then solve by clicking the keyword
+    await clue.solveAndClose();
 
     await this.manuscript.navigateToManuscript();
     await this.manuscript.verifyText(expectedPhrase);
@@ -219,21 +251,17 @@ export class HuntApp {
     await this.map.searchPlace(searchQuery);
     await this.map.selectSearchResult(resultIndex);
     await this.map.verifyMarkerCount(markerCount);
-    await this.map.verifyInfoWindowPlace(placeName);
-    await this.map.verifyInfoWindowText(congratsText);
-    await this.map.verifyInfoWindowText(treasureText);
+    await this.map.verifyPopupPlace(placeName);
+    await this.map.verifyPopupText(congratsText);
+    await this.map.verifyPopupText(treasureText);
     await this.map.verifyNoButton();
   }
 
   /**
    * Reload and verify data persistence
-   * Note: After reload, user must re-authenticate with password
    */
   async verifyPersistence(expectedMarkerCount: number, completedPhrase: string) {
     await this.page.reload({ waitUntil: 'networkidle', timeout: 30000 });
-
-    // Re-authenticate after reload (password is not stored)
-    await unlockApplication(this.page, TEST_PASSWORD);
     await expect(this.huntTitle).toBeVisible({ timeout: 10000 });
 
     await this.manuscript.navigateToManuscript();
@@ -242,7 +270,6 @@ export class HuntApp {
     await this.map.navigateToMap();
     await this.map.verifyTabActive();
     await this.page.waitForTimeout(2000);
-    await this.map.waitForMapReady();
     await this.map.verifyMarkerCount(expectedMarkerCount);
   }
 }

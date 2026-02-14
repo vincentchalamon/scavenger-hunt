@@ -17,7 +17,7 @@ export type PageFlipProps = {
 }
 
 export const PageFlipButton: React.FC<PageFlipProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const PageFlip: React.FC<PageFlipProps> = ({pages}) => {

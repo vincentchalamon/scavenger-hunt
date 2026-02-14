@@ -28,10 +28,6 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-!.env.example
-
-# encrypted API key (generated during build)
-encrypted-api-key.txt
 
 # vercel
 .vercel

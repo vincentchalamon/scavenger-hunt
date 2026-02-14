@@ -5,13 +5,8 @@
 name: Deploy Next.js site to Pages
 
 on:
-  # Manual deployment only with password input
-  workflow_dispatch:
-    inputs:
-      password:
-        description: 'Build password for API key encryption (unique per recipient)'
-        required: true
-        type: string
+  # Manual deployment
+  workflow_dispatch: ~
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -22,7 +17,7 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -49,11 +44,6 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: npm ci
-      - name: Encrypt API Key
-        env:
-          BUILD_PASSWORD: ${{ inputs.password }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-        run: node scripts/encrypt-api-key.js
       - name: Build with Next.js
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'

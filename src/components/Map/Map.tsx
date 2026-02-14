@@ -1,103 +1,198 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {AdvancedMarkerAnchorPoint, APIProvider, Map as GoogleMap} from "@vis.gl/react-google-maps";
+import {MapContainer, TileLayer, useMap} from "react-leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
-import {AdvancedMarkerWithRef} from "@/components/Map/AdvancedMarkerWithRef";
-import {useApiKey} from "@/contexts/ApiKeyContext";
+import {MarkerWithPopup} from "@/components/Map/MarkerWithPopup";
 import {useToast} from "@/contexts/ToastContext";
 import {useTranslation} from "@/i18n";
 import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
+import "leaflet/dist/leaflet.css";
 
 type MapProps = {
   debug?: boolean;
   places: Place[];
-  coordinates: google.maps.LatLngLiteral;
+  coordinates: {lat: number; lng: number};
   huntSlug: string;
+}
+
+type SearchResult = {
+  x: number;
+  y: number;
+  label: string;
+  bounds: [[number, number], [number, number]] | null;
+  raw: any;
+}
+
+// Component to handle map center changes
+function MapController({center}: {center: {lat: number; lng: number}}) {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView([center.lat, center.lng], map.getZoom());
+  }, [center, map]);
+
+  return null;
+}
+
+// Component to fix map rendering issues (grey tiles)
+function MapInvalidator() {
+  const map = useMap();
+
+  useEffect(() => {
+    // Invalidate size when component mounts and when window resizes
+    const invalidateSize = () => {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    };
+
+    invalidateSize();
+    window.addEventListener('resize', invalidateSize);
+
+    return () => {
+      window.removeEventListener('resize', invalidateSize);
+    };
+  }, [map]);
+
+  return null;
 }
 
 export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
   const { t } = useTranslation();
 
-  // Retrieve Google Maps API Key
-  const apiKey = useApiKey();
   // Store all visited places to trace a route in the map
   // Preset first place
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  // Track if selection is from search (to auto-open popup) or from initialization (to only bounce)
+  const [isSearchSelection, setIsSearchSelection] = useState<boolean>(false);
+
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
     setVisitedPlaces(alreadyVisitedPlaces);
-    // On Map load, auto-select the latest visited place
-    setSelectedPlace(alreadyVisitedPlaces[alreadyVisitedPlaces.length - 1]);
-  }, [huntSlug]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const onPlaceSelect = (place: google.maps.places.Place | null) => {
+    // Don't auto-select on initialization to avoid opening popup
+    // The bounce effect will be applied to the latest place instead
+  }, [huntSlug, places]);
+  const onPlaceSelect = (result: SearchResult | null) => {
+    if (!result) return;
+
+    if (debug) {
+      console.log(`🔍 Searching for place at coordinates: lat=${result.y}, lng=${result.x} (label: "${result.label}")`);
+    }
     // Look for place in configuration based on it's coordinates
-    // Note: it's possible to search for all places through GoogleMap, but only select a place from the configuration
-    const location = places.find((location) => location.coordinates.lat.toFixed(7) === place?.location?.toJSON().lat.toFixed(7) && location.coordinates.lng.toFixed(7) === place?.location?.toJSON().lng.toFixed(7));
-    if (location) {
+    // Note: it's possible to search for all places through the geocoding service, but only select a place from the configuration
+    // Use proximity check with margin of error (approximately 50-100m depending on latitude)
+    // Default margin: ~111m at the equator, less at higher latitudes
+    const DEFAULT_COORDINATE_MARGIN = 0.001;
+
+    // Find the closest place within its margin
+    let closestPlace: Place | null = null;
+    let minDistance = Infinity;
+
+    places.forEach((location) => {
+      const margin = location.coordinateMargin ?? DEFAULT_COORDINATE_MARGIN;
+      const distLat = Math.abs(location.coordinates.lat - result.y);
+      const distLng = Math.abs(location.coordinates.lng - result.x);
+
+      // Check if within margin
+      if (distLat <= margin && distLng <= margin) {
+        // Calculate Euclidean distance for comparison
+        const distance = Math.sqrt(distLat * distLat + distLng * distLng);
+
+        if (debug) {
+          console.log(`Place: ${location.name}`);
+          console.log(`  Coordinates: lat=${location.coordinates.lat}, lng=${location.coordinates.lng}`);
+          console.log(`  Result: lat=${result.y}, lng=${result.x}`);
+          console.log(`  Margin: ${margin} (${margin === DEFAULT_COORDINATE_MARGIN ? 'default' : 'custom'})`);
+          console.log(`  Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)}, total=${distance.toFixed(6)}`);
+          console.log(`  Within margin: YES`);
+        }
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestPlace = location;
+        }
+      } else if (debug) {
+        console.log(`Place: ${location.name} - Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)} - Within margin: NO`);
+      }
+    });
+
+    if (closestPlace !== null) {
+      // Store in a const to preserve type narrowing in callbacks
+      const placeToAdd: Place = closestPlace;
       setVisitedPlaces((prevVisitedPlaces) => {
-        const visitedPlaces = [...prevVisitedPlaces, location];
+        const visitedPlaces = [...prevVisitedPlaces, placeToAdd];
         saveVisitedPlaces(huntSlug, visitedPlaces);
-        // Auto-select this new visited place
-        setSelectedPlace(location);
 
         return visitedPlaces;
       });
-      setMapCenter(location.coordinates);
+      // Auto-select this new visited place (from search)
+      setIsSearchSelection(true);
+      setSelectedPlace(placeToAdd);
+      if (debug) {
+        console.log("✅ Selected closest place:", placeToAdd.name, "with distance:", minDistance.toFixed(6));
+      }
+      setMapCenter(placeToAdd.coordinates);
     } else {
       addToast(t('placeNotInGame'), "danger");
       if (debug) {
-        console.log(places, place?.location?.toJSON());
+        console.log("❌ No place found within margin. Search coordinates:", {lat: result.y, lng: result.x});
       }
     }
   };
 
   // Helps to center map on new marker added
-  const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>(visitedPlaces[0].coordinates);
+  const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
   return (
-    <APIProvider apiKey={apiKey}>
-      <GoogleMap
-        mapId="map-id"
-        data-testid="map"
-        defaultCenter={mapCenter}
-        defaultZoom={16}
-        gestureHandling={'greedy'}
-        disableDefaultUI
-        zoomControl={true}
-        onClick={() => setSelectedPlace(null)}
-      >
-        <AutocompleteControl
+    <MapContainer
+      center={[coordinates.lat, coordinates.lng]}
+      zoom={16}
+      style={{height: '100%', width: '100%'}}
+      zoomControl={true}
+      data-testid="map"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <MapController center={mapCenter} />
+      <MapInvalidator />
+      <AutocompleteControl
           coordinates={coordinates}
           onPlaceSelect={onPlaceSelect}
-          onChange={() => setSelectedPlace(null)}
-          onClear={() => setSelectedPlace(null)}
+          onChange={() => {
+            setSelectedPlace(null);
+            setIsSearchSelection(false);
+          }}
+          onClear={() => {
+            setSelectedPlace(null);
+            setIsSearchSelection(false);
+          }}
         />
         {visitedPlaces.map((visitedPlace, i) => {
           return (
-            <div key={`marker-${i}`}>
-              <AdvancedMarkerWithRef
-                onMarkerClick={() => setSelectedPlace(visitedPlace)}
-                onCloseClick={() => setSelectedPlace(null)}
-                showInfo={selectedPlace === visitedPlace}
-                data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
-                style={{
-                  transition: "all 200ms ease-in-out",
-                  transform: "scale(1)",
-                  transformOrigin: AdvancedMarkerAnchorPoint['BOTTOM'].join(' ')
-                }}
-                place={visitedPlace}
-                pinOptions={visitedPlaces.length > 1 && i !== visitedPlaces.length-1 ? {
-                  background: "rgba(255, 255, 255, 0.6)",
-                } : {}}
-              />
-            </div>
+            <MarkerWithPopup
+              key={`marker-${i}`}
+              place={visitedPlace}
+              isSelected={selectedPlace === visitedPlace}
+              isLatest={i === visitedPlaces.length - 1}
+              shouldOpenPopup={selectedPlace === visitedPlace && isSearchSelection}
+              onMarkerClick={() => {
+                setSelectedPlace(visitedPlace);
+                setIsSearchSelection(true);
+              }}
+              onCloseClick={() => {
+                setSelectedPlace(null);
+                setIsSearchSelection(false);
+              }}
+              data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
+            />
           )
         })}
-      </GoogleMap>
-    </APIProvider>
+      </MapContainer>
   );
 }

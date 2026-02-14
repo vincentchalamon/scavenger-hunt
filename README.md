@@ -1,320 +1,157 @@
 # Scavenger Hunt
 
-This is a scavenger hunt web game designed to guide players through various locations. Players will solve clues and complete challenges at each location to progress through the game.
+> A mobile-first web application for creating location-based scavenger hunts with interactive clues and challenges.
 
-This application is optimized and restricted to mobile usage.
+## 📖 Overview
 
-## How it Works?
+This application lets you create and play scavenger hunts that guide players through various locations. Players solve clues, complete challenges, and collect keywords to progress through the game.
 
-The application is built using [Next.js](https://nextjs.org/) and [TypeScript](https://www.typescriptlang.org/), and built with [export optimization](https://nextjs.org/docs/pages/guides/static-exports) for deployment on static hosting platforms like [GitHub Pages](https://pages.github.com/).
+**Built with:** [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
 
-> Some features, debugging and tests have been optimized using [GitHub Copilot](https://github.com/features/copilot) with [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5) agent.
+**Deployment:** Optimized for static hosting platforms like [GitHub Pages](https://pages.github.com/).
 
-To run this project, you need a [Google Maps JavaScript API key](https://developers.google.com/maps/documentation/javascript/get-api-key) with the following APIs enabled:
+---
 
-* [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
-* [Places API (New)](https://developers.google.com/maps/documentation/places/web-service/op-overview)
+## 🚀 Getting Started
 
-### Configure a Hunt
+### Prerequisites
 
-Edit the [`config.json` file](config.json) and add your own hunt and places:
+- Node.js 18+ and npm
+- A mobile device or mobile browser emulator (the app is mobile-only)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd lille-hunting
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open the application**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000) on your mobile device or browser.
+
+<details>
+<summary>📱 Testing on a real mobile device</summary>
+
+To test on your phone while running the dev server on your computer:
+
+1. Make sure your phone and computer are on the same network
+2. Find your computer's local IP address:
+   ```bash
+   # On Linux/Mac
+   ip addr show | grep inet
+   # or
+   ifconfig | grep inet
+   ```
+3. On your phone, navigate to `http://YOUR_IP_ADDRESS:3000`
+</details>
+
+---
+
+## 🎮 Creating Your Hunt
+
+### Quick Start
+
+Edit the `config.json` file to create your scavenger hunt:
 
 ```json
 {
   "hunts": [
     {
-      "slug": "my-own-hunt", // Unique slug identifier for the hunt (used in URLs)
-      "title": "My Own Hunt", // Title of the hunt
-      "coordinates": {
-        // Coordinates of the starting point
-        "lat": "latitude of the starting point",
-        "lng": "longitude of the starting point"
-      },
-      "rules": "Your custom rules for the hunt. <p>It supports HTML formatting.</p>", // Rules of the hunt
-      "manuscript": "Your custom manuscript or story for the hunt. <p>It supports HTML formatting.</p>", // Manuscript or story of the hunt
-      "phrase": "The complete phrase to complete the hunt.", // The complete phrase to complete the hunt
-      "defaultKeywods": ["phrase", "to"], // Default keywords when starting the hunt
+      "slug": "my-first-hunt",
+      "name": "My First Hunt",
+      "lang": "en",
+      "description": "A short description of your hunt",
+      "duration": "~1h",
+      "coordinates": { "lat": 48.8566, "lng": 2.3522 },
+      "manuscript": "<p>Your hunt story goes here...</p>",
+      "phrase": "The complete phrase players need to discover",
+      "defaultKeywords": ["Some", "starting", "words"],
       "places": [
         {
-          "name": "A location", // Name of the location
-          "description": "Description of the location. <p>It supports HTML formatting.</p>", // Description of the location
-          "coordinates": {
-            // Coordinates of the location
-            "lat": "latitude of the location",
-            "lng": "longitude of the location"
-          },
-          "item": { // Action or clue at the location (the image will be displayed after the location description)
-            "type": "item-type",
-            "options": {
-              // Item options
-            }
-          }
-        },
-        {
-          "name": "Another location",
-          "description": "Description of the location. <p>It supports HTML formatting.</p>",
-          "coordinates": {
-            "lat": "latitude of the location",
-            "lng": "longitude of the location"
-          },
+          "name": "First Location",
+          "description": "<p>Description of this location</p>",
+          "coordinates": { "lat": 48.8584, "lng": 2.2945 },
           "item": {
-            "type": "item-type",
-            "options": {
-              // Item options
-            }
+            "type": "keyword",
+            "options": { "keyword": "hidden" }
           }
         }
-        // ... more places
       ]
     }
-    // ... more hunts
   ]
 }
 ```
 
-The application supports the following items:
+### Configuration Structure
 
-#### Clickable Image
+<details>
+<summary><b>Hunt Properties</b></summary>
 
-An image with clickable areas that trigger actions when clicked.
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `slug` | string | ✅ | Unique identifier for the hunt (used in URLs) |
+| `name` | string | ✅ | Display name of the hunt |
+| `lang` | string | ✅ | Language code (e.g., `en`, `fr`) |
+| `description` | string | ✅ | Short description shown in the hunt list |
+| `duration` | string | ❌ | Estimated duration (e.g., `~2h`) |
+| `coordinates` | object | ✅ | Starting point coordinates `{lat, lng}` |
+| `manuscript` | string | ✅ | Hunt story/intro (supports HTML) |
+| `phrase` | string | ✅ | Complete phrase to discover |
+| `defaultKeywords` | array | ✅ | Starting keywords given to players |
+| `places` | array | ✅ | List of locations in the hunt |
 
-```json
-{
-  "type": "clickable-image",
-  "options": {
-    "image": "/assets/my-own-hunt/club/image.png", // Path to the image
-    "debug": false, // Enable debug mode to see clickable areas
-    "clickableAreas": [
-      {
-        // Position of the clickable area
-        "bottom": "10%",
-        "left": "10%",
-        "width": "12%",
-        "height": "12%",
-        "action": {
-          // An action with options: keyword, another clue, etc.
-        }
-      },
-      {
-        // Position of the clickable area
-        "top": "33%",
-        "right": "10%",
-        "width": "20%",
-        "height": "48%",
-        "action": {
-          // Another action with options: keyword, another clue, etc.
-        }
-      }
-      // ... more clickable areas
-    ]
-  }
-}
-```
+</details>
 
-#### Image
+<details>
+<summary><b>Place Properties</b></summary>
 
-An image without any action nor clickable area.
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `name` | string | ✅ | Location name |
+| `description` | string | ✅ | Location description (supports HTML) |
+| `coordinates` | object | ✅ | Location coordinates `{lat, lng}` |
+| `coordinateMargin` | number | ❌ | Proximity margin in degrees (default: `0.001` ≈ 111m) |
+| `link` | string | ❌ | External link for more information |
+| `item` | object | ✅ | Interactive item/clue at this location |
 
-```json
-{
-  "type": "image",
-  "options": {
-    "image": "/assets/my-own-hunt/image.png"
-  }
-}
-```
+**Getting Coordinates:**
+- Use [OpenStreetMap](https://www.openstreetmap.org/) - right-click on the map and select "Show address"
+- Use [Google Maps](https://maps.google.com/) - right-click and select coordinates to copy
+- Format: `{"lat": 48.8566, "lng": 2.3522}`
 
-#### Scratch Card
+</details>
 
-An image with scratchable area that reveals a hidden message or clue when scratched.
+### Validating Your Configuration
 
-```json
-{
-  "type": "scratch-card",
-  "options": {
-    "image": "/assets/my-own-hunt/image.png", // Path to the scratchable image
-    "width": 340, // Width of the scratch card
-    "height": 380, // Height of the scratch card
-    "scratchableAreas": [
-      {
-        // Position of the scratchable area
-        "top": "45%",
-        "right": "15%",
-        "width": "10%",
-        "height": "20%",
-        "text": "Place aux Oignons" // Text revealed when scratched
-      },
-      {
-        // Position of the scratchable area
-        "bottom": "15%",
-        "left": "15%",
-        "width": "12%",
-        "height": "15%",
-        "text": "Lorem", // Text revealed when scratched
-        "keyword": true // Whether this text is a keyword to collect
-      }
-      // ... more scratchable areas
-    ]
-  }
-}
-```
+**Automatic validation** happens during:
+- Build time: `npm run build`
+- Runtime: App won't start with invalid config
 
-#### Card Flip
-
-An image that can be flipped to reveal another image on the back.
-
-```json
-{
-  "type": "card-flip",
-  "options": {
-    "front": "/assets/my-own-hunt/front.png", // Path to the front face
-    "back": "/assets/my-own-hunt/back.jpg" // Path to the back face
-  }
-}
-```
-
-#### Page Flip
-
-A book with pages that can be flipped to reveal content on the back.
-
-```json
-{
-  "type": "page-flip",
-  "options": {
-    "image": "/assets/my-own-hunt/books.png", // Path of an image of books
-    "pages": [
-      // A page with HTML content
-      {
-        "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
-      },
-      // ... more pages with HTML content
-      // A page with {keyword}XXX{/keyword} tag
-      {
-        "text": "<p>libero lacinia gravida <strong>{keyword}Lorem{/keyword}</strong> (click me!).</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
-      },
-      // ... more pages with HTML content
-    ]
-  }
-}
-```
-
-#### Three Fiber
-
-A box with a 3D model that can be rotated.
-
-```json
-{
-  "type": "three-fiber",
-  "options": {
-    "image": "/assets/my-own-hunt/box.png", // Path to the box image
-    "textures": [
-      // Each face of the 3D box may reveal a keyword or a text
-      "/assets/my-own-hunt/textures/right.png", // Path to the right face texture
-      "/assets/my-own-hunt/textures/left.png", // Path to the left face texture
-      "/assets/my-own-hunt/textures/top.png", // Path to the top face texture
-      "/assets/my-own-hunt/textures/bottom.png", // Path to the bottom face texture
-      "/assets/my-own-hunt/textures/front.png", // Path to the front face texture
-      "/assets/my-own-hunt/textures/background.png" // Path to the background face texture
-    ],
-    "keyword": "Lorem" // Keyword revealed on one of the faces
-  }
-}
-```
-
-#### Magnifier
-
-An image with a magnifying glass that reveals hidden details when hovered over.
-
-```json
-{
-  "type": "magnifier",
-  "options": {
-    "image": "/assets/my-own-hunt/image.jpg", // Path to the image
-    "keyword": "Lorem", // Keyword revealed with the magnifier
-    "keywordPosition": {"x": 130, "y": 440} // Position of the keyword in pixels
-  }
-}
-```
-
-#### Keyword
-
-A clickable keyword that can be collected directly.
-
-```json
-{
-  "type": "keyword",
-  "options": {
-    "keyword": "Lorem", // The keyword to collect
-    "debug": false // Enable debug mode to highlight the keyword
-  }
-}
-```
-
-### Run Locally
-
-Copy the `.env.example` file to a new file named `.env` and replace `your_google_maps_api_key_here` with your actual API key:
-
-```bash
-cp .env.example .env
-```
-
-Then, install the dependencies and run the development server:
-
-```bash
-npm install
-npm run dev
-```
-
-Application is available at [http://localhost:3000](http://localhost:3000).
-
-### CI
-
-This project includes [GitHub Actions workflows](https://docs.github.com/actions/using-workflows/about-workflows) to test the application with [Playwright](https://playwright.dev/) on the following devices:
-
-* Mobile Chrome (Galaxy S24)
-* Mobile Firefox (Galaxy S24)
-* Mobile Safari (iPhone 15 and iPhone SE (3rd gen))
-
-### Deploy on GitHub Pages
-
-Go to the "_Settings_" repository tab and create a new secret named `GOOGLE_MAPS_API_KEY` with your Google Maps API key as the value.
-
-Then, go to "_Actions_" repository tab and run the workflow named "_Deploy Next.js site to Pages_" to deploy the application to GitHub Pages.
-
-You'll be asked to provide a password to crypt the API key on production. This password is not stored anywhere, so make sure to remember it for future deployments.
-
-### Undeploy from GitHub Pages
-
-Go to "Actions" repository tab and run the workflow named "_Undeploy from GitHub Pages_" to remove the application from GitHub Pages.
-
-## Config Validation
-
-The `config.json` file is **automatically validated using [Zod](https://zod.dev/)** to ensure data integrity and prevent errors.
-
-### Validate your config
-
-Before committing changes to `config.json`, you can validate it manually:
-
+**Manual validation:**
 ```bash
 npm run validate:config
 ```
 
-This will check:
+This checks:
 - ✅ All required fields are present
-- ✅ Data types are correct (strings, numbers, URLs, etc.)
+- ✅ Data types are correct
 - ✅ Item types are valid
-- ✅ Structure matches the expected schema
+- ✅ Structure matches the schema
 
-### Automatic validation
-
-The validation happens automatically:
-1. **During build** - `npm run build` will fail if config is invalid
-2. **At runtime** - The app won't start with an invalid config
-3. **Manual check** - Use `npm run validate:config` anytime
-
-### Example error output
-
-If you have an error in your config, you'll see:
+<details>
+<summary>Example error output</summary>
 
 ```
 ❌ Error validating config.json file:
@@ -327,26 +164,438 @@ Total: 1 error(s) detected
 💡 Check the structure and types in config.json
 ```
 
-## License
+</details>
+
+---
+
+## 🎨 Available Item Types
+
+Items are interactive elements that players encounter at each location. Choose from these types:
+
+### 1. Keyword
+
+A simple clickable keyword to collect.
+
+```json
+{
+  "type": "keyword",
+  "options": {
+    "keyword": "treasure"
+  }
+}
+```
+
+<details>
+<summary><b>2. Image</b></summary>
+
+A static image without interactions.
+
+```json
+{
+  "type": "image",
+  "options": {
+    "image": "/assets/my-hunt/image.png"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><b>3. Clickable Image</b></summary>
+
+An image with clickable hotspots that trigger actions.
+
+```json
+{
+  "type": "clickable-image",
+  "options": {
+    "image": "/assets/my-hunt/image.png",
+    "debug": false,
+    "clickableAreas": [
+      {
+        "top": "10%",
+        "left": "10%",
+        "width": "20%",
+        "height": "15%",
+        "action": {
+          "type": "keyword",
+          "options": { "keyword": "hidden" }
+        }
+      }
+    ]
+  }
+}
+```
+
+**Position properties:** Use `top`/`bottom` and `left`/`right` with percentage values.
+
+**Actions:** Can be any other item type (keyword, magnifier, image, etc.)
+
+</details>
+
+<details>
+<summary><b>4. Scratch Card</b></summary>
+
+An image with scratchable areas that reveal text or keywords.
+
+```json
+{
+  "type": "scratch-card",
+  "options": {
+    "image": "/assets/my-hunt/scratch.png",
+    "width": 340,
+    "height": 380,
+    "scratchableAreas": [
+      {
+        "top": "45%",
+        "right": "15%",
+        "width": "10%",
+        "height": "20%",
+        "text": "Secret word",
+        "keyword": true
+      }
+    ]
+  }
+}
+```
+
+**`keyword: true`** marks the text as a collectible keyword.
+
+</details>
+
+<details>
+<summary><b>5. Magnifier</b></summary>
+
+An image with a magnifying glass to reveal hidden details.
+
+```json
+{
+  "type": "magnifier",
+  "options": {
+    "image": "/assets/my-hunt/image.jpg",
+    "keyword": "hidden",
+    "keywordPosition": { "x": 130, "y": 440 }
+  }
+}
+```
+
+**Position:** Pixel coordinates where the keyword is hidden.
+
+</details>
+
+<details>
+<summary><b>6. Card Flip</b></summary>
+
+A card that flips to reveal another image.
+
+```json
+{
+  "type": "card-flip",
+  "options": {
+    "front": "/assets/my-hunt/front.png",
+    "back": "/assets/my-hunt/back.jpg"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><b>7. Page Flip</b></summary>
+
+A book with flippable pages containing text and keywords.
+
+```json
+{
+  "type": "page-flip",
+  "options": {
+    "image": "/assets/my-hunt/book.png",
+    "pages": [
+      {
+        "text": "<p>Page content here...</p>"
+      },
+      {
+        "text": "<p>Click {keyword}this{/keyword} to collect it!</p>"
+      }
+    ]
+  }
+}
+```
+
+**Keyword syntax:** `{keyword}word{/keyword}` creates a clickable keyword.
+
+</details>
+
+<details>
+<summary><b>8. Three Fiber (3D Box)</b></summary>
+
+A rotatable 3D box with textures on each face.
+
+```json
+{
+  "type": "three-fiber",
+  "options": {
+    "image": "/assets/my-hunt/box.png",
+    "textures": [
+      "/assets/my-hunt/right.png",
+      "/assets/my-hunt/left.png",
+      "/assets/my-hunt/top.png",
+      "/assets/my-hunt/bottom.png",
+      "/assets/my-hunt/front.png",
+      "/assets/my-hunt/back.png"
+    ],
+    "keyword": "treasure"
+  }
+}
+```
+
+**Texture order:** right, left, top, bottom, front, back
+
+</details>
+
+---
+
+## 🛠️ Development
+
+### Project Structure
+
+```
+lille-hunting/
+├── config.json          # Hunt configuration
+├── public/
+│   └── assets/         # Images and media files
+├── src/
+│   ├── app/            # Next.js pages
+│   ├── components/     # React components
+│   │   └── Items/      # Item type implementations
+│   ├── lib/            # Utilities and schemas
+│   └── types/          # TypeScript types
+└── tests/              # Playwright tests
+```
+
+### Adding New Item Types
+
+To create a new item type:
+
+1. **Create the component**
+   
+   Create a new file in `src/components/Items/YourItem/`:
+   ```tsx
+   // src/components/Items/YourItem/YourItem.tsx
+   import { YourItemOptions } from '@/types/Item';
+   
+   interface YourItemProps {
+     options: YourItemOptions;
+     onKeywordFound?: (keyword: string) => void;
+   }
+   
+   export default function YourItem({ options, onKeywordFound }: YourItemProps) {
+     // Your implementation
+     return <div>Your item content</div>;
+   }
+   ```
+
+2. **Add TypeScript types**
+   
+   Update `src/types/Item.ts`:
+   ```typescript
+   export interface YourItemOptions {
+     // Your options
+   }
+   
+   export type ItemOptions = 
+     | KeywordOptions 
+     | ImageOptions
+     // ... other types
+     | YourItemOptions;
+   ```
+
+3. **Update the schema**
+   
+   Add validation in `src/lib/config-schema.ts`:
+   ```typescript
+   const yourItemSchema = z.object({
+     type: z.literal('your-item'),
+     options: z.object({
+       // Define your schema
+     })
+   });
+   ```
+
+4. **Register in ItemFactory**
+   
+   Update `src/components/Items/ItemFactory.tsx`:
+   ```typescript
+   import YourItem from './YourItem/YourItem';
+   
+   // Add to the switch statement
+   case 'your-item':
+     return <YourItem options={options} onKeywordFound={onKeywordFound} />;
+   ```
+
+5. **Add tests**
+   
+   Create `tests/your-item.spec.ts` with Playwright tests.
+
+### Running Tests
+
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run specific test file
+npm run test:e2e tests/keyword.spec.ts
+
+# Run in UI mode
+npm run test:e2e -- --ui
+```
+
+<details>
+<summary>Test devices</summary>
+
+Tests run on:
+- Mobile Chrome (Galaxy S24)
+- Mobile Firefox (Galaxy S24)  
+- Mobile Safari (iPhone 15 & iPhone SE 3rd gen)
+
+</details>
+
+### Code Quality
+
+```bash
+# Lint code
+npm run lint
+
+# Validate configuration
+npm run validate:config
+```
+
+---
+
+## 🚀 Deployment
+
+### GitHub Pages (Default)
+
+1. **Enable GitHub Pages**
+   - Go to your repository → Settings → Pages
+   - Source: GitHub Actions
+
+2. **Deploy**
+   - Go to the "Actions" tab
+   - Run the workflow: **"Deploy Next.js site to Pages"**
+   - Your site will be available at `https://<username>.github.io/<repo>/`
+
+<details>
+<summary>Automatic deployment on push</summary>
+
+The workflow is configured to deploy automatically on pushes to the `main` branch. Check `.github/workflows/nextjs.yml` to customize.
+
+</details>
+
+### Other Static Hosting (Netlify, Vercel, etc.)
+
+The app exports as a static site. To build:
+
+```bash
+npm run build
+```
+
+This creates an `out/` directory with static files.
+
+<details>
+<summary><b>Netlify</b></summary>
+
+1. Connect your repository
+2. Build command: `npm run build`
+3. Publish directory: `out`
+
+Or use the Netlify CLI:
+```bash
+npm install -g netlify-cli
+netlify deploy --prod --dir=out
+```
+
+</details>
+
+<details>
+<summary><b>Vercel</b></summary>
+
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+Or connect your repository through the Vercel dashboard.
+
+</details>
+
+<details>
+<summary><b>Custom CDN/Server</b></summary>
+
+After building, upload the `out/` directory to your server or CDN:
+
+```bash
+# Build
+npm run build
+
+# Upload to your server
+rsync -avz out/ user@server:/path/to/webroot/
+
+# Or use your CDN's CLI
+aws s3 sync out/ s3://your-bucket/ --delete
+```
+
+Make sure your server is configured to:
+- Serve `index.html` for directory requests
+- Handle 404s by serving the custom 404 page
+
+</details>
+
+---
+
+## 📄 License
 
 This application is licensed under the [Creative Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) License.
 
-## Credits
+---
 
-This application uses the following open-source libraries and resources:
+## 🙏 Credits
 
-* [Next.js](https://nextjs.org/)
-* [TypeScript](https://www.typescriptlang.org/)
-* [Zod](https://zod.dev/)
-* [React Components](https://www.reactcomponents.com/)
-* [Playwright](https://playwright.dev/)
-* [GitHub Copilot](https://github.com/features/copilot)
-* [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
-* [Vis.gl - React Google Maps](https://visgl.github.io/react-google-maps/)
-* [Aaron Wong - React Card Flip](https://github.com/AaronCCWong/react-card-flip)
-* [Josh Mc Farlin - React Looking Glass](https://github.com/Josh-McFarlin/react-looking-glass)
-* [Oleg Nodlik - React Page Flip](https://github.com/Nodlik/react-pageflip)
-* [Shudhanshu Gunjal - React Scratch Card](https://github.com/gshudhanshu/react-scratchcard-v4)
-* [Poimandres - React Three Fiber](https://github.com/pmndrs/react-three-fiber)
+### Core Technologies
+- [Next.js](https://nextjs.org/) - React framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Zod](https://zod.dev/) - Schema validation
+- [React](https://react.dev/) - UI library
 
-All other credits belong to [Vincent CHALAMON](https://github.com/vincentchalamon) for the original idea, design and developments of the application.
+### Maps & Location
+- [OpenStreetMap](https://www.openstreetmap.org/) and [contributors](https://www.openstreetmap.org/copyright)
+- [Leaflet](https://leafletjs.com/) - Interactive maps
+- [React Leaflet](https://react-leaflet.js.org/) - React bindings
+- [Leaflet GeoSearch](https://github.com/smeijer/leaflet-geosearch) - Location search
+- [Nominatim](https://nominatim.openstreetmap.org/) - Geocoding
+
+### UI Components
+- [Bootstrap](https://getbootstrap.com/) & [React Bootstrap](https://react-bootstrap.github.io/)
+- [Bootstrap Icons](https://icons.getbootstrap.com/)
+- [Aaron Wong - React Card Flip](https://github.com/AaronCCWong/react-card-flip)
+- [Josh Mc Farlin - React Looking Glass](https://github.com/Josh-McFarlin/react-looking-glass)
+- [Oleg Nodlik - React Page Flip](https://github.com/Nodlik/react-pageflip)
+- [Shudhanshu Gunjal - React Scratch Card](https://github.com/gshudhanshu/react-scratchcard-v4)
+- [Poimandres - React Three Fiber](https://github.com/pmndrs/react-three-fiber)
+- [React Spinners](https://www.davidhu.io/react-spinners/)
+
+### Fonts (via [Fontsource](https://fontsource.org/))
+- [Geist Sans](https://vercel.com/font) & [Geist Mono](https://vercel.com/font) by Vercel
+- [Cinzel](https://fonts.google.com/specimen/Cinzel) by Natanael Gama
+- [Crimson Text](https://fonts.google.com/specimen/Crimson+Text) by Sebastian Kosch
+- [Dancing Script](https://fonts.google.com/specimen/Dancing+Script) by Impallari Type
+
+### Development Tools
+- [Playwright](https://playwright.dev/) - E2E testing
+- [GitHub Actions](https://github.com/features/actions) - CI/CD
+- [GitHub Copilot](https://github.com/features/copilot) - AI assistance
+
+### Author
+All other credits belong to [Vincent CHALAMON](https://github.com/vincentchalamon) for the original idea, design and development of the application.
+

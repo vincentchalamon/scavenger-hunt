@@ -4,7 +4,6 @@ import React from "react";
 import {Coordinates, LookingGlass} from "./LookingGlass";
 import {Image as Img} from "react-bootstrap";
 import {useKeyword} from "@/contexts/PhraseContext";
-import {useTranslation} from "@/i18n";
 
 export type MagnifierProps = {
   image: string;
@@ -13,19 +12,18 @@ export type MagnifierProps = {
 }
 
 export const MagnifierButton: React.FC<MagnifierProps> = ({image}) => (
-  <Img src={image} className="w-100 mh-100"/>
+  <Img src={image} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const Magnifier: React.FC<MagnifierProps> = ({image, keyword, keywordPosition}) => {
   const {addKeyword} = useKeyword();
-  const { t } = useTranslation();
 
   const onCursorMove = (position: Coordinates) => {
     if (keyword && keywordPosition
       && (position.x >= (keywordPosition.x-40) && position.x <= (keywordPosition.x+40))
       && (position.y >= (keywordPosition.y-40) && position.y <= (keywordPosition.y+40))
     ) {
-      addKeyword(keyword, t('allKeywordsFound'));
+      addKeyword(keyword);
     }
   };
 

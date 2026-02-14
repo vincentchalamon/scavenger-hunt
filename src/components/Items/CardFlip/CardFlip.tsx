@@ -10,7 +10,7 @@ export type CardFlipProps = {
 }
 
 export const CardFlipButton: React.FC<CardFlipProps> = ({front}) => (
-  <Img src={front} className="w-100 mh-100"/>
+  <Img src={front} style={{maxWidth: '100%', width: '100%', height: 'auto', objectFit: 'contain'}}/>
 );
 
 export const CardFlip: React.FC<CardFlipProps> = ({front, back}) => {

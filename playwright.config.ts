@@ -21,9 +21,6 @@ export default defineConfig({
     timeout: 10000,
   },
   testDir: './tests',
-  /* Global setup/teardown for encrypted API key */
-  globalSetup: require.resolve('./tests/global-setup'),
-  globalTeardown: require.resolve('./tests/global-teardown'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -46,23 +43,36 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
+  /* Devices available at https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json */
   projects: [
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome Galaxy S24',
-      use: { ...devices['Galaxy S24'] },
+      use: {
+        ...devices['Galaxy S24'],
+        locale: 'fr-FR'
+      },
     },
     {
       name: 'Mobile Firefox Galaxy S24',
-      use: { ...devices['Galaxy S24'] },
+      use: {
+        ...devices['Galaxy S24'],
+        locale: 'fr-FR'
+      },
     },
     {
       name: 'Mobile Safari iPhone 15',
-      use: { ...devices['iPhone 15'] },
+      use: {
+        ...devices['iPhone 15'],
+        locale: 'fr-FR'
+      },
     },
     {
       name: 'Mobile Safari iPhone SE',
-      use: { ...devices['iPhone SE (3rd gen)'] },
+      use: {
+        ...devices['iPhone SE (3rd gen)'],
+        locale: 'fr-FR'
+      },
     },
   ],
 
