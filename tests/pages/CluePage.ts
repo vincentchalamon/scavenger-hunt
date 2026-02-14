@@ -340,31 +340,12 @@ export class PageFlipClue extends ClueBasePage {
     // Extra wait to ensure it's really ready
     await this.wait(1000);
 
-    // Use tap on mobile devices for better compatibility
-    try {
-      const buttonBox = await keywordButton.boundingBox();
-      if (buttonBox) {
-        const centerX = buttonBox.x + buttonBox.width / 2;
-        const centerY = buttonBox.y + buttonBox.height / 2;
-
-        // Always try tap first on Safari
-        try {
-          await this.page.touchscreen.tap(centerX, centerY);
-          await this.wait(500);
-          return;
-        } catch (tapError) {
-          // Tap failed, try click
-        }
-
-        // Fallback to mouse click
-        await this.page.mouse.click(centerX, centerY);
-        await this.wait(500);
-        return;
-      }
-    } catch (e) {
-      // If getting bounding box fails, try direct click
-      await keywordButton.click();
-    }
+    // Use JS click to bypass react-pageflip's touch/mouse interception.
+    // On small screens (iPhone SE), coordinate-based tap/click can miss the
+    // tiny <a> element and hit the parent div, which react-pageflip interprets
+    // as a page flip gesture instead of forwarding the click.
+    await keywordButton.evaluate((el: HTMLElement) => el.click());
+    await this.wait(500);
   }
 
   /**
