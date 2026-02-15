@@ -44,3 +44,8 @@ certificates
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Claude Code skills & agents
+.agents/
+.claude/
+!.claude/settings.json
