@@ -1,0 +1,66 @@
+# --- Version Control & IDEs ---
+.git/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- Dependencies ---
+node_modules/
+
+# --- Next.js Builds & Cache ---
+.next/
+out/
+build/
+dist/
+.turbo/
+.cache/
+
+# --- Testing Artifacts ---
+coverage/
+test-results/
+playwright-report/
+blob-report/
+check-report/
+
+# --- Lock Files & Auto-Generated ---
+package-lock.json
+next-env.d.ts
+*.tsbuildinfo
+
+# --- Logs & Debug ---
+*.log
+*.log.*
+npm-debug.log*
+
+# --- Environment & Secrets ---
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Binary & Media Assets ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.webp
+*.pdf
+*.zip
+*.tar
+*.gz
+*.rar
+*.mp4
+*.mp3
+*.mov
+*.wav
+*.woff
+*.woff2
+*.eot
+*.ttf
+*.otf
+*.map
+
+# --- Claude Skills (loaded separately) ---
+.agents/
