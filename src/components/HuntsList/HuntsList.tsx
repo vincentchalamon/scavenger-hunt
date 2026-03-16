@@ -120,10 +120,7 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
 
       {/* QR Code Modal */}
       <Modal show={showQrModal} onHide={() => setShowQrModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('shareTitle')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className={styles.qrModalBody}>
+        <Modal.Body className={styles.qrModalBody} onClick={() => setShowQrModal(false)}>
           <img src={assetPath('/assets/qrcode.png')} alt="QR Code" className={styles.qrCode} />
         </Modal.Body>
       </Modal>

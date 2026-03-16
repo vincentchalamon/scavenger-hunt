@@ -217,14 +217,12 @@
 }
 
 .qrModalBody {
-  display: flex;
-  justify-content: center;
-  padding: var(--spacing-xl);
+  padding: 0;
 }
 
 .qrCode {
+  display: block;
   width: 100%;
-  max-width: 280px;
   height: auto;
 }
 
