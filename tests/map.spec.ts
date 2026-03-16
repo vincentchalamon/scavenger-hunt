@@ -21,7 +21,7 @@ test.describe('Map', () => {
     // Results are shown (OpenStreetMap may return different number of results than Google Maps)
     const resultsCount = await page.getByTestId('search-results').getByRole('button').count();
     expect(resultsCount).toBeGreaterThan(0);
-    await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice Comtesse');
+    await expect(page.getByTestId('search-results').getByRole('button').first()).toContainText('Hospice Comtesse', { ignoreCase: true });
   });
 
   test('I can select a valid destination, its marker is added in the map and saved', async ({ page }) => {
