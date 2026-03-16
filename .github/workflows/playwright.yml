@@ -66,7 +66,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.runner }} playwright install --with-deps
       - name: Run Playwright tests
         run: ${{ steps.detect-package-manager.outputs.runner }} playwright test --project="${{ matrix.project }}"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: ${{ failure() && !cancelled() }}
         with:
           name: "Playwright report ${{ matrix.project }}"
