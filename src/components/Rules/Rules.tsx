@@ -20,6 +20,12 @@ export const Rules: React.FC = () => {
             <p dangerouslySetInnerHTML={{ __html: t('rulesTldr') }} />
           </div>
 
+          {/* Step 0 - Read manuscript first */}
+          <div className={styles.step}>
+            <h2 dangerouslySetInnerHTML={{ __html: t('rulesStep0Title') }} />
+            <p dangerouslySetInnerHTML={{ __html: t('rulesStep0') }} />
+          </div>
+
           {/* Step 1 */}
           <div className={styles.step}>
             <h2 dangerouslySetInnerHTML={{ __html: t('rulesStep1Title') }} />
