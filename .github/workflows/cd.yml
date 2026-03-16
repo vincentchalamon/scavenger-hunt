@@ -5,6 +5,9 @@
 name: Deploy Next.js site to Pages
 
 on:
+  # Automatic deployment on release
+  release:
+    types: [published]
   # Manual deployment
   workflow_dispatch: ~
 
