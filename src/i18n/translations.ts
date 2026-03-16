@@ -65,6 +65,10 @@ export const translations = {
     rulesStep5: 'Utilisez la <strong>barre de recherche 🔍</strong> dans l\'onglet <strong>🧭 Carte</strong> pour trouver le prochain lieu et débloquer son marqueur.',
     rulesTip: '💡 <strong>Bon à savoir :</strong> Chaque mot découvert déverrouille le lieu suivant. La phrase complète dans le <strong>📜 Manuscrit</strong> révèle le lieu final ! 🏆',
 
+    // Share
+    shareButton: 'Partager',
+    shareTitle: 'Scannez pour accéder au jeu',
+
     // Language names
     langFrench: 'Français',
     langEnglish: 'Anglais',
@@ -137,6 +141,10 @@ export const translations = {
     rulesStep5Title: '5️⃣ Search for the next location',
     rulesStep5: 'Use the <strong>search bar 🔍</strong> in the <strong>🧭 Map</strong> tab to find the next location and unlock its marker.',
     rulesTip: '💡 <strong>Good to know:</strong> Each word discovered unlocks the next location. The complete sentence in the <strong>📜 Manuscript</strong> reveals the final place! 🏆',
+
+    // Share
+    shareButton: 'Share',
+    shareTitle: 'Scan to access the game',
 
     // Language names
     langFrench: 'French',
