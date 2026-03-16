@@ -46,6 +46,7 @@ certificates
 /playwright/.auth/
 
 # Claude Code skills & agents
-.agents/
-.claude/
-!.claude/settings.json
+.agents/*
+.claude/settings.local.json
+.claude/worktrees/
+.mcp.json

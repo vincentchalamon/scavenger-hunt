@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(curl:http://localhost*)",
+      "Bash(curl:https://localhost*)",
+      "Bash(diff:*)",
+      "Bash(find:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(ls:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npx playwright:*)",
+      "Bash(npx serve:*)",
+      "Bash(pwd)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(which:*)",
+      "WebSearch",
+      "WebFetch(domain:localhost)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm:*)",
+      "Read(./.env*)"
+    ],
+    "defaultMode": "acceptEdits"
+  }
+}
