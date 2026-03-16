@@ -2,11 +2,12 @@
 
 import React, {useEffect, useState} from "react";
 import {Hunt} from "@/types/Hunt";
-import {Container} from "react-bootstrap";
+import {Container, Modal} from "react-bootstrap";
 import {CompassLoader, ParchmentCard, TreasureButton} from "@/components/UI";
 import Link from "next/link";
 import {useTranslation} from "@/i18n";
 import {useHuntProgress} from "@/hooks/use-hunt-progress";
+import {assetPath} from "@/lib/assets";
 import styles from './HuntsList.module.css';
 
 type HuntsListProps = {
@@ -15,6 +16,7 @@ type HuntsListProps = {
 
 export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
   const { t } = useTranslation();
+  const [showQrModal, setShowQrModal] = useState(false);
 
   // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
@@ -110,8 +112,18 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
           <p className={styles.footerText}>
             💡 {t('huntFooterTip')}
           </p>
+          <button className={styles.shareButton} onClick={() => setShowQrModal(true)}>
+            <span>📲</span> {t('shareButton')}
+          </button>
         </div>
       </Container>
+
+      {/* QR Code Modal */}
+      <Modal show={showQrModal} onHide={() => setShowQrModal(false)} centered>
+        <Modal.Body className={styles.qrModalBody} onClick={() => setShowQrModal(false)}>
+          <img src={assetPath('/assets/qrcode.png')} alt="QR Code" className={styles.qrCode} />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

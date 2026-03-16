@@ -3,7 +3,7 @@
 import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
 import {Rules} from "@/components/Rules";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
 import {PhraseProvider, PhraseContext} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
@@ -11,6 +11,7 @@ import {Toast} from "@/components/Toast/Toast";
 import dynamic from "next/dynamic";
 import {CompassLoader} from "@/components/UI";
 import {useTranslation} from "@/i18n";
+import {useWakeLock} from "@/hooks/useWakeLock";
 import Link from "next/link";
 import styles from "./Hunt.module.css";
 
@@ -27,25 +28,54 @@ type HuntProps = {
   hunt: HuntType;
 }
 
+const VALID_TABS = ['rules', 'manuscript', 'map'] as const;
+type TabKey = typeof VALID_TABS[number];
+
+function tabFromHash(): TabKey | null {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.hash.match(/^#tab=(.+)$/);
+  const tab = match?.[1];
+  return VALID_TABS.includes(tab as TabKey) ? (tab as TabKey) : null;
+}
+
 // Internal component to access PhraseContext
 const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
   const { keywords } = React.useContext(PhraseContext);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [prevKeywordsCount, setPrevKeywordsCount] = useState(keywords.length);
+  const tabContentRef = useRef<HTMLDivElement>(null);
+  const [activeKey, setActiveKey] = useState<string>("rules");
+
+  useWakeLock();
+
+  // Set initial hash so the hunt entry is identifiable in history
+  useEffect(() => {
+    window.history.replaceState({tab: 'rules'}, "", '#tab=rules');
+  }, []);
+
+  // Handle browser back button: restore tab from hash
+  useEffect(() => {
+    const handlePopState = () => {
+      const tab = tabFromHash();
+      if (tab) {
+        setActiveKey(tab);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // Detect when a new keyword is added
   useEffect(() => {
     if (keywords.length > prevKeywordsCount) {
-      // New keyword found - trigger animation
       setShouldAnimate(true);
     }
     setPrevKeywordsCount(keywords.length);
   }, [keywords.length, prevKeywordsCount]);
 
-  // Handler for clicking on the Manuscript button
   const handleManuscriptClick = () => {
-    // Disable animation when user clicks on Manuscript
     setShouldAnimate(false);
   };
 
@@ -69,17 +99,19 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
         background: "var(--gradient-parchment)",
       }}>
         <Tab.Container
-          defaultActiveKey="rules"
+          activeKey={activeKey}
           onSelect={(key) => {
-            // Force window resize event to trigger map invalidation
+            if (!key) return;
+            setActiveKey(key);
+            // Use hash-based navigation: Next.js router ignores hash-only changes
+            window.history.pushState({tab: key}, "", `#tab=${key}`);
+            tabContentRef.current?.scrollTo(0, 0);
             if (key === 'map') {
-              setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-              }, 50);
+              setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
             }
           }}
         >
-          <Tab.Content style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
+          <Tab.Content ref={tabContentRef} style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
             <Tab.Pane eventKey="rules" className="h-100">
               <Rules/>
             </Tab.Pane>
@@ -128,11 +160,8 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
 export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
 
-  // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
-  // Lock for mobile only
   const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
-  // Loading screen
   const [loaded, setLoaded] = useState<boolean>(false);
 
   if (typeof navigator !== "undefined") {
@@ -140,7 +169,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   if (typeof window !== "undefined") {
-    // Lock screen orientation (native browser option is not fully supported)
     useEffect(() => {
       const handler = () => setLocked(screen.orientation.type.toString().startsWith("landscape"));
       handler();
@@ -149,7 +177,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
       return () => screen.orientation.removeEventListener('change', handler, true);
     }, [screen.orientation]);
 
-    // Loading screen
     useEffect(() => setLoaded(typeof locked !== "undefined" && typeof isMobile !== "undefined"), [locked, isMobile]);
   }
 

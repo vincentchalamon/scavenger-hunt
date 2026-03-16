@@ -6,7 +6,7 @@ import {getDefaultTranslations} from "@/i18n/server";
 const { t } = getDefaultTranslations();
 
 export const metadata: Metadata = {
-  title: t('appTitle'),
+  title: `Scavenger Hunt - ${t('appTitle')}`,
   description: t('appDescription'),
 };
 

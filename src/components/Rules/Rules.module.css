@@ -1,6 +1,6 @@
 .rulesContent {
   font-family: var(--font-body);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   line-height: var(--line-height-relaxed);
   color: #5C4033;
 }
@@ -23,54 +23,23 @@
   pointer-events: none;
 }
 
-/* Objectif principal */
-.objective {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(184, 134, 11, 0.12) 100%);
-  border-left: 5px solid var(--treasure-gold);
+/* TL;DR summary */
+.tldr {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(184, 134, 11, 0.18) 100%);
+  border: 2px solid var(--treasure-gold);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-lg) var(--spacing-md);
   margin-bottom: var(--spacing-xl);
-  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.25);
 }
 
-.objective :global(p) {
+.tldr :global(p) {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  font-size: var(--font-size-base);
+  line-height: 1.7;
   color: #4A3426;
   font-weight: 500;
-}
-
-/* Step 0 - Before starting (special section) */
-.stepZero {
-  background: linear-gradient(135deg, rgba(114, 89, 150, 0.12) 0%, rgba(94, 73, 122, 0.08) 100%);
-  border: 2px solid rgba(114, 89, 150, 0.4);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md) var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  box-shadow: 0 2px 6px rgba(114, 89, 150, 0.1);
-}
-
-.stepZero :global(h2) {
-  font-family: var(--font-title);
-  font-weight: var(--font-weight-bold);
-  color: #5E4976;
-  font-size: 1.15rem;
-  margin-bottom: var(--spacing-sm);
-  margin-top: 0;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  pointer-events: none;
-}
-
-.stepZero :global(p) {
-  margin: 0;
-  color: #5C4033;
-  line-height: 1.7;
-  font-size: 0.95rem;
-  font-weight: 500;
+  text-align: left;
 }
 
 /* Steps */
@@ -86,7 +55,7 @@
   font-family: var(--font-title);
   font-weight: var(--font-weight-bold);
   color: #8B5A13;
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-sm);
   margin-top: 0;
   user-select: none;
@@ -99,8 +68,7 @@
 .step :global(p) {
   margin: 0 0 0 var(--spacing-md);
   color: #5C4033;
-  text-align: justify;
-  text-justify: inter-word;
+  text-align: left;
 }
 
 /* Astuce */
@@ -114,10 +82,11 @@
 
 .tip :global(p) {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--font-size-base);
   line-height: 1.6;
   color: #5C4033;
   font-weight: 500;
+  text-align: left;
 }
 
 /* Styles pour le contenu HTML */
@@ -142,18 +111,17 @@
   }
 }
 
-.objective,
-.stepZero,
+.tldr,
 .step,
 .tip {
   animation: fadeInUp 0.6s ease-out backwards;
 }
 
-.objective {
+.tldr {
   animation-delay: 0.1s;
 }
 
-.stepZero {
+.step:nth-child(3) {
   animation-delay: 0.2s;
 }
 
@@ -173,20 +141,6 @@
   animation-delay: 0.6s;
 }
 
-.step:nth-child(8) {
-  animation-delay: 0.7s;
-}
-
-.tip {
-  animation-delay: 0.8s;
-}
-
-.step:nth-child(7) {
-  animation-delay: 0.6s;
-}
-
 .tip {
   animation-delay: 0.7s;
 }
-
-

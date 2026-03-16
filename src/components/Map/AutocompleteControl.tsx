@@ -6,6 +6,7 @@ import {useMap} from "react-leaflet";
 import {OpenStreetMapProvider} from 'leaflet-geosearch';
 import {FormControlProps} from "react-bootstrap/FormControl";
 import {useTranslation} from "@/i18n";
+import {Place} from "@/types/Place";
 import ReactDOM from "react-dom";
 
 // Debounce delay for search input in milliseconds
@@ -23,10 +24,11 @@ type AutocompleteControlProps = {
   onPlaceSelect?: (result: SearchResult | null) => void;
   onClear?: () => void;
   coordinates: {lat: number; lng: number};
+  places?: Place[];
 }
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
-  const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, ...formControlProps} = props;
+  const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, places = [], ...formControlProps} = props;
   const { t } = useTranslation();
   const map = useMap();
   const [inputValue, setInputValue] = useState<string>('');
@@ -69,14 +71,35 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
       return;
     }
 
+    // Local search: match game places by name first
+    const query = inputValue.toLowerCase();
+    const localResults: SearchResult[] = places
+      .filter((place) => place.name.toLowerCase().includes(query))
+      .map((place) => ({
+        x: place.coordinates.lng,
+        y: place.coordinates.lat,
+        label: place.name,
+        bounds: null,
+        raw: {local: true},
+      }));
+
+    // If we have local matches, show them immediately
+    if (localResults.length > 0) {
+      setSuggestions(localResults);
+    }
+
     const timeoutId = setTimeout(async () => {
       setIsSearching(true);
       try {
         const results = await provider().search({ query: inputValue });
-        setSuggestions(results as SearchResult[]);
+        // Merge: local results first, then OSM results (deduplicated)
+        const osmResults = (results as SearchResult[]).filter(
+          (r) => !localResults.some((lr) => Math.abs(lr.x - r.x) < 0.001 && Math.abs(lr.y - r.y) < 0.001)
+        );
+        setSuggestions([...localResults, ...osmResults]);
       } catch (error) {
         console.error('Search error:', error);
-        setSuggestions([]);
+        if (localResults.length === 0) setSuggestions([]);
       } finally {
         setIsSearching(false);
       }
@@ -137,7 +160,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
               style={{fontSize: '14px', borderRadius: i === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
               onClick={() => handleSuggestionClick(suggestion)}
             >
-              <i className="bi bi-geo-alt-fill me-1"></i> {suggestion.label}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" className="me-1" style={{verticalAlign: '-0.125em'}}><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg> {suggestion.label}
             </ListGroup.Item>
           ))}
         </ListGroup>

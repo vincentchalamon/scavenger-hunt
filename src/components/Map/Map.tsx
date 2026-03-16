@@ -1,12 +1,13 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {MapContainer, TileLayer, useMap} from "react-leaflet";
+import {CircleMarker, MapContainer, TileLayer, useMap} from "react-leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
 import {MarkerWithPopup} from "@/components/Map/MarkerWithPopup";
 import {useToast} from "@/contexts/ToastContext";
 import {useTranslation} from "@/i18n";
+import {useGeolocation} from "@/hooks/useGeolocation";
 import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
 import "leaflet/dist/leaflet.css";
 
@@ -59,9 +60,42 @@ function MapInvalidator() {
   return null;
 }
 
+// Button to center map on user's position
+function CenterOnMeButton({position}: {position: {lat: number; lng: number}}) {
+  const map = useMap();
+  const { t } = useTranslation();
+
+  return (
+    <button
+      onClick={() => map.setView([position.lat, position.lng], 17)}
+      title={t('centerOnMe')}
+      style={{
+        position: 'absolute',
+        bottom: '20px',
+        right: '10px',
+        zIndex: 1000,
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        border: '2px solid rgba(0,0,0,0.2)',
+        background: 'white',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '20px',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+      }}
+    >
+      📍
+    </button>
+  );
+}
+
 export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
   const { t } = useTranslation();
+  const {position: userPosition} = useGeolocation();
 
   // Store all visited places to trace a route in the map
   // Preset first place
@@ -82,45 +116,29 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     if (debug) {
       console.log(`🔍 Searching for place at coordinates: lat=${result.y}, lng=${result.x} (label: "${result.label}")`);
     }
-    // Look for place in configuration based on it's coordinates
-    // Note: it's possible to search for all places through the geocoding service, but only select a place from the configuration
-    // Use proximity check with margin of error (approximately 50-100m depending on latitude)
-    // Default margin: ~111m at the equator, less at higher latitudes
-    const DEFAULT_COORDINATE_MARGIN = 0.001;
+    // Look for place in configuration based on its coordinates
+    // Find the closest place and accept it if within a global max distance (~500m)
+    const MAX_SEARCH_DISTANCE = 0.005;
 
-    // Find the closest place within its margin
     let closestPlace: Place | null = null;
     let minDistance = Infinity;
 
     places.forEach((location) => {
-      const margin = location.coordinateMargin ?? DEFAULT_COORDINATE_MARGIN;
       const distLat = Math.abs(location.coordinates.lat - result.y);
       const distLng = Math.abs(location.coordinates.lng - result.x);
+      const distance = Math.sqrt(distLat * distLat + distLng * distLng);
 
-      // Check if within margin
-      if (distLat <= margin && distLng <= margin) {
-        // Calculate Euclidean distance for comparison
-        const distance = Math.sqrt(distLat * distLat + distLng * distLng);
+      if (debug) {
+        console.log(`Place: ${location.name} - Distance: ${distance.toFixed(6)}`);
+      }
 
-        if (debug) {
-          console.log(`Place: ${location.name}`);
-          console.log(`  Coordinates: lat=${location.coordinates.lat}, lng=${location.coordinates.lng}`);
-          console.log(`  Result: lat=${result.y}, lng=${result.x}`);
-          console.log(`  Margin: ${margin} (${margin === DEFAULT_COORDINATE_MARGIN ? 'default' : 'custom'})`);
-          console.log(`  Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)}, total=${distance.toFixed(6)}`);
-          console.log(`  Within margin: YES`);
-        }
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestPlace = location;
-        }
-      } else if (debug) {
-        console.log(`Place: ${location.name} - Distance: lat=${distLat.toFixed(6)}, lng=${distLng.toFixed(6)} - Within margin: NO`);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestPlace = location;
       }
     });
 
-    if (closestPlace !== null) {
+    if (closestPlace !== null && minDistance <= MAX_SEARCH_DISTANCE) {
       // Store in a const to preserve type narrowing in callbacks
       const placeToAdd: Place = closestPlace;
       setVisitedPlaces((prevVisitedPlaces) => {
@@ -161,8 +179,19 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
       />
       <MapController center={mapCenter} />
       <MapInvalidator />
+      {userPosition && (
+        <>
+          <CircleMarker
+            center={[userPosition.lat, userPosition.lng]}
+            radius={8}
+            pathOptions={{color: '#fff', weight: 2, fillColor: '#4285F4', fillOpacity: 1}}
+          />
+          <CenterOnMeButton position={userPosition} />
+        </>
+      )}
       <AutocompleteControl
           coordinates={coordinates}
+          places={places}
           onPlaceSelect={onPlaceSelect}
           onChange={() => {
             setSelectedPlace(null);
