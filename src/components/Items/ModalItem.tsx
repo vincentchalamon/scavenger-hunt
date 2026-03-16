@@ -1,6 +1,6 @@
 "use client";
 
-import React, {PropsWithChildren, ReactNode, useCallback, useEffect, useRef, useState} from "react";
+import React, {PropsWithChildren, ReactNode, useCallback, useEffect, useId, useRef, useState} from "react";
 import {Button, Container, Modal} from "react-bootstrap";
 import {assetPath} from "@/lib/assets";
 import {ZoomableFrame} from "@/components/UI";
@@ -8,13 +8,15 @@ import {ZoomableFrame} from "@/components/UI";
 export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {}}: PropsWithChildren<{ button: ReactNode, onShow?: () => void, onHide?: () => void }>) => {
   const [isShown, setIsShown] = useState<boolean>(false);
   const isShownRef = useRef(false);
+  // Unique ID per modal instance: popstate only closes THIS modal when going past its own entry
+  const modalId = useId();
 
   const show = useCallback(() => {
     setIsShown(true);
     isShownRef.current = true;
-    window.history.pushState({modal: true}, "");
+    window.history.pushState({modal: modalId}, "");
     onShow();
-  }, [onShow]);
+  }, [onShow, modalId]);
 
   const hide = useCallback(() => {
     setIsShown(false);
@@ -22,17 +24,18 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
     onHide();
   }, [onHide]);
 
-  // Handle browser back button — close modal instead of navigating away
+  // Handle browser back button: close this modal only when navigating past its own history entry.
+  // Using event.state?.modal !== modalId ensures nested modals don't close the parent.
   useEffect(() => {
-    const handlePopState = () => {
-      if (isShownRef.current) {
+    const handlePopState = (event: PopStateEvent) => {
+      if (isShownRef.current && event.state?.modal !== modalId) {
         hide();
       }
     };
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, [hide]);
+  }, [hide, modalId]);
 
   return (
     <>

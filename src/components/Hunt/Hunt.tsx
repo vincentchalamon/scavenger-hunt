@@ -28,6 +28,16 @@ type HuntProps = {
   hunt: HuntType;
 }
 
+const VALID_TABS = ['rules', 'manuscript', 'map'] as const;
+type TabKey = typeof VALID_TABS[number];
+
+function tabFromHash(): TabKey | null {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.hash.match(/^#tab=(.+)$/);
+  const tab = match?.[1];
+  return VALID_TABS.includes(tab as TabKey) ? (tab as TabKey) : null;
+}
+
 // Internal component to access PhraseContext
 const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
@@ -39,11 +49,17 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
 
   useWakeLock();
 
-  // Handle browser back button for tab navigation
+  // Set initial hash so the hunt entry is identifiable in history
   useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      if (event.state?.tab) {
-        setActiveKey(event.state.tab);
+    window.history.replaceState({tab: 'rules'}, "", '#tab=rules');
+  }, []);
+
+  // Handle browser back button: restore tab from hash
+  useEffect(() => {
+    const handlePopState = () => {
+      const tab = tabFromHash();
+      if (tab) {
+        setActiveKey(tab);
       }
     };
 
@@ -54,15 +70,12 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   // Detect when a new keyword is added
   useEffect(() => {
     if (keywords.length > prevKeywordsCount) {
-      // New keyword found - trigger animation
       setShouldAnimate(true);
     }
     setPrevKeywordsCount(keywords.length);
   }, [keywords.length, prevKeywordsCount]);
 
-  // Handler for clicking on the Manuscript button
   const handleManuscriptClick = () => {
-    // Disable animation when user clicks on Manuscript
     setShouldAnimate(false);
   };
 
@@ -90,13 +103,11 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
           onSelect={(key) => {
             if (!key) return;
             setActiveKey(key);
-            window.history.pushState({tab: key}, "");
+            // Use hash-based navigation: Next.js router ignores hash-only changes
+            window.history.pushState({tab: key}, "", `#tab=${key}`);
             tabContentRef.current?.scrollTo(0, 0);
-            // Force window resize event to trigger map invalidation
             if (key === 'map') {
-              setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-              }, 50);
+              setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
             }
           }}
         >
@@ -149,11 +160,8 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
 export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
 
-  // Lock screen orientation (native browser option is not fully supported)
   const [locked, setLocked] = useState<boolean | undefined>(undefined);
-  // Lock for mobile only
   const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
-  // Loading screen
   const [loaded, setLoaded] = useState<boolean>(false);
 
   if (typeof navigator !== "undefined") {
@@ -161,7 +169,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   }
 
   if (typeof window !== "undefined") {
-    // Lock screen orientation (native browser option is not fully supported)
     useEffect(() => {
       const handler = () => setLocked(screen.orientation.type.toString().startsWith("landscape"));
       handler();
@@ -170,7 +177,6 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
       return () => screen.orientation.removeEventListener('change', handler, true);
     }, [screen.orientation]);
 
-    // Loading screen
     useEffect(() => setLoaded(typeof locked !== "undefined" && typeof isMobile !== "undefined"), [locked, isMobile]);
   }
 
