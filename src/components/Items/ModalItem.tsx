@@ -22,14 +22,9 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
     onHide();
   }, [onHide]);
 
-  const hideWithBack = useCallback(() => {
-    hide();
-    window.history.back();
-  }, [hide]);
-
-  // Handle browser back button
+  // Handle browser back button — close modal instead of navigating away
   useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
+    const handlePopState = () => {
       if (isShownRef.current) {
         hide();
       }
@@ -42,7 +37,7 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
   return (
     <>
       <div className="h-100 w-100 p-0 m-0" onClick={show}>{button}</div>
-      <Modal show={isShown} fullscreen onHide={hideWithBack} data-testid="modal">
+      <Modal show={isShown} fullscreen onHide={hide} data-testid="modal">
         <Modal.Body className="p-0 position-relative" style={{
           backgroundImage: `url('${assetPath('/assets/background.png')}')`,
           backgroundPosition: "center",
@@ -51,7 +46,7 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
           backgroundBlendMode: "lighten",
         }}>
           {/*@ts-ignore*/}
-          <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hideWithBack} style={{zIndex: 10}}/>
+          <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hide} style={{zIndex: 10}}/>
           <ZoomableFrame>
             <Container className="d-flex flex-column justify-content-center h-100 w-100 p-0">
               {children}
