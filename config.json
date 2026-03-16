@@ -112,8 +112,8 @@
             "type": "scratch-card",
             "options": {
               "image": "/assets/le-secret-du-vieux-lille/aux-merveilleux-de-fred/box.png",
-              "width": 340,
-              "height": 380,
+              "width": 400,
+              "height": 450,
               "scratchableAreas": [
                 {
                   "top": "45%",

@@ -1,4 +1,4 @@
-import type {Metadata} from "next";
+import type {Metadata, Viewport} from "next";
 import "@fontsource/geist-sans/400.css";
 import "@fontsource/geist-sans/700.css";
 import "@fontsource/geist-mono/400.css";
@@ -14,13 +14,19 @@ import "@fontsource/dancing-script/700.css";
 import "../styles/theme.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import {ReactNode} from "react";
 import {Providers} from "@/components/Providers/Providers";
 
 export const metadata: Metadata = {
   title: "Scavenger Hunt",
   description: "Scavenger Hunt App",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default async function RootLayout({children}: Readonly<{ children: ReactNode }>) {

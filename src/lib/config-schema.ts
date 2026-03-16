@@ -144,7 +144,7 @@ const placeSchema = z.object({
   description: z.string(),
   link: z.string().url().optional(),
   coordinates: coordinatesSchema,
-  coordinateMargin: z.number().positive().optional(), // Margin of error for coordinate proximity check
+  coordinateMargin: z.number().positive().optional(), // Deprecated: no longer used for search matching
   item: itemSchema.optional(),
 });
 

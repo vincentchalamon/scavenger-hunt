@@ -3,7 +3,7 @@
 import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
 import {Rules} from "@/components/Rules";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
 import {PhraseProvider, PhraseContext} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
@@ -11,6 +11,7 @@ import {Toast} from "@/components/Toast/Toast";
 import dynamic from "next/dynamic";
 import {CompassLoader} from "@/components/UI";
 import {useTranslation} from "@/i18n";
+import {useWakeLock} from "@/hooks/useWakeLock";
 import Link from "next/link";
 import styles from "./Hunt.module.css";
 
@@ -33,6 +34,22 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   const { keywords } = React.useContext(PhraseContext);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [prevKeywordsCount, setPrevKeywordsCount] = useState(keywords.length);
+  const tabContentRef = useRef<HTMLDivElement>(null);
+  const [activeKey, setActiveKey] = useState<string>("rules");
+
+  useWakeLock();
+
+  // Handle browser back button for tab navigation
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state?.tab) {
+        setActiveKey(event.state.tab);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // Detect when a new keyword is added
   useEffect(() => {
@@ -69,8 +86,12 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
         background: "var(--gradient-parchment)",
       }}>
         <Tab.Container
-          defaultActiveKey="rules"
+          activeKey={activeKey}
           onSelect={(key) => {
+            if (!key) return;
+            setActiveKey(key);
+            window.history.pushState({tab: key}, "");
+            tabContentRef.current?.scrollTo(0, 0);
             // Force window resize event to trigger map invalidation
             if (key === 'map') {
               setTimeout(() => {
@@ -79,7 +100,7 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
             }
           }}
         >
-          <Tab.Content style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
+          <Tab.Content ref={tabContentRef} style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
             <Tab.Pane eventKey="rules" className="h-100">
               <Rules/>
             </Tab.Pane>

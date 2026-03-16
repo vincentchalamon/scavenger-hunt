@@ -30,6 +30,13 @@ export const ScratchCardButton: React.FC<ScratchCardProps> = ({image}) => (
 export const ScratchCard: React.FC<ScratchCardProps> = ({image, width, height, scratchableAreas}) => {
   const {addKeyword} = useKeyword();
 
+  // Make dimensions responsive: scale down to fit viewport while preserving aspect ratio
+  const maxWidth = typeof window !== "undefined" ? window.innerWidth * 0.9 : width;
+  const maxHeight = typeof window !== "undefined" ? window.innerHeight * 0.75 : height;
+  const scale = Math.min(1, maxWidth / width, maxHeight / height);
+  const responsiveWidth = Math.round(width * scale);
+  const responsiveHeight = Math.round(height * scale);
+
   const nbKeywords = scratchableAreas.filter((scratchableArea: ScratchableAreaProps) => scratchableArea.keyword).length;
   if (nbKeywords > 1) {
     throw new Error('Scratchable card only supports one keyword scratchable area.');
@@ -41,12 +48,12 @@ export const ScratchCard: React.FC<ScratchCardProps> = ({image, width, height, s
   return (
     <div style={{maxWidth: "95%", maxHeight: "95%", boxShadow: "0 0 20px black", border: "thin solid #555", backgroundColor: "#ffffff"}}>
       <ReactScratchCard
-        width={width}
-        height={height}
+        width={responsiveWidth}
+        height={responsiveHeight}
         image={image}
         finishPercent={80}
         fadeOutOnComplete={false}
-        customCheckZone={{x: 0, y: height/3, width: (80*width)/100, height: height/4}}
+        customCheckZone={{x: 0, y: responsiveHeight/3, width: (80*responsiveWidth)/100, height: responsiveHeight/4}}
         onComplete={() => addKeyword(scratchableAreas.filter((scratchableArea) => scratchableArea.keyword)[0].text)}
       >
         <div className="align-items-center justify-content-center w-100 h-100" style={{backgroundColor: "#ffffff"}}>

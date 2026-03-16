@@ -1,24 +1,48 @@
 "use client";
 
-import React, {PropsWithChildren, ReactNode, useState} from "react";
+import React, {PropsWithChildren, ReactNode, useCallback, useEffect, useRef, useState} from "react";
 import {Button, Container, Modal} from "react-bootstrap";
 import {assetPath} from "@/lib/assets";
+import {ZoomableFrame} from "@/components/UI";
 
 export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {}}: PropsWithChildren<{ button: ReactNode, onShow?: () => void, onHide?: () => void }>) => {
   const [isShown, setIsShown] = useState<boolean>(false);
-  const show = () => {
+  const isShownRef = useRef(false);
+
+  const show = useCallback(() => {
     setIsShown(true);
+    isShownRef.current = true;
+    window.history.pushState({modal: true}, "");
     onShow();
-  }
-  const hide = () => {
+  }, [onShow]);
+
+  const hide = useCallback(() => {
     setIsShown(false);
+    isShownRef.current = false;
     onHide();
-  }
+  }, [onHide]);
+
+  const hideWithBack = useCallback(() => {
+    hide();
+    window.history.back();
+  }, [hide]);
+
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (isShownRef.current) {
+        hide();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [hide]);
 
   return (
     <>
       <div className="h-100 w-100 p-0 m-0" onClick={show}>{button}</div>
-      <Modal show={isShown} fullscreen onHide={hide} data-testid="modal">
+      <Modal show={isShown} fullscreen onHide={hideWithBack} data-testid="modal">
         <Modal.Body className="p-0 position-relative" style={{
           backgroundImage: `url('${assetPath('/assets/background.png')}')`,
           backgroundPosition: "center",
@@ -27,10 +51,12 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
           backgroundBlendMode: "lighten",
         }}>
           {/*@ts-ignore*/}
-          <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hide}/>
-          <Container className="d-flex flex-column justify-content-center h-100 w-100 p-0">
-            {children}
-          </Container>
+          <Button className="btn-close z-3 position-absolute m-3 top-0 end-0" onClick={hideWithBack} style={{zIndex: 10}}/>
+          <ZoomableFrame>
+            <Container className="d-flex flex-column justify-content-center h-100 w-100 p-0">
+              {children}
+            </Container>
+          </ZoomableFrame>
         </Modal.Body>
       </Modal>
     </>

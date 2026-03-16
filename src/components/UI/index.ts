@@ -6,4 +6,5 @@
 export { ParchmentCard } from './ParchmentCard/ParchmentCard';
 export { TreasureButton } from './TreasureButton/TreasureButton';
 export { CompassLoader } from './CompassLoader/CompassLoader';
+export { ZoomableFrame } from './ZoomableFrame';
 

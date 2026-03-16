@@ -15,6 +15,11 @@ export const Rules: React.FC = () => {
         <div className={styles.rulesContent}>
           <h1>{t('rulesTitle')}</h1>
 
+          {/* TL;DR */}
+          <div className={styles.tldr}>
+            <p dangerouslySetInnerHTML={{ __html: t('rulesTldr') }} />
+          </div>
+
           {/* Objectif principal */}
           <div className={styles.objective}>
             <p dangerouslySetInnerHTML={{ __html: t('rulesObjective') }} />
