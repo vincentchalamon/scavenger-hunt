@@ -81,11 +81,10 @@ test.describe('Interface i18n', () => {
     const expectedInstructions = en
       ? 'Go to the location, then tap the image below'
       : 'Allez sur place, puis cliquez sur l\'image ci-dessous';
+    const forbiddenInstructions = en
+      ? 'Allez sur place, puis cliquez sur l\'image ci-dessous'
+      : 'Go to the location, then tap the image below';
     await expect(popup).toContainText(expectedInstructions);
-
-    const expectedLinkLabel = en ? 'Discover its story' : 'Découvrez son histoire';
-    const forbiddenLinkLabel = en ? 'Découvrez son histoire' : 'Discover its story';
-    await expect(popup.getByRole('link', {name: expectedLinkLabel})).toBeVisible();
-    await expect(popup.getByRole('link', {name: forbiddenLinkLabel})).not.toBeVisible();
+    await expect(popup).not.toContainText(forbiddenInstructions);
   });
 });
