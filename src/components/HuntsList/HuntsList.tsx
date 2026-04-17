@@ -195,7 +195,7 @@ const HuntCard: React.FC<{ hunt: Hunt; totalKeywords: number }> = ({ hunt, total
 
       {/* Hunt Description */}
       <p className={styles.huntDescription}>
-        {hunt.description || `Partez à la découverte et résolvez les énigmes pour trouver les mots cachés dans les lieux emblématiques.`}
+        {hunt.description || t('huntDescription')}
       </p>
 
       {/* CTA Button */}

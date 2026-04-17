@@ -7,6 +7,7 @@ import {Place} from "@/types/Place";
 import {Button, Container} from "react-bootstrap";
 import {RenderButton, RenderItem} from "@/components/Items/ItemFactory";
 import {ModalItem} from "@/components/Items/ModalItem";
+import {useTranslation} from "@/i18n";
 
 // Fix for default marker icon in Leaflet with webpack
 // This needs to be done client-side only
@@ -48,6 +49,7 @@ export const MarkerWithPopup = (props: {
   "data-testid"?: string;
 }) => {
   const {onMarkerClick, onCloseClick, isSelected, isLatest, shouldOpenPopup, place} = props;
+  const {t} = useTranslation();
   const markerRef = useRef<L.Marker>(null);
   const popupRef = useRef<L.Popup | null>(null);
   const map = useMap();
@@ -127,7 +129,7 @@ export const MarkerWithPopup = (props: {
           }} dangerouslySetInnerHTML={{__html: place.description}}/>
           {place.link && (
             // @ts-ignore
-            <Button href={place.link} target="_blank" className="mt-2 d-block mx-auto">Découvrez son histoire</Button>
+            <Button href={place.link} target="_blank" className="mt-2 d-block mx-auto">{t('markerLinkButton')}</Button>
           )}
           {place.item?.type && (
             <>
@@ -136,7 +138,7 @@ export const MarkerWithPopup = (props: {
                 textAlign: "justify",
                 textJustify: "inter-word",
                 fontWeight: "bolder",
-              }}><strong>Allez sur place, puis cliquer sur l'image ci-dessous pour accéder à la prochaine énigme.</strong></p>
+              }}><strong>{t('markerPlaceInstructions')}</strong></p>
               <ModalItem button={
                 // @ts-ignore
                 <Button variant="link" className="p-0 m-0" style={{maxWidth: '100%', display: 'block'}}>

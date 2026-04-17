@@ -29,7 +29,7 @@ type AutocompleteControlProps = {
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
   const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, places = [], ...formControlProps} = props;
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const map = useMap();
   const [inputValue, setInputValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
@@ -39,12 +39,12 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const provider = useCallback(() => {
     return new OpenStreetMapProvider({
       params: {
-        'accept-language': 'fr',
+        'accept-language': language,
         countrycodes: 'fr',
         addressdetails: 1,
       },
     });
-  }, []);
+  }, [language]);
 
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);

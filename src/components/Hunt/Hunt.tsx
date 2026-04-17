@@ -15,12 +15,17 @@ import {useWakeLock} from "@/hooks/useWakeLock";
 import Link from "next/link";
 import styles from "./Hunt.module.css";
 
+const MapLoading = () => {
+  const {t} = useTranslation();
+  return <CompassLoader fullScreen text={t('loading')} />;
+};
+
 // Dynamic import of Map component to prevent SSR issues with Leaflet
 const Map = dynamic(
   () => import("@/components/Map/Map").then((mod) => mod.Map),
   {
     ssr: false,
-    loading: () => <CompassLoader fullScreen text="Loading map..." />
+    loading: () => <MapLoading />
   }
 );
 
