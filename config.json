@@ -370,7 +370,7 @@
         {
           "name": "Hospice Comtesse Museum",
           "description": "<p>The Hospice Comtesse is a <strong>former medieval hospital</strong> founded in 1237 by Countess Jeanne of Flanders (c. 1200-1244). Since 1962 it has housed the city's <strong>museum of art and history</strong>.</p><p>The scale of its volumes and its architecture — characteristic of places of care — embody <strong>more than 750 years of hospitality and generosity</strong>. Home to <strong>nearly 70,000 works</strong>, its diverse collections reflect the social and cultural history of the capital of Flanders.</p><p>Awarded the \"<strong>Musée de France</strong>\" label in 2003 and listed as a <strong>Historic Monument</strong> in 1923 and 1991, the Hospice Comtesse Museum is currently working on its future Scientific and Cultural Project (PSC).</p>",
-          "link": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_l%27Hospice_Comtesse",
+          "link": "https://en.wikipedia.org/wiki/Hospice_Comtesse",
           "coordinates": {
             "lat": 50.6411688,
             "lng": 3.0632054
@@ -487,7 +487,7 @@
         {
           "name": "Notre-Dame-de-la-Treille Cathedral",
           "description": "<p>Its construction, which spanned <strong>nearly one hundred and fifty years</strong>, began symbolically in <strong>1854</strong> with the laying of a foundation stone.</p><p>Started in <strong>1856</strong>, the building of the church then met with <strong>numerous difficulties</strong>, particularly in <strong>raising the funds</strong> needed to continue the work. It proceeded in phases, under the direction of several generations of architects, from 1856 to 1975, and was finally completed <strong>in 1999 with the addition of a very modern façade</strong> — part of the original plan, which had included a western massif of two great towers flanking a rose window, having been abandoned.</p>",
-          "link": "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Notre-Dame-de-la-Treille",
+          "link": "https://en.wikipedia.org/wiki/Lille_Cathedral",
           "coordinates": {
             "lat": 50.6398288,
             "lng": 3.06207
@@ -553,7 +553,7 @@
         {
           "name": "Old Stock Exchange",
           "description": "<p>The Old Stock Exchange of Lille is one of <strong>Lille's most prestigious monuments</strong>. It bears witness to the intense economic activity that took place in Lille during the Grand Siècle. It has been called the \"Old Stock Exchange\" since the building of the new Chamber of Commerce (the \"New Stock Exchange\") in the 1910s. Built in 1653, it was <strong>listed as a Historic Monument</strong> in 1921 and 1923.</p><p>The quadrangular building is made up of 24 identical houses enclosing the inner courtyard, where <strong>booksellers, florists, chess players, strollers and tourists</strong> now meet.</p>",
-          "link": "https://fr.wikipedia.org/wiki/Vieille_Bourse",
+          "link": "https://en.wikipedia.org/wiki/Vieille_Bourse",
           "coordinates": {
             "lat": 50.6370472,
             "lng": 3.064017
@@ -588,7 +588,7 @@
         {
           "name": "Lille Opera",
           "description": "<p>The Lille Opera is a theatre of <strong>neoclassical inspiration</strong>.</p><p>Built from 1907 to 1913, it was <strong>officially inaugurated in 1923</strong>. Closed for renovation in 1998, it reopened in late 2003 for Lille 2004.</p>",
-          "link": "https://fr.wikipedia.org/wiki/Op%C3%A9ra_de_Lille",
+          "link": "https://en.wikipedia.org/wiki/Op%C3%A9ra_de_Lille",
           "coordinates": {
             "lat": 50.6377196,
             "lng": 3.0653175
