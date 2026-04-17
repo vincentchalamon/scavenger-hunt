@@ -74,6 +74,20 @@ export default defineConfig({
         locale: 'fr-FR'
       },
     },
+    {
+      name: 'Mobile Chrome Galaxy S24 (en-US)',
+      use: {
+        ...devices['Galaxy S24'],
+        locale: 'en-US'
+      },
+    },
+    {
+      name: 'Mobile Safari iPhone 15 (en-US)',
+      use: {
+        ...devices['iPhone 15'],
+        locale: 'en-US'
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
