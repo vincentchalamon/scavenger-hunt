@@ -22,6 +22,8 @@ jobs:
           - 'Mobile Firefox Galaxy S24'
           - 'Mobile Safari iPhone 15'
           - 'Mobile Safari iPhone SE'
+          - 'Mobile Chrome Galaxy S24 (en-US)'
+          - 'Mobile Safari iPhone 15 (en-US)'
       fail-fast: false
     steps:
       - name: Checkout
