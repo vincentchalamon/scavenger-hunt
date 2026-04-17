@@ -307,6 +307,314 @@
           }
         }
       ]
+    },
+    {
+      "slug": "the-secret-of-old-lille",
+      "name": "The Secret of Old Lille",
+      "lang": "en",
+      "description": "Explore Old Lille and solve the puzzles to uncover the hidden words in its most iconic places.",
+      "duration": "~2h",
+      "coordinates": {
+        "lat": 50.633333,
+        "lng": 3.066667
+      },
+      "manuscript": "<p>I have uncovered the greatest secret of Old Lille, but some people are trying to stop me from revealing it to you!</p><p>So I hid it where they will never find it... in plain sight:</p><p style=\"font-size: 1.2em\"><strong>{phrase}</strong></p><p>I have scattered clues to help you recover it!</p><p>Here is the first one, containing the name of an unusual object nearby — up to you to find it!</p><p style=\"font-style: italic\">\"I headed towards the Alcide thinking the secret would be there.<br/>What a disappointment to see it wasn't — my <strong>ARMS</strong> fell in despair!<br/>But all hope wasn't lost yet: for in the streets on my right began my adventure towards a secret richer than <strong>GOLD</strong>!\"</p>",
+      "phrase": "The secret of Old Lille lies hidden at the foot of the Goddess Column",
+      "defaultKeywords": [
+        "The",
+        "secret",
+        "lies",
+        "at"
+      ],
+      "places": [
+        {
+          "name": "Le Bras d'Or",
+          "description": "<p>Le Bras d'Or (literally \"the Golden Arm\") is fixed atop a balcony: a fully gilded arm, straight, hand open, seeming to point in a direction. But what does it really symbolize?</p><p>Even its origin is debated. Some attribute the <strong>sculpture to the 17th century</strong>. Others push back to the 16th. An <strong>engraving of the original wooden house</strong> (now a three-storey stone building) that opened the street then known as \"<strong>Grant Cauchie</strong>\" dates from the early 16th century.</p><p>For some, it points in <strong>the direction of the Rue de la Monnaie</strong>, where gold was delivered to strike the coins — hence the reminder of its colour. Others lean toward <strong>the direction of the Hôpital Comtesse</strong> (today's Hospice Comtesse).</p><p>Others still associate it with the <strong>insignia of a master-at-arms or of a glove-maker</strong>. Indeed, according to historians, it was not uncommon to find an outstretched arm used as <strong>signage</strong> for such trades. Except that the ground floor was occupied successively by <strong>printers, a shop of religious objects, a pharmacy...</strong></p>",
+          "coordinates": {
+            "lat": 50.6382135,
+            "lng": 3.0637474
+          },
+          "item": {
+            "type": "clickable-image",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/bras-d-or/bras-d-or.jpg",
+              "clickableAreas": [
+                {
+                  "top": "33%",
+                  "right": "10%",
+                  "width": "20%",
+                  "height": "48%",
+                  "action": {
+                    "type": "magnifier",
+                    "options": {
+                      "image": "/assets/le-secret-du-vieux-lille/bras-d-or/press.jpg"
+                    }
+                  }
+                },
+                {
+                  "bottom": "10%",
+                  "left": "10%",
+                  "width": "12%",
+                  "height": "12%",
+                  "action": {
+                    "type": "keyword",
+                    "options": {
+                      "keyword": "foot"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Hospice Comtesse Museum",
+          "description": "<p>The Hospice Comtesse is a <strong>former medieval hospital</strong> founded in 1237 by Countess Jeanne of Flanders (c. 1200-1244). Since 1962 it has housed the city's <strong>museum of art and history</strong>.</p><p>The scale of its volumes and its architecture — characteristic of places of care — embody <strong>more than 750 years of hospitality and generosity</strong>. Home to <strong>nearly 70,000 works</strong>, its diverse collections reflect the social and cultural history of the capital of Flanders.</p><p>Awarded the \"<strong>Musée de France</strong>\" label in 2003 and listed as a <strong>Historic Monument</strong> in 1923 and 1991, the Hospice Comtesse Museum is currently working on its future Scientific and Cultural Project (PSC).</p>",
+          "link": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_l%27Hospice_Comtesse",
+          "coordinates": {
+            "lat": 50.6411688,
+            "lng": 3.0632054
+          },
+          "item": {
+            "type": "clickable-image",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/hospice-comtesse/paint.jpg",
+              "clickableAreas": [
+                {
+                  "top": "5%",
+                  "right": "3%",
+                  "width": "25%",
+                  "height": "16%",
+                  "action": {
+                    "type": "image",
+                    "options": {
+                      "image": "/assets/le-secret-du-vieux-lille/hospice-comtesse/code.jpg"
+                    }
+                  }
+                },
+                {
+                  "top": "8%",
+                  "left": "6%",
+                  "width": "12%",
+                  "height": "15%",
+                  "action": {
+                    "type": "keyword",
+                    "options": {
+                      "keyword": "of"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Aux Merveilleux de Fred",
+          "description": "<p>In 1985, baker and pastry chef <strong>Frédéric Vaucamps</strong> took over a shop in Hazebrouck (Nord) and began selling a first version of a meringue cake.</p><p>In 1997, the first <strong>Aux Merveilleux de Fred</strong> boutique opened on <strong>Rue de la Monnaie</strong>.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Aux_Merveilleux_de_Fred",
+          "coordinates": {
+            "lat": 50.641321,
+            "lng": 3.062167
+          },
+          "item": {
+            "type": "scratch-card",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/aux-merveilleux-de-fred/box.jpg",
+              "width": 400,
+              "height": 450,
+              "scratchableAreas": [
+                {
+                  "top": "45%",
+                  "right": "15%",
+                  "width": "10%",
+                  "height": "20%",
+                  "text": "Place aux Oignons"
+                },
+                {
+                  "bottom": "15%",
+                  "left": "15%",
+                  "width": "12%",
+                  "height": "15%",
+                  "text": "Column",
+                  "keyword": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Place aux Oignons",
+          "description": "<p>Place aux Oignons (literally \"Onions Square\") owes its name to a deformation of <strong>dominium</strong> (keep, in Latin), turned into <strong>dominion</strong>, then <strong>des oignons</strong>.</p><p>That keep is said to have belonged to the <strong>fortress of the Counts of Flanders</strong>, on the motte-and-bailey castle nearby (on the site of today's <strong>Notre-Dame de la Treille</strong> cathedral). No trace remains of that wooden construction.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Place_aux_Oignons",
+          "coordinates": {
+            "lat": 50.640911,
+            "lng": 3.0615636
+          },
+          "coordinateMargin": 0.0003,
+          "item": {
+            "type": "clickable-image",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/place-aux-oignons/place.jpg",
+              "clickableAreas": [
+                {
+                  "top": "73%",
+                  "width": "20%",
+                  "height": "10%",
+                  "action": {
+                    "type": "card-flip",
+                    "options": {
+                      "front": "/assets/le-secret-du-vieux-lille/place-aux-oignons/treille-front.png",
+                      "back": "/assets/le-secret-du-vieux-lille/place-aux-oignons/treille-back.jpg"
+                    }
+                  }
+                },
+                {
+                  "top": "50%",
+                  "right": "3%",
+                  "width": "13%",
+                  "height": "8%",
+                  "action": {
+                    "type": "keyword",
+                    "options": {
+                      "keyword": "hidden"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Notre-Dame-de-la-Treille Cathedral",
+          "description": "<p>Its construction, which spanned <strong>nearly one hundred and fifty years</strong>, began symbolically in <strong>1854</strong> with the laying of a foundation stone.</p><p>Started in <strong>1856</strong>, the building of the church then met with <strong>numerous difficulties</strong>, particularly in <strong>raising the funds</strong> needed to continue the work. It proceeded in phases, under the direction of several generations of architects, from 1856 to 1975, and was finally completed <strong>in 1999 with the addition of a very modern façade</strong> — part of the original plan, which had included a western massif of two great towers flanking a rose window, having been abandoned.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Notre-Dame-de-la-Treille",
+          "coordinates": {
+            "lat": 50.6398288,
+            "lng": 3.06207
+          },
+          "coordinateMargin": 0.0007,
+          "item": {
+            "type": "clickable-image",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/notre-dame-de-la-treille/bible.png",
+              "clickableAreas": [
+                {
+                  "top": "48%",
+                  "right": "3%",
+                  "width": "20%",
+                  "height": "27%",
+                  "action": {
+                    "type": "image",
+                    "options": {
+                      "image": "/assets/le-secret-du-vieux-lille/notre-dame-de-la-treille/letter.png"
+                    }
+                  }
+                },
+                {
+                  "top": "45%",
+                  "left": "20%",
+                  "width": "20%",
+                  "height": "20%",
+                  "action": {
+                    "type": "keyword",
+                    "options": {
+                      "keyword": "the"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Maison Méert",
+          "description": "<p>Maison Méert is famed for its confectionery and pastry specialities, such as <strong>waffles filled</strong> with Madagascar vanilla.</p><p>It is <strong>one of the oldest still-operating pastry shops in the world</strong>, with origins going back to 1761.</p><p>The shop on Rue Esquermoise has welcomed many illustrious visitors, among them Buffalo Bill, Napoleon, the royal families of Bourbon-Parma, Orléans, Bauffremont, and so on; and in the 20th and 21st centuries Marguerite Yourcenar, Winston Churchill, Jackie Kennedy, Alain Souchon, Amélie Nothomb, Jean d'Ormesson, Dany Boon, Jean-Claude Casadesus... Charles de Gaulle regularly had Méert waffles delivered to the Élysée.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Maison_M%C3%A9ert",
+          "coordinates": {
+            "lat": 50.6375431,
+            "lng": 3.0615245
+          },
+          "item": {
+            "type": "three-fiber",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/meert/box.png",
+              "textures": [
+                "/assets/le-secret-du-vieux-lille/meert/textures/right.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/left.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/top.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/bottom.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/front.png",
+                "/assets/le-secret-du-vieux-lille/meert/textures/background.png"
+              ],
+              "keyword": "Lille"
+            }
+          }
+        },
+        {
+          "name": "Old Stock Exchange",
+          "description": "<p>The Old Stock Exchange of Lille is one of <strong>Lille's most prestigious monuments</strong>. It bears witness to the intense economic activity that took place in Lille during the Grand Siècle. It has been called the \"Old Stock Exchange\" since the building of the new Chamber of Commerce (the \"New Stock Exchange\") in the 1910s. Built in 1653, it was <strong>listed as a Historic Monument</strong> in 1921 and 1923.</p><p>The quadrangular building is made up of 24 identical houses enclosing the inner courtyard, where <strong>booksellers, florists, chess players, strollers and tourists</strong> now meet.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Vieille_Bourse",
+          "coordinates": {
+            "lat": 50.6370472,
+            "lng": 3.064017
+          },
+          "item": {
+            "type": "page-flip",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/vieille-bourse/books.png",
+              "pages": [
+                {
+                  "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p><p>Pellentesque bibendum mauris in malesuada congue. Donec ultrices ipsum tortor, id sollicitudin eros gravida eu. Etiam</p>"
+                },
+                {
+                  "text": "<p>faucibus molestie congue. Aenean sollicitudin ligula vel leo placerat, ac aliquet dolor egestas. Integer sodales, lorem sit amet faucibus lobortis, justo arcu imperdiet ante, ut commodo eros lorem vulputate</p>"
+                },
+                {
+                  "text": "<p>lorem. Ut pharetra elementum cursus. Duis gravida a urna id pellentesque. Duis interdum non risus at lacinia.</p> Etiam posuere augue nec mi aliquet, id cursus urna maximus. Ut lobortis dui sit amet</p>"
+                },
+                {
+                  "text": "<p>libero lacinia gravida <strong>{keyword}Old{/keyword}</strong> (click me!).</p><p>Vivamus dignissim velit ac nunc faucibus, in tristique urna posuere. Aenean commodo augue nec mauris ultricies blandit. Proin vel ligula eu ligula vestibulum</p>"
+                },
+                {
+                  "text": "<p>faucibus. Aliquam congue lacinia facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pellentesque viverra ultrices. Praesent viverra</p>"
+                },
+                {
+                  "text": "<p>tellus non tellus commodo, eget pulvinar risus placerat.</p><p>Head to the <strong>Lille Opera</strong>!</p>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lille Opera",
+          "description": "<p>The Lille Opera is a theatre of <strong>neoclassical inspiration</strong>.</p><p>Built from 1907 to 1913, it was <strong>officially inaugurated in 1923</strong>. Closed for renovation in 1998, it reopened in late 2003 for Lille 2004.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Op%C3%A9ra_de_Lille",
+          "coordinates": {
+            "lat": 50.6377196,
+            "lng": 3.0653175
+          },
+          "item": {
+            "type": "magnifier",
+            "options": {
+              "image": "/assets/le-secret-du-vieux-lille/opera/opera.jpg",
+              "keyword": "Goddess",
+              "keywordPosition": {
+                "x": 130,
+                "y": 440
+              }
+            }
+          }
+        },
+        {
+          "name": "Goddess Column",
+          "description": "<h3>CONGRATULATIONS!!!</h3><p>You have found the secret of Old Lille!</p><p>It is made neither of gold nor of silver, but of the greatest promise the people of Lille ever swore: \"<strong>We have just renewed our oath to be faithful to the Nation, to uphold Liberty and Equality, or die at our post. We are no perjurers.</strong>\"</p><hr/><p>This monument commemorates <strong>the heroism of the people of Lille during the 1792 siege of the city</strong> by the Imperial army.</p><p>In her right hand she holds a <strong>linstock</strong>, used to light the fuses of cannon, and with her left she points to <strong>the inscription on the pedestal</strong>, which reproduces the reply of Lille's mayor, François André-Bonte, refusing to surrender the besieged city to the Imperial forces on 29 September 1792.</p>",
+          "link": "https://fr.wikipedia.org/wiki/Colonne_de_la_D%C3%A9esse",
+          "coordinates": {
+            "lat": 50.6369028,
+            "lng": 3.0634385
+          }
+        }
+      ]
     }
   ]
 }
