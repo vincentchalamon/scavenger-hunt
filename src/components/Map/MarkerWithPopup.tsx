@@ -47,9 +47,10 @@ export const MarkerWithPopup = (props: {
   isLatest: boolean;
   shouldOpenPopup: boolean;
   place: Place;
+  isFirst?: boolean;
   "data-testid"?: string;
 }) => {
-  const {onMarkerClick, onCloseClick, onItemModalClose, isSelected, isLatest, shouldOpenPopup, place} = props;
+  const {onMarkerClick, onCloseClick, onItemModalClose, isSelected, isLatest, shouldOpenPopup, place, isFirst} = props;
   const {t} = useTranslation();
   const markerRef = useRef<L.Marker>(null);
   const popupRef = useRef<L.Popup | null>(null);
@@ -72,6 +73,19 @@ export const MarkerWithPopup = (props: {
       window.removeEventListener('resize', calculateMaxWidth);
     };
   }, []);
+
+  // Allow the onboarding tour to open/close the popup on the first marker
+  useEffect(() => {
+    if (!isFirst) return;
+    const open = () => markerRef.current?.openPopup();
+    const close = () => markerRef.current?.closePopup();
+    window.addEventListener('onboarding:open-first-marker', open);
+    window.addEventListener('onboarding:close-first-marker', close);
+    return () => {
+      window.removeEventListener('onboarding:open-first-marker', open);
+      window.removeEventListener('onboarding:close-first-marker', close);
+    };
+  }, [isFirst]);
 
   // Open popup only when shouldOpenPopup is true (search selection)
   useEffect(() => {
@@ -142,7 +156,7 @@ export const MarkerWithPopup = (props: {
               }}><strong>{t('markerPlaceInstructions')}</strong></p>
               <ModalItem onHide={onItemModalClose} button={
                 // @ts-ignore
-                <Button variant="link" className="p-0 m-0" style={{maxWidth: '100%', display: 'block'}}>
+                <Button variant="link" className="p-0 m-0" data-testid="place-item-trigger" style={{maxWidth: '100%', display: 'block'}}>
                   <div style={{maxWidth: '100%', overflow: 'hidden'}}>
                     <RenderButton {...place.item}/>
                   </div>

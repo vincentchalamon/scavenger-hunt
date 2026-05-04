@@ -31,11 +31,9 @@ test.describe('Interface i18n', () => {
     const app = new HuntApp(page);
     await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
 
-    const rulesLabel = en ? 'Rules' : 'Règles';
     const manuscriptLabel = en ? 'Manuscript' : 'Manuscrit';
     const mapLabel = en ? 'Map' : 'Carte';
 
-    await expect(page.getByTestId('rules-button')).toContainText(rulesLabel);
     await expect(page.getByTestId('manuscript-button')).toContainText(manuscriptLabel);
     await expect(page.getByTestId('map-button')).toContainText(mapLabel);
   });

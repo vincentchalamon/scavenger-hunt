@@ -2,16 +2,16 @@
 
 import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
-import {Rules} from "@/components/Rules";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
-import {PhraseProvider, PhraseContext} from "@/contexts/PhraseContext";
+import {PhraseProvider} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
 import {Toast} from "@/components/Toast/Toast";
 import dynamic from "next/dynamic";
 import {CompassLoader} from "@/components/UI";
 import {useTranslation} from "@/i18n";
 import {useWakeLock} from "@/hooks/useWakeLock";
+import {useOnboarding} from "@/hooks/useOnboarding";
 import Link from "next/link";
 import styles from "./Hunt.module.css";
 
@@ -33,7 +33,7 @@ type HuntProps = {
   hunt: HuntType;
 }
 
-const VALID_TABS = ['rules', 'manuscript', 'map'] as const;
+const VALID_TABS = ['manuscript', 'map'] as const;
 type TabKey = typeof VALID_TABS[number];
 
 function tabFromHash(): TabKey | null {
@@ -46,17 +46,16 @@ function tabFromHash(): TabKey | null {
 // Internal component to access PhraseContext
 const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
-  const { keywords } = React.useContext(PhraseContext);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
-  const [prevKeywordsCount, setPrevKeywordsCount] = useState(keywords.length);
-  const tabContentRef = useRef<HTMLDivElement>(null);
-  const [activeKey, setActiveKey] = useState<string>("rules");
+  const tabContentRef = React.useRef<HTMLDivElement>(null);
+  const [activeKey, setActiveKey] = useState<string>("manuscript");
 
   useWakeLock();
 
+  const {replay: replayOnboarding} = useOnboarding({activeKey, setActiveKey});
+
   // Set initial hash so the hunt entry is identifiable in history
   useEffect(() => {
-    window.history.replaceState({tab: 'rules'}, "", '#tab=rules');
+    window.history.replaceState({tab: 'manuscript'}, "", '#tab=manuscript');
   }, []);
 
   // Handle browser back button: restore tab from hash
@@ -72,18 +71,6 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  // Detect when a new keyword is added
-  useEffect(() => {
-    if (keywords.length > prevKeywordsCount) {
-      setShouldAnimate(true);
-    }
-    setPrevKeywordsCount(keywords.length);
-  }, [keywords.length, prevKeywordsCount]);
-
-  const handleManuscriptClick = () => {
-    setShouldAnimate(false);
-  };
-
   return (
     <>
       <Toast/>
@@ -95,6 +82,14 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
           <Navbar.Brand className={styles.navbarTitle} data-testid="hunt-title">
             {hunt.name}
           </Navbar.Brand>
+          <button
+            className={styles.helpButton}
+            onClick={replayOnboarding}
+            title={t('helpButtonLabel')}
+            aria-label={t('helpButtonLabel')}
+          >
+            <i className="bi bi-question-circle"/>
+          </button>
         </Container>
       </Navbar>
       <div className="px-0 d-flex" style={{
@@ -117,9 +112,6 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
           }}
         >
           <Tab.Content ref={tabContentRef} style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
-            <Tab.Pane eventKey="rules" className="h-100">
-              <Rules/>
-            </Tab.Pane>
             <Tab.Pane eventKey="manuscript" className="h-100">
               <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
             </Tab.Pane>
@@ -131,18 +123,7 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
             <Container>
               <Row>
                 <Nav.Item>
-                  <Nav.Link eventKey="rules" data-testid="rules-button" className={styles.navItem}>
-                    <span className={styles.navIcon}>📖</span>
-                    <span className={styles.navLabel}>{t('navRules')}</span>
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="manuscript"
-                    data-testid="manuscript-button"
-                    className={`${styles.navItem} ${shouldAnimate ? styles.keywordAnimation : ''}`}
-                    onClick={handleManuscriptClick}
-                  >
+                  <Nav.Link eventKey="manuscript" data-testid="manuscript-button" className={styles.navItem}>
                     <span className={styles.navIcon}>📜</span>
                     <span className={styles.navLabel}>{t('navManuscript')}</span>
                   </Nav.Link>

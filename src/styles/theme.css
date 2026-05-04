@@ -160,57 +160,6 @@
   ) 1;
 }
 
-/* Pulse animation for important elements */
-@keyframes treasure-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
-
-.pulse-treasure {
-  animation: treasure-pulse 2s ease-in-out infinite;
-}
-
-/* Animation de brillance */
-@keyframes shine {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-.shine-effect {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: shine 3s ease-in-out infinite;
-}
-
-/* Animation de rotation (boussole) */
-@keyframes compass-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.rotate-compass {
-  animation: compass-rotate 4s linear infinite;
-}
-
 /* 3D relief effect */
 .relief-3d {
   box-shadow:

@@ -29,6 +29,10 @@ export class HuntApp {
    * Navigate to a specific URL (no authentication needed anymore)
    */
   async navigateAndAuthenticate(url: string) {
+    // Prevent the onboarding tour from firing during tests
+    await this.page.addInitScript(() => {
+      window.localStorage.setItem('onboarding_seen', '1');
+    });
     await this.page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
     // Only wait for hunt title if we're navigating to a valid hunt page (not home or 404)
     if (url !== '/' && url !== '/invalid-hunt-url') {
