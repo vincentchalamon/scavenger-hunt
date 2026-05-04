@@ -59,6 +59,7 @@ test.describe('Keyword', () => {
 
     // Return to the same clue
     await page.getByTestId('map-button').click();
+    await page.locator('.leaflet-marker-icon').first().click();
     await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
       const parentDiv = btn.parentElement;
       if (parentDiv) {

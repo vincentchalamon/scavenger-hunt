@@ -43,6 +43,7 @@ export const translations = {
 
     // Map
     searchPlaceholder: 'Rechercher un lieu...',
+    searchPlaceholderHint: 'Saisissez le nom du prochain lieu...',
     noResults: 'Aucun résultat',
     placeNotInGame: 'Ce lieu ne fait pas partie du jeu.',
     centerOnMe: 'Me localiser',
@@ -122,6 +123,7 @@ export const translations = {
 
     // Map
     searchPlaceholder: 'Search for a place...',
+    searchPlaceholderHint: 'Type the next place name...',
     noResults: 'No results',
     placeNotInGame: 'This place is not part of the game.',
     centerOnMe: 'Center on me',

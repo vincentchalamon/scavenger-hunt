@@ -8,6 +8,7 @@ import {FormControlProps} from "react-bootstrap/FormControl";
 import {useTranslation} from "@/i18n";
 import {Place} from "@/types/Place";
 import ReactDOM from "react-dom";
+import styles from "./AutocompleteControl.module.css";
 
 // Debounce delay for search input in milliseconds
 const SEARCH_DEBOUNCE_MS = 500;
@@ -25,10 +26,12 @@ type AutocompleteControlProps = {
   onClear?: () => void;
   coordinates: {lat: number; lng: number};
   places?: Place[];
+  hintMode?: boolean;
+  onHintReset?: () => void;
 }
 
 export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & FormControlProps> = (props) => {
-  const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, places = [], ...formControlProps} = props;
+  const {onPlaceSelect = () => {}, onClear = () => {}, coordinates: locationBias, places = [], hintMode = false, onHintReset = () => {}, ...formControlProps} = props;
   const { t, language } = useTranslation();
   const map = useMap();
   const [inputValue, setInputValue] = useState<string>('');
@@ -48,7 +51,12 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
 
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
     setInputValue((event.target as HTMLInputElement).value);
-  }, []);
+    onHintReset();
+  }, [onHintReset]);
+
+  const handleFocus = useCallback(() => {
+    onHintReset();
+  }, [onHintReset]);
 
   const clearInput = useCallback(async () => {
     setInputValue('');
@@ -140,12 +148,14 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
       <Form.Control
         // @ts-ignore
         type="search"
-        placeholder={t('searchPlaceholder')}
+        placeholder={t(hintMode ? 'searchPlaceholderHint' : 'searchPlaceholder')}
         value={inputValue}
         // @ts-ignore
         onInput={(event) => handleInput(event)}
+        onFocus={handleFocus}
         // @ts-ignore
         style={inputStyle}
+        className={hintMode ? styles.hintMode : undefined}
         data-testid="search-field"
         {...formControlProps}
       />

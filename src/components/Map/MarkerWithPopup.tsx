@@ -42,13 +42,14 @@ const createCustomIcon = (isLatest: boolean) => {
 export const MarkerWithPopup = (props: {
   onMarkerClick: () => void;
   onCloseClick: () => void;
+  onItemModalClose?: () => void;
   isSelected: boolean;
   isLatest: boolean;
   shouldOpenPopup: boolean;
   place: Place;
   "data-testid"?: string;
 }) => {
-  const {onMarkerClick, onCloseClick, isSelected, isLatest, shouldOpenPopup, place} = props;
+  const {onMarkerClick, onCloseClick, onItemModalClose, isSelected, isLatest, shouldOpenPopup, place} = props;
   const {t} = useTranslation();
   const markerRef = useRef<L.Marker>(null);
   const popupRef = useRef<L.Popup | null>(null);
@@ -139,7 +140,7 @@ export const MarkerWithPopup = (props: {
                 textJustify: "inter-word",
                 fontWeight: "bolder",
               }}><strong>{t('markerPlaceInstructions')}</strong></p>
-              <ModalItem button={
+              <ModalItem onHide={onItemModalClose} button={
                 // @ts-ignore
                 <Button variant="link" className="p-0 m-0" style={{maxWidth: '100%', display: 'block'}}>
                   <div style={{maxWidth: '100%', overflow: 'hidden'}}>
