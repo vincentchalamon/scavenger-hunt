@@ -28,7 +28,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: undefined,
+  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? 'github' : 'line',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -72,6 +72,20 @@ export default defineConfig({
       use: {
         ...devices['iPhone SE (3rd gen)'],
         locale: 'fr-FR'
+      },
+    },
+    {
+      name: 'Mobile Chrome Galaxy S24 (en-US)',
+      use: {
+        ...devices['Galaxy S24'],
+        locale: 'en-US'
+      },
+    },
+    {
+      name: 'Mobile Safari iPhone 15 (en-US)',
+      use: {
+        ...devices['iPhone 15'],
+        locale: 'en-US'
       },
     },
   ],

@@ -43,9 +43,12 @@ export const translations = {
 
     // Map
     searchPlaceholder: 'Rechercher un lieu...',
+    searchPlaceholderHint: 'Saisissez le nom du prochain lieu...',
     noResults: 'Aucun résultat',
     placeNotInGame: 'Ce lieu ne fait pas partie du jeu.',
     centerOnMe: 'Me localiser',
+    markerLinkButton: 'Découvrez son histoire',
+    markerPlaceInstructions: 'Allez sur place, puis cliquez sur l\'image ci-dessous pour accéder à la prochaine énigme.',
 
     // Game Rules
     rulesTitle: 'Comment jouer ?',
@@ -120,9 +123,12 @@ export const translations = {
 
     // Map
     searchPlaceholder: 'Search for a place...',
+    searchPlaceholderHint: 'Type the next place name...',
     noResults: 'No results',
     placeNotInGame: 'This place is not part of the game.',
     centerOnMe: 'Center on me',
+    markerLinkButton: 'Discover its story',
+    markerPlaceInstructions: 'Go to the location, then tap the image below to access the next puzzle.',
 
     // Game Rules
     rulesTitle: 'How to Play?',

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {CircleMarker, MapContainer, TileLayer, useMap} from "react-leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
@@ -103,6 +103,21 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   // Track if selection is from search (to auto-open popup) or from initialization (to only bounce)
   const [isSearchSelection, setIsSearchSelection] = useState<boolean>(false);
+  // Highlight the search bar after the player closes a puzzle modal, to remind them to search the next place
+  const [hintMode, setHintMode] = useState<boolean>(false);
+  const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleItemModalClose = () => {
+    setSelectedPlace(null);
+    setIsSearchSelection(false);
+    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
+    setHintMode(true);
+    hintTimeoutRef.current = setTimeout(() => setHintMode(false), 3000);
+  };
+
+  useEffect(() => () => {
+    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
+  }, []);
 
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
@@ -193,6 +208,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
           coordinates={coordinates}
           places={places}
           onPlaceSelect={onPlaceSelect}
+          hintMode={hintMode}
+          onHintReset={() => setHintMode(false)}
           onChange={() => {
             setSelectedPlace(null);
             setIsSearchSelection(false);
@@ -218,6 +235,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
                 setSelectedPlace(null);
                 setIsSearchSelection(false);
               }}
+              onItemModalClose={handleItemModalClose}
               data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
             />
           )
