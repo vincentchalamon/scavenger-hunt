@@ -48,14 +48,17 @@ export function useOnboarding({setActiveKey}: OnboardingOptions) {
 
     driverObj.setSteps([
       {
-        element: '[data-testid="manuscript"]',
+        element: '[data-testid="phrase-area"]',
         popover: {
           title: t('onboardingManuscriptTitle'),
           description: t('onboardingManuscriptDescription'),
           nextBtnText: t('onboardingNextLabel'),
           onNextClick: () => {
             setActiveKey('map');
-            waitFor('.custom-leaflet-marker').then(() => driverObj.moveNext());
+            waitFor('.custom-leaflet-marker').then(() => {
+              window.dispatchEvent(new Event('resize'));
+              setTimeout(() => driverObj.moveNext(), 800);
+            });
           },
         },
       },
@@ -82,7 +85,8 @@ export function useOnboarding({setActiveKey}: OnboardingOptions) {
           nextBtnText: t('onboardingNextLabel'),
           onNextClick: () => {
             window.dispatchEvent(new CustomEvent('onboarding:close-first-marker'));
-            requestAnimationFrame(() => driverObj.moveNext());
+            window.dispatchEvent(new Event('resize'));
+            setTimeout(() => driverObj.moveNext(), 400);
           },
         },
       },
