@@ -180,6 +180,7 @@ a {
   font-size: 0.8rem !important;
   padding: 6px 16px !important;
   font-weight: 700 !important;
+  text-shadow: none !important;
 }
 
 .driver-popover-close-btn {
