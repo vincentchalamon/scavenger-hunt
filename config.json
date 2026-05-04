@@ -337,7 +337,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/bras-d-or/bras-d-or.jpg",
+              "image": "/assets/the-secret-of-old-lille/bras-d-or/bras-d-or.jpg",
               "clickableAreas": [
                 {
                   "top": "33%",
@@ -378,7 +378,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/hospice-comtesse/paint.jpg",
+              "image": "/assets/the-secret-of-old-lille/hospice-comtesse/paint.jpg",
               "clickableAreas": [
                 {
                   "top": "5%",
@@ -419,7 +419,7 @@
           "item": {
             "type": "scratch-card",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/aux-merveilleux-de-fred/box.jpg",
+              "image": "/assets/the-secret-of-old-lille/aux-merveilleux-de-fred/box.jpg",
               "width": 400,
               "height": 450,
               "scratchableAreas": [
@@ -454,7 +454,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/place-aux-oignons/place.jpg",
+              "image": "/assets/the-secret-of-old-lille/place-aux-oignons/place.jpg",
               "clickableAreas": [
                 {
                   "top": "73%",
@@ -496,7 +496,7 @@
           "item": {
             "type": "clickable-image",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/notre-dame-de-la-treille/bible.png",
+              "image": "/assets/the-secret-of-old-lille/notre-dame-de-la-treille/bible.png",
               "clickableAreas": [
                 {
                   "top": "48%",
@@ -539,10 +539,10 @@
             "options": {
               "image": "/assets/le-secret-du-vieux-lille/meert/box.png",
               "textures": [
-                "/assets/le-secret-du-vieux-lille/meert/textures/right.png",
-                "/assets/le-secret-du-vieux-lille/meert/textures/left.png",
+                "/assets/the-secret-of-old-lille/meert/textures/right.png",
+                "/assets/the-secret-of-old-lille/meert/textures/left.png",
                 "/assets/le-secret-du-vieux-lille/meert/textures/top.png",
-                "/assets/le-secret-du-vieux-lille/meert/textures/bottom.png",
+                "/assets/the-secret-of-old-lille/meert/textures/bottom.png",
                 "/assets/le-secret-du-vieux-lille/meert/textures/front.png",
                 "/assets/le-secret-du-vieux-lille/meert/textures/background.png"
               ],
@@ -596,7 +596,7 @@
           "item": {
             "type": "magnifier",
             "options": {
-              "image": "/assets/le-secret-du-vieux-lille/opera/opera.jpg",
+              "image": "/assets/the-secret-of-old-lille/opera/opera.jpg",
               "keyword": "Goddess",
               "keywordPosition": {
                 "x": 130,
