@@ -104,11 +104,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   // Track if selection is from search (to auto-open popup) or from initialization (to only bounce)
   const [isSearchSelection, setIsSearchSelection] = useState<boolean>(false);
 
-  const handleItemModalClose = () => {
-    setSelectedPlace(null);
-    setIsSearchSelection(false);
-  };
-
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
     setVisitedPlaces(alreadyVisitedPlaces);
@@ -224,7 +219,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
                 setSelectedPlace(null);
                 setIsSearchSelection(false);
               }}
-              onItemModalClose={handleItemModalClose}
               data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
             />
           )
