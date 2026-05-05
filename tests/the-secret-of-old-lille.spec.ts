@@ -10,7 +10,7 @@ import {HuntApp} from './pages';
 test.describe('The Secret of Old Lille', () => {
 
   test('Complete user journey from start to final place discovery', async ({page}) => {
-    test.setTimeout(180000);
+    test.setTimeout(300000); // 5 minutes — covers slow Mobile Safari iPhone 15 in CI
 
     const app = new HuntApp(page);
 

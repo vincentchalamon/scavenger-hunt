@@ -13,7 +13,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
 
   test('Complete user journey from start to final place discovery', async ({ page }) => {
     // Configuration for CI stability
-    test.setTimeout(180000); // 3 minutes timeout for complete test
+    test.setTimeout(300000); // 5 minutes — covers slow Mobile Safari iPhone 15 in CI
 
     // Initialize the Hunt App
     const app = new HuntApp(page);
