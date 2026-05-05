@@ -3,7 +3,8 @@
   background: var(--gradient-parchment);
   border-bottom: 3px solid var(--treasure-bronze);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: var(--spacing-md) 0;
+  height: var(--navbar-height);
+  padding: 0;
   z-index: 10;
 }
 
@@ -37,6 +38,29 @@
   color: var(--treasure-gold-dark);
 }
 
+.helpButton {
+  position: absolute;
+  right: var(--spacing-sm);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  color: #6B4E3D;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity var(--transition-base), color var(--transition-base);
+}
+
+.helpButton:hover {
+  opacity: 1;
+  color: #5C4033;
+}
+
 @keyframes float-subtle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
@@ -59,14 +83,18 @@
 
 .navbarTitle {
   font-family: var(--font-title);
-  font-size: var(--font-size-xl);
+  font-size: clamp(0.95rem, 4vw, var(--font-size-xl));
   font-weight: var(--font-weight-bold);
   color: var(--treasure-gold);
   text-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.08),
     0 0 10px rgba(212, 175, 55, 0.12);
   margin: 0;
-  padding: 0 0 0 50px;
+  padding: 0 50px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -141,66 +169,6 @@
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.3px;
-}
-
-/* Manuscript button animation when a keyword is found */
-.keywordAnimation {
-  animation: keywordFound 0.8s ease-in-out 3;
-  position: relative;
-  z-index: 1;
-}
-
-.keywordAnimation::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  background: linear-gradient(
-    45deg,
-    rgba(212, 175, 55, 0.6),
-    rgba(255, 215, 0, 0.8),
-    rgba(212, 175, 55, 0.6),
-    rgba(255, 215, 0, 0.8)
-  );
-  background-size: 300% 300%;
-  border-radius: var(--border-radius-md);
-  z-index: -1;
-  animation: glowPulse 1.5s ease-in-out infinite;
-  filter: blur(8px);
-}
-
-@keyframes keywordFound {
-  0%, 100% {
-    transform: scale(1.08) translateX(0);
-  }
-  10% {
-    transform: scale(1.15) translateX(-3px) rotate(-2deg);
-  }
-  20% {
-    transform: scale(1.15) translateX(3px) rotate(2deg);
-  }
-  30% {
-    transform: scale(1.15) translateX(-3px) rotate(-2deg);
-  }
-  40% {
-    transform: scale(1.15) translateX(3px) rotate(2deg);
-  }
-  50% {
-    transform: scale(1.2) translateX(0) rotate(0);
-  }
-  60% {
-    transform: scale(1.15) translateX(0) rotate(0);
-  }
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.6;
-    background-position: 0% 50%;
-  }
-  50% {
-    opacity: 1;
-    background-position: 100% 50%;
-  }
 }
 
 /* Error states */

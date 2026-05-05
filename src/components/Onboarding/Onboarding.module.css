@@ -1,0 +1,76 @@
+/* driver.js popover theme overrides — injected globally via :global() */
+
+:global(.driver-popover) {
+  background: var(--bg-parchment, #f5efe0) !important;
+  border: 2px solid var(--treasure-bronze, #8b6914) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 4000px rgba(0, 0, 0, 0.4) !important;
+  font-family: var(--font-body, 'Crimson Text', serif) !important;
+  max-width: 320px !important;
+}
+
+:global(.driver-popover-title) {
+  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: var(--treasure-gold, #d4af37) !important;
+  border-bottom: 1px solid var(--treasure-bronze, #8b6914) !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+:global(.driver-popover-description) {
+  font-size: 0.95rem !important;
+  color: #3d2b1f !important;
+  line-height: 1.5 !important;
+}
+
+:global(.driver-popover-description strong) {
+  color: var(--treasure-gold-dark, #a07d1c) !important;
+}
+
+:global(.driver-popover-footer) {
+  border-top: 1px solid var(--treasure-bronze, #8b6914) !important;
+  padding-top: 8px !important;
+  margin-top: 8px !important;
+}
+
+:global(.driver-popover-next-btn),
+:global(.driver-popover-done-btn) {
+  background: var(--gradient-treasure, linear-gradient(135deg, #d4af37, #a07d1c)) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-size: 0.8rem !important;
+  padding: 6px 16px !important;
+  font-weight: 700 !important;
+}
+
+:global(.driver-popover-close-btn) {
+  color: var(--treasure-bronze, #8b6914) !important;
+  font-size: 1.2rem !important;
+  opacity: 0.7 !important;
+}
+
+:global(.driver-popover-close-btn:hover) {
+  opacity: 1 !important;
+}
+
+:global(.driver-popover-progress-text) {
+  color: var(--treasure-bronze, #8b6914) !important;
+  font-size: 0.75rem !important;
+}
+
+:global(.driver-popover-arrow-side-left.driver-popover-arrow) {
+  border-right-color: var(--treasure-bronze, #8b6914) !important;
+}
+:global(.driver-popover-arrow-side-right.driver-popover-arrow) {
+  border-left-color: var(--treasure-bronze, #8b6914) !important;
+}
+:global(.driver-popover-arrow-side-top.driver-popover-arrow) {
+  border-bottom-color: var(--treasure-bronze, #8b6914) !important;
+}
+:global(.driver-popover-arrow-side-bottom.driver-popover-arrow) {
+  border-top-color: var(--treasure-bronze, #8b6914) !important;
+}

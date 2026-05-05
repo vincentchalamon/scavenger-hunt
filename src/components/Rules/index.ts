@@ -1,2 +1,0 @@
-export { Rules } from './Rules';
-

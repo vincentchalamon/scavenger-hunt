@@ -56,20 +56,6 @@ a {
   border: none !important;
 }
 
-/* Float animation for active marker (similar to hunts list icon but faster) */
-@keyframes markerFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.marker-bounce {
-  animation: markerFloat 2s ease-in-out infinite;
-}
-
 /* Remove spacing from Bootstrap tabs */
 .tab-content {
   padding: 0 !important;
@@ -146,4 +132,62 @@ a {
   margin-left: auto !important;
   margin-right: auto !important;
   text-align: center !important;
+}
+
+/* driver.js onboarding popover — parchment theme */
+.driver-popover {
+  background: var(--bg-parchment, #f5efe0) !important;
+  border: 2px solid var(--treasure-bronze, #8b6914) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  font-family: var(--font-body, 'Crimson Text', serif) !important;
+  max-width: 320px !important;
+}
+
+.driver-popover-title {
+  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: var(--treasure-gold, #d4af37) !important;
+  border-bottom: 1px solid var(--treasure-bronze, #8b6914) !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.driver-popover-description {
+  font-size: 0.95rem !important;
+  color: #3d2b1f !important;
+  line-height: 1.5 !important;
+}
+
+.driver-popover-description strong {
+  color: var(--treasure-gold-dark, #a07d1c) !important;
+}
+
+.driver-popover-footer {
+  border-top: 1px solid var(--treasure-bronze, #8b6914) !important;
+  padding-top: 8px !important;
+  margin-top: 8px !important;
+}
+
+.driver-popover-next-btn,
+.driver-popover-done-btn {
+  background: var(--gradient-treasure, linear-gradient(135deg, #d4af37, #a07d1c)) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-size: 0.8rem !important;
+  padding: 6px 16px !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+.driver-popover-close-btn {
+  color: var(--treasure-bronze, #8b6914) !important;
+}
+
+.driver-popover-progress-text {
+  color: var(--treasure-bronze, #8b6914) !important;
+  font-size: 0.75rem !important;
 }

@@ -81,3 +81,16 @@ export const clearAllProgress = (): void => {
   });
 };
 
+export const ONBOARDING_KEY = 'onboarding_seen';
+
+export const hasSeenOnboarding = (): boolean =>
+  typeof localStorage !== 'undefined' && localStorage.getItem(ONBOARDING_KEY) === '1';
+
+export const setOnboardingSeen = (): void => {
+  if (typeof localStorage !== 'undefined') localStorage.setItem(ONBOARDING_KEY, '1');
+};
+
+export const clearOnboardingFlag = (): void => {
+  if (typeof localStorage !== 'undefined') localStorage.removeItem(ONBOARDING_KEY);
+};
+

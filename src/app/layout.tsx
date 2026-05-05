@@ -13,6 +13,8 @@ import "@fontsource/dancing-script/400.css";
 import "@fontsource/dancing-script/700.css";
 import "../styles/theme.css";
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "driver.js/dist/driver.css";
 import "./globals.css";
 import {ReactNode} from "react";
 import {Providers} from "@/components/Providers/Providers";

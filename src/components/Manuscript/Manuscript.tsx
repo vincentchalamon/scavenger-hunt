@@ -20,11 +20,11 @@ export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase}) => {
         {/* Manuscript content */}
         <div className={styles.manuscriptContent} dangerouslySetInnerHTML={{
           // @ts-ignore
-          __html: manuscript.replace('{phrase}', phrase.split(" ").map((keyword) =>
+          __html: manuscript.replace('{phrase}', `<span data-testid="phrase-area">${phrase.split(" ").map((keyword) =>
             keywords.includes(keyword)
               ? `<span class="${styles.foundKeyword}">${keyword}</span>`
               : `<span class="${styles.hiddenKeyword}">${"··".repeat(keyword.length)}</span>`
-          ).join(" ")),
+          ).join(" ")}</span>`),
         }}/>
       </ParchmentCard>
     </Container>
