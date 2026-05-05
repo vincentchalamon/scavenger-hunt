@@ -48,15 +48,16 @@
   height: 40px;
   background: transparent;
   border: none;
-  color: var(--treasure-gold);
+  color: #6B4E3D;
   font-size: var(--font-size-xl);
   cursor: pointer;
   opacity: 0.85;
-  transition: opacity var(--transition-base);
+  transition: opacity var(--transition-base), color var(--transition-base);
 }
 
 .helpButton:hover {
   opacity: 1;
+  color: #5C4033;
 }
 
 @keyframes float-subtle {
