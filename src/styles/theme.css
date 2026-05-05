@@ -83,6 +83,9 @@
   --z-toast: 1000;
   --z-loader: 9999;
 
+  /* === Layout === */
+  --navbar-height: 60px;
+
   /* === Fonts === */
   --font-title: 'Cinzel', serif;
   --font-body: 'Crimson Text', serif;

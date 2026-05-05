@@ -3,7 +3,8 @@
   background: var(--gradient-parchment);
   border-bottom: 3px solid var(--treasure-bronze);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: var(--spacing-md) 0;
+  height: var(--navbar-height);
+  padding: 0;
   z-index: 10;
 }
 
