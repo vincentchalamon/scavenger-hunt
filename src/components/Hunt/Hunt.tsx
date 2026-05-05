@@ -74,7 +74,12 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   return (
     <>
       <Toast/>
-      <Navbar fixed="top" className={styles.treasureNavbar}>
+      <div className="px-0 d-flex" style={{
+        height: "100dvh",
+        flexDirection: "column",
+        background: "var(--gradient-parchment)",
+      }}>
+      <Navbar className={styles.treasureNavbar}>
         <Container className={styles.navbarContainer}>
           <Link href="/" className={styles.backButton}>
             <span className={styles.backIcon}>🏛️</span>
@@ -92,12 +97,6 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
           </button>
         </Container>
       </Navbar>
-      <div className="px-0 d-flex" style={{
-        paddingTop: "65px",
-        height: "100dvh",
-        flexDirection: "column",
-        background: "var(--gradient-parchment)",
-      }}>
         <Tab.Container
           activeKey={activeKey}
           onSelect={(key) => {
