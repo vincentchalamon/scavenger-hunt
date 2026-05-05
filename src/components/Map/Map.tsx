@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CircleMarker, MapContainer, TileLayer, useMap} from "react-leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
@@ -165,6 +165,18 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
+  // Stable callbacks so MarkerWithPopup (memoized) doesn't re-render on every parent render
+  // — react-leaflet rebuilds the popup DOM on every Popup re-render, which would reset the user's scroll.
+  const handleMarkerClick = useCallback((place: Place) => {
+    setSelectedPlace(place);
+    setIsSearchSelection(true);
+  }, []);
+
+  const handleCloseClick = useCallback(() => {
+    setSelectedPlace(null);
+    setIsSearchSelection(false);
+  }, []);
+
   return (
     <MapContainer
       center={[coordinates.lat, coordinates.lng]}
@@ -211,14 +223,8 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
               isLatest={i === visitedPlaces.length - 1}
               isFirst={i === 0}
               shouldOpenPopup={selectedPlace === visitedPlace && isSearchSelection}
-              onMarkerClick={() => {
-                setSelectedPlace(visitedPlace);
-                setIsSearchSelection(true);
-              }}
-              onCloseClick={() => {
-                setSelectedPlace(null);
-                setIsSearchSelection(false);
-              }}
+              onMarkerClick={handleMarkerClick}
+              onCloseClick={handleCloseClick}
               data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
             />
           )

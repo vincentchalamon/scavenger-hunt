@@ -39,8 +39,8 @@ const createCustomIcon = (isLatest: boolean) => {
   });
 };
 
-export const MarkerWithPopup = (props: {
-  onMarkerClick: () => void;
+export const MarkerWithPopup = React.memo((props: {
+  onMarkerClick: (place: Place) => void;
   onCloseClick: () => void;
   isSelected: boolean;
   isLatest: boolean;
@@ -116,7 +116,7 @@ export const MarkerWithPopup = (props: {
       icon={createCustomIcon(isLatest)}
       eventHandlers={{
         click: () => {
-          onMarkerClick();
+          onMarkerClick(place);
         }
       }}
     >
@@ -171,4 +171,6 @@ export const MarkerWithPopup = (props: {
       </Popup>
     </Marker>
   );
-}
+});
+
+MarkerWithPopup.displayName = 'MarkerWithPopup';
