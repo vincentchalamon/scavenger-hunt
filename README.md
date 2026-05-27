@@ -577,19 +577,16 @@ This application is licensed under the [Creative Commons BY-NC-SA 4.0](https://c
 
 ### UI Components
 - [Bootstrap](https://getbootstrap.com/) & [React Bootstrap](https://react-bootstrap.github.io/)
-- [Bootstrap Icons](https://icons.getbootstrap.com/)
+- [driver.js](https://driverjs.com/) - Onboarding tour
 - [Aaron Wong - React Card Flip](https://github.com/AaronCCWong/react-card-flip)
 - [Josh Mc Farlin - React Looking Glass](https://github.com/Josh-McFarlin/react-looking-glass)
 - [Oleg Nodlik - React Page Flip](https://github.com/Nodlik/react-pageflip)
 - [Shudhanshu Gunjal - React Scratch Card](https://github.com/gshudhanshu/react-scratchcard-v4)
 - [Poimandres - React Three Fiber](https://github.com/pmndrs/react-three-fiber)
-- [React Spinners](https://www.davidhu.io/react-spinners/)
 
 ### Fonts (via [Fontsource](https://fontsource.org/))
-- [Geist Sans](https://vercel.com/font) & [Geist Mono](https://vercel.com/font) by Vercel
-- [Cinzel](https://fonts.google.com/specimen/Cinzel) by Natanael Gama
-- [Crimson Text](https://fonts.google.com/specimen/Crimson+Text) by Sebastian Kosch
-- [Dancing Script](https://fonts.google.com/specimen/Dancing+Script) by Impallari Type
+- [Inter Tight](https://fonts.google.com/specimen/Inter+Tight) by Rasmus Andersson
+- [Geist Mono](https://vercel.com/font) by Vercel
 
 ### Development Tools
 - [Playwright](https://playwright.dev/) - E2E testing

@@ -8,7 +8,6 @@ import "@fontsource/geist-mono/500.css";
 import "@fontsource/geist-mono/700.css";
 import "../styles/theme.css";
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "driver.js/dist/driver.css";
 import "./globals.css";
 import {ReactNode} from "react";
