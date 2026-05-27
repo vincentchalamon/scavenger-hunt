@@ -38,10 +38,10 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Get the popup
+   * Get the place bottom sheet (replaces the former Leaflet popup)
    */
   get popup() {
-    return this.page.locator('.leaflet-popup-content');
+    return this.page.getByTestId('place-sheet');
   }
 
   /**
@@ -180,40 +180,34 @@ export class MapPage extends BasePage {
   }
 
   /**
-   * Verify the popup shows a specific place name
+   * Verify the sheet shows a specific place name
    */
   async verifyPopupPlace(placeName: string) {
-    await expect(this.popup.locator('h5')).toContainText(placeName, { timeout: 10000 });
+    await expect(this.popup.locator('h2')).toContainText(placeName, { timeout: 10000 });
   }
 
   /**
-   * Click the button in the popup to show the clue
+   * Click the énigme trigger in the sheet to open the clue modal
    */
   async showClue() {
-    const showButton = this.popup.locator('.container button');
+    const showButton = this.popup.getByTestId('place-item-trigger');
     await showButton.waitFor({ state: 'visible', timeout: 5000 });
-    // Use JavaScript to trigger click on parent div (has the onClick handler)
-    await showButton.evaluate((btn) => {
-      const parentDiv = btn.parentElement;
-      if (parentDiv) {
-        parentDiv.click();
-      }
-    });
+    await showButton.click();
     await this.waitForModalReady();
   }
 
   /**
-   * Verify the popup contains specific text
+   * Verify the sheet contains specific text
    */
   async verifyPopupText(text: string) {
     await expect(this.popup).toContainText(text, { timeout: 5000 });
   }
 
   /**
-   * Verify the popup has no button (final place)
+   * Verify the sheet has no énigme trigger (final place)
    */
   async verifyNoButton() {
-    await expect(this.popup.locator('.container button')).not.toBeVisible();
+    await expect(this.popup.getByTestId('place-item-trigger')).not.toBeVisible();
   }
 
   /**

@@ -7,6 +7,7 @@ import {OpenStreetMapProvider} from 'leaflet-geosearch';
 import {FormControlProps} from "react-bootstrap/FormControl";
 import {useTranslation} from "@/i18n";
 import {Place} from "@/types/Place";
+import {Icon} from "@/components/UI";
 import ReactDOM from "react-dom";
 
 // Debounce delay for search input in milliseconds
@@ -120,25 +121,28 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
 
   const inputStyle = {
     boxSizing: 'border-box',
-    borderWidth: suggestions.length ? '1px 1px 0 1px' : '1px',
-    borderStyle: 'solid',
-    borderColor: 'transparent',
-    color: '#1f1f1f',
-    height: '40px',
-    lineHeight: '40px',
-    padding: '15px 40px 15px 20px',
-    borderRadius: suggestions.length ? '15px 15px 0 0' : '30px',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
+    border: '1px solid var(--color-hairline)',
+    borderBottom: suggestions.length ? 'none' : '1px solid var(--color-hairline)',
+    background: 'var(--color-surface)',
+    color: 'var(--color-ink)',
+    height: '42px',
+    padding: '0 38px 0 40px',
+    borderRadius: suggestions.length ? '14px 14px 0 0' : '14px',
+    boxShadow: 'var(--shadow-md)',
     fontSize: '15px',
+    fontFamily: 'var(--font-body)',
     outline: 'none',
-    textOverflow: 'ellipses',
+    textOverflow: 'ellipsis',
   }
 
   // Use portal to render control outside of map container
   const controlContainer = map.getContainer();
 
   return ReactDOM.createPortal(
-    <Container className="position-absolute top-0 start-50 translate-middle-x mt-3 p-0" style={{width: '280px', zIndex: 1000}}>
+    <Container className="position-absolute p-0" style={{top: '12px', left: '12px', right: '62px', zIndex: 600}}>
+      <div style={{position: 'absolute', left: '14px', top: '13px', zIndex: 1, pointerEvents: 'none'}}>
+        <Icon.Search size={15} color="var(--color-ink-mute)" strokeWidth={2} />
+      </div>
       <Form.Control
         // @ts-ignore
         type="search"
@@ -153,17 +157,20 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
         {...formControlProps}
       />
       {/*@ts-ignore*/}
-      <Button type="button" className="btn-close position-absolute" style={{top: '8px', right: '10px'}} onClick={clearInput}/>
+      <Button type="button" className="btn-close position-absolute" style={{top: '12px', right: '12px'}} onClick={clearInput}/>
       {suggestions.length > 0 && (
-        <ListGroup style={{borderRadius: '0 0 20px 20px'}} data-testid="search-results">
+        <ListGroup
+          style={{borderRadius: '0 0 14px 14px', border: '1px solid var(--color-hairline)', borderTop: 'none', overflow: 'hidden', boxShadow: 'var(--shadow-md)'}}
+          data-testid="search-results"
+        >
           {suggestions.map((suggestion, i) => (
             <ListGroup.Item
               key={`suggestion-${i}`}
               action
-              style={{fontSize: '14px', borderRadius: i === suggestions.length - 1 ? '0 0 15px 15px' : 0}}
+              style={{fontSize: '14px', fontFamily: 'var(--font-body)', color: 'var(--color-ink)', border: 'none', borderTop: i === 0 ? 'none' : '1px solid var(--color-hairline)'}}
               onClick={() => handleSuggestionClick(suggestion)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" className="me-1" style={{verticalAlign: '-0.125em'}}><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg> {suggestion.label}
+              <Icon.Pin size={14} color="var(--color-ink-mute)" strokeWidth={1.8} /> {suggestion.label}
             </ListGroup.Item>
           ))}
         </ListGroup>

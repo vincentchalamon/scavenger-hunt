@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {Hunt} from "@/types/Hunt";
 import {Container, Modal} from "react-bootstrap";
-import {CompassLoader, ParchmentCard, TreasureButton} from "@/components/UI";
+import {CompassLoader, TreasureButton, Icon} from "@/components/UI";
 import Link from "next/link";
 import {useTranslation} from "@/i18n";
 import {useHuntProgress} from "@/hooks/use-hunt-progress";
@@ -59,7 +59,9 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
     return (
       <div className={styles.errorContainer}>
         <div className={styles.errorContent}>
-          <span className={styles.errorIcon}>📱</span>
+          <div className={`${styles.errorIconBox} ${styles.errorIconBoxHoney}`}>
+            <Icon.Phone size={34} color="var(--color-honey-deep)" strokeWidth={1.8} />
+          </div>
           <h2 className={styles.errorTitle}>{t('mobileOnly')}</h2>
           <p className={styles.errorText}>{t('mobileOnlyHelper')}</p>
         </div>
@@ -71,7 +73,9 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
     return (
       <div className={styles.errorContainer}>
         <div className={styles.errorContent}>
-          <span className={styles.errorIcon}>🔄</span>
+          <div className={`${styles.errorIconBox} ${styles.errorIconBoxForest}`}>
+            <Icon.Rotate size={32} color="var(--color-forest)" strokeWidth={1.8} />
+          </div>
           <h2 className={styles.errorTitle}>{t('landscapeNotSupported')}</h2>
           <p className={styles.errorText}>{t('landscapeHelper')}</p>
         </div>
@@ -83,17 +87,23 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
     <div className={styles.huntsListContainer}>
       {/* Hero Section */}
       <div className={styles.hero}>
-        <div className={styles.heroContent}>
-          <span className={styles.heroIcon}>🏛️</span>
-          <h1 className={styles.heroTitle}>{t('huntsListTitle')}</h1>
-          <p className={styles.heroSubtitle}>{t('huntSubtitle')}</p>
+        <div className={styles.heroTop}>
+          <div className={styles.brandChip}>
+            <Icon.Compass size={12} color="#fff" strokeWidth={2} />
+            SCAVENGER HUNT
+          </div>
+          <button className={styles.iconButton} onClick={() => setShowQrModal(true)} aria-label={t('shareButton')}>
+            <Icon.Share size={15} color="var(--color-ink)" strokeWidth={2} />
+          </button>
         </div>
+        <h1 className={styles.heroTitle}>{t('huntsListTitle')}</h1>
+        <p className={styles.heroSubtitle}>{t('huntSubtitle')}</p>
       </div>
 
       {/* Hunts List */}
       <Container className={styles.huntsContainer}>
         <div className={styles.huntsList}>
-          {hunts.map((hunt) => {
+          {hunts.map((hunt, index) => {
             // Calculate the total number of keywords (phrase - defaultKeywords)
             const totalKeywords = hunt.phrase.split(' ').length - (hunt.defaultKeywords?.length || 0);
 
@@ -101,6 +111,7 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
               <HuntCard
                 key={hunt.slug}
                 hunt={hunt}
+                index={index}
                 totalKeywords={totalKeywords}
               />
             );
@@ -109,12 +120,7 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
 
         {/* Footer Info */}
         <div className={styles.footer}>
-          <p className={styles.footerText}>
-            💡 {t('huntFooterTip')}
-          </p>
-          <button className={styles.shareButton} onClick={() => setShowQrModal(true)}>
-            <span>📲</span> {t('shareButton')}
-          </button>
+          <p className={styles.footerText}>{t('huntFooterTip')}</p>
         </div>
       </Container>
 
@@ -129,87 +135,80 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
 }
 
 // Separate component for each hunt card
-const HuntCard: React.FC<{ hunt: Hunt; totalKeywords: number }> = ({ hunt, totalKeywords }) => {
+const HuntCard: React.FC<{ hunt: Hunt; index: number; totalKeywords: number }> = ({ hunt, index, totalKeywords }) => {
   const { t } = useTranslation();
-  const { progress } = useHuntProgress(hunt.slug, hunt.places.length, totalKeywords);
+  const { progress, foundKeywords } = useHuntProgress(hunt.slug, hunt.places.length, totalKeywords);
 
-  // Determine language badge
-  const getLanguageBadge = (lang?: string) => {
-    if (!lang) return null;
-
-    const languageMap: Record<string, { flag: string; nameKey: string }> = {
-      'fr': { flag: '🇫🇷', nameKey: 'langFrench' },
-      'en': { flag: '🇬🇧', nameKey: 'langEnglish' },
-      'es': { flag: '🇪🇸', nameKey: 'langSpanish' },
-      'de': { flag: '🇩🇪', nameKey: 'langGerman' },
-      'it': { flag: '🇮🇹', nameKey: 'langItalian' },
-    };
-
-    const langInfo = languageMap[lang.toLowerCase()];
-    if (langInfo) {
-      return { display: langInfo.flag, title: t(langInfo.nameKey as any) };
-    }
-
-    // Si pas dans la map, afficher le code de langue en majuscules
-    return { display: lang.toUpperCase(), title: lang };
-  };
-
-  const languageBadge = getLanguageBadge(hunt.lang);
+  const defaultCount = hunt.defaultKeywords?.length || 0;
+  const step = Math.max(0, foundKeywords.length - defaultCount);
+  const total = Math.max(1, totalKeywords);
+  const started = progress > 0;
+  const number = String(index + 1).padStart(2, '0');
 
   return (
-    <ParchmentCard
-      variant="bordered"
-      elevation="lg"
-      className={styles.huntCard}
-    >
-      <div className={styles.huntHeader}>
-        {languageBadge && (
-          <div className={styles.languageBadge} title={languageBadge.title}>
-            <span>{languageBadge.display}</span>
-          </div>
-        )}
-        <h2 className={styles.huntTitle}>{hunt.name}</h2>
-      </div>
-
-      {/* Hunt Stats */}
-      <div className={styles.huntStats}>
-        <div className={styles.statItem}>
-          <span className={styles.statIcon}>📍</span>
-          <span className={styles.statText}>
-            {hunt.places?.length || 0} {t('huntPlaces')}
-          </span>
+    <div className={`${styles.huntCard} ${started ? styles.huntCardActive : ''}`}>
+      {/* Top row: number + lang chip + status */}
+      <div className={styles.cardTop}>
+        <div className={styles.cardTopLeft}>
+          <div className={styles.numberBadge}>{number}</div>
+          {hunt.lang && (
+            <div className={styles.langChip}>{hunt.lang.toUpperCase()}</div>
+          )}
         </div>
-        {hunt.duration && (
-          <div className={styles.statItem}>
-            <span className={styles.statIcon}>⏱️</span>
-            <span className={styles.statText}>{hunt.duration}</span>
-          </div>
-        )}
-        <div className={styles.statItem}>
-          <span className={styles.statIcon}>
-            {progress === 100 ? '✅' : progress > 0 ? '▶️' : '⭕'}
-          </span>
-          <span className={styles.statText}>{progress}%</span>
+        <div className={`${styles.statusChip} ${started ? styles.statusChipActive : styles.statusChipNew}`}>
+          {started ? t('huntInProgress') : t('huntNew')}
         </div>
       </div>
 
-      {/* Hunt Description */}
+      <h2 className={styles.huntTitle}>{hunt.name}</h2>
       <p className={styles.huntDescription}>
         {hunt.description || t('huntDescription')}
       </p>
 
+      {/* Progress bar (only if started) */}
+      {started && (
+        <div className={styles.progressWrap}>
+          <div className={styles.progressSegments}>
+            {Array.from({length: total}).map((_, i) => (
+              <div
+                key={i}
+                className={`${styles.progressSegment} ${i < step ? styles.progressSegmentFilled : ''}`}
+              />
+            ))}
+          </div>
+          <div className={styles.progressMeta}>
+            <span>{step}/{total} {t('wordsFoundLabel')}</span>
+            <span>{progress} %</span>
+          </div>
+        </div>
+      )}
+
+      {/* Stats row */}
+      <div className={styles.huntStats}>
+        <div className={styles.statItem}>
+          <Icon.Pin size={14} color="var(--color-ink-soft)" strokeWidth={1.8} />
+          <span className={styles.statText}>{hunt.places?.length || 0} {t('huntPlaces')}</span>
+        </div>
+        {hunt.duration && (
+          <div className={styles.statItem}>
+            <Icon.Clock size={14} color="var(--color-ink-soft)" strokeWidth={1.8} />
+            <span className={styles.statText}>{hunt.duration}</span>
+          </div>
+        )}
+      </div>
+
       {/* CTA Button */}
-      <Link href={`/${hunt.slug}`} style={{ textDecoration: 'none' }}>
+      <Link href={`/${hunt.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
         <TreasureButton
-          variant="primary"
+          variant={started ? "secondary" : "primary"}
           size="lg"
-          icon={<span>🎯</span>}
+          icon={<Icon.ArrowRight size={16} color="#fff" />}
           iconPosition="right"
           className={styles.startButton}
         >
-          {t('huntStart')}
+          {started ? t('huntResume') : t('huntStart')}
         </TreasureButton>
       </Link>
-    </ParchmentCard>
+    </div>
   );
 };

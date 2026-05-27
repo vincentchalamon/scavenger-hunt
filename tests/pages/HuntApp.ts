@@ -157,12 +157,7 @@ export class HuntApp {
     await clue.solve();
     await clue.verifyRevealed(keyword, nextClue);
 
-    try {
-      await this.map.closeToast();
-    } catch {
-      // Toast handling skipped
-    }
-
+    await clue.dismissMoment();
     await clue.closeModal();
 
     await this.manuscript.navigateToManuscript();

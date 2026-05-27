@@ -1,15 +1,3 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html {
   font-size: 1.125rem;
 }
@@ -26,9 +14,9 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,10 +32,10 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Marqueur utilisateur — halo pulsant */
+@keyframes cx-pulse {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 
 /* Custom styles for Leaflet markers */
@@ -67,7 +55,6 @@ a {
   margin: 0 !important;
 }
 
-
 /* Ensure Leaflet container takes full height */
 .leaflet-container {
   height: 100% !important;
@@ -76,118 +63,70 @@ a {
   display: block !important;
 }
 
-/* Ensure Leaflet popups appear above fixed navbar */
-.leaflet-popup-pane {
-  z-index: 1100 !important;
-}
-
-.leaflet-popup {
-  z-index: 1100 !important;
-}
-
-/* Constrain popup size to viewport with margins */
-.leaflet-popup {
-  max-width: calc(100vw - 32px) !important; /* Small margin on sides (16px each side) */
-  max-height: calc(100svh - 230px) !important; /* Account for navbar (70px), tab bar (~70px), search bar (~60px), and marker height (~30px) */
-}
-
-.leaflet-popup-content-wrapper {
-  max-width: 100% !important;
-  max-height: calc(100svh - 270px) !important; /* Account for navbar, tab bar, search bar, marker, and popup header/footer */
-  overflow: hidden !important;
-  padding: 7px !important; /* Increased padding for the popup wrapper (20% increase from 6px) */
-}
-
-/* Ensure popup content container has minimum width for readability */
-.leaflet-popup-content .container {
-  min-width: 260px !important;
-}
-
-.leaflet-popup-content {
-  max-width: 100% !important;
-  max-height: calc(100svh - 290px) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  margin: 1px !important; /* Reduced margin by 50% from 2px to 1px */
-  padding: 4px !important;
-}
-
-/* Ensure images in popup never exceed popup bounds */
-.leaflet-popup-content img {
-  max-width: 100% !important;
-  height: auto !important;
-  object-fit: contain !important;
-}
-
-/* Override react-bootstrap Image component in popup */
-.leaflet-popup-content .img-fluid {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-/* Style primary buttons in popup */
-.leaflet-popup-content .btn-primary {
-  color: white !important;
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  text-align: center !important;
-}
-
-/* driver.js onboarding popover — parchment theme */
+/* driver.js onboarding popover — thème clair Direction C */
 .driver-popover {
-  background: var(--bg-parchment, #f5efe0) !important;
-  border: 2px solid var(--treasure-bronze, #8b6914) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
-  font-family: var(--font-body, 'Crimson Text', serif) !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-hairline) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  font-family: var(--font-body) !important;
   max-width: 320px !important;
 }
 
 .driver-popover-title {
-  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-family: var(--font-display) !important;
   font-size: 1rem !important;
   font-weight: 700 !important;
-  color: var(--treasure-gold, #d4af37) !important;
-  border-bottom: 1px solid var(--treasure-bronze, #8b6914) !important;
-  padding-bottom: 8px !important;
-  margin-bottom: 8px !important;
+  letter-spacing: -0.4px !important;
+  color: var(--color-ink) !important;
+  margin-bottom: 6px !important;
 }
 
 .driver-popover-description {
   font-size: 0.95rem !important;
-  color: #3d2b1f !important;
-  line-height: 1.5 !important;
+  color: var(--color-ink-soft) !important;
+  line-height: 1.45 !important;
 }
 
 .driver-popover-description strong {
-  color: var(--treasure-gold-dark, #a07d1c) !important;
+  color: var(--color-ink) !important;
 }
 
 .driver-popover-footer {
-  border-top: 1px solid var(--treasure-bronze, #8b6914) !important;
-  padding-top: 8px !important;
-  margin-top: 8px !important;
+  margin-top: 12px !important;
 }
 
 .driver-popover-next-btn,
 .driver-popover-done-btn {
-  background: var(--gradient-treasure, linear-gradient(135deg, #d4af37, #a07d1c)) !important;
+  background: var(--color-ink) !important;
   border: none !important;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
   color: #fff !important;
-  font-family: var(--font-title, 'Cinzel', serif) !important;
+  font-family: var(--font-body) !important;
   font-size: 0.8rem !important;
-  padding: 6px 16px !important;
-  font-weight: 700 !important;
+  padding: 7px 14px !important;
+  font-weight: 600 !important;
   text-shadow: none !important;
 }
 
+.driver-popover-prev-btn {
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-hairline) !important;
+  border-radius: 10px !important;
+  color: var(--color-ink) !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+}
+
 .driver-popover-close-btn {
-  color: var(--treasure-bronze, #8b6914) !important;
+  color: var(--color-ink-mute) !important;
 }
 
 .driver-popover-progress-text {
-  color: var(--treasure-bronze, #8b6914) !important;
-  font-size: 0.75rem !important;
+  color: var(--color-honey-deep) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
 }

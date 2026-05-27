@@ -139,7 +139,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
       }
 
       // Close the card-flip modal
-      const closeButton = cardFlipModal.locator('button.btn-close');
+      const closeButton = cardFlipModal.getByTestId('modal-close');
       await closeButton.click();
       await page.waitForTimeout(500);
 

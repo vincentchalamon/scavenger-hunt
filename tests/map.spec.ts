@@ -39,11 +39,10 @@ test.describe('Map', () => {
 
     // New marker added in the map
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(2);
-    await expect(page.locator('.leaflet-popup-content')).toHaveCount(1);
-    await expect(page.locator('.leaflet-popup-content')).toBeVisible();
-    await expect(page.locator('.leaflet-popup-content').locator('h5')).toHaveText('Musée de l\'Hospice Comtesse');
-    await expect(page.locator('.leaflet-popup-content').locator('.container a.btn-primary')).toBeVisible();
-    await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
+    await expect(page.getByTestId('place-sheet')).toBeVisible();
+    await expect(page.getByTestId('place-sheet').locator('h2')).toHaveText('Musée de l\'Hospice Comtesse');
+    await expect(page.getByTestId('place-sheet').locator('a')).toBeVisible();
+    await expect(page.getByTestId('place-item-trigger')).toBeVisible();
 
     // Reload page, markers are saved
     await page.reload();
@@ -77,14 +76,13 @@ test.describe('Map', () => {
 
     // Description is visible
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(2);
-    const popup = page.locator('.leaflet-popup-content');
+    const popup = page.getByTestId('place-sheet');
     await expect(popup).toBeVisible();
-    await expect(popup.locator('h5')).toHaveText('Musée de l\'Hospice Comtesse');
+    await expect(popup.locator('h2')).toHaveText('Musée de l\'Hospice Comtesse');
 
-    // Verify the popup contains the expected content
-    await expect(popup.locator('.container')).toBeVisible();
-    await expect(popup.locator('.container a.btn-primary')).toBeVisible();
-    await expect(popup.locator('.container button')).toBeVisible();
+    // Verify the sheet contains the expected content
+    await expect(popup.locator('a')).toBeVisible();
+    await expect(page.getByTestId('place-item-trigger')).toBeVisible();
   });
 
   test('I can see the places I have already visited after reload', async ({ page }) => {

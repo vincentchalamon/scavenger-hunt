@@ -1,14 +1,15 @@
 "use client";
 
-import {Container, Nav, Navbar, Row, Tab} from "react-bootstrap";
+import {Nav, Tab} from "react-bootstrap";
 import {Manuscript} from "@/components/Manuscript/Manuscript";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Hunt as HuntType} from "@/types/Hunt";
-import {PhraseProvider} from "@/contexts/PhraseContext";
+import {PhraseContext, PhraseProvider} from "@/contexts/PhraseContext";
 import {ToastProvider} from "@/contexts/ToastContext";
+import {MomentProvider} from "@/contexts/MomentContext";
 import {Toast} from "@/components/Toast/Toast";
 import dynamic from "next/dynamic";
-import {CompassLoader} from "@/components/UI";
+import {CompassLoader, Icon} from "@/components/UI";
 import {useTranslation} from "@/i18n";
 import {useWakeLock} from "@/hooks/useWakeLock";
 import {useOnboarding} from "@/hooks/useOnboarding";
@@ -43,6 +44,49 @@ function tabFromHash(): TabKey | null {
   return VALID_TABS.includes(tab as TabKey) ? (tab as TabKey) : null;
 }
 
+// Persistent header with title, word progress and help.
+const HuntHeader: React.FC<{hunt: HuntType; onHelp: () => void}> = ({hunt, onHelp}) => {
+  const {t} = useTranslation();
+  const {keywords} = useContext(PhraseContext);
+
+  const defaultCount = hunt.defaultKeywords?.length || 0;
+  const uniqueWords = [...new Set(hunt.phrase.split(' '))];
+  const total = Math.max(1, uniqueWords.length - defaultCount);
+  const step = Math.min(Math.max(0, keywords.length - defaultCount), total);
+
+  return (
+    <div className={styles.header}>
+      <div className={styles.headerRow}>
+        <Link href="/" className={styles.iconButton} aria-label="Retour">
+          <Icon.ArrowLeft size={16} color="var(--color-ink)" strokeWidth={2} />
+        </Link>
+        <div className={styles.headerCenter}>
+          <div className={styles.headerTitle} data-testid="hunt-title">{hunt.name}</div>
+          <div className={styles.headerMeta}>
+            {step}/{total} {t('wordsFoundLabel')}
+          </div>
+        </div>
+        <button
+          className={styles.iconButton}
+          onClick={onHelp}
+          title={t('helpButtonLabel')}
+          aria-label={t('helpButtonLabel')}
+        >
+          <Icon.Help size={16} color="var(--color-ink-soft)" strokeWidth={2} />
+        </button>
+      </div>
+      <div className={styles.progressSegments}>
+        {Array.from({length: total}).map((_, i) => (
+          <div
+            key={i}
+            className={`${styles.progressSegment} ${i < step ? styles.progressSegmentFilled : ''} ${i === step ? styles.progressSegmentCurrent : ''}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Internal component to access PhraseContext
 const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   const { t } = useTranslation();
@@ -74,29 +118,12 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
   return (
     <>
       <Toast/>
-      <Navbar fixed="top" className={styles.treasureNavbar}>
-        <Container className={styles.navbarContainer}>
-          <Link href="/" className={styles.backButton}>
-            <span className={styles.backIcon}>🏛️</span>
-          </Link>
-          <Navbar.Brand className={styles.navbarTitle} data-testid="hunt-title">
-            {hunt.name}
-          </Navbar.Brand>
-          <button
-            className={styles.helpButton}
-            onClick={replayOnboarding}
-            title={t('helpButtonLabel')}
-            aria-label={t('helpButtonLabel')}
-          >
-            <i className="bi bi-question-circle"/>
-          </button>
-        </Container>
-      </Navbar>
+      <HuntHeader hunt={hunt} onHelp={replayOnboarding} />
       <div className="px-0 d-flex" style={{
         paddingTop: "var(--navbar-height)",
         height: "100dvh",
         flexDirection: "column",
-        background: "var(--gradient-parchment)",
+        background: "var(--color-bg)",
       }}>
         <Tab.Container
           activeKey={activeKey}
@@ -113,29 +140,25 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
         >
           <Tab.Content ref={tabContentRef} style={{flex: 1, overflow: "auto", padding: 0, margin: 0}}>
             <Tab.Pane eventKey="manuscript" className="h-100">
-              <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase}/>
+              <Manuscript manuscript={hunt.manuscript} phrase={hunt.phrase} onGoToMap={() => setActiveKey('map')}/>
             </Tab.Pane>
             <Tab.Pane eventKey="map" className="h-100" style={{padding: 0, margin: 0}}>
               <Map places={hunt.places} debug={hunt.debug} coordinates={hunt.coordinates} huntSlug={hunt.slug}/>
             </Tab.Pane>
           </Tab.Content>
-          <Nav variant="pills" justify fill className={styles.treasureNav}>
-            <Container>
-              <Row>
-                <Nav.Item>
-                  <Nav.Link eventKey="manuscript" data-testid="manuscript-button" className={styles.navItem}>
-                    <span className={styles.navIcon}>📜</span>
-                    <span className={styles.navLabel}>{t('navManuscript')}</span>
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="map" data-testid="map-button" className={styles.navItem}>
-                    <span className={styles.navIcon}>🧭</span>
-                    <span className={styles.navLabel}>{t('navMap')}</span>
-                  </Nav.Link>
-                </Nav.Item>
-              </Row>
-            </Container>
+          <Nav justify fill className={styles.bottomNav}>
+            <Nav.Item>
+              <Nav.Link eventKey="manuscript" data-testid="manuscript-button" className={styles.navItem}>
+                <Icon.Scroll size={20} color="currentColor" strokeWidth={activeKey === 'manuscript' ? 2 : 1.7} />
+                <span className={styles.navLabel}>{t('navManuscript')}</span>
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="map" data-testid="map-button" className={styles.navItem}>
+                <Icon.Map size={20} color="currentColor" strokeWidth={activeKey === 'map' ? 2 : 1.7} />
+                <span className={styles.navLabel}>{t('navMap')}</span>
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </Tab.Container>
       </div>
@@ -182,7 +205,9 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     return (
       <div className={styles.errorContainer}>
         <div className={styles.errorContent}>
-          <span className={styles.errorIcon}>📱</span>
+          <div className={`${styles.errorIconBox} ${styles.errorIconBoxHoney}`}>
+            <Icon.Phone size={34} color="var(--color-honey-deep)" strokeWidth={1.8} />
+          </div>
           <h2 className={styles.errorTitle}>{t('mobileOnly')}</h2>
           <p className={styles.errorText}>{t('mobileOnlyHelper')}</p>
         </div>
@@ -194,7 +219,9 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
     return (
       <div className={styles.errorContainer}>
         <div className={styles.errorContent}>
-          <span className={styles.errorIcon}>🔄</span>
+          <div className={`${styles.errorIconBox} ${styles.errorIconBoxForest}`}>
+            <Icon.Rotate size={32} color="var(--color-forest)" strokeWidth={1.8} />
+          </div>
           <h2 className={styles.errorTitle}>{t('landscapeNotSupported')}</h2>
           <p className={styles.errorText}>{t('landscapeHelper')}</p>
         </div>
@@ -205,7 +232,9 @@ export const Hunt: React.FC<HuntProps> = ({hunt}) => {
   return (
     <PhraseProvider defaultKeywords={hunt.defaultKeywords} huntSlug={hunt.slug} phrase={hunt.phrase}>
       <ToastProvider>
-        <HuntContent hunt={hunt} />
+        <MomentProvider phrase={hunt.phrase} defaultKeywords={hunt.defaultKeywords || []}>
+          <HuntContent hunt={hunt} />
+        </MomentProvider>
       </ToastProvider>
     </PhraseProvider>
   );

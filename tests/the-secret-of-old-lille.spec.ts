@@ -96,7 +96,7 @@ test.describe('The Secret of Old Lille', () => {
         await page.waitForTimeout(1000);
       }
 
-      const closeButton = cardFlipModal.locator('button.btn-close');
+      const closeButton = cardFlipModal.getByTestId('modal-close');
       await closeButton.click();
       await page.waitForTimeout(500);
 

@@ -1,14 +1,17 @@
 "use client";
 
 import React, {useCallback, useEffect, useState} from "react";
-import {CircleMarker, MapContainer, TileLayer, useMap} from "react-leaflet";
+import {MapContainer, Marker, TileLayer, useMap} from "react-leaflet";
+import L from "leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
 import {MarkerWithPopup} from "@/components/Map/MarkerWithPopup";
+import {PlaceSheet} from "@/components/Map/PlaceSheet";
 import {useToast} from "@/contexts/ToastContext";
 import {useTranslation} from "@/i18n";
 import {useGeolocation} from "@/hooks/useGeolocation";
 import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
+import {Icon} from "@/components/UI";
 import "leaflet/dist/leaflet.css";
 
 type MapProps = {
@@ -26,6 +29,18 @@ type SearchResult = {
   raw: any;
 }
 
+// User position marker — forest dot with pulsing halo
+const userIcon = L.divIcon({
+  className: "custom-leaflet-marker",
+  html: `
+    <div style="position:relative;width:28px;height:28px;">
+      <div style="position:absolute;inset:-10px;border-radius:50%;background:rgba(31,75,63,0.16);animation:cx-pulse 2s ease-out infinite;"></div>
+      <div style="position:absolute;inset:0;border-radius:50%;background:#1F4B3F;border:3px solid #fff;box-shadow:0 3px 8px rgba(31,75,63,0.5);"></div>
+    </div>`,
+  iconSize: [28, 28],
+  iconAnchor: [14, 14],
+});
+
 // Component to handle map center changes
 function MapController({center}: {center: {lat: number; lng: number}}) {
   const map = useMap();
@@ -42,7 +57,6 @@ function MapInvalidator() {
   const map = useMap();
 
   useEffect(() => {
-    // Invalidate size when component mounts and when window resizes
     const invalidateSize = () => {
       setTimeout(() => {
         map.invalidateSize();
@@ -69,25 +83,25 @@ function CenterOnMeButton({position}: {position: {lat: number; lng: number}}) {
     <button
       onClick={() => map.setView([position.lat, position.lng], 17)}
       title={t('centerOnMe')}
+      aria-label={t('centerOnMe')}
       style={{
         position: 'absolute',
-        bottom: '20px',
-        right: '10px',
-        zIndex: 1000,
-        width: '40px',
-        height: '40px',
-        borderRadius: '50%',
-        border: '2px solid rgba(0,0,0,0.2)',
-        background: 'white',
+        top: '12px',
+        right: '12px',
+        zIndex: 600,
+        width: '42px',
+        height: '42px',
+        borderRadius: '14px',
+        border: '1px solid var(--color-hairline)',
+        background: 'var(--color-surface)',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '20px',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+        boxShadow: 'var(--shadow-md)',
       }}
     >
-      📍
+      <Icon.Target size={18} color="var(--color-forest)" strokeWidth={2} />
     </button>
   );
 }
@@ -97,27 +111,33 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   const { t } = useTranslation();
   const {position: userPosition} = useGeolocation();
 
-  // Store all visited places to trace a route in the map
-  // Preset first place
+  // Store all visited places to trace a route in the map. Preset first place.
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  // Track if selection is from search (to auto-open popup) or from initialization (to only bounce)
-  const [isSearchSelection, setIsSearchSelection] = useState<boolean>(false);
 
   useEffect(() => {
     const alreadyVisitedPlaces = getVisitedPlaces<Place>(huntSlug, [places[0]]);
     setVisitedPlaces(alreadyVisitedPlaces);
-    // Don't auto-select on initialization to avoid opening popup
-    // The bounce effect will be applied to the latest place instead
   }, [huntSlug, places]);
+
+  // Allow the onboarding tour to open/close the first place sheet
+  useEffect(() => {
+    const open = () => setSelectedPlace(places[0]);
+    const close = () => setSelectedPlace(null);
+    window.addEventListener('onboarding:open-first-marker', open);
+    window.addEventListener('onboarding:close-first-marker', close);
+    return () => {
+      window.removeEventListener('onboarding:open-first-marker', open);
+      window.removeEventListener('onboarding:close-first-marker', close);
+    };
+  }, [places]);
+
   const onPlaceSelect = (result: SearchResult | null) => {
     if (!result) return;
 
     if (debug) {
       console.log(`🔍 Searching for place at coordinates: lat=${result.y}, lng=${result.x} (label: "${result.label}")`);
     }
-    // Look for place in configuration based on its coordinates
-    // Find the closest place and accept it if within a global max distance (~500m)
     const MAX_SEARCH_DISTANCE = 0.005;
 
     let closestPlace: Place | null = null;
@@ -128,10 +148,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
       const distLng = Math.abs(location.coordinates.lng - result.x);
       const distance = Math.sqrt(distLat * distLat + distLng * distLng);
 
-      if (debug) {
-        console.log(`Place: ${location.name} - Distance: ${distance.toFixed(6)}`);
-      }
-
       if (distance < minDistance) {
         minDistance = distance;
         closestPlace = location;
@@ -139,96 +155,80 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     });
 
     if (closestPlace !== null && minDistance <= MAX_SEARCH_DISTANCE) {
-      // Store in a const to preserve type narrowing in callbacks
       const placeToAdd: Place = closestPlace;
       setVisitedPlaces((prevVisitedPlaces) => {
-        const visitedPlaces = [...prevVisitedPlaces, placeToAdd];
-        saveVisitedPlaces(huntSlug, visitedPlaces);
-
-        return visitedPlaces;
+        if (prevVisitedPlaces.includes(placeToAdd)) return prevVisitedPlaces;
+        const updated = [...prevVisitedPlaces, placeToAdd];
+        saveVisitedPlaces(huntSlug, updated);
+        return updated;
       });
-      // Auto-select this new visited place (from search)
-      setIsSearchSelection(true);
       setSelectedPlace(placeToAdd);
-      if (debug) {
-        console.log("✅ Selected closest place:", placeToAdd.name, "with distance:", minDistance.toFixed(6));
-      }
       setMapCenter(placeToAdd.coordinates);
     } else {
       addToast(t('placeNotInGame'), "danger");
-      if (debug) {
-        console.log("❌ No place found within margin. Search coordinates:", {lat: result.y, lng: result.x});
-      }
     }
   };
 
   // Helps to center map on new marker added
   const [mapCenter, setMapCenter] = useState<{lat: number; lng: number}>(visitedPlaces[0].coordinates);
 
-  // Stable callbacks so MarkerWithPopup (memoized) doesn't re-render on every parent render
-  // — react-leaflet rebuilds the popup DOM on every Popup re-render, which would reset the user's scroll.
   const handleMarkerClick = useCallback((place: Place) => {
     setSelectedPlace(place);
-    setIsSearchSelection(true);
   }, []);
 
-  const handleCloseClick = useCallback(() => {
+  const handleCloseSheet = useCallback(() => {
     setSelectedPlace(null);
-    setIsSearchSelection(false);
   }, []);
+
+  const stepNumber = selectedPlace ? places.indexOf(selectedPlace) + 1 : 0;
 
   return (
-    <MapContainer
-      center={[coordinates.lat, coordinates.lng]}
-      zoom={16}
-      style={{height: '100%', width: '100%'}}
-      zoomControl={true}
-      data-testid="map"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <MapController center={mapCenter} />
-      <MapInvalidator />
-      {userPosition && (
-        <>
-          <CircleMarker
-            center={[userPosition.lat, userPosition.lng]}
-            radius={8}
-            pathOptions={{color: '#fff', weight: 2, fillColor: '#4285F4', fillOpacity: 1}}
-          />
-          <CenterOnMeButton position={userPosition} />
-        </>
-      )}
-      <AutocompleteControl
+    <div style={{position: 'relative', height: '100%', width: '100%'}}>
+      <MapContainer
+        center={[coordinates.lat, coordinates.lng]}
+        zoom={16}
+        style={{height: '100%', width: '100%'}}
+        zoomControl={true}
+        data-testid="map"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MapController center={mapCenter} />
+        <MapInvalidator />
+        {userPosition && (
+          <>
+            <Marker
+              position={[userPosition.lat, userPosition.lng]}
+              icon={userIcon}
+              interactive={false}
+            />
+            <CenterOnMeButton position={userPosition} />
+          </>
+        )}
+        <AutocompleteControl
           coordinates={coordinates}
           places={places}
           onPlaceSelect={onPlaceSelect}
-          onChange={() => {
-            setSelectedPlace(null);
-            setIsSearchSelection(false);
-          }}
-          onClear={() => {
-            setSelectedPlace(null);
-            setIsSearchSelection(false);
-          }}
+          onChange={() => setSelectedPlace(null)}
+          onClear={() => setSelectedPlace(null)}
         />
-        {visitedPlaces.map((visitedPlace, i) => {
-          return (
-            <MarkerWithPopup
-              key={`marker-${i}`}
-              place={visitedPlace}
-              isSelected={selectedPlace === visitedPlace}
-              isLatest={i === visitedPlaces.length - 1}
-              isFirst={i === 0}
-              shouldOpenPopup={selectedPlace === visitedPlace && isSearchSelection}
-              onMarkerClick={handleMarkerClick}
-              onCloseClick={handleCloseClick}
-              data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
-            />
-          )
-        })}
+        {visitedPlaces.map((visitedPlace, i) => (
+          <MarkerWithPopup
+            key={`marker-${i}`}
+            place={visitedPlace}
+            number={places.indexOf(visitedPlace) + 1}
+            isLatest={i === visitedPlaces.length - 1}
+            onMarkerClick={handleMarkerClick}
+            data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
+          />
+        ))}
       </MapContainer>
+
+      {selectedPlace && (
+        <PlaceSheet place={selectedPlace} stepNumber={stepNumber} onClose={handleCloseSheet} />
+      )}
+    </div>
   );
 }

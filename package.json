@@ -12,11 +12,8 @@
     "validate:config": "tsx scripts/validate-config.ts"
   },
   "dependencies": {
-    "@fontsource/cinzel": "^5.2.8",
-    "@fontsource/crimson-text": "^5.2.7",
-    "@fontsource/dancing-script": "^5.2.8",
     "@fontsource/geist-mono": "^5.2.7",
-    "@fontsource/geist-sans": "^5.2.5",
+    "@fontsource/inter-tight": "^5.2.6",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
     "@types/leaflet": "^1.9.21",

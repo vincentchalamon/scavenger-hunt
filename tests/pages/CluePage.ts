@@ -20,18 +20,11 @@ export abstract class ClueBasePage extends BasePage {
   /**
    * Complete the full flow: solve the clue, verify success, close modal
    */
-  async solveAndClose(expectedMessage?: string | RegExp) {
+  async solveAndClose(_expectedMessage?: string | RegExp) {
     await this.solve();
 
-    // Verify and close toast
-    try {
-      await this.verifySuccessToast(expectedMessage);
-      await this.closeToast();
-    } catch {
-      // Toast handling skipped
-    }
-
-    // Close modal
+    // Dismiss the "mot trouvé" celebration overlay, then close the modal
+    await this.dismissMoment();
     await this.closeModal();
   }
 }
@@ -95,7 +88,7 @@ export class ClickableImageClue extends ClueBasePage {
     }
 
     // Close the nested modal
-    const closeButton = nestedModal.locator('button.btn-close');
+    const closeButton = nestedModal.getByTestId('modal-close');
     await closeButton.click();
     await this.wait(500);
   }
@@ -361,13 +354,8 @@ export class PageFlipClue extends ClueBasePage {
   async solveComplete(additionalTurns: number = 2) {
     await this.solve();
 
-    // Close toast if it appears
-    try {
-      await this.verifySuccessToast();
-      await this.closeToast();
-    } catch {
-      // Toast handling skipped
-    }
+    // Dismiss the "mot trouvé" overlay if it appeared
+    await this.dismissMoment();
 
     // Continue turning pages
     for (let i = 0; i < additionalTurns; i++) {

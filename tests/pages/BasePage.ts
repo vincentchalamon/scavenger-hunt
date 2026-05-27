@@ -27,7 +27,7 @@ export class BasePage {
       try {
         const modal = modals.nth(i);
         if (await modal.isVisible()) {
-          const closeBtn = modal.locator('.btn-close');
+          const closeBtn = modal.getByTestId('modal-close');
           if (await closeBtn.isVisible()) {
             await closeBtn.click();
             await modal.waitFor({ state: 'hidden', timeout: 3000 });
@@ -36,6 +36,21 @@ export class BasePage {
       } catch {
         // Ignore if modal is already closed
       }
+    }
+  }
+
+  /**
+   * Dismiss the "keyword found" celebration overlay if present
+   */
+  async dismissMoment() {
+    try {
+      const overlay = this.page.getByTestId('keyword-found');
+      if (await overlay.isVisible().catch(() => false)) {
+        await this.page.getByTestId('moment-continue').click();
+        await expect(overlay).not.toBeVisible({ timeout: 5000 });
+      }
+    } catch {
+      // Overlay may have already been dismissed
     }
   }
 
@@ -82,7 +97,7 @@ export class BasePage {
    */
   async closeModal() {
     const modal = this.page.getByTestId('modal');
-    const modalClose = modal.locator('.btn-close');
+    const modalClose = modal.getByTestId('modal-close');
     await modalClose.waitFor({ state: 'visible', timeout: 3000 });
     await modalClose.click();
     await expect(modal).not.toBeVisible({ timeout: 5000 });

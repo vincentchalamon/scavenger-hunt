@@ -2,220 +2,237 @@
   height: 100dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: var(--gradient-parchment);
-  background-image: var(--texture-paper), var(--gradient-parchment);
-  background-blend-mode: multiply;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
 }
 
 /* Hero Section */
 .hero {
-  position: relative;
-  padding: var(--spacing-2xl) var(--spacing-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(212, 175, 55, 0.1) 0%,
-    transparent 100%
-  );
-  text-align: center;
-  overflow: hidden;
+  padding: 20px 22px 14px;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(205, 127, 50, 0.1) 0%, transparent 50%);
-  pointer-events: none;
+.heroTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
 }
 
-.heroContent {
-  position: relative;
-  z-index: 1;
+.brandChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-forest);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
-.heroIcon {
-  display: inline-block;
-  font-size: 4rem;
-  margin-bottom: var(--spacing-md);
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.iconButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .heroTitle {
-  font-family: var(--font-title);
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--treasure-gold);
-  text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.2),
-    0 0 20px rgba(212, 175, 55, 0.15);
-  margin: 0 0 var(--spacing-sm);
-  letter-spacing: 2px;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+  line-height: 1.05;
+  color: var(--color-ink);
+  margin: 0 0 4px;
 }
 
 .heroSubtitle {
-  font-family: var(--font-script);
-  font-size: var(--font-size-xl);
-  color: #5C4033;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
   margin: 0;
-  font-weight: var(--font-weight-normal);
 }
 
 /* Hunts Container */
 .huntsContainer {
-  padding-top: var(--spacing-lg);
-  padding-bottom: var(--spacing-2xl);
+  padding: 4px 16px 24px;
 }
 
 .huntsList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: 14px;
 }
 
 /* Hunt Card */
 .huntCard {
-  position: relative;
-  animation: fadeInUp 0.6s ease-out backwards;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--border-radius-xl);
+  padding: 16px 16px 18px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.4s ease-out backwards;
 }
 
-.huntCard:nth-child(1) { animation-delay: 0.1s; }
-.huntCard:nth-child(2) { animation-delay: 0.2s; }
-.huntCard:nth-child(3) { animation-delay: 0.3s; }
+.huntCardActive {
+  box-shadow: var(--shadow-forest);
+}
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Hunt Header */
-.huntHeader {
+.cardTop {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  position: relative;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.huntIcon {
-  font-size: var(--font-size-2xl);
-  flex-shrink: 0;
+.cardTopLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.numberBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--border-radius-md);
+  background: var(--color-ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.langChip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-soft);
+  background: var(--color-bg-warm);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.statusChip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.statusChipActive {
+  background: var(--color-honey-soft);
+  color: var(--color-honey-deep);
+}
+
+.statusChipNew {
+  background: var(--color-forest-soft);
+  color: var(--color-forest);
 }
 
 .huntTitle {
-  font-family: var(--font-title);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: #5C4033;
-  margin: 0;
-  flex: 1;
-  line-height: var(--line-height-tight);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin: 0 0 6px;
 }
 
-/* Hunt Stats */
+.huntDescription {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+  margin: 0 0 14px;
+}
+
+/* Progress */
+.progressWrap {
+  margin-bottom: 14px;
+}
+
+.progressSegments {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.progressSegment {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-hairline);
+}
+
+.progressSegmentFilled {
+  background: var(--color-honey);
+}
+
+.progressMeta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ink-mute);
+  letter-spacing: 0.4px;
+}
+
+/* Stats */
 .huntStats {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  padding: var(--spacing-md);
-  background: rgba(212, 175, 55, 0.1);
-  border-radius: var(--border-radius-md);
-  border-left: 3px solid var(--treasure-gold);
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .statItem {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
-  color: #6B4E3D;
-}
-
-.statIcon {
-  font-size: var(--font-size-base);
+  gap: 5px;
+  color: var(--color-ink-soft);
 }
 
 .statText {
-  font-weight: var(--font-weight-medium);
-  color: #6B4E3D;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-/* Hunt Description */
-.huntDescription {
-  font-family: var(--font-body);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-relaxed);
-  color: #5C4033;
-  margin: 0 0 var(--spacing-lg);
-  text-align: justify;
-}
-
-/* Start Button */
 .startButton {
   width: 100%;
-  margin-top: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-}
-
-
-/* Language Badge */
-.languageBadge {
-  color: #5C4033;
-  font-family: var(--font-title);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  min-width: 40px;
-  text-align: center;
-  flex-shrink: 0;
 }
 
 /* Footer */
 .footer {
-  margin-top: var(--spacing-xl);
-  padding: var(--spacing-md);
-  padding-bottom: var(--spacing-lg);
+  padding: 8px 6px 24px;
   text-align: center;
 }
 
 .footerText {
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
-  color: #6B4E3D;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-mute);
   margin: 0;
-  font-style: italic;
-}
-
-.shareButton {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  margin-top: var(--spacing-md);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background: transparent;
-  border: 1px solid rgba(139, 90, 19, 0.4);
-  border-radius: var(--border-radius-md);
-  color: #8B5A13;
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
-  cursor: pointer;
+  letter-spacing: 0.3px;
 }
 
 .qrModalBody {
@@ -234,8 +251,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-parchment);
-  padding: var(--spacing-xl);
+  background: var(--color-bg);
+  padding: 0 36px;
 }
 
 .errorContent {
@@ -243,64 +260,39 @@
   max-width: 400px;
 }
 
-.errorIcon {
-  display: inline-block;
-  font-size: 5rem;
-  margin-bottom: var(--spacing-lg);
-  animation: float 3s ease-in-out infinite;
+.errorIconBox {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.errorIconBoxHoney {
+  background: var(--color-honey-soft);
+  border: 1px solid color-mix(in srgb, var(--color-honey) 40%, transparent);
+}
+
+.errorIconBoxForest {
+  background: var(--color-forest-soft);
+  border: 1px solid color-mix(in srgb, var(--color-forest) 30%, transparent);
 }
 
 .errorTitle {
-  font-family: var(--font-title);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: #5C4033;
-  margin: 0 0 var(--spacing-md);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: var(--color-ink);
+  margin: 0 0 8px;
 }
 
 .errorText {
   font-family: var(--font-body);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-relaxed);
-  color: #6B4E3D;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
   margin: 0;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .heroTitle {
-    font-size: var(--font-size-3xl);
-  }
-
-  .heroSubtitle {
-    font-size: var(--font-size-lg);
-  }
-
-  .heroIcon {
-    font-size: 3rem;
-  }
-
-
-  .huntTitle {
-    font-size: var(--font-size-xl);
-  }
-}
-
-@media (max-width: 576px) {
-  .hero {
-    padding: var(--spacing-xl) var(--spacing-md);
-  }
-
-  .heroTitle {
-    font-size: var(--font-size-2xl);
-  }
-
-  .huntIcon {
-    font-size: var(--font-size-2xl);
-  }
-
-  .huntTitle {
-    font-size: var(--font-size-lg);
-  }
-}
-
