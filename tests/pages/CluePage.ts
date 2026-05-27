@@ -27,7 +27,7 @@ export abstract class ClueBasePage extends BasePage {
     try {
       await this.verifySuccessToast(expectedMessage);
       await this.closeToast();
-    } catch (e) {
+    } catch {
       // Toast handling skipped
     }
 
@@ -255,7 +255,7 @@ export class PageFlipClue extends ClueBasePage {
           await this.page.mouse.up();
           await this.wait(3500); // Extended wait for animation
           return;
-        } catch (e) {
+        } catch {
           // Swipe failed, try other strategies
         }
 
@@ -266,7 +266,7 @@ export class PageFlipClue extends ClueBasePage {
           await this.page.touchscreen.tap(pageBox.x + pageBox.width * 0.5, centerY);
           await this.wait(3500);
           return;
-        } catch (e) {
+        } catch {
           // Touch tap failed
         }
 
@@ -278,7 +278,7 @@ export class PageFlipClue extends ClueBasePage {
           await this.page.mouse.click(clickX, centerY);
           await this.wait(3500);
           return;
-        } catch (e) {
+        } catch {
           // All strategies failed
         }
       }
@@ -365,7 +365,7 @@ export class PageFlipClue extends ClueBasePage {
     try {
       await this.verifySuccessToast();
       await this.closeToast();
-    } catch (e) {
+    } catch {
       // Toast handling skipped
     }
 

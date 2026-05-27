@@ -37,7 +37,6 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@playwright/test": "1.60.0",
     "@types/dotenv": "^6.1.1",
     "@types/node": "^25",
