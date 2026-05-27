@@ -174,7 +174,6 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     if (closestPlace !== null && minDistance <= MAX_SEARCH_DISTANCE) {
       const placeToAdd: Place = closestPlace;
       setVisitedPlaces((prevVisitedPlaces) => {
-        if (prevVisitedPlaces.includes(placeToAdd)) return prevVisitedPlaces;
         const updated = [...prevVisitedPlaces, placeToAdd];
         saveVisitedPlaces(huntSlug, updated);
         return updated;
