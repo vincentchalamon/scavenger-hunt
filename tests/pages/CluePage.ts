@@ -20,7 +20,7 @@ export abstract class ClueBasePage extends BasePage {
   /**
    * Complete the full flow: solve the clue, verify success, close modal
    */
-  async solveAndClose(_expectedMessage?: string | RegExp) {
+  async solveAndClose() {
     await this.solve();
 
     // Dismiss the "mot trouvé" celebration overlay, then close the modal

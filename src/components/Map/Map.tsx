@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useCallback, useEffect, useState} from "react";
-import {MapContainer, Marker, TileLayer, useMap} from "react-leaflet";
+import {MapContainer, Marker, TileLayer, useMap, useMapEvents} from "react-leaflet";
 import L from "leaflet";
 import {AutocompleteControl} from "@/components/Map/AutocompleteControl";
 import {Place} from "@/types/Place";
@@ -49,6 +49,12 @@ function MapController({center}: {center: {lat: number; lng: number}}) {
     map.setView([center.lat, center.lng], map.getZoom());
   }, [center, map]);
 
+  return null;
+}
+
+// Dismiss the place sheet when tapping the map background
+function MapClickHandler({onMapClick}: {onMapClick: () => void}) {
+  useMapEvents({click: () => onMapClick()});
   return null;
 }
 
@@ -120,15 +126,18 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     setVisitedPlaces(alreadyVisitedPlaces);
   }, [huntSlug, places]);
 
-  // Allow the onboarding tour to open/close the first place sheet
+  // Allow the onboarding tour to open/close the first place sheet,
+  // and close the sheet when leaving the map tab.
   useEffect(() => {
     const open = () => setSelectedPlace(places[0]);
     const close = () => setSelectedPlace(null);
     window.addEventListener('onboarding:open-first-marker', open);
     window.addEventListener('onboarding:close-first-marker', close);
+    window.addEventListener('hunt:close-sheet', close);
     return () => {
       window.removeEventListener('onboarding:open-first-marker', open);
       window.removeEventListener('onboarding:close-first-marker', close);
+      window.removeEventListener('hunt:close-sheet', close);
     };
   }, [places]);
 
@@ -180,7 +189,10 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
     setSelectedPlace(null);
   }, []);
 
-  const stepNumber = selectedPlace ? places.indexOf(selectedPlace) + 1 : 0;
+  // Match by name (unique per hunt): visited places restored from localStorage
+  // are deserialized objects, so reference-based indexOf would fail after reload.
+  const placeNumber = (place: Place) => places.findIndex((p) => p.name === place.name) + 1;
+  const stepNumber = selectedPlace ? placeNumber(selectedPlace) : 0;
 
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
@@ -197,6 +209,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
         />
         <MapController center={mapCenter} />
         <MapInvalidator />
+        <MapClickHandler onMapClick={handleCloseSheet} />
         {userPosition && (
           <>
             <Marker
@@ -218,10 +231,9 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
           <MarkerWithPopup
             key={`marker-${i}`}
             place={visitedPlace}
-            number={places.indexOf(visitedPlace) + 1}
+            number={placeNumber(visitedPlace)}
             isLatest={i === visitedPlaces.length - 1}
             onMarkerClick={handleMarkerClick}
-            data-testid={selectedPlace === visitedPlace ? "selected-marker" : `marker-${i}`}
           />
         ))}
       </MapContainer>

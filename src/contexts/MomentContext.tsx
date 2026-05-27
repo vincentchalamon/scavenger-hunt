@@ -1,6 +1,6 @@
 "use client";
 
-import React, {createContext, ReactNode, useContext, useState} from "react";
+import React, {createContext, ReactNode, useCallback, useContext, useMemo, useState} from "react";
 import {createPortal} from "react-dom";
 import {useTranslation} from "@/i18n";
 import {Icon} from "@/components/UI";
@@ -24,12 +24,14 @@ export function MomentProvider({children, phrase, defaultKeywords}: {
 }) {
   const [moment, setMoment] = useState<MomentState>(null);
 
-  const showKeywordFound = (word: string, keywords: string[]) => {
+  const showKeywordFound = useCallback((word: string, keywords: string[]) => {
     setMoment({word, keywords});
-  };
+  }, []);
+
+  const value = useMemo(() => ({showKeywordFound}), [showKeywordFound]);
 
   return (
-    <MomentContext.Provider value={{showKeywordFound}}>
+    <MomentContext.Provider value={value}>
       {children}
       {moment && typeof document !== "undefined" && createPortal(
         <KeywordFoundOverlay

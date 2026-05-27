@@ -65,34 +65,6 @@ export class BasePage {
   }
 
   /**
-   * Close a toast notification
-   */
-  async closeToast() {
-    try {
-      const toast = this.page.getByTestId('toast');
-      if (await toast.isVisible()) {
-        const toastClose = toast.locator('.btn-close');
-        await toastClose.waitFor({ state: 'visible', timeout: 3000 });
-        await toastClose.click();
-        await expect(toast).not.toBeVisible({ timeout: 3000 });
-      }
-    } catch {
-      // Toast may have already disappeared
-    }
-  }
-
-  /**
-   * Verify a success toast appears with specific message (supports regex)
-   */
-  async verifySuccessToast(message?: string | RegExp) {
-    const toast = this.page.getByTestId('toast');
-    await expect(toast).toBeVisible({ timeout: 10000 });
-    if (message) {
-      await expect(toast).toHaveText(message, { timeout: 5000 });
-    }
-  }
-
-  /**
    * Close the current modal
    */
   async closeModal() {

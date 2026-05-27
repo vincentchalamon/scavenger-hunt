@@ -41,7 +41,6 @@ export const MarkerWithPopup = React.memo((props: {
   number: number;
   isLatest: boolean;
   onMarkerClick: (place: Place) => void;
-  "data-testid"?: string;
 }) => {
   const {place, number, isLatest, onMarkerClick} = props;
 

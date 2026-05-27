@@ -57,7 +57,7 @@ const HuntHeader: React.FC<{hunt: HuntType; onHelp: () => void}> = ({hunt, onHel
   return (
     <div className={styles.header}>
       <div className={styles.headerRow}>
-        <Link href="/" className={styles.iconButton} aria-label="Retour">
+        <Link href="/" className={styles.iconButton} aria-label={t('back')}>
           <Icon.ArrowLeft size={16} color="var(--color-ink)" strokeWidth={2} />
         </Link>
         <div className={styles.headerCenter}>
@@ -135,6 +135,9 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
             tabContentRef.current?.scrollTo(0, 0);
             if (key === 'map') {
               setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+            } else {
+              // Leaving the map: dismiss any open place sheet
+              window.dispatchEvent(new Event('hunt:close-sheet'));
             }
           }}
         >

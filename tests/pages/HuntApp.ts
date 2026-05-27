@@ -91,15 +91,14 @@ export class HuntApp {
     placeName: string,
     markerCount: number,
     expectedPhrase: string,
-    resultIndex: number = 0,
-    successMessage?: string
+    resultIndex: number = 0
   ) {
     await this.map.closeAllModals();
     await this.map.findPlace(searchQuery, placeName, markerCount, resultIndex);
     await this.map.showClue();
 
     const clue = this.createClickableImageClue();
-    await clue.solveAndClose(successMessage);
+    await clue.solveAndClose();
 
     await this.manuscript.navigateToManuscript();
     await this.manuscript.verifyText(expectedPhrase);
@@ -220,7 +219,6 @@ export class HuntApp {
     placeName: string,
     markerCount: number,
     expectedPhrase: string,
-    completionMessage?: string,
     resultIndex: number = 0
   ) {
     await this.map.closeAllModals();
@@ -228,7 +226,7 @@ export class HuntApp {
     await this.map.showClue();
 
     const clue = this.createMagnifierClue();
-    await clue.solveAndClose(completionMessage);
+    await clue.solveAndClose();
 
     await this.manuscript.navigateToManuscript();
     await this.manuscript.verifyText(expectedPhrase);
