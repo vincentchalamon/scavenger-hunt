@@ -1,74 +1,64 @@
 .manuscriptContent {
   font-family: var(--font-body);
-  font-size: var(--font-size-base);
+  font-size: 15.5px;
   line-height: var(--line-height-relaxed);
-  color: #5C4033;
-  text-align: justify;
-  text-justify: inter-word;
-  margin-bottom: var(--spacing-lg);
+  color: var(--color-ink-soft);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .manuscriptContent :global(p) {
   margin-bottom: var(--spacing-md);
-  color: #5C4033;
+  color: var(--color-ink-soft);
 }
 
 .manuscriptContent :global(strong) {
-  color: #8B5A13;
+  color: var(--color-ink);
   font-weight: var(--font-weight-bold);
+}
+
+/* Phrase board (inline reveal) */
+.phraseBoard {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  vertical-align: middle;
 }
 
 .foundKeyword {
+  display: inline-block;
   font-weight: var(--font-weight-bold);
-  color: var(--treasure-gold);
-  background: rgba(212, 175, 55, 0.2);
-  padding: 2px 6px;
-  border-radius: var(--border-radius-sm);
-  border-bottom: 2px solid var(--treasure-gold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--color-honey-deep);
+  background: var(--color-honey-soft);
+  border: 1px solid color-mix(in srgb, var(--color-honey) 55%, transparent);
+  padding: 3px 11px;
+  border-radius: 8px;
+  box-shadow: inset 0 -2px 0 rgba(213, 140, 42, 0.2);
   animation: keyword-found 0.5s ease-out;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 @keyframes keyword-found {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .hiddenKeyword {
-  color: var(--ink-medium);
-  font-style: italic;
-  opacity: 0.7;
+  display: inline-block;
+  color: var(--color-ink-dim);
+  background: var(--color-bg);
+  border: 1px dashed var(--color-ink-dim);
+  padding: 3px 12px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
   letter-spacing: 2px;
 }
 
-/* Animation d'apparition */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-.manuscriptContent {
-  animation: fadeIn 0.5s ease-out;
-}
-

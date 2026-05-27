@@ -59,8 +59,8 @@ test.describe('Hunts List', () => {
     const app = new HuntApp(page);
     await app.navigateAndAuthenticate('/invalid-hunt-url');
 
-    // Should show 404 page (hunt title won't be visible, but 404 title will)
-    const notFoundTitle = page.getByRole('heading', { name: /404 - Jeu introuvable|404 - Hunt Not Found/ });
+    // Should show 404 page (hunt title won't be visible, but the 404 heading will)
+    const notFoundTitle = page.getByRole('heading', { name: /Cette piste est froide\.|This trail has gone cold\./ });
     await expect(notFoundTitle).toBeVisible({ timeout: 10000 });
 
     // Should have a link back to home

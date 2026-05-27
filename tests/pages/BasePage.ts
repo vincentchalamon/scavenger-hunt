@@ -27,7 +27,7 @@ export class BasePage {
       try {
         const modal = modals.nth(i);
         if (await modal.isVisible()) {
-          const closeBtn = modal.locator('.btn-close');
+          const closeBtn = modal.getByTestId('modal-close');
           if (await closeBtn.isVisible()) {
             await closeBtn.click();
             await modal.waitFor({ state: 'hidden', timeout: 3000 });
@@ -37,6 +37,28 @@ export class BasePage {
         // Ignore if modal is already closed
       }
     }
+  }
+
+  /**
+   * Dismiss the celebration overlay if present.
+   * Returns true when it was the "phrase complete" overlay (which also closes the modal).
+   */
+  async dismissMoment(): Promise<boolean> {
+    // Per-word "mot trouvé" overlay
+    const kw = this.page.getByTestId('keyword-found');
+    if (await kw.isVisible().catch(() => false)) {
+      await this.page.getByTestId('moment-continue').click();
+      await expect(kw).not.toBeVisible({ timeout: 5000 });
+      return false;
+    }
+    // Final "phrase complète" overlay — CTA closes the modal and goes to the map
+    const complete = this.page.getByTestId('phrase-complete-overlay');
+    if (await complete.isVisible().catch(() => false)) {
+      await complete.getByTestId('back-to-map').click();
+      await expect(complete).not.toBeVisible({ timeout: 5000 });
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -50,39 +72,11 @@ export class BasePage {
   }
 
   /**
-   * Close a toast notification
-   */
-  async closeToast() {
-    try {
-      const toast = this.page.getByTestId('toast');
-      if (await toast.isVisible()) {
-        const toastClose = toast.locator('.btn-close');
-        await toastClose.waitFor({ state: 'visible', timeout: 3000 });
-        await toastClose.click();
-        await expect(toast).not.toBeVisible({ timeout: 3000 });
-      }
-    } catch {
-      // Toast may have already disappeared
-    }
-  }
-
-  /**
-   * Verify a success toast appears with specific message (supports regex)
-   */
-  async verifySuccessToast(message?: string | RegExp) {
-    const toast = this.page.getByTestId('toast');
-    await expect(toast).toBeVisible({ timeout: 10000 });
-    if (message) {
-      await expect(toast).toHaveText(message, { timeout: 5000 });
-    }
-  }
-
-  /**
    * Close the current modal
    */
   async closeModal() {
     const modal = this.page.getByTestId('modal');
-    const modalClose = modal.locator('.btn-close');
+    const modalClose = modal.getByTestId('modal-close');
     await modalClose.waitFor({ state: 'visible', timeout: 3000 });
     await modalClose.click();
     await expect(modal).not.toBeVisible({ timeout: 5000 });

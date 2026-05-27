@@ -1,4 +1,5 @@
 import React from 'react';
+import {Icon} from '../Icon/Icon';
 import styles from './ParchmentCard.module.css';
 
 interface ParchmentCardProps {
@@ -35,7 +36,7 @@ export const ParchmentCard: React.FC<ParchmentCardProps> = ({
       </div>
       {variant === 'sealed' && (
         <div className={styles.seal}>
-          <span className={styles.sealIcon}>🔏</span>
+          <Icon.Lock size={20} color="#fff" strokeWidth={2} />
         </div>
       )}
     </div>

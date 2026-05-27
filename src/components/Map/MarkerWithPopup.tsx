@@ -1,175 +1,57 @@
 "use client";
 
-import React, {useEffect, useRef} from "react";
-import {Marker, Popup, useMap} from "react-leaflet";
+import React from "react";
+import {Marker} from "react-leaflet";
 import L from "leaflet";
 import {Place} from "@/types/Place";
-import {Button, Container} from "react-bootstrap";
-import {RenderButton, RenderItem} from "@/components/Items/ItemFactory";
-import {ModalItem} from "@/components/Items/ModalItem";
-import {useTranslation} from "@/i18n";
 
-// Fix for default marker icon in Leaflet with webpack
-// This needs to be done client-side only
-if (typeof window !== 'undefined') {
-  delete (L.Icon.Default.prototype as any)._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-  });
-}
+const HONEY = "#D58C2A";
+const HONEY_DEEP = "#A86A1B";
+const PIN_FONT = "'Inter Tight', sans-serif";
 
-// Create custom icons for different marker states
-const createCustomIcon = (isLatest: boolean) => {
-  const color = isLatest ? '#dc3545' : 'rgba(60, 60, 60, 0.6)';
-  const svgIcon = `
-    <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12.5 0C5.596 0 0 5.596 0 12.5c0 1.867.41 3.638 1.138 5.231L12.5 41l11.362-23.269c.728-1.593 1.138-3.364 1.138-5.231C25 5.596 19.404 0 12.5 0z" fill="${color}"/>
-      <circle cx="12.5" cy="12.5" r="7" fill="white"/>
-    </svg>
-  `;
-
-  return L.divIcon({
-    html: svgIcon,
-    className: 'custom-leaflet-marker',
-    iconSize: [25, 41],
-    iconAnchor: [12.5, 41],
-    popupAnchor: [0, -41]
-  });
+const createPinIcon = (number: number, isLatest: boolean) => {
+  if (isLatest) {
+    const html = `
+      <div style="position:relative;width:44px;height:52px;">
+        <div style="position:absolute;left:4px;top:12px;width:36px;height:36px;border-radius:50%;background:${HONEY};opacity:0.35;animation:cx-pulse 1.8s ease-out infinite;"></div>
+        <svg width="44" height="52" viewBox="0 0 44 52" style="position:relative;">
+          <path d="M22 4 C10 4 0 14 0 26 C0 36 22 52 22 52 C22 52 44 36 44 26 C44 14 34 4 22 4 Z"
+                fill="${HONEY}" stroke="${HONEY_DEEP}" stroke-width="2"
+                filter="drop-shadow(0 4px 6px rgba(213,140,42,0.45))"/>
+          <circle cx="22" cy="24" r="13" fill="white"/>
+          <text x="22" y="29" text-anchor="middle" font-family="${PIN_FONT}" font-size="15" font-weight="800" fill="${HONEY_DEEP}">${number}</text>
+        </svg>
+      </div>`;
+    return L.divIcon({html, className: "custom-leaflet-marker", iconSize: [44, 52], iconAnchor: [22, 52]});
+  }
+  const html = `
+    <div style="filter:drop-shadow(0 3px 6px rgba(213,140,42,0.4));">
+      <svg width="36" height="44" viewBox="0 0 36 44">
+        <path d="M18 0 C8 0 0 8 0 18 C0 28 18 44 18 44 C18 44 36 28 36 18 C36 8 28 0 18 0 Z"
+              fill="${HONEY}" stroke="${HONEY_DEEP}" stroke-width="1.5"/>
+        <circle cx="18" cy="18" r="11" fill="white"/>
+        <text x="18" y="22" text-anchor="middle" font-family="${PIN_FONT}" font-size="13" font-weight="800" fill="${HONEY_DEEP}">${number}</text>
+      </svg>
+    </div>`;
+  return L.divIcon({html, className: "custom-leaflet-marker", iconSize: [36, 44], iconAnchor: [18, 44]});
 };
 
 export const MarkerWithPopup = React.memo((props: {
-  onMarkerClick: (place: Place) => void;
-  onCloseClick: () => void;
-  isSelected: boolean;
-  isLatest: boolean;
-  shouldOpenPopup: boolean;
   place: Place;
-  isFirst?: boolean;
-  "data-testid"?: string;
+  number: number;
+  isLatest: boolean;
+  onMarkerClick: (place: Place) => void;
 }) => {
-  const {onMarkerClick, onCloseClick, isSelected, isLatest, shouldOpenPopup, place, isFirst} = props;
-  const {t} = useTranslation();
-  const markerRef = useRef<L.Marker>(null);
-  const popupRef = useRef<L.Popup | null>(null);
-  const map = useMap();
-  const [popupMaxWidth, setPopupMaxWidth] = React.useState(280);
-
-  // Calculate popup max width based on screen width
-  useEffect(() => {
-    const calculateMaxWidth = () => {
-      const screenWidth = window.innerWidth;
-      // Use 80% of screen width with a maximum of 400px and minimum of 240px
-      const calculatedWidth = Math.min(Math.max(screenWidth * 0.8, 240), 400);
-      setPopupMaxWidth(calculatedWidth);
-    };
-
-    calculateMaxWidth();
-    window.addEventListener('resize', calculateMaxWidth);
-
-    return () => {
-      window.removeEventListener('resize', calculateMaxWidth);
-    };
-  }, []);
-
-  // Allow the onboarding tour to open/close the popup on the first marker
-  useEffect(() => {
-    if (!isFirst) return;
-    const open = () => markerRef.current?.openPopup();
-    const close = () => markerRef.current?.closePopup();
-    window.addEventListener('onboarding:open-first-marker', open);
-    window.addEventListener('onboarding:close-first-marker', close);
-    return () => {
-      window.removeEventListener('onboarding:open-first-marker', open);
-      window.removeEventListener('onboarding:close-first-marker', close);
-    };
-  }, [isFirst]);
-
-  // Open popup only when shouldOpenPopup is true (search selection)
-  useEffect(() => {
-    if (shouldOpenPopup && markerRef.current) {
-      // Delay popup opening to ensure map is fully rendered
-      setTimeout(() => {
-        if (markerRef.current) {
-          markerRef.current.openPopup();
-
-          // Additional delay to ensure popup content is fully rendered
-          // before forcing a position update
-          setTimeout(() => {
-            if (popupRef.current && markerRef.current) {
-              // Force popup to recalculate its position now that content is loaded
-              popupRef.current.update();
-            }
-          }, 200);
-        }
-      }, 100);
-    } else if (!isSelected && markerRef.current) {
-      markerRef.current.closePopup();
-    }
-  }, [shouldOpenPopup, isSelected, map]);
+  const {place, number, isLatest, onMarkerClick} = props;
 
   return (
     <Marker
-      ref={markerRef}
       position={[place.coordinates.lat, place.coordinates.lng]}
-      icon={createCustomIcon(isLatest)}
+      icon={createPinIcon(number, isLatest)}
       eventHandlers={{
-        click: () => {
-          onMarkerClick(place);
-        }
+        click: () => onMarkerClick(place),
       }}
-    >
-      <Popup
-        ref={(popup) => {
-          popupRef.current = popup;
-        }}
-        closeButton={true}
-        maxWidth={popupMaxWidth}
-        minWidth={Math.min(240, popupMaxWidth)}
-        className="map-popup"
-        autoPan={true}
-        autoPanPadding={[50, 50]}
-        offset={[0, 0]}
-        eventHandlers={{
-          popupclose: () => onCloseClick()
-        }}
-      >
-        <Container className="bg-white text-dark" style={{maxWidth: '100%', minWidth: Math.min(240, popupMaxWidth) + 'px'}}>
-          <h5 className="text-dark mb-2">{place.name}</h5>
-          <div style={{
-            textAlign: "justify",
-            textJustify: "inter-word",
-          }} dangerouslySetInnerHTML={{__html: place.description}}/>
-          {place.link && (
-            // @ts-ignore
-            <Button href={place.link} target="_blank" className="mt-2 d-block mx-auto">{t('markerLinkButton')}</Button>
-          )}
-          {place.item?.type && (
-            <>
-              <hr/>
-              <p style={{
-                textAlign: "justify",
-                textJustify: "inter-word",
-                fontWeight: "bolder",
-              }}><strong>{t('markerPlaceInstructions')}</strong></p>
-              <ModalItem button={
-                // @ts-ignore
-                <Button variant="link" className="p-0 m-0" data-testid="place-item-trigger" style={{maxWidth: '100%', display: 'block'}}>
-                  <div style={{maxWidth: '100%', overflow: 'hidden'}}>
-                    <RenderButton {...place.item}/>
-                  </div>
-                </Button>
-              }>
-                <div className="d-flex flex-column justify-content-center align-items-center mw-100 mh-100">
-                  <RenderItem {...place.item}/>
-                </div>
-              </ModalItem>
-            </>
-          )}
-        </Container>
-      </Popup>
-    </Marker>
+    />
   );
 });
 

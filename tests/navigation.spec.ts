@@ -24,8 +24,7 @@ test.describe('Navigation', () => {
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(1);
     await expect(page.locator('.leaflet-marker-icon')).toBeVisible();
     await page.locator('.leaflet-marker-icon').first().click();
-    await expect(page.locator('.leaflet-popup-content')).toHaveCount(1);
-    await expect(page.locator('.leaflet-popup-content')).toBeVisible();
+    await expect(page.getByTestId('place-sheet')).toBeVisible();
 
     // Go back to manuscript tab
     await page.getByTestId('manuscript-button').click();

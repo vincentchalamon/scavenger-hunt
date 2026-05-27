@@ -43,7 +43,7 @@ test.describe('Interface i18n', () => {
     const app = new HuntApp(page);
     await app.navigateAndAuthenticate('/invalid-hunt-url');
 
-    const expectedTitle = en ? '404 - Hunt Not Found' : '404 - Jeu introuvable';
+    const expectedTitle = en ? 'This trail has gone cold.' : 'Cette piste est froide.';
     await expect(page.getByRole('heading', {name: expectedTitle})).toBeVisible({timeout: 10000});
 
     const expectedBack = en ? 'Back to hunts list' : 'Retour à la liste des jeux';
@@ -63,7 +63,7 @@ test.describe('Interface i18n', () => {
     await expect(page.getByRole('heading', {name: 'Parcours disponibles'})).not.toBeVisible();
   });
 
-  test('Map popup CTA uses translated marker strings', async ({page}, testInfo) => {
+  test('Map place sheet uses translated strings', async ({page}, testInfo) => {
     const en = isEnglish(testInfo.project.use.locale);
     const app = new HuntApp(page);
     await app.navigateAndAuthenticate('/le-secret-du-vieux-lille');
@@ -73,16 +73,12 @@ test.describe('Interface i18n', () => {
     await expect(page.locator('.leaflet-marker-icon').first()).toBeVisible({timeout: 10000});
     await page.locator('.leaflet-marker-icon').first().click();
 
-    const popup = page.locator('.leaflet-popup-content');
-    await expect(popup).toBeVisible({timeout: 5000});
+    const sheet = page.getByTestId('place-sheet');
+    await expect(sheet).toBeVisible({timeout: 5000});
 
-    const expectedInstructions = en
-      ? 'Go to the location, then tap the image below'
-      : 'Allez sur place, puis cliquez sur l\'image ci-dessous';
-    const forbiddenInstructions = en
-      ? 'Allez sur place, puis cliquez sur l\'image ci-dessous'
-      : 'Go to the location, then tap the image below';
-    await expect(popup).toContainText(expectedInstructions);
-    await expect(popup).not.toContainText(forbiddenInstructions);
+    const expectedStep = en ? 'Step' : 'Étape';
+    const forbiddenStep = en ? 'Étape' : 'Step';
+    await expect(sheet).toContainText(expectedStep);
+    await expect(sheet).not.toContainText(forbiddenStep);
   });
 });

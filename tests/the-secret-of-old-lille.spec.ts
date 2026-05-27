@@ -43,7 +43,7 @@ test.describe('The Secret of Old Lille', () => {
 
       const clue = app.createClickableImageClue();
       await clue.viewImageInArea(0.9, 0.5, 'press.jpg');
-      await clue.solveAndClose(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le lieu final !|Congratulations! You found a keyword leading to the last place location!/);
+      await clue.solveAndClose();
 
       await app.manuscript.navigateToManuscript();
       await app.manuscript.verifyText('The secret ···· ······ ·········· lies ············ at ······ foot ···· ······ ·············· ············');
@@ -96,7 +96,7 @@ test.describe('The Secret of Old Lille', () => {
         await page.waitForTimeout(1000);
       }
 
-      const closeButton = cardFlipModal.locator('button.btn-close');
+      const closeButton = cardFlipModal.getByTestId('modal-close');
       await closeButton.click();
       await page.waitForTimeout(500);
 
@@ -145,8 +145,7 @@ test.describe('The Secret of Old Lille', () => {
         'Opera de Lille',
         'Lille Opera',
         8,
-        'The secret of Old Lille lies hidden at the foot of the Goddess Column',
-        'Congratulations! You found all the hidden words. Check the sentence to discover the last place!'
+        'The secret of Old Lille lies hidden at the foot of the Goddess Column'
       );
     });
 

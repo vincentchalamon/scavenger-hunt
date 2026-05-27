@@ -72,7 +72,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
       await clue.viewImageInArea(0.9, 0.5, 'press.jpg');
 
       // Then solve by clicking the keyword
-      await clue.solveAndClose(/Bravo ! Vous avez trouvé un mot-clé vous menant vers le lieu final !|Congratulations! You found a keyword leading to the last place location!/);
+      await clue.solveAndClose();
 
       // Verify the phrase
       await app.manuscript.navigateToManuscript();
@@ -139,7 +139,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
       }
 
       // Close the card-flip modal
-      const closeButton = cardFlipModal.locator('button.btn-close');
+      const closeButton = cardFlipModal.getByTestId('modal-close');
       await closeButton.click();
       await page.waitForTimeout(500);
 
@@ -205,8 +205,7 @@ test.describe('Le Secret du Vieux-Lille', () => {
         'Opera de Lille',
         'Opéra de Lille',
         8,
-        'Le secret du Vieux-Lille se trouve au pied de la Colonne de la Déesse',
-        'Félicitations ! Vous avez trouvé tous les mots cachés. Consultez la phrase pour découvrir le lieu final !'
+        'Le secret du Vieux-Lille se trouve au pied de la Colonne de la Déesse'
       );
     });
 

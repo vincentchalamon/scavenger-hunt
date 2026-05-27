@@ -15,26 +15,23 @@ test.describe('Keyword', () => {
     // Go to map tab
     await page.getByTestId('map-button').click();
 
-    // Show marker description
+    // Show place sheet
     await page.locator('.leaflet-marker-icon').first().click();
-    await expect(page.locator('.leaflet-popup-content').locator('.container button')).toBeVisible();
+    await expect(page.getByTestId('place-item-trigger')).toBeVisible();
 
-    // Use JavaScript to trigger the click - the parent div has the onClick handler
-    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
-      const parentDiv = btn.parentElement;
-      if (parentDiv) {
-        parentDiv.click();
-      }
-    });
+    await page.getByTestId('place-item-trigger').click();
     await expect(page.getByTestId('modal')).toBeVisible();
 
     // Click on the hidden keyword
     await expect(page.getByTestId('modal').getByTestId('keyword-button')).toBeInViewport();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
-    await expect(page.getByTestId('toast')).toContainText(/Bravo ! Vous avez trouv|Congratulations! You found|Felicidades! Encontraste|Glckwunsch! Sie haben|Gefeliciteerd! Je hebt/);
+
+    // The "mot trouvé" celebration overlay appears, then dismiss it
+    await expect(page.getByTestId('keyword-found')).toBeVisible();
+    await page.getByTestId('moment-continue').click();
 
     // Close modal
-    await page.getByTestId('modal').locator('.btn-close').click();
+    await page.getByTestId('modal').getByTestId('modal-close').click();
 
     // Return to manuscript - the keyword "pied" should now be visible
     await page.getByTestId('manuscript-button').click();
@@ -45,32 +42,23 @@ test.describe('Keyword', () => {
     // Select the keyword
     await page.getByTestId('map-button').click();
     await page.locator('.leaflet-marker-icon').first().click();
-    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
-      const parentDiv = btn.parentElement;
-      if (parentDiv) {
-        parentDiv.click();
-      }
-    });
+    await page.getByTestId('place-item-trigger').click();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
-    await expect(page.getByTestId('toast')).toContainText(/Bravo ! Vous avez trouv|Congratulations! You found|Felicidades! Encontraste|Glckwunsch! Sie haben|Gefeliciteerd! Je hebt/);
-    await page.getByTestId('modal').locator('.btn-close').click();
+    await expect(page.getByTestId('keyword-found')).toBeVisible();
+    await page.getByTestId('moment-continue').click();
+    await page.getByTestId('modal').getByTestId('modal-close').click();
     await page.getByTestId('manuscript-button').click();
     await expect(page.getByTestId('manuscript')).toContainText('pied');
 
     // Return to the same clue
     await page.getByTestId('map-button').click();
     await page.locator('.leaflet-marker-icon').first().click();
-    await page.locator('.leaflet-popup-content').locator('.container button').evaluate((btn) => {
-      const parentDiv = btn.parentElement;
-      if (parentDiv) {
-        parentDiv.click();
-      }
-    });
+    await page.getByTestId('place-item-trigger').click();
     await page.getByTestId('modal').getByTestId('keyword-button').click();
 
-    // Click on keyword doesn't change anything (already found, no toast shown)
-    await expect(page.getByTestId('toast')).not.toBeVisible();
-    await page.getByTestId('modal').locator('.btn-close').click();
+    // Click on keyword doesn't change anything (already found, no overlay shown)
+    await expect(page.getByTestId('keyword-found')).not.toBeVisible();
+    await page.getByTestId('modal').getByTestId('modal-close').click();
     await page.getByTestId('manuscript-button').click();
     await expect(page.getByTestId('manuscript')).toContainText('pied');
   });
