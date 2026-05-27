@@ -139,7 +139,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const controlContainer = map.getContainer();
 
   return ReactDOM.createPortal(
-    <Container className="position-absolute p-0" style={{top: '12px', left: '12px', right: '62px', zIndex: 600}}>
+    <Container className="position-absolute p-0" style={{top: '12px', left: '56px', right: '62px', zIndex: 600}}>
       <div style={{position: 'absolute', left: '14px', top: '13px', zIndex: 1, pointerEvents: 'none'}}>
         <Icon.Search size={15} color="var(--color-ink-mute)" strokeWidth={2} />
       </div>

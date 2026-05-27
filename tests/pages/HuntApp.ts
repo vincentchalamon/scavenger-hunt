@@ -156,8 +156,10 @@ export class HuntApp {
     await clue.solve();
     await clue.verifyRevealed(keyword, nextClue);
 
-    await clue.dismissMoment();
-    await clue.closeModal();
+    const completed = await clue.dismissMoment();
+    if (!completed) {
+      await clue.closeModal();
+    }
 
     await this.manuscript.navigateToManuscript();
     await this.manuscript.verifyText(expectedPhrase);

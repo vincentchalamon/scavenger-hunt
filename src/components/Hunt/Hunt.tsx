@@ -115,6 +115,17 @@ const HuntContent: React.FC<HuntProps> = ({hunt}) => {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // Completion moment "Retourner à la carte" → switch to the map tab
+  useEffect(() => {
+    const goMap = () => {
+      setActiveKey('map');
+      window.history.pushState({tab: 'map'}, "", '#tab=map');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    };
+    window.addEventListener('hunt:go-to-map', goMap);
+    return () => window.removeEventListener('hunt:go-to-map', goMap);
+  }, []);
+
   return (
     <>
       <Toast/>

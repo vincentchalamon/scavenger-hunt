@@ -4,8 +4,9 @@ import React, {createContext, ReactNode, useCallback, useContext, useMemo, useSt
 import {createPortal} from "react-dom";
 import {useTranslation} from "@/i18n";
 import {Icon} from "@/components/UI";
+import {CompletionCard} from "@/components/CompletionCard/CompletionCard";
 
-type MomentState = { word: string; keywords: string[] } | null;
+type MomentState = { word: string; keywords: string[]; complete: boolean } | null;
 
 type MomentContextType = {
   showKeywordFound: (word: string, keywords: string[]) => void;
@@ -25,22 +26,50 @@ export function MomentProvider({children, phrase, defaultKeywords}: {
   const [moment, setMoment] = useState<MomentState>(null);
 
   const showKeywordFound = useCallback((word: string, keywords: string[]) => {
-    setMoment({word, keywords});
-  }, []);
+    const uniqueWords = [...new Set(phrase.split(" "))];
+    const total = Math.max(1, uniqueWords.length - defaultKeywords.length);
+    const found = Math.min(Math.max(0, keywords.length - defaultKeywords.length), total);
+    setMoment({word, keywords, complete: found >= total});
+  }, [phrase, defaultKeywords]);
 
   const value = useMemo(() => ({showKeywordFound}), [showKeywordFound]);
+
+  const close = () => setMoment(null);
+  const completeAndGoToMap = () => {
+    setMoment(null);
+    // Close the énigme modal and switch to the map tab
+    window.dispatchEvent(new Event("hunt:dismiss-modals"));
+    window.dispatchEvent(new Event("hunt:go-to-map"));
+  };
 
   return (
     <MomentContext.Provider value={value}>
       {children}
       {moment && typeof document !== "undefined" && createPortal(
-        <KeywordFoundOverlay
-          word={moment.word}
-          keywords={moment.keywords}
-          phrase={phrase}
-          defaultKeywords={defaultKeywords}
-          onClose={() => setMoment(null)}
-        />,
+        moment.complete ? (
+          <div
+            data-testid="phrase-complete-overlay"
+            onClick={close}
+            style={{
+              position: "fixed", inset: 0, zIndex: 2000,
+              background: "rgba(17,18,16,0.55)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "0 24px",
+            }}
+          >
+            <div onClick={(e) => e.stopPropagation()} style={{width: "100%", maxWidth: 340}}>
+              <CompletionCard phrase={phrase} defaultKeywords={defaultKeywords} onGoToMap={completeAndGoToMap} />
+            </div>
+          </div>
+        ) : (
+          <KeywordFoundOverlay
+            word={moment.word}
+            keywords={moment.keywords}
+            phrase={phrase}
+            defaultKeywords={defaultKeywords}
+            onClose={close}
+          />
+        ),
         document.body
       )}
     </MomentContext.Provider>
@@ -56,7 +85,7 @@ const KeywordFoundOverlay: React.FC<{
 }> = ({word, keywords, phrase, defaultKeywords, onClose}) => {
   const {t} = useTranslation();
 
-  const words = phrase.split(' ');
+  const words = phrase.split(" ");
   const uniqueWords = [...new Set(words)];
   const total = Math.max(1, uniqueWords.length - defaultKeywords.length);
   const found = Math.min(Math.max(0, keywords.length - defaultKeywords.length), total);
@@ -108,25 +137,31 @@ const KeywordFoundOverlay: React.FC<{
           </div>
         </div>
 
-        {/* Mini phrase board */}
+        {/* Mini phrase board — le nouveau mot est mis en évidence */}
         <div style={{
           marginTop: 8, padding: "10px 12px", background: "var(--color-bg)", borderRadius: 12,
           display: "flex", flexWrap: "wrap", gap: 4, justifyContent: "center",
         }}>
-          {words.map((w, i) => (
-            keywords.includes(w) ? (
-              <span key={i} style={{
-                fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 700,
-                color: "var(--color-honey-deep)", background: "var(--color-honey-soft)",
-                padding: "2px 8px", borderRadius: 5,
-              }}>{w}</span>
-            ) : (
+          {words.map((w, i) => {
+            if (keywords.includes(w)) {
+              const isNew = w === word;
+              return (
+                <span key={i} style={{
+                  fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 700,
+                  color: isNew ? "#fff" : "var(--color-honey-deep)",
+                  background: isNew ? "var(--color-honey)" : "var(--color-honey-soft)",
+                  padding: "2px 8px", borderRadius: 5,
+                  animation: isNew ? "cx-word-pop 0.45s ease-out, cx-word-halo 0.9s ease-out 0.2s" : undefined,
+                }}>{w}</span>
+              );
+            }
+            return (
               <span key={i} style={{
                 fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--color-ink-dim)",
                 border: "1px dashed var(--color-ink-dim)", padding: "2px 10px", borderRadius: 5,
               }}>{"•".repeat(3)}</span>
-            )
-          ))}
+            );
+          })}
         </div>
 
         <div style={{

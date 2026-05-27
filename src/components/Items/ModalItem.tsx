@@ -59,6 +59,15 @@ export const ModalItem = ({button, children, onShow = () => {}, onHide = () => {
     return () => window.removeEventListener("popstate", handlePopState);
   }, [hide, modalId]);
 
+  // Allow the completion moment to force-close any open énigme modal
+  useEffect(() => {
+    const dismiss = () => {
+      if (isShownRef.current) hide();
+    };
+    window.addEventListener("hunt:dismiss-modals", dismiss);
+    return () => window.removeEventListener("hunt:dismiss-modals", dismiss);
+  }, [hide]);
+
   return (
     <>
       <div className="h-100 w-100 p-0 m-0" onClick={show}>{button}</div>

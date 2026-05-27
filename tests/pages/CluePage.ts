@@ -23,9 +23,12 @@ export abstract class ClueBasePage extends BasePage {
   async solveAndClose() {
     await this.solve();
 
-    // Dismiss the "mot trouvé" celebration overlay, then close the modal
-    await this.dismissMoment();
-    await this.closeModal();
+    // Dismiss the celebration overlay. The "phrase complète" overlay already
+    // closes the modal (via its CTA), so only close it when it wasn't completion.
+    const completed = await this.dismissMoment();
+    if (!completed) {
+      await this.closeModal();
+    }
   }
 }
 

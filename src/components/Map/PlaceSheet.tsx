@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useRef, useState} from "react";
 import {Place} from "@/types/Place";
 import {RenderButton, RenderItem} from "@/components/Items/ItemFactory";
 import {ModalItem} from "@/components/Items/ModalItem";
@@ -13,27 +13,66 @@ export const PlaceSheet: React.FC<{
   onClose: () => void;
 }> = ({place, stepNumber, onClose}) => {
   const {t} = useTranslation();
+  const [expanded, setExpanded] = useState(false);
+  const [dragY, setDragY] = useState(0);
+  const draggingRef = useRef(false);
+  const startYRef = useRef(0);
+  const deltaRef = useRef(0);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    draggingRef.current = true;
+    startYRef.current = e.touches[0].clientY;
+    deltaRef.current = 0;
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!draggingRef.current) return;
+    const delta = e.touches[0].clientY - startYRef.current;
+    deltaRef.current = delta;
+    setDragY(delta > 0 ? delta : Math.max(delta, -60));
+  };
+  const onTouchEnd = () => {
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
+    const d = deltaRef.current;
+    setDragY(0);
+    if (d > 90) {
+      onClose();
+    } else if (d < -30) {
+      setExpanded(true);
+    } else if (d > 30 && expanded) {
+      setExpanded(false);
+    }
+  };
 
   return (
     <div
       data-testid="place-sheet"
       style={{
-        position: "absolute", left: 0, right: 0, bottom: 0,
+        position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 700,
         background: "var(--color-surface)",
         borderTopLeftRadius: 22, borderTopRightRadius: 22,
         boxShadow: "0 -10px 30px rgba(0,0,0,0.18)",
-        zIndex: 700, maxHeight: "70%",
+        height: expanded ? "92%" : "auto",
+        maxHeight: expanded ? "92%" : "62%",
         display: "flex", flexDirection: "column",
+        transform: dragY ? `translateY(${dragY}px)` : undefined,
+        transition: draggingRef.current ? "none" : "transform 0.25s ease, max-height 0.25s ease, height 0.25s ease",
+        animation: "cx-sheet-up 0.28s ease",
+        touchAction: "none",
       }}
     >
-      {/* Drag handle */}
-      <div style={{padding: "10px 0 4px", display: "flex", justifyContent: "center", flexShrink: 0}}>
-        <div style={{width: 40, height: 4, borderRadius: 2, background: "var(--color-hairline)"}} />
-      </div>
+      {/* Header — toujours visible, sert de poignée de drag */}
+      <div
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{flexShrink: 0, padding: "0 20px", cursor: "grab", touchAction: "none"}}
+      >
+        <div style={{padding: "10px 0 8px", display: "flex", justifyContent: "center"}}>
+          <div style={{width: 40, height: 4, borderRadius: 2, background: "var(--color-hairline)"}} />
+        </div>
 
-      <div style={{overflowY: "auto", padding: "8px 20px 20px"}}>
-        {/* Step badge + close */}
-        <div style={{display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 10}}>
+        <div style={{display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 8}}>
           <div style={{display: "flex", alignItems: "center", gap: 10}}>
             <div style={{
               width: 32, height: 32, borderRadius: 10,
@@ -60,47 +99,50 @@ export const PlaceSheet: React.FC<{
             style={{
               width: 30, height: 30, borderRadius: 10,
               background: "var(--color-bg)", border: "1px solid var(--color-hairline)",
-              display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0,
             }}
           >
             <Icon.X size={15} color="var(--color-ink)" strokeWidth={2} />
           </button>
         </div>
 
-        {/* Title */}
         <h2 style={{
           fontFamily: "var(--font-display)", fontSize: 23, fontWeight: 700, letterSpacing: -0.7,
-          margin: "0 0 8px", lineHeight: 1.15, color: "var(--color-ink)",
+          margin: "0 0 10px", lineHeight: 1.15, color: "var(--color-ink)",
         }}>
           {place.name}
         </h2>
+      </div>
 
-        {/* Description */}
+      {/* Contenu défilant */}
+      <div style={{flex: 1, overflowY: "auto", touchAction: "pan-y", padding: "0 20px 20px"}}>
         <div
-          style={{fontSize: 14.5, lineHeight: 1.5, color: "var(--color-ink-soft)", marginBottom: 12}}
+          style={{fontSize: 14.5, lineHeight: 1.5, color: "var(--color-ink-soft)", marginBottom: 14}}
           dangerouslySetInnerHTML={{__html: place.description}}
         />
 
-        {/* More info */}
         {place.link && (
-          <a
-            href={place.link}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "10px 14px", background: "var(--color-bg)",
-              border: "1px solid var(--color-hairline)", borderRadius: 12,
-              fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 600,
-              color: "var(--color-ink)", textDecoration: "none", marginBottom: 14,
-            }}
-          >
-            <Icon.ExternalLink size={14} color="var(--color-ink)" strokeWidth={1.8} />
-            {t('placeMoreInfo')}
-          </a>
+          <div style={{display: "flex", justifyContent: "center", marginBottom: 14}}>
+            <a
+              href={place.link}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "10px 16px",
+                background: "var(--color-forest-soft)",
+                border: "1px solid color-mix(in srgb, var(--color-forest) 25%, transparent)",
+                borderRadius: 12,
+                fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 600,
+                color: "var(--color-forest-dark)", textDecoration: "none",
+              }}
+            >
+              <Icon.ExternalLink size={14} color="var(--color-forest-dark)" strokeWidth={1.8} />
+              {t('placeMoreInfo')}
+            </a>
+          </div>
         )}
 
-        {/* Énigme */}
         {place.item?.type && (
           <ModalItem place={place.name} step={stepNumber} button={
             <button

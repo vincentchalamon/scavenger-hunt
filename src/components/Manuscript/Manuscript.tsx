@@ -3,8 +3,8 @@
 import {Container} from "react-bootstrap";
 import React, {useContext} from "react";
 import {PhraseContext} from "@/contexts/PhraseContext";
-import {ParchmentCard, Icon} from "@/components/UI";
-import {useTranslation} from "@/i18n";
+import {ParchmentCard} from "@/components/UI";
+import {CompletionCard} from "@/components/CompletionCard/CompletionCard";
 import styles from "./Manuscript.module.css";
 
 type ManuscriptProps = {
@@ -14,7 +14,6 @@ type ManuscriptProps = {
 }
 
 export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase, onGoToMap}) => {
-  const {t} = useTranslation();
   const {keywords, defaultKeywords} = useContext(PhraseContext);
 
   const words = phrase.split(" ");
@@ -32,19 +31,8 @@ export const Manuscript: React.FC<ManuscriptProps> = ({manuscript, phrase, onGoT
   return (
     <Container className="py-3" data-testid="manuscript">
       {allFound && (
-        <div className={styles.completeBanner} data-testid="phrase-complete">
-          <div className={styles.completeMedallion}>
-            <Icon.Sparkle size={26} color="#fff" strokeWidth={2.4} />
-          </div>
-          <div className={styles.completeKicker}>{t('phraseReconstructedKicker')}</div>
-          <h2 className={styles.completeTitle}>{t('phraseReconstructedTitle')}</h2>
-          <p className={styles.completeBody}>{t('phraseReconstructedBody')}</p>
-          {onGoToMap && (
-            <button className={styles.completeCta} onClick={onGoToMap}>
-              <Icon.Map size={15} color="#fff" strokeWidth={2} />
-              {t('backToMap')}
-            </button>
-          )}
+        <div style={{marginBottom: 'var(--spacing-lg)'}}>
+          <CompletionCard phrase={phrase} defaultKeywords={defaultKeywords} onGoToMap={onGoToMap} />
         </div>
       )}
 

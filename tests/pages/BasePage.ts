@@ -40,18 +40,25 @@ export class BasePage {
   }
 
   /**
-   * Dismiss the "keyword found" celebration overlay if present
+   * Dismiss the celebration overlay if present.
+   * Returns true when it was the "phrase complete" overlay (which also closes the modal).
    */
-  async dismissMoment() {
-    try {
-      const overlay = this.page.getByTestId('keyword-found');
-      if (await overlay.isVisible().catch(() => false)) {
-        await this.page.getByTestId('moment-continue').click();
-        await expect(overlay).not.toBeVisible({ timeout: 5000 });
-      }
-    } catch {
-      // Overlay may have already been dismissed
+  async dismissMoment(): Promise<boolean> {
+    // Per-word "mot trouvé" overlay
+    const kw = this.page.getByTestId('keyword-found');
+    if (await kw.isVisible().catch(() => false)) {
+      await this.page.getByTestId('moment-continue').click();
+      await expect(kw).not.toBeVisible({ timeout: 5000 });
+      return false;
     }
+    // Final "phrase complète" overlay — CTA closes the modal and goes to the map
+    const complete = this.page.getByTestId('phrase-complete-overlay');
+    if (await complete.isVisible().catch(() => false)) {
+      await complete.getByTestId('back-to-map').click();
+      await expect(complete).not.toBeVisible({ timeout: 5000 });
+      return true;
+    }
+    return false;
   }
 
   /**

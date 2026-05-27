@@ -11,7 +11,7 @@ import {useToast} from "@/contexts/ToastContext";
 import {useTranslation} from "@/i18n";
 import {useGeolocation} from "@/hooks/useGeolocation";
 import {getVisitedPlaces, saveVisitedPlaces} from "@/lib/storage";
-import {Icon} from "@/components/UI";
+import {CompassLoader, Icon} from "@/components/UI";
 import "leaflet/dist/leaflet.css";
 
 type MapProps = {
@@ -115,7 +115,15 @@ function CenterOnMeButton({position}: {position: {lat: number; lng: number}}) {
 export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) => {
   const {addToast} = useToast();
   const { t } = useTranslation();
-  const {position: userPosition} = useGeolocation();
+  const {position: userPosition, error: geoError, isSupported: geoSupported} = useGeolocation();
+
+  // Show the loading screen while geolocation is being acquired, with a
+  // safety fallback so a slow/blocked GPS never hangs the map forever.
+  const [geoFallback, setGeoFallback] = useState(false);
+  useEffect(() => {
+    const id = setTimeout(() => setGeoFallback(true), 4000);
+    return () => clearTimeout(id);
+  }, []);
 
   // Store all visited places to trace a route in the map. Preset first place.
   const [visitedPlaces, setVisitedPlaces] = useState<Place[]>([places[0]]);
@@ -194,6 +202,16 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
   const placeNumber = (place: Place) => places.findIndex((p) => p.name === place.name) + 1;
   const stepNumber = selectedPlace ? placeNumber(selectedPlace) : 0;
 
+  // Loading screen while the position is being acquired
+  const acquiringLocation = geoSupported && !userPosition && !geoError && !geoFallback;
+  if (acquiringLocation) {
+    return (
+      <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)'}}>
+        <CompassLoader text={t('locating')} />
+      </div>
+    );
+  }
+
   return (
     <div style={{position: 'relative', height: '100%', width: '100%'}}>
       <MapContainer
@@ -239,7 +257,7 @@ export const Map: React.FC<MapProps> = ({places, coordinates, debug, huntSlug}) 
       </MapContainer>
 
       {selectedPlace && (
-        <PlaceSheet place={selectedPlace} stepNumber={stepNumber} onClose={handleCloseSheet} />
+        <PlaceSheet key={selectedPlace.name} place={selectedPlace} stepNumber={stepNumber} onClose={handleCloseSheet} />
       )}
     </div>
   );
