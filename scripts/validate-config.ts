@@ -25,8 +25,8 @@ const result = configSchema.safeParse(configData);
 
 if (result.success) {
   console.log('✅ The config.json file is valid!');
-  console.log(`   - ${configData.hunts.length} hunt(s)`);
-  configData.hunts.forEach((hunt: any) => {
+  console.log(`   - ${result.data.hunts.length} hunt(s)`);
+  result.data.hunts.forEach((hunt) => {
     console.log(`   - "${hunt.name}" with ${hunt.places.length} place(s)`);
   });
   process.exit(0);

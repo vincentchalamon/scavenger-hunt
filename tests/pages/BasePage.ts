@@ -33,7 +33,7 @@ export class BasePage {
             await modal.waitFor({ state: 'hidden', timeout: 3000 });
           }
         }
-      } catch (e) {
+      } catch {
         // Ignore if modal is already closed
       }
     }
@@ -61,7 +61,7 @@ export class BasePage {
         await toastClose.click();
         await expect(toast).not.toBeVisible({ timeout: 3000 });
       }
-    } catch (e) {
+    } catch {
       // Toast may have already disappeared
     }
   }

@@ -159,7 +159,7 @@ export class HuntApp {
 
     try {
       await this.map.closeToast();
-    } catch (e) {
+    } catch {
       // Toast handling skipped
     }
 

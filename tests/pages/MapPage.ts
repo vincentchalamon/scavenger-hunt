@@ -1,4 +1,4 @@
-import {expect, Page} from '@playwright/test';
+import {expect, Page, Request, Response} from '@playwright/test';
 import {BasePage} from './BasePage';
 
 /**
@@ -88,14 +88,14 @@ export class MapPage extends BasePage {
         let requestFailed = false;
         let requestSucceeded = false;
 
-        const requestFailedHandler = (request: any) => {
+        const requestFailedHandler = (request: Request) => {
           if (request.url().includes('nominatim.openstreetmap.org')) {
             console.log(`Nominatim request failed on attempt ${attempt} for "${query}"`);
             requestFailed = true;
           }
         };
 
-        const responseHandler = (response: any) => {
+        const responseHandler = (response: Response) => {
           if (response.url().includes('nominatim.openstreetmap.org') && response.ok()) {
             requestSucceeded = true;
           }
