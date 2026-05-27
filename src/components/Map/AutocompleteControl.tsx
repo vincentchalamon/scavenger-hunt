@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Container, Form, ListGroup} from "react-bootstrap";
+import {Button, Form, ListGroup} from "react-bootstrap";
 import React, {FormEvent, FunctionComponent, useCallback, useEffect, useState} from "react";
 import {useMap} from "react-leaflet";
 import {OpenStreetMapProvider} from 'leaflet-geosearch';
@@ -139,7 +139,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
   const controlContainer = map.getContainer();
 
   return ReactDOM.createPortal(
-    <Container className="position-absolute p-0" style={{top: '12px', left: '56px', right: '62px', zIndex: 600}}>
+    <div style={{position: 'absolute', top: '12px', left: '54px', right: '60px', zIndex: 600}}>
       <div style={{position: 'absolute', left: '14px', top: '13px', zIndex: 1, pointerEvents: 'none'}}>
         <Icon.Search size={15} color="var(--color-ink-mute)" strokeWidth={2} />
       </div>
@@ -175,7 +175,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
           ))}
         </ListGroup>
       )}
-    </Container>,
+    </div>,
     controlContainer
   );
 }

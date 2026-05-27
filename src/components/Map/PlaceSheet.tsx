@@ -13,51 +13,86 @@ export const PlaceSheet: React.FC<{
   onClose: () => void;
 }> = ({place, stepNumber, onClose}) => {
   const {t} = useTranslation();
-  const [expanded, setExpanded] = useState(false);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  // height in px while dragged/expanded; null = auto (default, content-based)
+  const [heightPx, setHeightPx] = useState<number | null>(null);
   const [dragY, setDragY] = useState(0);
+  const [closing, setClosing] = useState(false);
+
   const draggingRef = useRef(false);
   const startYRef = useRef(0);
+  const startHeightRef = useRef(0);
   const deltaRef = useRef(0);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const maxExpanded = () => (typeof window !== "undefined" ? window.innerHeight * 0.92 : 600);
+
+  const triggerClose = () => {
+    if (closing) return;
+    setClosing(true);
+    // Fallback in case the transitionend doesn't fire
+    closeTimer.current = setTimeout(onClose, 320);
+  };
+
+  const onSheetTransitionEnd = (e: React.TransitionEvent) => {
+    if (closing && e.propertyName === "transform") {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+      onClose();
+    }
+  };
 
   const onTouchStart = (e: React.TouchEvent) => {
     draggingRef.current = true;
     startYRef.current = e.touches[0].clientY;
+    startHeightRef.current = sheetRef.current?.getBoundingClientRect().height ?? 0;
     deltaRef.current = 0;
   };
   const onTouchMove = (e: React.TouchEvent) => {
     if (!draggingRef.current) return;
     const delta = e.touches[0].clientY - startYRef.current;
     deltaRef.current = delta;
-    setDragY(delta > 0 ? delta : Math.max(delta, -60));
+    if (delta <= 0) {
+      // Drag up → grow height, anchored at the bottom (no gap)
+      setHeightPx(Math.min(startHeightRef.current - delta, maxExpanded()));
+      setDragY(0);
+    } else {
+      // Drag down → slide the sheet toward closing
+      setDragY(delta);
+    }
   };
   const onTouchEnd = () => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
     const d = deltaRef.current;
     setDragY(0);
-    if (d > 90) {
-      onClose();
-    } else if (d < -30) {
-      setExpanded(true);
-    } else if (d > 30 && expanded) {
-      setExpanded(false);
+    if (d > 110) {
+      triggerClose();
+    } else if (d < -40) {
+      setHeightPx(maxExpanded());
+    } else if (d > 40) {
+      setHeightPx(null);
+    } else {
+      // small move: snap to nearest
+      setHeightPx((prev) => (prev != null && prev > maxExpanded() * 0.65 ? maxExpanded() : null));
     }
   };
 
   return (
     <div
+      ref={sheetRef}
       data-testid="place-sheet"
+      onTransitionEnd={onSheetTransitionEnd}
       style={{
         position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 700,
         background: "var(--color-surface)",
         borderTopLeftRadius: 22, borderTopRightRadius: 22,
         boxShadow: "0 -10px 30px rgba(0,0,0,0.18)",
-        height: expanded ? "92%" : "auto",
-        maxHeight: expanded ? "92%" : "62%",
+        height: heightPx != null ? `${heightPx}px` : "auto",
+        maxHeight: heightPx != null ? "92vh" : "62vh",
         display: "flex", flexDirection: "column",
-        transform: dragY ? `translateY(${dragY}px)` : undefined,
-        transition: draggingRef.current ? "none" : "transform 0.25s ease, max-height 0.25s ease, height 0.25s ease",
-        animation: "cx-sheet-up 0.28s ease",
+        transform: closing ? "translateY(100%)" : (dragY ? `translateY(${dragY}px)` : undefined),
+        transition: draggingRef.current ? "none" : "transform 0.28s ease, height 0.25s ease, max-height 0.25s ease",
+        animation: closing ? undefined : "cx-sheet-up 0.28s ease",
         touchAction: "none",
       }}
     >
@@ -94,7 +129,7 @@ export const PlaceSheet: React.FC<{
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={triggerClose}
             aria-label={t('close')}
             style={{
               width: 30, height: 30, borderRadius: 10,
