@@ -25,7 +25,8 @@ export const PlaceSheet: React.FC<{
   const deltaRef = useRef(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const maxExpanded = () => (typeof window !== "undefined" ? window.innerHeight * 0.92 : 600);
+  // Max height = the map area (parent), so the expanded sheet never goes above the header
+  const maxExpanded = () => sheetRef.current?.parentElement?.clientHeight ?? (typeof window !== "undefined" ? window.innerHeight * 0.8 : 600);
 
   const triggerClose = () => {
     if (closing) return;
@@ -88,7 +89,7 @@ export const PlaceSheet: React.FC<{
         borderTopLeftRadius: 22, borderTopRightRadius: 22,
         boxShadow: "0 -10px 30px rgba(0,0,0,0.18)",
         height: heightPx != null ? `${heightPx}px` : "auto",
-        maxHeight: heightPx != null ? "92vh" : "62vh",
+        maxHeight: heightPx != null ? "100%" : "62%",
         display: "flex", flexDirection: "column",
         transform: closing ? "translateY(100%)" : (dragY ? `translateY(${dragY}px)` : undefined),
         transition: draggingRef.current ? "none" : "transform 0.28s ease, height 0.25s ease, max-height 0.25s ease",

@@ -157,7 +157,7 @@ export const AutocompleteControl: FunctionComponent<AutocompleteControlProps & F
         {...formControlProps}
       />
       {/*@ts-ignore*/}
-      <Button type="button" className="btn-close position-absolute" style={{top: '12px', right: '12px'}} onClick={clearInput}/>
+      <Button type="button" className="btn-close position-absolute" style={{top: '21px', right: '12px', transform: 'translateY(-50%)'}} onClick={clearInput}/>
       {suggestions.length > 0 && (
         <ListGroup
           style={{borderRadius: '0 0 14px 14px', border: '1px solid var(--color-hairline)', borderTop: 'none', overflow: 'hidden', boxShadow: 'var(--shadow-md)'}}

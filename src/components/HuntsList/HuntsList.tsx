@@ -104,8 +104,9 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
       <Container className={styles.huntsContainer}>
         <div className={styles.huntsList}>
           {hunts.map((hunt, index) => {
-            // Calculate the total number of keywords (phrase - defaultKeywords)
-            const totalKeywords = hunt.phrase.split(' ').length - (hunt.defaultKeywords?.length || 0);
+            // Number of unique words to find (unique phrase words minus the default ones),
+            // matching the count used inside the hunt itself.
+            const totalKeywords = [...new Set(hunt.phrase.split(' '))].length - (hunt.defaultKeywords?.length || 0);
 
             return (
               <HuntCard
@@ -137,12 +138,16 @@ export const HuntsList: React.FC<HuntsListProps> = ({hunts}) => {
 // Separate component for each hunt card
 const HuntCard: React.FC<{ hunt: Hunt; index: number; totalKeywords: number }> = ({ hunt, index, totalKeywords }) => {
   const { t } = useTranslation();
-  const { progress, foundKeywords } = useHuntProgress(hunt.slug, hunt.places.length, totalKeywords);
+  const { foundKeywords } = useHuntProgress(hunt.slug, hunt.places.length, totalKeywords);
 
-  const defaultCount = hunt.defaultKeywords?.length || 0;
-  const step = Math.max(0, foundKeywords.length - defaultCount);
+  const defaults = hunt.defaultKeywords || [];
   const total = Math.max(1, totalKeywords);
-  const started = progress > 0;
+  // Found words = stored keywords that aren't part of the initially-revealed defaults
+  const step = Math.min(foundKeywords.filter((w) => !defaults.includes(w)).length, total);
+  const completed = step >= total;
+  const started = step > 0;
+  const pct = Math.round((step / total) * 100);
+  const status = completed ? 'completed' : started ? 'inProgress' : 'new';
   const number = String(index + 1).padStart(2, '0');
 
   return (
@@ -155,8 +160,8 @@ const HuntCard: React.FC<{ hunt: Hunt; index: number; totalKeywords: number }> =
             <div className={styles.langChip}>{hunt.lang.toUpperCase()}</div>
           )}
         </div>
-        <div className={`${styles.statusChip} ${started ? styles.statusChipActive : styles.statusChipNew}`}>
-          {started ? t('huntInProgress') : t('huntNew')}
+        <div className={`${styles.statusChip} ${completed ? styles.statusChipCompleted : started ? styles.statusChipActive : styles.statusChipNew}`}>
+          {completed ? t('huntCompleted') : started ? t('huntInProgress') : t('huntNew')}
         </div>
       </div>
 
@@ -178,7 +183,7 @@ const HuntCard: React.FC<{ hunt: Hunt; index: number; totalKeywords: number }> =
           </div>
           <div className={styles.progressMeta}>
             <span>{step}/{total} {t('wordsFoundLabel')}</span>
-            <span>{progress} %</span>
+            <span>{pct} %</span>
           </div>
         </div>
       )}

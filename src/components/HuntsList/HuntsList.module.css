@@ -150,6 +150,11 @@
   color: var(--color-forest);
 }
 
+.statusChipCompleted {
+  background: var(--color-forest);
+  color: #fff;
+}
+
 .huntTitle {
   font-family: var(--font-display);
   font-size: 22px;
