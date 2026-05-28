@@ -4,7 +4,7 @@
 - **Type:** Next.js Static Site (SSG/SPA).
 - **Deployment:** GitHub Pages (via `output: 'export'`).
 - **Framework:** Next.js 16 (App Router, Turbopack) + TypeScript.
-- **Styling:** React Bootstrap + CSS Modules. **UI = Direction C**: sober palette (deep green / cream / warm ochre), Inter Tight (sans-serif), Geist Mono accents, inline SVG icons via `src/components/UI/Icon`. No emoji or decorative Unicode in the UI.
+- **Styling:** React Bootstrap + CSS Modules. Inter Tight + Geist Mono via Fontsource, inline SVG icons via `src/components/UI/Icon`. No emoji or decorative Unicode in the UI.
 - **Maps:** **Leaflet** via `react-leaflet` (OpenStreetMap tiles).
 - **3D:** React Three Fiber (`@react-three/fiber` + `@react-three/drei`) for interactive 3D item puzzles.
 - **i18n:** Custom client-side i18n via React Context (`src/i18n/`). Default language: **French**. Supported: `fr`, `en`.

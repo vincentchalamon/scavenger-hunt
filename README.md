@@ -8,16 +8,21 @@ This application lets you create and play scavenger hunts that guide players thr
 
 **Built with:** [Next.js 16](https://nextjs.org/) (App Router + Turbopack), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
 
-**Highlights:**
-- 📱 Mobile-first UI (Direction C: sober palette, sans-serif typography, inline SVG icons)
+### Why this project
+
+- 📱 **Nothing to install** — it's a mobile-only website, not a native app. Just open the URL on your phone.
+- 🕶️ **No account, no sign-up** — the game is public and fully anonymous.
+- 💸 **Free for everyone** — no paywall, no in-app purchases.
+- 🔒 **No backend, no tracking** — progress lives entirely in your phone's `localStorage`, nothing leaves the device.
+- 🛠️ **Open source** — fork the repo and build your own hunts, under the terms of the [CC BY-NC-SA 4.0](LICENSE) license.
+
+### Under the hood
+
 - 🗺️ Free, key-less mapping via Leaflet + OpenStreetMap tiles
 - 🌍 Built-in i18n (French / English) with per-hunt language selection
 - 🧭 Onboarding tour powered by [driver.js](https://driverjs.com/) on first launch
 - 🧩 8 interactive item types (3D, scratch card, magnifier, page-flip, ...)
-- 💾 Local progress persistence via `localStorage`
 - 📦 Static export — deploys anywhere (GitHub Pages, Netlify, S3/CloudFront, ...)
-
-**Deployment:** Optimized for static hosting platforms like [GitHub Pages](https://pages.github.com/).
 
 ---
 
