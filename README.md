@@ -6,9 +6,66 @@
 
 This application lets you create and play scavenger hunts that guide players through various locations. Players solve clues, complete challenges, and collect keywords to progress through the game.
 
-**Built with:** [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
+**Built with:** [Next.js 16](https://nextjs.org/) (App Router + Turbopack), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
 
-**Deployment:** Optimized for static hosting platforms like [GitHub Pages](https://pages.github.com/).
+### Why this project
+
+- 📱 **Nothing to install** — it's a mobile-only website, not a native app. Just open the URL on your phone.
+- 🕶️ **No account, no sign-up** — the game is public and fully anonymous.
+- 💸 **Free for everyone** — no paywall, no in-app purchases.
+- 🔒 **No backend, no tracking** — progress lives entirely in your phone's `localStorage`, nothing leaves the device.
+- 🛠️ **Open source** — fork the repo and build your own hunts, under the terms of the [CC BY-NC-SA 4.0](LICENSE) license.
+
+### Under the hood
+
+- 🗺️ Free, key-less mapping via Leaflet + OpenStreetMap tiles
+- 🌍 Built-in i18n (French / English) with per-hunt language selection
+- 🧭 Onboarding tour powered by [driver.js](https://driverjs.com/) on first launch
+- 🧩 8 interactive item types (3D, scratch card, magnifier, page-flip, ...)
+- 📦 Static export — deploys anywhere (GitHub Pages, Netlify, S3/CloudFront, ...)
+
+---
+
+## 📸 Preview
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/01-hunts-list.jpg" alt="Hunts list" width="240" /><br/>
+      <sub><b>1. Hunts list</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/02-onboarding.jpg" alt="Onboarding tour" width="240" /><br/>
+      <sub><b>2. Onboarding tour</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/03-manuscript.jpg" alt="Manuscript" width="240" /><br/>
+      <sub><b>3. Manuscript</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/04-map-place.jpg" alt="Map and place details" width="240" /><br/>
+      <sub><b>4. Map &amp; place details</b></sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/05-magnifier.jpg" alt="Magnifier puzzle" width="240" /><br/>
+      <sub><b>5. Magnifier puzzle</b></sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/06-keyword-found.jpg" alt="Keyword found" width="240" /><br/>
+      <sub><b>6. Keyword found</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/07-phrase-completed.jpg" alt="Phrase reconstructed" width="240" /><br/>
+      <sub><b>7. Phrase reconstructed</b></sub>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 ---
 
@@ -24,7 +81,7 @@ This application lets you create and play scavenger hunts that guide players thr
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd lille-hunting
+   cd scavenger-hunt
    ```
 
 2. **Install dependencies**
@@ -103,7 +160,7 @@ Edit the `config.json` file to create your scavenger hunt:
 |----------|------|----------|-------------|
 | `slug` | string | ✅ | Unique identifier for the hunt (used in URLs) |
 | `name` | string | ✅ | Display name of the hunt |
-| `lang` | string | ✅ | Language code (e.g., `en`, `fr`) |
+| `lang` | string | ✅ | Hunt content language code (`fr`, `en`, ...). Determines the badge shown in the hunts list. |
 | `description` | string | ✅ | Short description shown in the hunt list |
 | `duration` | string | ❌ | Estimated duration (e.g., `~2h`) |
 | `coordinates` | object | ✅ | Starting point coordinates `{lat, lng}` |
@@ -356,22 +413,79 @@ A rotatable 3D box with textures on each face.
 
 ---
 
+## 🌍 Internationalization (i18n)
+
+The app interface ships in **French** (default) and **English**. Hunt content is authored independently — each hunt declares its own `lang`.
+
+- **Provider:** `I18nProvider` in `src/components/Providers/Providers.tsx`
+- **Hook:** `useTranslation()` returns `{ language, setLanguage, t }`
+- **Strings:** declared in `src/i18n/translations.ts` (type-safe via the `TranslationKey` union)
+
+<details>
+<summary>Adding a new UI string</summary>
+
+1. Add the key to both `fr` and `en` objects in `src/i18n/translations.ts`.
+2. Use it in any component:
+   ```tsx
+   import { useTranslation } from '@/i18n';
+
+   const { t } = useTranslation();
+   return <span>{t('myNewKey')}</span>;
+   ```
+
+</details>
+
+<details>
+<summary>Adding a hunt in another language</summary>
+
+Add a new entry in `config.json` with the desired `lang`:
+
+```json
+{
+  "slug": "the-secret-of-old-lille",
+  "name": "The Secret of Old Lille",
+  "lang": "en",
+  "description": "Explore Old Lille and solve the puzzles...",
+  "manuscript": "<p>...</p>",
+  "phrase": "...",
+  "places": [ /* ... */ ]
+}
+```
+
+The hunts list automatically displays the language badge (`FR`, `EN`, ...).
+
+</details>
+
+---
+
 ## 🛠️ Development
 
 ### Project Structure
 
 ```
-lille-hunting/
-├── config.json          # Hunt configuration
+scavenger-hunt/
+├── config.json              # Hunt configuration (validated by Zod)
+├── docs/screenshots/        # README screenshots
 ├── public/
-│   └── assets/         # Images and media files
+│   └── assets/              # Hunt images, 3D textures, icons
+├── scripts/
+│   └── validate-config.ts   # Standalone config validator
 ├── src/
-│   ├── app/            # Next.js pages
-│   ├── components/     # React components
-│   │   └── Items/      # Item type implementations
-│   ├── lib/            # Utilities and schemas
-│   └── types/          # TypeScript types
-└── tests/              # Playwright tests
+│   ├── app/                 # Next.js App Router (pages, layout, [slug])
+│   ├── components/          # React components
+│   │   ├── Items/           # Interactive item implementations
+│   │   ├── Map/             # Leaflet integration (Map, MarkerWithPopup, ...)
+│   │   ├── Hunt/            # Hunt screen (manuscript + map tabs)
+│   │   ├── HuntsList/       # Landing page hunts grid
+│   │   ├── Manuscript/      # Phrase reconstruction view
+│   │   ├── CompletionCard/  # End-game card
+│   │   └── UI/              # Shared primitives (Icon, ParchmentCard, ...)
+│   ├── contexts/            # React Context providers (Phrase, Toast, Moment)
+│   ├── hooks/               # useGeolocation, useWakeLock, useOnboarding, ...
+│   ├── i18n/                # Translations (fr/en) + I18nContext
+│   ├── lib/                 # Storage, hunts, assets, config schema
+│   └── types/               # Hunt, Place, Item TypeScript types
+└── tests/                   # Playwright E2E tests
 ```
 
 ### Adding New Item Types
@@ -442,13 +556,16 @@ To create a new item type:
 
 ```bash
 # Run all E2E tests
-npm run test:e2e
+npx playwright test
 
-# Run specific test file
-npm run test:e2e tests/keyword.spec.ts
+# Run a specific test file
+npx playwright test tests/keyword.spec.ts
 
 # Run in UI mode
-npm run test:e2e -- --ui
+npx playwright test --ui
+
+# Run a single project (matrix)
+npx playwright test --project="Mobile Chrome"
 ```
 
 <details>

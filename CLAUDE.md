@@ -3,11 +3,12 @@
 ## Project Overview
 - **Type:** Next.js Static Site (SSG/SPA).
 - **Deployment:** GitHub Pages (via `output: 'export'`).
-- **Framework:** Next.js 16 (App Router) + TypeScript.
-- **Styling:** React Bootstrap + CSS Modules.
+- **Framework:** Next.js 16 (App Router, Turbopack) + TypeScript.
+- **Styling:** React Bootstrap + CSS Modules. Inter Tight + Geist Mono via Fontsource, inline SVG icons via `src/components/UI/Icon`. No emoji or decorative Unicode in the UI.
 - **Maps:** **Leaflet** via `react-leaflet` (OpenStreetMap tiles).
 - **3D:** React Three Fiber (`@react-three/fiber` + `@react-three/drei`) for interactive 3D item puzzles.
 - **i18n:** Custom client-side i18n via React Context (`src/i18n/`). Default language: **French**. Supported: `fr`, `en`.
+- **Onboarding:** First-launch guided tour using `driver.js`, driven by `useOnboarding` (`src/hooks/useOnboarding.ts`). State flag stored in `localStorage` (`ONBOARDING_KEY`).
 - **Core Logic:** Config-driven game engine (`config.json` validated by Zod schema in `src/lib/config-schema.ts`).
 
 ## Development Commands
@@ -57,8 +58,9 @@ Items are interactive puzzle components rendered via `ItemFactory.tsx` using a f
 ### General Rules
 - **Data Source:** Game data is defined in `config.json` at root, validated by `src/lib/config-schema.ts`.
 - **Routing:** Dynamic routes via `src/app/[slug]/page.tsx`.
-- **State:** React Context API (`PhraseContext`, `ToastContext`, `I18nContext`).
-- **Progress:** Game progress tracked via `useHuntProgress` hook with localStorage.
+- **State:** React Context API (`PhraseContext`, `ToastContext`, `MomentContext`, `I18nContext`).
+- **Progress:** Game progress tracked via `useHuntProgress` hook (`src/hooks/use-hunt-progress.ts`) with localStorage.
+- **Geo / Wake lock:** `useGeolocation` and `useWakeLock` hooks keep the screen on while the hunt is active.
 
 ## Critical Rules for Claude
 1.  **NO Google Maps:** Do not suggest `@vis.gl/react-google-maps` or `google.maps` types. Use `L.Map`, `L.Marker`, or `react-leaflet` components.
