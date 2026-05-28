@@ -6,9 +6,30 @@
 
 This application lets you create and play scavenger hunts that guide players through various locations. Players solve clues, complete challenges, and collect keywords to progress through the game.
 
-**Built with:** [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
+**Built with:** [Next.js 16](https://nextjs.org/) (App Router + Turbopack), [TypeScript](https://www.typescriptlang.org/), [React Leaflet](https://react-leaflet.js.org/), and [OpenStreetMap](https://www.openstreetmap.org/).
+
+**Highlights:**
+- 📱 Mobile-first UI (Direction C: sober palette, sans-serif typography, inline SVG icons)
+- 🗺️ Free, key-less mapping via Leaflet + OpenStreetMap tiles
+- 🌍 Built-in i18n (French / English) with per-hunt language selection
+- 🧭 Onboarding tour powered by [driver.js](https://driverjs.com/) on first launch
+- 🧩 8 interactive item types (3D, scratch card, magnifier, page-flip, ...)
+- 💾 Local progress persistence via `localStorage`
+- 📦 Static export — deploys anywhere (GitHub Pages, Netlify, S3/CloudFront, ...)
 
 **Deployment:** Optimized for static hosting platforms like [GitHub Pages](https://pages.github.com/).
+
+---
+
+## 📸 Preview
+
+| Hunts list | Manuscript (phrase to reconstruct) | Map with place details |
+|:---:|:---:|:---:|
+| ![Hunts list](docs/screenshots/01-hunts-list.jpg) | ![Manuscript](docs/screenshots/02-manuscript.jpg) | ![Map place](docs/screenshots/03-map-place.jpg) |
+
+| Keyword found | Phrase reconstructed |
+|:---:|:---:|
+| ![Keyword found](docs/screenshots/04-keyword-found.jpg) | ![Phrase reconstructed](docs/screenshots/05-phrase-completed.jpg) |
 
 ---
 
@@ -24,7 +45,7 @@ This application lets you create and play scavenger hunts that guide players thr
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd lille-hunting
+   cd scavenger-hunt
    ```
 
 2. **Install dependencies**
@@ -103,7 +124,7 @@ Edit the `config.json` file to create your scavenger hunt:
 |----------|------|----------|-------------|
 | `slug` | string | ✅ | Unique identifier for the hunt (used in URLs) |
 | `name` | string | ✅ | Display name of the hunt |
-| `lang` | string | ✅ | Language code (e.g., `en`, `fr`) |
+| `lang` | string | ✅ | Hunt content language code (`fr`, `en`, ...). Determines the badge shown in the hunts list. |
 | `description` | string | ✅ | Short description shown in the hunt list |
 | `duration` | string | ❌ | Estimated duration (e.g., `~2h`) |
 | `coordinates` | object | ✅ | Starting point coordinates `{lat, lng}` |
@@ -356,22 +377,79 @@ A rotatable 3D box with textures on each face.
 
 ---
 
+## 🌍 Internationalization (i18n)
+
+The app interface ships in **French** (default) and **English**. Hunt content is authored independently — each hunt declares its own `lang`.
+
+- **Provider:** `I18nProvider` in `src/components/Providers/Providers.tsx`
+- **Hook:** `useTranslation()` returns `{ language, setLanguage, t }`
+- **Strings:** declared in `src/i18n/translations.ts` (type-safe via the `TranslationKey` union)
+
+<details>
+<summary>Adding a new UI string</summary>
+
+1. Add the key to both `fr` and `en` objects in `src/i18n/translations.ts`.
+2. Use it in any component:
+   ```tsx
+   import { useTranslation } from '@/i18n';
+
+   const { t } = useTranslation();
+   return <span>{t('myNewKey')}</span>;
+   ```
+
+</details>
+
+<details>
+<summary>Adding a hunt in another language</summary>
+
+Add a new entry in `config.json` with the desired `lang`:
+
+```json
+{
+  "slug": "the-secret-of-old-lille",
+  "name": "The Secret of Old Lille",
+  "lang": "en",
+  "description": "Explore Old Lille and solve the puzzles...",
+  "manuscript": "<p>...</p>",
+  "phrase": "...",
+  "places": [ /* ... */ ]
+}
+```
+
+The hunts list automatically displays the language badge (`FR`, `EN`, ...).
+
+</details>
+
+---
+
 ## 🛠️ Development
 
 ### Project Structure
 
 ```
-lille-hunting/
-├── config.json          # Hunt configuration
+scavenger-hunt/
+├── config.json              # Hunt configuration (validated by Zod)
+├── docs/screenshots/        # README screenshots
 ├── public/
-│   └── assets/         # Images and media files
+│   └── assets/              # Hunt images, 3D textures, icons
+├── scripts/
+│   └── validate-config.ts   # Standalone config validator
 ├── src/
-│   ├── app/            # Next.js pages
-│   ├── components/     # React components
-│   │   └── Items/      # Item type implementations
-│   ├── lib/            # Utilities and schemas
-│   └── types/          # TypeScript types
-└── tests/              # Playwright tests
+│   ├── app/                 # Next.js App Router (pages, layout, [slug])
+│   ├── components/          # React components
+│   │   ├── Items/           # Interactive item implementations
+│   │   ├── Map/             # Leaflet integration (Map, MarkerWithPopup, ...)
+│   │   ├── Hunt/            # Hunt screen (manuscript + map tabs)
+│   │   ├── HuntsList/       # Landing page hunts grid
+│   │   ├── Manuscript/      # Phrase reconstruction view
+│   │   ├── CompletionCard/  # End-game card
+│   │   └── UI/              # Shared primitives (Icon, ParchmentCard, ...)
+│   ├── contexts/            # React Context providers (Phrase, Toast, Moment)
+│   ├── hooks/               # useGeolocation, useWakeLock, useOnboarding, ...
+│   ├── i18n/                # Translations (fr/en) + I18nContext
+│   ├── lib/                 # Storage, hunts, assets, config schema
+│   └── types/               # Hunt, Place, Item TypeScript types
+└── tests/                   # Playwright E2E tests
 ```
 
 ### Adding New Item Types
@@ -442,13 +520,16 @@ To create a new item type:
 
 ```bash
 # Run all E2E tests
-npm run test:e2e
+npx playwright test
 
-# Run specific test file
-npm run test:e2e tests/keyword.spec.ts
+# Run a specific test file
+npx playwright test tests/keyword.spec.ts
 
 # Run in UI mode
-npm run test:e2e -- --ui
+npx playwright test --ui
+
+# Run a single project (matrix)
+npx playwright test --project="Mobile Chrome"
 ```
 
 <details>
