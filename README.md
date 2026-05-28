@@ -23,17 +23,44 @@ This application lets you create and play scavenger hunts that guide players thr
 
 ## 📸 Preview
 
-| Hunts list | Onboarding tour | Manuscript (phrase to reconstruct) |
-|:---:|:---:|:---:|
-| ![Hunts list](docs/screenshots/01-hunts-list.jpg) | ![Onboarding](docs/screenshots/02-onboarding.jpg) | ![Manuscript](docs/screenshots/03-manuscript.jpg) |
-
-| Map with place details | Magnifier puzzle | Keyword found |
-|:---:|:---:|:---:|
-| ![Map place](docs/screenshots/04-map-place.jpg) | ![Magnifier](docs/screenshots/05-magnifier.jpg) | ![Keyword found](docs/screenshots/06-keyword-found.jpg) |
-
-| Phrase reconstructed |
-|:---:|
-| ![Phrase reconstructed](docs/screenshots/07-phrase-completed.jpg) |
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/01-hunts-list.jpg" alt="Hunts list" width="240" /><br/>
+      <sub><b>1. Hunts list</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/02-onboarding.jpg" alt="Onboarding tour" width="240" /><br/>
+      <sub><b>2. Onboarding tour</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/03-manuscript.jpg" alt="Manuscript" width="240" /><br/>
+      <sub><b>3. Manuscript</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/04-map-place.jpg" alt="Map and place details" width="240" /><br/>
+      <sub><b>4. Map &amp; place details</b></sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/05-magnifier.jpg" alt="Magnifier puzzle" width="240" /><br/>
+      <sub><b>5. Magnifier puzzle</b></sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/06-keyword-found.jpg" alt="Keyword found" width="240" /><br/>
+      <sub><b>6. Keyword found</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/07-phrase-completed.jpg" alt="Phrase reconstructed" width="240" /><br/>
+      <sub><b>7. Phrase reconstructed</b></sub>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 ---
 
