@@ -23,13 +23,17 @@ This application lets you create and play scavenger hunts that guide players thr
 
 ## 📸 Preview
 
-| Hunts list | Manuscript (phrase to reconstruct) | Map with place details |
+| Hunts list | Onboarding tour | Manuscript (phrase to reconstruct) |
 |:---:|:---:|:---:|
-| ![Hunts list](docs/screenshots/01-hunts-list.jpg) | ![Manuscript](docs/screenshots/02-manuscript.jpg) | ![Map place](docs/screenshots/03-map-place.jpg) |
+| ![Hunts list](docs/screenshots/01-hunts-list.jpg) | ![Onboarding](docs/screenshots/02-onboarding.jpg) | ![Manuscript](docs/screenshots/03-manuscript.jpg) |
 
-| Keyword found | Phrase reconstructed |
-|:---:|:---:|
-| ![Keyword found](docs/screenshots/04-keyword-found.jpg) | ![Phrase reconstructed](docs/screenshots/05-phrase-completed.jpg) |
+| Map with place details | Magnifier puzzle | Keyword found |
+|:---:|:---:|:---:|
+| ![Map place](docs/screenshots/04-map-place.jpg) | ![Magnifier](docs/screenshots/05-magnifier.jpg) | ![Keyword found](docs/screenshots/06-keyword-found.jpg) |
+
+| Phrase reconstructed |
+|:---:|
+| ![Phrase reconstructed](docs/screenshots/07-phrase-completed.jpg) |
 
 ---
 
